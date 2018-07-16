@@ -206,6 +206,7 @@ module.exports = {
     },
 
     /**
+     * 訂房卡序號最大值變數
      * 取order dt ikey_seq_nos
      * @param postData
      * @param session
@@ -732,6 +733,7 @@ module.exports = {
         callback(lo_error, lo_result);
     },
 
+    //TODO 一開始在抓欄位資料的時候就會因為modificable 為C而跑此rule, 但因為一開始沒有rate cod資料,所以會壞掉, 所以先將modificable改為N
     /**
      * 佣金欄位可不可以修改
      * @param postData
@@ -752,6 +754,7 @@ module.exports = {
         const lo_daoParams = commandRules.ConvertToQueryParams(session.athena_id, "QRY_COMMIS_CHG_BY_RATE_COD");
         clusterQueryAgent.query(lo_daoParams, lo_params, (err, result) => {
             if (err) {
+
                 lo_error = new ErrorClass();
                 lo_error.errorMsg = err;
             }

@@ -9,19 +9,27 @@ let queryAgent = require('../plugins/kplug-oracle/QueryAgent');
  * 欄位規則檢查
  */
 exports.chkFieldRule = function (req, res) {
-
-    /** req.body :
-     prg_id         : 程式代號
-     validateField  : 要驗證的欄位
-     singleRowData  : 此筆明細全部資料
-     rule_func_name : 欄位規則函數
+    /**
+     * req.body :
+     * prg_id         : 程式代號
+     * validateField  : 要驗證的欄位
+     * singleRowData  : 此筆明細全部資料
+     * rule_func_name : 欄位規則函數
      **/
     ruleSVC.handleBlurUiField(req.body, req.session, function (err, result) {
 
         res.json(commonTools.mergeRtnErrResultJson(err, result));
 
     });
+};
 
+/**
+ * 按鈕規則檢查
+ * @param req
+ * @param res
+ */
+exports.chkPrgFuncRule = async (req, res) => {
+    await ruleSVC.handlePrgFuncRule(req.body, req.session);
 };
 
 exports.chkDtFieldRule = function (req, res) {

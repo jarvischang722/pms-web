@@ -6,6 +6,7 @@
                     <div class="col-xs-11 col-sm-11">
                         <div class="row no-margin-right">
                             <!-------- tabPage -------->
+                            <!--欄位官網號碼, 訂房卡號, 確認狀態-->
                             <div style="position: relative;">
                                 <div class="resvTabs-topTxt">
                                     <div class="resvTabs-content">
@@ -22,10 +23,10 @@
                                                             :data-display="field.selectDataDisplay "
                                                             :data="field.selectData"
                                                             is-qry-src-before="Y" value-field="value"
-                                                            text-field="display"
+                                                            text-field="display" :field="field"
                                                             @update:v-model="val => orderMnSingleData[field.ui_field_name] = val"
                                                             :default-val="orderMnSingleData[field.ui_field_name]"
-                                                            :field="field"
+                                                            @change="chkFieldRule(field.ui_field_name,field.rule_func_name)"
                                                             :disabled="field.modificable == 'N'|| !isModifiable ||
                                                     (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)">
                                                     </bac-select>
@@ -38,6 +39,7 @@
                                     </div>
                                 </div>
                             </div>
+                            <!--/.欄位官網號碼, 訂房卡號, 確認狀態-->
                             <!--order mn&guest mn 單筆-->
                             <div class="easyui-tabs easyUi-custom1 guestHoliday" style="overflow-y: auto; width: 100%;">
                                 <div title="Reservation" class="padding-tabs">
@@ -63,6 +65,7 @@
                                                                            :required="field.requirable == 'Y'" min="0"
                                                                            :maxlength="field.ui_field_length"
                                                                            :class="{'input_sta_required' : field.requirable == 'Y'}"
+                                                                           @change="chkFieldRule(field.ui_field_name,field.rule_func_name)"
                                                                            :disabled="field.modificable == 'N'||
                                                    (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)">
 
@@ -78,6 +81,7 @@
                                                                             text-field="display"
                                                                             @update:v-model="val => guestMnRowsData4Single[field.ui_field_name] = val"
                                                                             :default-val="guestMnRowsData4Single[field.ui_field_name]"
+                                                                            @change="chkFieldRule(field.ui_field_name,field.rule_func_name)"
                                                                             :disabled="field.modificable == 'N'||
                                                    (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)"
                                                                     >
@@ -97,12 +101,13 @@
                                                                             :text-field="field.selectData.display"
                                                                             @update:v-model="val => guestMnRowsData4Single[field.ui_field_name] = val"
                                                                             :default-val="guestMnRowsData4Single[field.ui_field_name]"
+                                                                            @change="chkFieldRule(field.ui_field_name,field.rule_func_name)"
                                                                             :disabled="field.modificable == 'N'|| !isModifiable ||
                                                    (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)">
                                                                     </bac-select-grid>
 
                                                                     <!--按鈕-->
-                                                                    <button @click="searchGuestMnAltName()"
+                                                                    <button @click="buttonFunction(field)"
                                                                             class="btn btn-sm btn-primary btn-white btn-sm-font2"
                                                                             v-if="field.visiable == 'Y' && field.ui_type == 'button'">
                                                                         {{field.ui_display_name}}
@@ -117,6 +122,7 @@
                                                                                type="checkbox"
                                                                                :required="field.requirable == 'Y'"
                                                                                :maxlength="field.ui_field_length"
+                                                                               @change="chkFieldRule(field.ui_field_name,field.rule_func_name)"
                                                                                :disabled="field.modificable == 'N'|| !isModifiable ||
                                                 (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus) ">
                                                                         <label style="width:auto"
@@ -135,10 +141,10 @@
                                                                             :data-display="field.selectDataDisplay "
                                                                             :data="field.selectData"
                                                                             is-qry-src-before="Y" value-field="value"
-                                                                            text-field="display"
+                                                                            text-field="display" :field="field"
                                                                             @update:v-model="val => orderMnSingleData[field.ui_field_name] = val"
                                                                             :default-val="orderMnSingleData[field.ui_field_name]"
-                                                                            :field="field"
+                                                                            @change="chkFieldRule(field.ui_field_name,field.rule_func_name)"
                                                                             :disabled="field.modificable == 'N'|| !isModifiable ||
                                                       (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)">
                                                                     </bac-select>
@@ -152,6 +158,7 @@
                                                                             style="resize: none;"
                                                                             :required="field.requirable == 'Y'"
                                                                             :maxlength="field.ui_field_length"
+                                                                            @change="chkFieldRule(field.ui_field_name,field.rule_func_name)"
                                                                             :disabled="field.modificable == 'N'|| !isModifiable ||
                                                       (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)">
                                                                     </textarea>
@@ -182,10 +189,10 @@
                                                                         :data-display="field.selectDataDisplay "
                                                                         :data="field.selectData"
                                                                         is-qry-src-before="Y" value-field="value"
-                                                                        text-field="display"
+                                                                        text-field="display" :field="field"
                                                                         @update:v-model="val => orderMnSingleData[field.ui_field_name] = val"
                                                                         :default-val="orderMnSingleData[field.ui_field_name]"
-                                                                        :field="field"
+                                                                        @change="chkFieldRule(field.ui_field_name,field.rule_func_name)"
                                                                         :disabled="field.modificable == 'N'|| !isModifiable ||
                                                    (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)">
                                                                 </bac-select>
@@ -204,6 +211,7 @@
                                                                         :text-field="field.selectData.display"
                                                                         @update:v-model="val => orderMnSingleData[field.ui_field_name] = val"
                                                                         :default-val="orderMnSingleData[field.ui_field_name]"
+                                                                        @change="chkFieldRule(field.ui_field_name,field.rule_func_name)"
                                                                         :disabled="field.modificable == 'N'|| !isModifiable ||
                                                    (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)">
                                                                 </bac-select-grid>
@@ -222,6 +230,7 @@
                                                                        :class="{'input_sta_required' : field.requirable == 'Y', 'text-right' : field.ui_type == 'number'}"
                                                                        :required="field.requirable == 'Y'" min="0"
                                                                        :maxlength="field.ui_field_length"
+                                                                       @change="chkFieldRule(field.ui_field_name,field.rule_func_name)"
                                                                        :disabled="field.modificable == 'N'|| !isModifiable ||
                                                                         (field.modificable == 'I') || (field.modificable == 'E')">
                                                             </div>
@@ -229,7 +238,7 @@
                                                         <div class="border-double1" v-if="key == 3"></div>
                                                     </template>
                                                 </div>
-                                            </div><!--main-content-data-->
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="clearfix"></div>
@@ -292,6 +301,7 @@
                                                                                    :maxlength="field.ui_field_length"
                                                                                    class="selectHt"
                                                                                    :class="{'input_sta_required' : field.requirable == 'Y'}"
+                                                                                   @change="chkDgFieldRule(field.ui_field_name, field.rule_func_name)"
                                                                                    :disabled="field.modificable == 'N'|| !isModifiable ||
                                                                     (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)">
                                                                         </td>
@@ -309,6 +319,7 @@
                                                                                         :default-val="singleData[field.ui_field_name] || field.defaultVal"
                                                                                         class="el-select-ht selectHt"
                                                                                         style="height: 25px;"
+                                                                                        @change="chkDgFieldRule(field.ui_field_name, field.rule_func_name)"
                                                                                         :disabled="field.modificable == 'N'|| !isModifiable ||
                                                                     (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)">
                                                                             </bac-select>
@@ -326,6 +337,7 @@
                                                                                     format="yyyy/MM/dd"
                                                                                     :style="{width:field.width + 'px'}"
                                                                                     :editable="false" :clearable="false"
+                                                                                    @change="chkDgFieldRule(field.ui_field_name, field.rule_func_name)"
                                                                             >
                                                                             </el-date-picker>
                                                                         </td>
@@ -338,6 +350,7 @@
                                                                                    :style="{width:field.width + 'px'}"
                                                                                    class="text-right selectHt"
                                                                                    :class="{'input_sta_required' : field.requirable == 'Y'}"
+                                                                                   @change="chkDgFieldRule(field.ui_field_name, field.rule_func_name)"
                                                                                    :disabled="field.modificable == 'N'|| !isModifiable ||
                                                                     (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)">
                                                                         </td>
@@ -353,10 +366,11 @@
                                                                                    :maxlength="field.ui_field_length"
                                                                                    :class="{'input_sta_required' : field.requirable == 'Y'}"
                                                                                    class="selectHt pull-left wt-input"
+                                                                                   @change="chkDgFieldRule(field.ui_field_name, field.rule_func_name)"
                                                                                    :disabled="field.modificable == 'N'|| !isModifiable ||
                                                                     (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)">
                                                                             <i class="moreClick fa fa-ellipsis-h pull-left"
-                                                                               @click="setSelectRateCodData"></i>
+                                                                               @click="setSelectRateCodData()"></i>
                                                                         </td>
                                                                     </template>
                                                                 </tr>
@@ -790,12 +804,17 @@
             }
         },
         watch: {
-            rowData(val) {
+            async rowData(val) {
                 if (!_.isEmpty(val) && !_.isUndefined(val.ikey)) {
+                    this.isLoadingDialog = true;
+                    //清空資料
                     this.initData();
                     this.initTmpCUD();
-                    this.isLoadingDialog = true;
-                    this.fetchFieldsData();
+                    //取單筆guest mn, 單筆order mn, 單筆order dt, 多筆order dt 欄位資料
+                    await this.fetchAllFieldsData();
+                    //取guest mn, order mn, order dt 資料
+                    await this.fetchAllRowData();
+                    this.isLoadingDialog = false;
                 }
             },
             async editingOrderDtIdx(newVal, oldVal) {
@@ -1383,84 +1402,67 @@
                     oriData: []
                 };
             },
-            async fetchFieldsData() {
-                this.isLoadingDialog = true;
+            //取欄位資料
+            async fetchFieldsData(apiUrl, param) {
                 try {
-                    //取單筆orderMn欄位資料
-                    let lo_orderMnFieldsData = await new Promise((resolve, reject) => {
-                        BacUtils.doHttpPostAgent("/api/fetchOnlySinglePageFieldData", {
-                            prg_id: gs_prgId,
-                            page_id: 1,
-                            tab_page_id: 12
-                        }, (result) => {
-                            resolve(result);
-                        });
+                    return await BacUtils.doHttpPromisePostProxy(apiUrl, param).then((result) => {
+                        return result;
+                    }).catch(err => {
+                        return {success: false, errMsg: err};
                     });
-                    this.oriOrderMnFieldsData = lo_orderMnFieldsData.gsFieldsData;
-                    //取單筆orderDt欄位資料
-                    let lo_orderDtFieldsData = await new Promise((resolve, reject) => {
-                        BacUtils.doHttpPostAgent("/api/fetchOnlySinglePageFieldData", {
-                            prg_id: gs_prgId,
-                            page_id: 1,
-                            tab_page_id: 13
-                        }, (result) => {
-                            resolve(result);
-                        });
-                    });
-                    this.oriOrderDtFieldsData = lo_orderDtFieldsData.gsFieldsData;
-                    //取單筆guestMn欄位資料
-                    let lo_guestMnFieldsData = await new Promise((resolve, reject) => {
-                        BacUtils.doHttpPostAgent("/api/fetchOnlySinglePageFieldData", {
-                            prg_id: gs_prgId,
-                            page_id: 1,
-                            tab_page_id: 11
-                        }, (result) => {
-                            resolve(result);
-                        });
-                    });
-                    this.oriGuestMnFieldsData = lo_guestMnFieldsData.gsFieldsData;
-                    //取多筆orderDt欄位資料
-                    let lo_orderDtDgFieldsData = await new Promise((resolve, reject) => {
-                        BacUtils.doHttpPostAgent("/api/fetchOnlyDataGridFieldData", {
-                            prg_id: gs_prgId,
-                            page_id: 1,
-                            tab_page_id: 1
-                        }, (result) => {
-                            resolve(result);
-                        });
-                    });
-                    this.orderDtFieldsData4table = _.sortBy(lo_orderDtDgFieldsData.dgFieldsData, "col_seq");
-
-                    //將單筆orderMn、guestMn欄位資料組成頁面上顯示
-                    this.fieldsDataLeft = _.values(_.groupBy(_.sortBy(_.filter(_.union(this.oriOrderMnFieldsData, this.oriGuestMnFieldsData), (lo_fieldsData) => {
-                        if (_.isUndefined(lo_fieldsData['col_seq'])) {
-                            return;
-                        }
-                        else {
-                            return lo_fieldsData['col_seq'].toString().substring(0, 1) == "1"
-                        }
-                    }), "col_seq"), "row_seq"));
-                    this.fieldsDataRight = _.values(_.groupBy(_.sortBy(_.filter(_.union(this.oriOrderMnFieldsData, this.oriGuestMnFieldsData), (lo_fieldsData) => {
-                        if (_.isUndefined(lo_fieldsData['col_seq'])) {
-                            return;
-                        }
-                        else {
-                            return lo_fieldsData['col_seq'].toString().substring(0, 1) == "2"
-                        }
-                    }), "col_seq"), "row_seq"));
-                    this.orderDtFieldsData = _.values(_.groupBy(_.sortBy(this.oriOrderDtFieldsData, "col_seq"), "row_seq"));
-                    await this.fetchRowData();
                 }
                 catch (err) {
                     console.log(err)
                 }
             },
-            async fetchRowData() {
+            async fetchAllFieldsData() {
+                const ls_singleGridUrl = "/api/fetchOnlySinglePageFieldData";
+                const ls_dataGridUrl = "/api/fetchOnlyDataGridFieldData";
+
+                let [lo_guestMnFieldsData, lo_orderMnFieldsData, lo_orderDtFieldsData, lo_orderDtDgFieldsData] = await Promise.all([
+                    this.fetchFieldsData(ls_singleGridUrl, {prg_id: gs_prgId, page_id: 1, tab_page_id: 11}),
+                    this.fetchFieldsData(ls_singleGridUrl, {prg_id: gs_prgId, page_id: 1, tab_page_id: 12}),
+                    this.fetchFieldsData(ls_singleGridUrl, {prg_id: gs_prgId, page_id: 1, tab_page_id: 13}),
+                    this.fetchFieldsData(ls_dataGridUrl, {prg_id: gs_prgId, page_id: 1, tab_page_id: 1})
+                ]);
+
+                //取單筆guest mn, 單筆order mn, 單筆order dt, 多筆order dt 欄位資料
+                this.oriGuestMnFieldsData = lo_guestMnFieldsData.gsFieldsData;
+                this.oriOrderMnFieldsData = lo_orderMnFieldsData.gsFieldsData;
+                this.oriOrderDtFieldsData = lo_orderDtFieldsData.gsFieldsData;
+                this.orderDtFieldsData4table = _.sortBy(lo_orderDtDgFieldsData.dgFieldsData, "col_seq");
+
+                //將單筆orderMn、guestMn欄位資料組成頁面上顯示
+                this.fieldsDataLeft = _.values(_.groupBy(_.sortBy(_.filter(_.union(this.oriOrderMnFieldsData, this.oriGuestMnFieldsData), (lo_fieldsData) => {
+                    if (_.isUndefined(lo_fieldsData['col_seq'])) {
+                        return;
+                    }
+                    else {
+                        return lo_fieldsData['col_seq'].toString().substring(0, 1) == "1"
+                    }
+                }), "col_seq"), "row_seq"));
+                this.fieldsDataRight = _.values(_.groupBy(_.sortBy(_.filter(_.union(this.oriOrderMnFieldsData, this.oriGuestMnFieldsData), (lo_fieldsData) => {
+                    if (_.isUndefined(lo_fieldsData['col_seq'])) {
+                        return;
+                    }
+                    else {
+                        return lo_fieldsData['col_seq'].toString().substring(0, 1) == "2"
+                    }
+                }), "col_seq"), "row_seq"));
+                this.orderDtFieldsData = _.values(_.groupBy(_.sortBy(this.oriOrderDtFieldsData, "col_seq"), "row_seq"));
+            },
+            async fetchDgRowData(param) {
+                return await BacUtils.doHttpPromisePostProxy("/api/fetchDgRowData", param)
+                    .then((result) => {
+                        return result;
+                    }).catch(err => {
+                        return {success: false, errMsg: err};
+                    });
+            },
+            async fetchAllRowData() {
                 let ls_apiUrl = "";
                 let lo_params = {};
                 let lo_fetchSingleData = {};
-                let lo_fetchOderDtData = {};
-                let lo_fetchGuestMnData = {};
                 try {
                     //取 order mn 資料
                     if (this.isCreateStatus) {
@@ -1472,22 +1474,6 @@
                         };
                     }
                     else if (this.isEditStatus) {
-                        let lo_doDefault = await new Promise((resolve, reject) => {
-                            BacUtils.doHttpPostAgent("/api/chkFieldRule", {
-                                rule_func_name: 'convert_oder_appraise_to_tmp',
-                                ikey: this.rowData.ikey
-                            }, (result) => {
-                                resolve(result);
-                            });
-                        });
-
-                        if (lo_doDefault.success) {
-                            this.keyNos = lo_doDefault.defaultValues.key_nos;
-                        }
-                        else {
-                            alert(lo_doDefault.errorMsg);
-                        }
-
                         ls_apiUrl = "/api/fetchSinglePageFieldData";
                         lo_params = {
                             prg_id: gs_prgId,
@@ -1496,11 +1482,29 @@
                             template_id: "gridsingle",
                             searchCond: {ikey: this.rowData.ikey}
                         };
-                    }
-                    lo_fetchSingleData = await new Promise((resolve, reject) => {
-                        BacUtils.doHttpPostAgent(ls_apiUrl, lo_params, (result) => {
-                            resolve(result);
+
+                        //TODO 取單筆資料並沒有可以額外在做規則的流程, 因此直接在這做額外的規則(將order_appraise 轉到tmp_order_appraise)
+                        let lo_doDefault = await BacUtils.doHttpPromisePostProxy("/api/chkFieldRule", {
+                            rule_func_name: 'convert_oder_appraise_to_tmp',
+                            ikey: this.rowData.ikey
+                        }).then((result) => {
+                            return result;
+                        }).catch(err => {
+                            return {success: false, errMsg: err};
                         });
+                        if (lo_doDefault.success) {
+                            this.keyNos = lo_doDefault.defaultValues.key_nos;
+                        }
+                        else {
+                            alert(lo_doDefault.errorMsg);
+                        }
+                    }
+                    lo_fetchSingleData = await await BacUtils.doHttpPromisePostProxy(ls_apiUrl, lo_params)
+                        .then((result) => {
+                        return result;
+                    })
+                        .catch(err => {
+                        return {success: false, errMsg: err};
                     });
                     if (lo_fetchSingleData.success) {
                         if (this.isCreateStatus) {
@@ -1521,26 +1525,29 @@
                         return;
                     }
 
-                    //預設一筆order dt
+                    //取order dt 和guest mn 資料
+
                     if (this.isCreateStatus) {
+                        //預設一筆order dt
                         this.appendRow();
                     }
-
-                    //取所有此ikey的 guestMn、orderDt資料
-                    if (this.isEditStatus) {
-                        ls_apiUrl = "/api/fetchDgRowData";
-                        lo_params = {
-                            prg_id: gs_prgId,
-                            page_id: 1,
-                            searchCond: {ikey: this.rowData.ikey}
-                        };
+                    else if (this.isEditStatus) {
+                        //取所有此ikey的 guestMn、orderDt資料
+                        let [lo_fetchGuestMnData, lo_fetchOrderDtData] = await Promise.all([
+                            this.fetchDgRowData({
+                                prg_id: gs_prgId,
+                                page_id: 1,
+                                tab_page_id: 11,
+                                searchCond: {ikey: this.rowData.ikey}
+                            }),
+                            this.fetchDgRowData({
+                                prg_id: gs_prgId,
+                                page_id: 1,
+                                tab_page_id: 1,
+                                searchCond: {ikey: this.rowData.ikey}
+                            })
+                        ]);
                         //取guest mn資料
-                        lo_params.tab_page_id = 11;
-                        lo_fetchGuestMnData = await new Promise((resolve, reject) => {
-                            BacUtils.doHttpPostAgent(ls_apiUrl, lo_params, (result) => {
-                                resolve(result);
-                            });
-                        });
                         if (lo_fetchGuestMnData.success) {
                             _.each(lo_fetchGuestMnData.dgRowData, (lo_dgRowData, ln_idx) => {
                                 let ls_altNam = JSON.parse(JSON.stringify(lo_dgRowData.alt_nam));
@@ -1553,26 +1560,20 @@
                             this.oriGuestMnRowsData = JSON.parse(JSON.stringify(lo_fetchGuestMnData.dgRowData));
                         }
                         else {
-                            alert(lo_fetchOderDtData.errorMsg);
+                            alert(lo_fetchGuestMnData.errorMsg);
                         }
 
                         //取order dt 資料
-                        lo_params.tab_page_id = 1;
-                        lo_fetchOderDtData = await new Promise((resolve, reject) => {
-                            BacUtils.doHttpPostAgent(ls_apiUrl, lo_params, (result) => {
-                                resolve(result);
-                            });
-                        });
-                        if (lo_fetchOderDtData.success) {
-                            _.each(lo_fetchOderDtData.dgRowData, (lo_dgRowData) => {
+                        if (lo_fetchOrderDtData.success) {
+                            _.each(lo_fetchOrderDtData.dgRowData, (lo_dgRowData) => {
                                 lo_dgRowData.ci_dat = moment(lo_dgRowData.ci_dat).format("YYYY/MM/DD");
                                 lo_dgRowData.co_dat = moment(lo_dgRowData.co_dat).format("YYYY/MM/DD");
                                 lo_dgRowData.ci_dat_week = moment(lo_dgRowData.ci_dat).format('ddd');
                                 lo_dgRowData.co_dat_week = moment(lo_dgRowData.co_dat).format('ddd');
                             });
-                            this.oriOrderDtRowsData = JSON.parse(JSON.stringify(lo_fetchOderDtData.dgRowData));
+                            this.oriOrderDtRowsData = JSON.parse(JSON.stringify(lo_fetchOrderDtData.dgRowData));
                             //所有的order dt 資料
-                            this.orderDtRowsData = lo_fetchOderDtData.dgRowData;
+                            this.orderDtRowsData = lo_fetchOrderDtData.dgRowData;
 
                             //將資料轉換成多筆和單筆的格式
                             if (this.orderDtRowsData.length > 0) {
@@ -1589,8 +1590,8 @@
                 catch (err) {
                     console.log(err)
                 }
-                this.isLoadingDialog = false;
             },
+            //將order dt 分組並呈現在頁面上
             convertDtDataToSingleAndTable(newIndex, oldIndex) {
                 if (this.orderDtRowsData.length > 0) {
                     //顯示在多筆的order dt資料
@@ -1643,6 +1644,18 @@
                     }
                 }
             },
+            chkFieldRule(field, rule_func_name) {
+                // console.log(field, rule_func_name);
+            },
+            //欄位型態為button
+            buttonFunction(fieldData) {
+                if (this.isModifiable) {
+                    if (!_.isUndefined(this[fieldData.rule_func_name])) {
+                        this[fieldData.rule_func_name]();
+                    }
+                }
+            },
+            //搜尋住客歷史資料
             searchGuestMnAltName() {
                 this.$store.dispatch("orderMnModule/setOpenModule", {openModule: "pms0110041_lite"});
                 if (!_.isEmpty(this.guestMnRowsData4Single) && this.isModifiable) {
@@ -1661,6 +1674,7 @@
                     this.showGhistMnDialog();
                 }
             },
+            //開啟住客歷史資料
             showGhistMnDialog() {
                 this.$store.dispatch("ghistMnModule/setAllDataClear");
                 let self = this;
@@ -1682,19 +1696,7 @@
                     }
                 }).dialog('open');
             },
-            buttonFunction(fieldData) {
-                if (this.isModifiable) {
-                    if (fieldData.ui_field_name == 'search_acust_nam') {
-                        this.showCustMnDialog();
-                    }
-                    else if (fieldData.ui_field_name == 'search_master_sta') {
-                        this.showMasterStaDialog();
-                    }
-                    else if (fieldData.ui_field_name == 'tel_detail') {
-                        this.showTelDetailDialog();
-                    }
-                }
-            },
+            //開啟訂房公司資料
             showCustMnDialog() {
                 if (this.orderMnSingleData.acust_cod != "") {
                     this.editingCustMnData = {};
@@ -1716,6 +1718,7 @@
                     }).dialog('open');
                 }
             },
+            //開啟公帳號資料
             showMasterStaDialog() {
                 var dialog = $("#publicAccount_dialog").removeClass('hide').dialog({
                     modal: true,
@@ -1727,6 +1730,7 @@
                     resizable: true
                 });
             },
+            //開啟聯絡細項資料
             showTelDetailDialog() {
                 var dialog = $("#telDetail_dialog").removeClass('hide').dialog({
                     modal: true,
@@ -1738,11 +1742,17 @@
                     resizable: true
                 });
             },
+            chkDgFieldRule(field, rule_func_name) {
+                //TODO 欄位rate cod無法觸發change
+                console.log(field, rule_func_name);
+            },
+            //設定搜尋 rate cod 資料
             setSelectRateCodData() {
                 this.editingGroupOrderDtData = _.extend(this.orderDtRowsData4Single, this.orderMnSingleData);
                 this.openModule = "pms0110041_lite";
                 this.showRateCodDialog();
             },
+            //開啟rate cod資料
             showRateCodDialog() {
                 if (this.isModifiable) {
                     var dialog = $("#selectRateCod_dialog").removeClass('hide').dialog({
@@ -1834,7 +1844,8 @@
                         allRowData: this.orderDtRowsData.length == 0 ? [lo_addData] : this.orderDtRowsData
                     }).then((result) => {
                         return result;
-                    }).catch(err => {
+                    })
+                        .catch(err => {
                         return {success: false, errorMsg: err}
                     });
                     lo_addData.ikey_seq_nos = lo_ikeySeqNos.success ?
@@ -1878,8 +1889,21 @@
                     this.editingOrderDtIdx = _.isUndefined(this.editingOrderDtIdx) ? 0 : this.editingOrderDtIdx + 1;
                 }
             },
+            /**
+             * 刪除訂房明細資料(order_dt)資料
+             * @param index {number} order_dt的index
+             */
             removeRow(index) {
                 if (this.isModifiable) {
+
+                    BacUtils.doHttpPromisePostProxy("/api/chkFieldRule", {})
+                        .then(result => {
+
+                        })
+                        .catch(err => {
+
+                        })
+
                     let lo_deletingData = this.orderDtRowsData4table[index];
                     let lo_groupParam = {
                         rate_cod: lo_deletingData.rate_cod,
@@ -2245,8 +2269,8 @@
                                 return result;
                             })
                             .catch(err => {
-                            return {success: false, errorMsg: err};
-                        });
+                                return {success: false, errorMsg: err};
+                            });
                     if (lo_saveData.success) {
                         alert(go_i18nLang.program.PMS0810230.save_success);
                         let lo_cloneRowData = JSON.parse(JSON.stringify(this.rowData));

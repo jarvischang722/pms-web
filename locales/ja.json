@@ -354,7 +354,10 @@
       "changeOrderStatus": "狀態變更"
     },
     "PMS0110042": {
-      "isSelected": "請選項目(日)"
+      "isSelected": "請選項目(日)",
+      "noData": "無住客資料(日)",
+      "noResultsFound": "找不到此資料(日)",
+      "noNeedToCancel": "無須取消的住客資料(日)"
     },
     "PMS0110050": {
       "roomTyp": "房型",
