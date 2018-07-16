@@ -43,5 +43,12 @@
         <parameter type="string" kind="1">day_sta</parameter>
     </dao>
 
-
+    <!-- 使用期間視窗上方顯示『日期設定最大日期』 -->
+    <dao name="QRY_HOLIDAY_RF_MAXDATE">
+        <statement><![CDATA[
+             select max(batch_dat) from holiday_Rf where athena_id = trim(:athena_id) and trim(hotel_cod) = trim(:hotel_cod)
+        ]]></statement>
+        <parameter type="string" kind="3">athena_id</parameter>
+        <parameter type="string" kind="3">hotel_cod</parameter>
+    </dao>
 </root>

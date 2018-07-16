@@ -33,17 +33,22 @@
                                     <li>
                                         <button class="btn btn-primary btn-white btn-defaultWidth"
                                                 role="button" @click="confirmData">{{i18nLang.program.PMS0810230.OK}}
+
+
                                         </button>
                                     </li>
                                     <li>
                                         <button class="btn btn-primary btn-white btn-defaultWidth"
                                                 role="button" @click="closeDialog">{{i18nLang.program.PMS0810230.leave}}
+
+
                                         </button>
                                     </li>
                                     <li>
                                         <span class="checkbox">
                                               <label class="checkbox-width">
-                                                  <input name="form-field-checkbox" type="checkbox" class="ace" v-model="isShowExpire" @change="showTable">
+                                                  <input name="form-field-checkbox" type="checkbox" class="ace"
+                                                         v-model="isShowExpire" @change="showTable">
                                                   <span class="lbl font-btn">{{i18nLang.program.PMS0810230.showExpire}}</span>
                                               </label>
                                           </span>
@@ -390,6 +395,7 @@
             async fetchRoomCodSelectData() {
                 BacUtils.doHttpPostAgent('/api/chkFieldRule', {rule_func_name: 'qry_ratesupplydt_room_cod'}, (result) => {
                     this.roomCodSelectData = result.selectOptions;
+                    console.log(result)
                 });
             },
             initData() {
@@ -770,7 +776,6 @@
                     this.$eventHub.$emit("setUseTimeSelectData");
 
                     $("#useTimeDialog").dialog('close');
-                    console.log(this.tmpCUD);
                 }
                 else {
                     alert(lo_chkResult.msg);
@@ -803,7 +808,7 @@
             },
             convertSelectData(data) {
                 let la_returnData = [];
-//                console.log(data);
+                console.log(data);
                 if (data.split(",").length > 0) {
                     _.each(data.split(","), (ls_data) => {
                         la_returnData.push(ls_data);
