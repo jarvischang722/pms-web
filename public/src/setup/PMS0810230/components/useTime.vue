@@ -12,7 +12,7 @@
                                         row-click-color="#edf7ff"
                                         is-horizontal-resize
                                         style="width:100%"
-                                        :columns="useTimeColumns"
+                                        :columns="useTimeColumns" _
                                         :table-data="useTimeData"
                                         :error-content="errorContent"
                                         :column-cell-class-name="useTimeColumnCellClass"
@@ -91,15 +91,23 @@
         },
         methods: {
             deleteRow() {
-                let params = {type: 'delete', index: this.index, rowData: this.rowData};
-                this.$emit('on-custom-comp', params);
+                let lb_isReadOnly = false;
+                //開始日已過滾房租日期時開始日欄位唯讀不可修改
+                lb_isReadOnly = moment(this.rowData.begin_dat).diff(this.rowData.rentCalDat) > 0 ? true : false;
+                //當筆使用期間結束日期大於滾房租日期時為整筆唯讀，不可修改。
+                lb_isReadOnly = moment(this.rowData.end_dat).diff(this.rowData.rentCalDat) > 0 ? true : false;
+
+                if (!lb_isReadOnly) {
+                    let params = {type: 'delete', index: this.index, rowData: this.rowData};
+                    this.$emit('on-custom-comp', params);
+                }
             }
         }
     });
     //起始日
     Vue.component('table-begin-date', {
-        template: '<el-date-picker v-model="rowData.begin_dat" type="date" format="yyyy/MM/dd"' +
-        'style="width: 135px; height: 35px;line-height: 25px;" editable="false" @change="changeRowData(rowData, index)" :readonly="rowData.isEdit"' +
+        template: '<el-date-picker v-model="rowData.begin_dat" type="date" format="yyyy/MM/dd" :class="{input_sta_required: !isReadOnly}"' +
+        'style="width: 135px; height: 35px;line-height: 25px;" editable="false" @change="changeRowData(rowData, index)" :readonly="isReadOnly"' +
         ':editable="false" :clearable="false"></el-date-picker>',
         props: {
             rowData: {
@@ -109,9 +117,25 @@
                 type: Number
             }
         },
+        computed: {
+            isReadOnly() {
+                let lb_isReadOnly = false;
+                //開始日已過滾房租日期時開始日欄位唯讀不可修改
+                lb_isReadOnly = moment(this.rowData.begin_dat).diff(this.rowData.rentCalDat) > 0 ? true : false;
+                //當筆使用期間結束日期大於滾房租日期時為整筆唯讀，不可修改。
+                lb_isReadOnly = moment(this.rowData.end_dat).diff(this.rowData.rentCalDat) > 0 ? true : false;
+
+                return lb_isReadOnly
+            }
+        },
         watch: {
             "rowData.begin_dat": function (val, oldVal) {
-                if (moment(val).diff(moment(this.rowData.end_dat), "days") > 0) {
+                //chk_1010_begin_dat
+                if (moment(val).diff(moment(this.rowData.rentCalDat), "days") <= 0) {
+                    alert(go_i18nLang.program.PMS0810230.begBiggerEnd);
+                    this.rowData.begin_dat = oldVal;
+                }
+                else if (moment(val).diff(moment(this.rowData.end_dat), "days") > 0) {
                     alert(go_i18nLang.program.PMS0810230.begBiggerEnd);
                     this.rowData.begin_dat = oldVal;
                 }
@@ -127,8 +151,8 @@
     });
     //結束日
     Vue.component('table-end-date', {
-        template: '<el-date-picker v-model="rowData.end_dat" type="date" format="yyyy/MM/dd" class="input_sta_required "' +
-        'style="width: 135px; height: 35px; line-height: 25px;"  @change="changeRowData(rowData, index)"' +
+        template: '<el-date-picker v-model="rowData.end_dat" type="date" format="yyyy/MM/dd" :class="{input_sta_required: !isReadOnly}" ' +
+        'style="width: 135px; height: 35px; line-height: 25px;"  @change="changeRowData(rowData, index)"  :readonly="isReadOnly"' +
         ':editable="false" :clearable="false"></el-date-picker>',
         props: {
             rowData: {
@@ -136,6 +160,15 @@
             },
             index: {
                 type: Number
+            }
+        },
+        computed: {
+            isReadOnly() {
+                let lb_isReadOnly = false;
+                //當筆使用期間結束日期大於滾房租日期時為整筆唯讀，不可修改。
+                lb_isReadOnly = moment(this.rowData.end_dat).diff(this.rowData.rentCalDat) > 0 ? true : false;
+
+                return lb_isReadOnly
             }
         },
         watch: {
@@ -157,7 +190,7 @@
     //計算方式
     Vue.component('table-command-cod', {
         template: '<bac-select v-model="rowData.command_cod" :field="rowData.cmFieldsData" :data="rowData.cmFieldsData.selectData" ' +
-        ':data-display="rowData.cmFieldsData.selectData" style="width: 135px; height: 25px;"' +
+        ':data-display="rowData.cmFieldsData.selectData" style="width: 135px; height: 25px;" :readonly="isReadOnly"' +
         ':default-val="rowData.command_cod" is-qry-src-before="Y" value-field="value" text-field="display"' +
         '@update:v-model="val => rowData.command_cod = val" @change="changeRowData(rowData, index)"></bac-select>',
         props: {
@@ -169,6 +202,15 @@
             },
             index: {
                 type: Number
+            }
+        },
+        computed: {
+            isReadOnly() {
+                let lb_isReadOnly = false;
+                //當筆使用期間結束日期大於滾房租日期時為整筆唯讀，不可修改。
+                lb_isReadOnly = moment(this.rowData.end_dat).diff(this.rowData.rentCalDat) > 0 ? true : false;
+
+                return lb_isReadOnly
             }
         },
         watch: {
@@ -189,7 +231,7 @@
     //日其規則
     Vue.component('table-command-option', {
         template: '<bac-select v-model="rowData.command_option" :field="rowData.dtdFieldsData" :data="rowData.dtdFieldsData.selectData" ' +
-        ':data-display="rowData.dtdFieldsData.selectDataDisplay" style="width: 135px; height: 25px;" :multiple="true"' +
+        ':data-display="rowData.dtdFieldsData.selectDataDisplay" style="width: 135px; height: 25px;" :multiple="true" :readonly="isReadOnly"' +
         ':default-val="rowData.command_option" is-qry-src-before="Y" value-field="value" text-field="display"' +
         '@update:v-model="val => rowData.command_option = val" @change="changeRowData(rowData, index)"></bac-select>',
         props: {
@@ -201,6 +243,15 @@
             },
             index: {
                 type: Number
+            }
+        },
+        computed: {
+            isReadOnly() {
+                let lb_isReadOnly = false;
+                //當筆使用期間結束日期大於滾房租日期時為整筆唯讀，不可修改。
+                lb_isReadOnly = moment(this.rowData.end_dat).diff(this.rowData.rentCalDat) > 0 ? true : false;
+
+                return lb_isReadOnly
             }
         },
         watch: {
@@ -235,7 +286,7 @@
     //房型
     Vue.component('table-room-cods', {
         template: '<bac-select v-model="rowData.room_cods" :field="rowData.rcFieldsData" :data="rowData.rcFieldsData.selectData" ' +
-        ':data-display="rowData.rcFieldsData.selectData" style="width: 135px; height: 25px;" :multiple="true"' +
+        ':data-display="rowData.rcFieldsData.selectData" style="width: 135px; height: 25px;" :multiple="true" :readonly="isReadOnly"' +
         ':default-val="rowData.room_cods" is-qry-src-before="Y" value-field="value" text-field="display"' +
         '@update:v-model="val => rowData.room_cods = val" @change="changeRowData(rowData, index)"></bac-select>',
         props: {
@@ -247,6 +298,15 @@
             },
             index: {
                 type: Number
+            }
+        },
+        computed: {
+            isReadOnly() {
+                let lb_isReadOnly = false;
+                //當筆使用期間結束日期大於滾房租日期時為整筆唯讀，不可修改。
+                lb_isReadOnly = moment(this.rowData.end_dat).diff(this.rowData.rentCalDat) > 0 ? true : false;
+
+                return lb_isReadOnly
             }
         },
         watch: {
@@ -428,7 +488,6 @@
                         _.each(la_dgRowData, (lo_dgRowData, idx) => {
                             la_dgRowData[idx]["begin_dat"] = moment(lo_dgRowData["begin_dat"]).format("YYYY/MM/DD");
                             la_dgRowData[idx]["end_dat"] = moment(lo_dgRowData["end_dat"]).format("YYYY/MM/DD");
-                            la_dgRowData[idx]["isEdit"] = moment(lo_dgRowData["end_dat"]).format("YYYY/MM/DD");
                         });
 
                         this.fieldsData = result.dgFieldsData;
@@ -530,7 +589,7 @@
                             "cmFieldsData": _.findWhere(this.fieldsData, {ui_field_name: 'command_cod'}),
                             "dtdFieldsData": this.convertCommandOption(lo_dataGridRowsData),
                             "rcFieldsData": _.findWhere(this.fieldsData, {ui_field_name: 'room_cods'}),
-                            "isEdit": _.isUndefined(lo_dataGridRowsData.isEdit) ? false : true
+                            "rentCalDat": this.rentCalDat
                         });
                     });
                 }
@@ -646,7 +705,6 @@
                 else {
                     _.each(this.dataGridRowsData[params.index], (ls_value, ls_key) => {
                         let la_modifyKey = ["begin_dat", "end_dat", "command_cod", "command_option", "room_cods"];
-                        console.log(_.indexOf(la_modifyKey, ls_key));
                         if (_.indexOf(la_modifyKey, ls_key) > -1) {
                             this.dataGridRowsData[params.index][ls_key] = params.rowData[ls_key];
                         }
@@ -675,7 +733,7 @@
                         rate_cod: this.$store.state.gs_rateCod,
                         supply_nos: Number(ln_maxSupplyNos) + 1,
                         begin_dat: moment().format("YYYY/MM/DD"),
-                        end_dat: moment().add(1, "day").format("YYYY/MM/DD"),
+                        end_dat: moment().endOf('year').format("YYYY/MM/DD"),
                         command_cod: "H",
                         command_option: la_commandOptionHSelect.length > 0 ? _.first(la_commandOptionHSelect).value : "",
                         room_cods: la_roomCosSelect.length > 0 ? _.first(la_roomCosSelect).value : "",
@@ -687,7 +745,7 @@
                 }
             },
             async doValidate() {
-                //FENG LOOK PART
+                //TODO 將此規則回填至SD
                 let lo_checkResult = {success: true, msg: ""};
 
                 if (this.chgDataGridRowsData.length == 0) {

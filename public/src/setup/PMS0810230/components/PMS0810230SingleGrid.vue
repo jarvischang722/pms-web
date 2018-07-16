@@ -484,14 +484,12 @@
                                                 role="button" @click="doSaveGrid">{{i18nLang.program.PMS0810230.save}}
 
 
-
                                         </button>
                                     </li>
                                     <li>
                                         <button class="btn btn-primary btn-white btn-defaultWidth"
                                                 role="button" @click="doOpenUseTime">
                                             {{i18nLang.program.PMS0810230.useTime}}
-
 
 
                                         </button>
@@ -502,14 +500,12 @@
                                                 role="button">{{i18nLang.program.PMS0810230.priceTrial}}(等SA)
 
 
-
                                         </button>
                                     </li>
                                     <li>
                                         <button class="btn btn-primary btn-white btn-defaultWidth"
                                                 role="button" @click="doOpenRateList">
                                             {{i18nLang.program.PMS0810230.rateList}}
-
 
 
                                         </button>
@@ -520,14 +516,12 @@
                                                 role="button">{{i18nLang.program.PMS0810230.depRate}}
 
 
-
                                         </button>
                                     </li>
                                     <li class="baseDateLi"
                                         v-if="$parent.prgEditionOptions.optionList.indexOf('PMS_RATECODE_B') > -1">
                                         <button class="btn btn-primary btn-white btn-defaultWidth rateCode_baseDate"
                                                 role="button">{{i18nLang.program.PMS0810230.baseRate}}
-
 
 
                                         </button>
@@ -537,13 +531,11 @@
                                                 role="button">{{i18nLang.program.PMS0810230.addPol}}
 
 
-
                                         </button>
                                     </li>
                                     <li>
                                         <button class="btn btn-primary btn-white btn-defaultWidth"
                                                 role="button" @click="doCloseDialog">{{i18nLang.program.PMS0810230.leave}}
-
 
 
                                         </button>
@@ -730,7 +722,6 @@
                                                 role="button">複製
 
 
-
                                         </button>
                                     </li>
                                 </ul>
@@ -797,7 +788,7 @@
                 tabStatus: {isRoomTyp: false}, //現在頁籤狀況
                 isUseTime: false, //是否開啟使用期間
                 versionState: 'lite',
-                defaultValues: ''
+                MaxDat: ''
 //                prgEditionOptions: {} //版本資料
             }
         },
@@ -840,9 +831,14 @@
         methods: {
             //使用期間視窗上方顯示『日期設定最大日期』
             async fetchRoomCodMaxData() {
-                BacUtils.doHttpPostAgent('/api/chkFieldRule', {rule_func_name: 'r_1011'}, (result) => {
-                    this.defaultValues = result.defaultValues
+                let lo_fetchMaxDat = await BacUtils.doHttpPromisePostProxy('/api/chkFieldRule', {
+                    rule_func_name: 'r_1011'
+                }).then((result) => {
+                    return result;
+                }).catch(err => {
+                    return {success: false, errorMsg: err}
                 });
+                this.MaxDat = lo_fetchMaxDat.success ? lo_fetchMaxDat.defaultValues : "";
             },
             //打開單欄多語編輯
             editFieldMultiLang(fieldInfo) {
@@ -1108,7 +1104,7 @@
 //                chkFieldRule
                 var dialog = $("#useTimeDialog").removeClass('hide').dialog({
                     modal: true,
-                    title: go_i18nLang.program.PMS0810230.useTime + this.defaultValues,
+                    title: go_i18nLang.program.PMS0810230.useTime + this.MaxDat,
                     title_html: true,
                     width: 750,
                     maxwidth: 1920,

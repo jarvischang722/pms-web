@@ -63,13 +63,13 @@
 </template>
 
 <script>
-    //FENG LOOK PART
     import pms0810230SingleGrid from './PMS0810230SingleGrid.vue';
     import fieldMultiLang from './fieldMultiLang';
 
     let gs_prgId = "PMS0810230";
 
     Vue.prototype.$eventHub = new Vue();
+
 
     /** DataGridRmSingleGridClass **/
     function DatagridSingleGridClass() {
@@ -269,6 +269,7 @@
                 }
                 else {
                     this.editingRow = lo_editRow;
+//                    this.doRowUnLock(gs_prgId, this.editingRow.rate_cod);
                     this.showSingleGridDialog();
                 }
                 this.isLoading = false;
@@ -334,7 +335,8 @@
                         self.$eventHub.$emit('setTabName', {tabName: ""});
                         self.$eventHub.$emit('setClearData');
                         self.$store.dispatch('setAllDataClear');
-                        self.loadDataGridByPrgID()
+                        self.loadDataGridByPrgID();
+                        self.doRowUnLock();
                     }
                 }).dialog('open');
             },
@@ -375,6 +377,22 @@
             },
             doCloseTimeRuleDialog() {
                 this.isOpenTimeRule = false;
+            },
+            doRowLock: function (prg_id, rate_cod) {
+                let ls_keyCod = this.userInfo.athena_id + this.userInfo.hotel_cod + rate_cod.trim();
+                let lo_param = {
+                    prg_id: prg_id,
+                    table_name: "ratecod_mn",
+                    lock_type: "R",
+                    key_cod: ls_keyCod.trim()
+                };
+                g_socket.emit('handleTableLock', lo_param);
+            },
+            doRowUnLock() {
+                let lo_param = {
+                    prg_id: ""
+                };
+                g_socket.emit('handleTableUnlock', lo_param);
             }
         }
     }

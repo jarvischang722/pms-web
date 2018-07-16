@@ -14,7 +14,7 @@ let ErrorClass = require(ruleRootPath + "/errorClass");
 let permissionSvc = require("./../../../services/permissionService");
 
 module.exports = {
-    //FENG LOOK PART
+
     /**
      * 單筆主檔各欄位預設值
      * @param postData
@@ -183,7 +183,7 @@ module.exports = {
                     let ls_nowBeginDat = moment(new Date(lo_nowData.begin_dat));
                     let ls_nowEndDat = moment(new Date(lo_nowData.end_dat));
                     let ls_compareBeginDat = moment(new Date(lo_compareData.begin_dat));
-                    let ls_compareEndDat = moment(new Date(lo_compareData.begin_dat));
+                    let ls_compareEndDat = moment(new Date(lo_compareData.end_dat));
                     let lb_chkOverLap = commandRules.chkDateIsBetween(ls_compareBeginDat, ls_compareEndDat, ls_nowBeginDat, ls_nowEndDat);
 
                     if (lb_chkOverLap) {
@@ -391,7 +391,7 @@ module.exports = {
             hotel_cod: session.user.hotel_cod
         };
 
-        queryAgent.queryList("QRY_HOLIDAY_RF_MAXDATE", lo_params, 0, 0, function (err, result) {
+        queryAgent.query("QRY_HOLIDAY_RF_MAXDATE", lo_params, function (err, result) {
             if (err) {
                 console.log(err);
                 lo_error = new ErrorClass();
@@ -399,7 +399,7 @@ module.exports = {
                 lo_error.errorMsg = err;
             }
             else {
-                lo_result.defaultValues = result;
+                lo_result.defaultValues = moment(result.maxDat).format("YYYY/MM/DD");
             }
             callback(lo_error, lo_result);
         })
