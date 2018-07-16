@@ -491,6 +491,9 @@
             changeTmpCUD(oriData, changeData) {
 
 
+                // console.log(oriData);
+                // console.log(changeData);
+
                 _.each(oriData, (lo_item) => {
                     let lo_oriData = _.findWhere(this.tmpCUD.oriData, {
                         ikey: lo_item.ikey, alt_nam: lo_item.alt_nam, ci_ser: lo_item.ci_ser
@@ -501,9 +504,10 @@
                             ikey: lo_oriData.ikey, alt_nam: lo_oriData.alt_nam, ci_ser: lo_oriData.ci_ser
                         });
                         this.tmpCUD.oriData.splice(ln_oriDataIndex, 1);
-                        this.tmpCUD.oriData.push(oriData);
                     } else {
-                        this.tmpCUD.oriData.push(oriData);
+
+                        this.tmpCUD.oriData.push(lo_item);
+
                     }
                 });
 
@@ -513,16 +517,23 @@
                         ikey: lo_item.ikey, alt_nam: lo_item.alt_nam, ci_ser: lo_item.ci_ser
                     });
 
+                    // console.log(lo_changeData);
                     if (lo_changeData !== undefined) {
                         let ln_oriDataIndex = _.findIndex(this.tmpCUD.updateData, {
                             ikey: lo_changeData.ikey, alt_nam: lo_changeData.alt_nam, ci_ser: lo_changeData.ci_ser
                         });
                         this.tmpCUD.updateData.splice(ln_oriDataIndex, 1);
-                        this.tmpCUD.updateData.push(changeData);
                     } else {
-                        this.tmpCUD.updateData.push(changeData);
+                        this.tmpCUD.updateData.push(lo_item);
                     }
                 });
+
+
+
+
+
+                // console.log(this.tmpCUD.oriData);
+                // console.log(this.tmpCUD.updateData);
             },
             // 比對原始資料，並找出原始資料的那一筆(找尋單筆)
             findOriData(oriData, searchData) {
@@ -539,7 +550,8 @@
                 let la_result;
                 la_result = _.where(oriData, {
                     ikey: searchData[0].ikey,
-                    ikey_seq_nos: searchData[0].ikey_seq_nos,
+                    alt_nam: searchData[0].alt_nam,
+                    ci_ser: searchData[0].ci_ser
                 });
                 return la_result;
             }
