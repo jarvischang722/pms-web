@@ -1499,9 +1499,11 @@
                             alert(lo_doDefault.errorMsg);
                         }
                     }
-                    lo_fetchSingleData = await await BacUtils.doHttpPromisePostProxy(ls_apiUrl, lo_params).then((result) => {
+                    lo_fetchSingleData = await await BacUtils.doHttpPromisePostProxy(ls_apiUrl, lo_params)
+                        .then((result) => {
                         return result;
-                    }).catch(err => {
+                    })
+                        .catch(err => {
                         return {success: false, errMsg: err};
                     });
                     if (lo_fetchSingleData.success) {
@@ -1841,7 +1843,8 @@
                         allRowData: this.orderDtRowsData.length == 0 ? [lo_addData] : this.orderDtRowsData
                     }).then((result) => {
                         return result;
-                    }).catch(err => {
+                    })
+                        .catch(err => {
                         return {success: false, errorMsg: err}
                     });
                     lo_addData.ikey_seq_nos = lo_ikeySeqNos.success ?
@@ -1885,8 +1888,21 @@
                     this.editingOrderDtIdx = _.isUndefined(this.editingOrderDtIdx) ? 0 : this.editingOrderDtIdx + 1;
                 }
             },
+            /**
+             * 刪除訂房明細資料(order_dt)資料
+             * @param index {number} order_dt的index
+             */
             removeRow(index) {
                 if (this.isModifiable) {
+
+                    BacUtils.doHttpPromisePostProxy("/api/chkFieldRule", {})
+                        .then(result => {
+
+                        })
+                        .catch(err => {
+
+                        })
+
                     let lo_deletingData = this.orderDtRowsData4table[index];
                     let lo_groupParam = {
                         rate_cod: lo_deletingData.rate_cod,

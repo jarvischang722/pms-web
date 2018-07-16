@@ -318,6 +318,10 @@ exports.handleBlurUiField = function (postData, session, callback) {
     }
 };
 
+exports.handlePrgFuncRule = async (postData, session) => {
+
+};
+
 exports.handleClickUiRow = function (postData, session, callback) {
     let la_dtField = postData.dtField;
 
