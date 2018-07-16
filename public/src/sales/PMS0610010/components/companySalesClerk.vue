@@ -123,7 +123,7 @@
                         });
                     }
                     else {
-                        alert("請先儲存主檔資料");
+                        alert(go_i18nLang.program.PMS0610020.saveMainAndRelatedDataFirst);
                     }
                 }
                 else {

@@ -47,7 +47,7 @@ module.exports = {
                 });
             },
             function (effectData, cb) {
-                if (postData.singleRowData.ashow_cod == postData.oriSingleRowData.ashow_cod) {
+                if (_.isUndefined(postData.oriSingleRowData) || postData.singleRowData.ashow_cod == postData.oriSingleRowData.ashow_cod) {
                     return cb(null, effectData);
                 }
                 let lo_params = {
@@ -133,7 +133,7 @@ module.exports = {
                     lo_result.effectValues = postData.singleRowData;
 
                     lo_result.showAlert = true;
-                    lo_error.alertMsg = commandRules.getMsgByCod("pms81msg31", session.locale);
+                    lo_result.alertMsg = commandRules.getMsgByCod("pms81msg31", session.locale);
                 }
                 callback(lo_error, lo_result);
             }

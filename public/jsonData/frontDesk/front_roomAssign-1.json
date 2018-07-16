@@ -2,7 +2,7 @@
   "total": 28,
   "rows": [
     {
-      "cardCode": "00000101",
+      "cardCode": "<span class='roomAssign-cardNum'>00000101<span>",
       "status": "正常",
       "resv": "1",
       "assignRoom": "0",
@@ -20,7 +20,7 @@
       "baby": "0"
     },
     {
-      "cardCode": "00000201",
+      "cardCode": "<span class='roomAssign-cardNum'>00000201<span>",
       "status": "正常",
       "resv": "2",
       "assignRoom": "1",
@@ -38,7 +38,7 @@
       "baby": "0"
     },
     {
-      "cardCode": "00000301",
+      "cardCode": "<span class='roomAssign-cardNum'>00000301<span>",
       "status": "正常",
       "resv": "3",
       "assignRoom": "0",
@@ -56,7 +56,7 @@
       "baby": "0"
     },
     {
-      "cardCode": "00000401",
+      "cardCode": "<span class='roomAssign-cardNum'>00000401<span>",
       "status": "已到達",
       "resv": "4",
       "assignRoom": "1",
@@ -74,7 +74,7 @@
       "baby": "0"
     },
     {
-      "cardCode": "00000501",
+      "cardCode": "<span class='roomAssign-cardNum'>00000501<span>",
       "status": "已到達",
       "resv": "5",
       "assignRoom": "0",
@@ -92,7 +92,7 @@
       "baby": "0"
     },
     {
-      "cardCode": "00000601",
+      "cardCode": "<span class='roomAssign-cardNum'>00000601<span>",
       "status": "正常",
       "resv": "6",
       "assignRoom": "1",
@@ -110,7 +110,7 @@
       "baby": "0"
     },
     {
-      "cardCode": "00000701",
+      "cardCode": "<span class='roomAssign-cardNum'>00000701<span>",
       "status": "已到達",
       "resv": "7",
       "assignRoom": "0",
@@ -128,7 +128,7 @@
       "baby": "0"
     },
     {
-      "cardCode": "00000801",
+      "cardCode": "<span class='roomAssign-cardNum'>00000801<span>",
       "status": "正常",
       "resv": "8",
       "assignRoom": "1",

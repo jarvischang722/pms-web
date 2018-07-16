@@ -13,11 +13,15 @@
                                     <input type="text" class="input-medium medium-c1" placeholder="">
                                 </div>
                                 <div class="grid-item">
-                                    <label>房號</label>
+                                    <label>訂房公司</label>
                                     <input type="text" class="input-medium medium-c1" placeholder="">
                                 </div>
                                 <div class="grid-item">
                                     <label>訂房卡號</label>
+                                    <input type="text" class="input-medium medium-c1" placeholder="">
+                                </div>
+                                <div class="grid-item">
+                                    <label>房號</label>
                                     <input type="text" class="input-medium medium-c1" placeholder="">
                                 </div>
                             </div>
@@ -62,12 +66,24 @@
                                     </template>
                                 </div>
                                 <div class="grid-item">
-                                    <label>團號</label>
+                                    <label>公司名稱</label>
                                     <input type="text" class="input-medium medium-c1" placeholder="">
                                 </div>
                                 <div class="grid-item">
-                                    <label>訂房公司</label>
-                                    <input type="text" class="input-medium medium-c1" placeholder="">
+                                    <label>訂房來源</label>
+                                    <select class="input-medium medium-c1">
+                                        <option value="1">01:電話訂房</option>
+                                        <option value="2">02:飯店櫃台</option>
+                                        <option value="3">02:官網訂房</option>
+                                    </select>
+                                </div>
+                                <div class="grid-item">
+                                    <label>國籍</label>
+                                    <select class="input-medium medium-c1">
+                                        <option value="TWN">TWN:中華民國台灣</option>
+                                        <option value="USA">USA:美國</option>
+                                        <option value="JP">JP:日本</option>
+                                    </select>
                                 </div>
                             </div>
                             <!--2-->
@@ -82,6 +98,10 @@
                                     </template>
                                 </div>
                                 <div class="grid-item">
+                                    <label>團號</label>
+                                    <input type="text" class="input-medium medium-c1" placeholder="">
+                                </div>
+                                <div class="grid-item">
                                     <label>市場類別</label>
                                     <select class="input-medium medium-c1">
                                         <option value="1">1.純訂房</option>
@@ -92,46 +112,18 @@
                                     </select>
                                 </div>
                                 <div class="grid-item">
-                                    <label>公司名稱</label>
+                                    <label>車號</label>
                                     <input type="text" class="input-medium medium-c1" placeholder="">
                                 </div>
                             </div>
                             <!--3-->
                             <div class="grid">
                                 <div class="grid-item">
-                                    <label>國籍</label>
+                                    <label>過濾條件</label>
                                     <select class="input-medium medium-c1">
-                                        <option value="TWN">TWN:中華民國台灣</option>
-                                        <option value="USA">USA:美國</option>
-                                        <option value="JP">JP:日本</option>
+                                        <option value="1">IN HOUSE+今日C/I</option>
+                                        <option value="2">全部</option>
                                     </select>
-                                </div>
-                                <div class="grid-item">
-                                    <label>車號</label>
-                                    <input type="text" class="input-medium medium-c1" placeholder="">
-                                </div>
-                            </div>
-
-                            <div class="grid">
-                                <div class="grid-item foCntRadio">
-                                    <label class="pull-left"></label>
-                                    <div class="searchRadio pull-left lineHt24">
-                                                    <span class="radio">
-                                                      <label class="checkbox-width" style="width: auto;">
-                                                          <input name="form-field-checkbox" type="radio" class="ace"
-                                                                 checked>
-                                                          <span class="lbl">IN HOUSE+今日C/I</span>
-                                                      </label>
-                                                    </span>
-                                    </div>
-                                    <div class="searchRadio pull-left lineHt24">
-                                        <span class="radio">
-                                          <label class="checkbox-width" style="width: auto;">
-                                              <input name="form-field-checkbox" type="radio" class="ace" checked>
-                                              <span class="lbl">全部</span>
-                                          </label>
-                                        </span>
-                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -143,12 +135,10 @@
     </div> <!-- /.col-sm-12 -->
     <div class="clearfix"></div>
     <div class="col-xs-12">
-        <!--<div class="blockSetting-heading">查詢結果</div>-->
         <div class="col-sm-11 col-xs-11">
             <div class="row no-margin-right">
-
                 <div>
-                    <!-- 訂房卡多筆 resv_bookings-table dataGrid -->
+                    <!-- 住客查詢 PMS0210050 dataGrid -->
                     <table id="PMS0210050" class="gridTableHt"></table>
                 </div>
             </div>
@@ -159,7 +149,7 @@
                     <ul>
                         <li>
                             <button class="btn btn-primary btn-white btn-defaultWidth reservationDialog-1"
-                                    role="button">訂房
+                                    role="button">訂房卡
                             </button>
                         </li>
                         <li>
@@ -169,7 +159,7 @@
                         </li>
                         <li>
                             <button class="btn btn-primary btn-white btn-defaultWidth cashierHistLedger_Detail"
-                                    role="button">已結帳資料
+                                    role="button">已結帳處理
                             </button>
                         </li>
                         <li style="display: none;">
@@ -181,7 +171,7 @@
                 </div>
             </div>
         </div>
-    </div> <!-- /.col-sm-12 -->
+    </div>
     <div class="clearfix"></div>
 
 </div>
@@ -213,7 +203,6 @@
 
 <!-- /.page-content -->
 
-
 <!-- subSystem 共用 js -->
 <%- include ../common/viewsComJs.ejs %>
 <!--  /.End subSystem 共用 js  -->
@@ -222,16 +211,13 @@
 <%- include frontDesk_module/frontDesk_includeJs.ejs %>
 <!--  /.End 接待共用 initial js  -->
 
-
 <!--  業務 -->
 <%- include ../sales/sales_module/sales_Btn_1.ejs %>
 <!--  /.End 業務 -->
 
-
 <!--  業務 -->
 <%- include ../cashier/cashier_module/cashier_includeJs %>
 <!--  /.End 業務 -->
-
 
 <!--  訂房卡共用 initial js -->
 <%- include ../reservation/PMS0100000_module/resv_includeJs %>

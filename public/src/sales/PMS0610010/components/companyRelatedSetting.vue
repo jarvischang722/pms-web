@@ -316,7 +316,7 @@
                         la_businessCodSelectData = _.isUndefined(la_businessCodSelectData) ? [] : la_businessCodSelectData.selectData;
 
                         this.singleData = {
-                            hoffice_cod: self.$store.state.gs_custCod,
+                            hoffice_cod: self.$store.state.custMnModule.gs_custCod,
                             dm_flag: 'Y',
                             cust_idx_ar_amt: 0,
                             cust_idx_credit_amt: 0,

@@ -112,7 +112,6 @@
                 oriSingleData: {},
                 fieldsData: [],
                 oriFieldsData: [],
-                go_funcPurview: []
             };
         },
         watch: {
@@ -151,35 +150,40 @@
             },
             doEditSales() {
                 var self = this;
-                this.isLoadingDialog = true;
-                this.loadingText = 'saving...';
-                var la_custCod = [];
-                _.each(this.editRows, function (lo_editRow) {
-                    la_custCod.push(lo_editRow.cust_mn_cust_cod);
-                });
-                var lo_params = {
-                    prg_id: "PMS0620030",
-                    sales_cod: this.singleData.sales_cod,
-                    upd_order_mn: this.singleData.upd_order_mn ? 'Y' : 'N',
-                    cust_cod: la_custCod
-                };
-
-                if (this.isEditStatus) {
-                    BacUtils.doHttpPostAgent("/api/sales/doEditSalesClerk", lo_params, function (result) {
-                        self.isLoadingDialog = false;
-                        if (result.success) {
-                            if (!_.isUndefined(self.editRows[0].isSalesClerk)) {
-                                self.$eventHub.$emit('completeEditSalesClerk', {
-                                    success: true
-                                });
-                            }
-                            self.doCancelEdit();
-
-                        }
-                        else {
-                            alert(result.errorMsg);
-                        }
+                if (this.singleData.sales_cod == "") {
+                    alert(go_i18nLang.program.PMS0610020.salesCodIsNull);
+                }
+                else {
+                    this.isLoadingDialog = true;
+                    this.loadingText = 'saving...';
+                    var la_custCod = [];
+                    _.each(this.editRows, function (lo_editRow) {
+                        la_custCod.push(lo_editRow.cust_mn_cust_cod);
                     });
+                    var lo_params = {
+                        prg_id: "PMS0620030",
+                        sales_cod: this.singleData.sales_cod,
+                        upd_order_mn: this.singleData.upd_order_mn ? 'Y' : 'N',
+                        cust_cod: la_custCod
+                    };
+
+                    if (this.isEditStatus) {
+                        BacUtils.doHttpPostAgent("/api/sales/doEditSalesClerk", lo_params, function (result) {
+                            self.isLoadingDialog = false;
+                            if (result.success) {
+                                if (!_.isUndefined(self.editRows[0].isSalesClerk)) {
+                                    self.$eventHub.$emit('completeEditSalesClerk', {
+                                        success: true
+                                    });
+                                }
+                                self.doCancelEdit();
+
+                            }
+                            else {
+                                alert(result.errorMsg);
+                            }
+                        });
+                    }
                 }
             },
             doCancelEdit() {

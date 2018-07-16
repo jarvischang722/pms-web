@@ -371,7 +371,6 @@ Vue.component("sigle-grid-dialog-tmp", {
         };
     },
     watch: {
-
         editingRow: function (newRow, oldRow) {
             this.$parent.editingRow = newRow;
             let nowDatagridRowIndex = $("#dg").datagrid("getRowIndex", newRow);
@@ -385,11 +384,13 @@ Vue.component("sigle-grid-dialog-tmp", {
                     this.isLastData = true;
                 }
 
-            } else if ($("#dg").datagrid("getRowIndex", newRow) == this.pageOneDataGridRows.length - 1) {
+            }
+            else if ($("#dg").datagrid("getRowIndex", newRow) == this.pageOneDataGridRows.length - 1) {
                 //已經到最後一筆
                 this.isFistData = false;
                 this.isLastData = true;
-            } else {
+            }
+            else {
 
                 this.isFistData = false;
                 this.isLastData = false;
@@ -987,6 +988,9 @@ var vm = new Vue({
         },
         searchFields: function (newFields) {
             this.searchFieldsByRow = _.values(_.groupBy(_.sortBy(newFields, "row_seq"), "row_seq"));
+        },
+        editingRow: function (val) {
+            this.dgIns.clearSelection();
         }
     },
     methods: {

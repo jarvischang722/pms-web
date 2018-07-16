@@ -314,7 +314,9 @@
 
         // 彈出 住客帳維護單筆
         $(document).on('click', ".cashierGstLedger_Single", function (e) {
+
             e.preventDefault();
+
             var dialog = $("#cashierGstLedger_Single-message").removeClass('hide').dialog({
                 modal: true,
                 title: "住客帳維護單筆",
@@ -326,6 +328,7 @@
                 dialogClass: "test",
                 resizable: true
             });
+
 
             // 住客帳維護_單筆_分帳夾01 cashier_GstLedgerSgl01 dataGrid
             $('#cashier_GstLedgerSgl01-table').datagrid({
@@ -380,7 +383,6 @@
                     {field: 'tax', title: '稅別', width: 100, align: 'right'}
                 ]]
             });
-
         });
 
         // 彈出 已結帳處理-明細
