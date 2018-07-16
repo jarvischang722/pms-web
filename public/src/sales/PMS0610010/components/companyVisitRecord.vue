@@ -129,7 +129,7 @@
             dataGridRowsData: {
                 handler: function (val) {
                     if (!_.isEmpty(val)) {
-                        this.$store.dispatch("setVrDataGridRowsData", {
+                        this.$store.dispatch("custMnModule/setVrDataGridRowsData", {
                             ga_vrDataGridRowsData: val,
                             ga_vrOriDataGridRowsData: this.oriDataGridRowsData,
                             go_vrTmpCUD: this.tmpCUD
@@ -331,10 +331,9 @@
 
                     let lo_saveData = JSON.parse(JSON.stringify(this.visitRecordSingleData));
                     lo_saveData["traffic_amt"] = lo_saveData["traffic_amt"] != "" ? go_formatDisplayClass.removeAmtFormat(lo_saveData["traffic_amt"]) : 0;
-
                     let ln_editIdx = _.isUndefined(this.visitRecordSingleData.index) ? -1 : this.visitRecordSingleData.index;
-
-                    if (ln_editIdx > -1) {
+                    if (ln_editIdx > -1) { //陣列的KEY值
+                        //新增後修改
                         if (!_.isUndefined(this.visitRecordSingleData.createIndex)) {
                             let createIndex = this.visitRecordSingleData.createIndex;
                             this.tmpCUD.createData[createIndex] = lo_saveData;
@@ -343,13 +342,13 @@
                             this.tmpCUD.updateData.push(lo_saveData);
                             this.tmpCUD.oriData.push(lo_saveData);
                         }
-
                         this.dataGridRowsData[ln_editIdx] = this.visitRecordSingleData;
                     }
                     else {
                         this.tmpCUD.createData.push(lo_saveData);
                         this.dataGridRowsData.push(this.visitRecordSingleData);
                     }
+                    console.log(this.tmpCUD);
                     this.showDataGrid();
                 }
             }

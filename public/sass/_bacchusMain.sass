@@ -1104,7 +1104,7 @@ ul.newVisitOther-btn
         //min-height: 100%
         //default: width: 124px height: 86px
         width: 140px
-        height: 93px
+        height: 125px
         line-height: 23px
         box-sizing: border-box
         background: #FFFFFF
@@ -1156,11 +1156,14 @@ ul.newVisitOther-btn
             left: 5px
         .content-ico
           position: absolute
-          top: 60px
+          top: 91px
           .foCnt_icon
             width: 15px
             height: 15px
             margin: 2px 3px auto 2px
+        .content-remark
+          position: relative
+          top: 64px
         .foot
           position: absolute
           bottom: 5px
@@ -1198,7 +1201,7 @@ ul.newVisitOther-btn
       width: 100%
       th, td
         border: 1px solid #a0a8b4
-        padding-left: 2px
+        padding: 5px
       tr
         th
           background: #c0d6ee
@@ -1228,6 +1231,13 @@ ul.newVisitOther-btn
           &.btn-center
             margin: 0 auto
             text-align: center
+      .gap
+        line-height: 20px
+      .ico-wt
+        padding: 5px
+        img
+          width: 20px
+          height: 20px
     //color: #555
     .customInfo-table
       width: 100%
@@ -1286,6 +1296,10 @@ ul.newVisitOther-btn
       th, td
         padding-left: 20px
         padding-right: 20px
+
+.popInfo-title
+  font-weight: 600
+  letter-spacing: 3px
 //Ho-鎖控
 .bloch-btn-single
   margin-bottom: 137px
@@ -2683,6 +2697,29 @@ td
 //住客歷史easy-ui 調整
 .pagination-page-list
   padding-right: 15px
+
+.cashier_GstLedgerSgl01-container
+  .cashier-total-num
+    font-size: 18px
+    text-align: center
+    position: absolute
+    left: 217px
+    bottom: -29px
+#roomDetail-table-first
+  .datagrid-body
+    tr
+      td
+        &:first-child
+          cursor: pointer
+        .roomAssign-cardNum
+          color: $blue-two
+          text-decoration: none
+          &:hover
+            text-decoration: underline
+            color: $blue-two
+            position: relative
+            left: 1px
+            top: 1px
 /*---- 達美樂介面 ----*/
 @import partials/_dominosStyle.sass
 

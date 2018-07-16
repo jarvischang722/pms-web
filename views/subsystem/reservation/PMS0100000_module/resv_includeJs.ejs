@@ -9,9 +9,12 @@
     //            }
     //        }
     //    })
+    var vm = new Vue({
+        el: '#roomDetail-all-container',
+    });
     $(function () {
         // 彈出 訂房卡
-        $(document).on('click', ".reservationDialog-1", function (e) {
+        $(document).on('click', "#roomDetail-table-first .datagrid-body tr td:first-child", function (e) {
             e.preventDefault();
             var dialog = $("#reservationDialog-1-message").removeClass('hide').dialog({
                 modal: true,
@@ -239,6 +242,7 @@
             });
 
         });
+
 
         // 彈出 訂房卡 費用列表 Rate Details
         $(document).on('click', ".resv_rateDetail", function (e) {

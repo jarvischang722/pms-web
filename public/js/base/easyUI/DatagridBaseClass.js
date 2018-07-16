@@ -22,6 +22,7 @@ function DatagridBaseClass() {
     this.editIndex = undefined;
     this.mnRowData = {};
     this.dtOriRowData = [];
+    this.editingField = "";
 
     this.dgData = [];
     /**
@@ -61,7 +62,8 @@ function DatagridBaseClass() {
                 $('#' + dgName).datagrid("loadData", self.dgData);
             },
             onSortColumn: this.doSortColumn,
-            onSelect: this.onSelect
+            onSelect: this.onSelect,
+            onAfterEdit: this.onAfterEdit
         }).datagrid('columnMoving');
     };
 
@@ -140,8 +142,10 @@ function DatagridBaseClass() {
      * @param field
      */
     this.onClickCell = function (index, field) {
+
         if (self.editIndex != index) {
             if (self.endEditing()) {
+                self.editingField = field;
                 $('#' + self.dgName).datagrid('selectRow', index)
                     .datagrid('beginEdit', index);
                 var ed = $('#' + self.dgName).datagrid('getEditor', {index: index, field: field});
@@ -167,7 +171,12 @@ function DatagridBaseClass() {
     this.onSelect = function (index, field) {
     };
 
-    //結束編輯
+    /**
+     * 結束編輯
+     * @param index
+     * @param row
+     * @param changes
+     */
     this.onEndEdit = function (index, row, changes) {
         /** 讓子類別實作這個方法 interface 概念 **/
         self.editIndex = index;
@@ -183,7 +192,9 @@ function DatagridBaseClass() {
         if (this.editIndex == undefined) {
             return true;
         }
+        //validateRow 判斷require的資訊
         if ($('#' + this.dgName).datagrid('validateRow', this.editIndex)) {
+
             $('#' + this.dgName).datagrid('endEdit', this.editIndex);
             this.editIndex = undefined;
             return true;
@@ -276,12 +287,16 @@ function DatagridBaseClass() {
                 callback(true);
                 // $("#gridEdit").val(self.tmpCUD);
             });
+
+        }
+        else {
+            callback(false);
         }
     };
     /**
      * 刪除選定的Row
      */
-    this.removeRow = function removeRow() {
+    this.removeRow = function () {
         var delRow = $('#' + this.dgName).datagrid('getSelected');
         if (!delRow) {
             alert(go_i18nLang["SystemCommon"].SelectData);
@@ -374,7 +389,7 @@ function DatagridBaseClass() {
 
         var keyVals = _.pluck(_.where(this.fieldsData, {keyable: 'Y'}), "ui_field_name");
         var condKey = {};
-        if (dataType == "updateData") {
+        if (_.isUndefined(lo_chkKeyRowData.uniKey)) {
             _.each(keyVals, function (field_name) {
                 condKey[field_name] = lo_chkKeyRowData[field_name] || "";
             });

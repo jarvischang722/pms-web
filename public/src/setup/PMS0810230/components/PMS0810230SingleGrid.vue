@@ -1030,7 +1030,7 @@
                 lo_saveSingleData = _.extend(lo_saveSingleData, lo_params);
                 lo_saveOriSingleData = _.extend(lo_saveOriSingleData, lo_params);
                 //將主檔資料放至Vuex
-                this.$store.dispatch("setMnSingleData", {
+                this.$store.dispatch("custMnModule/setMnSingleData", {
                     go_mnSingleData: lo_saveSingleData,
                     go_mnOriSingleData: lo_saveOriSingleData
                 });

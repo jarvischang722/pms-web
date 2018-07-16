@@ -371,16 +371,14 @@
                 self.isCreateStatus = editSalesClerkData.isCreateStatus;
                 self.doEditSalesClerk();
             });
+            //關閉業務員指派dialog
             this.$eventHub.$on('doCloseEditSalesClerk', function (editSalesClerkData) {
-                if (!_.isUndefined(editSalesClerkData.editRowData.isSalesClerk)) {
-                    self.go_funcPurview = (new FuncPurview("PMS0610020")).getFuncPurvs();
-                }
                 self.isEditSalesClerk = editSalesClerkData.isEditSalesClerk;
                 self.isEditStatus = editSalesClerkData.isEditStatus;
                 self.isCreateStatus = editSalesClerkData.isCreateStatus;
                 self.isLoading = false;
                 self.editRows = [];
-                self.loadDataGridByPrgID();
+                self.fetchDgRowData();
             });
         },
         mounted() {
@@ -601,7 +599,8 @@
                 else if (la_editRows.length > 1 || lo_editRow != la_editRows[0]) {
                     alert(go_i18nLang["program"].PMS0610010.selectOneData);
                 }
-                else {
+                else
+                    {
                     this.editingRow = lo_editRow;
                     this.showSingleGridDialog();
                 }
@@ -649,7 +648,6 @@
                         self.$eventHub.$emit('setTabName', {
                             tabName: ""
                         });
-
                         //資料是否有異動
                         self.$store.dispatch("custMnModule/qryAllDataIsChange").then(result => {
                             if (result.success) {
@@ -661,6 +659,7 @@
                                 }
                             }
                         });
+
                         self.fetchSearchFields();
                         // self.doRowUnLock();
                     }
