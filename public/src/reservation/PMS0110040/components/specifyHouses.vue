@@ -407,7 +407,7 @@
                         return la_removeIndex.indexOf(ln_rowsDataIndex) === -1;
                     });
                 } else {
-                    alert('無住客資料');
+                    alert(go_i18nLang["program"]["PMS0110042"]["noData"]);
                 }
             },
             cancelSpecify() {
@@ -444,13 +444,13 @@
                                 }
                             });
                         } else {
-                            alert('此行無住客資料');
+                            alert(go_i18nLang["program"]["PMS0110042"]["noData"]);
                         }
                     } else {
-                        alert('找不到此資料');
+                        alert(go_i18nLang["program"]["PMS0110042"]["noResultsFound"]);
                     }
                 } else {
-                    alert('請選項目');
+                    alert(go_i18nLang["program"]["PMS0110042"]["isSelected"]);
                 }
             },
             allCancelSpecify() {
@@ -485,7 +485,7 @@
                         lo_orderDtRowsData.guest_list = '';
                     });
                 } else {
-                    alert('無須取消的住客資料')
+                    alert(go_i18nLang["program"]["PMS0110042"]["noNeedToCancel"]);
                 }
             },
             changeTmpCUD(oriData, changeData) {
