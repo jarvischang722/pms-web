@@ -535,7 +535,8 @@
                                     </li>
                                     <li>
                                         <button class="btn btn-primary btn-white btn-defaultWidth"
-                                                role="button" @click="doCloseDialog">{{i18nLang.program.PMS0810230.leave}}
+                                                role="button" @click="doCloseDialog">
+                                            {{i18nLang.program.PMS0810230.leave}}
 
 
                                         </button>
@@ -1030,7 +1031,7 @@
                 lo_saveSingleData = _.extend(lo_saveSingleData, lo_params);
                 lo_saveOriSingleData = _.extend(lo_saveOriSingleData, lo_params);
                 //將主檔資料放至Vuex
-                this.$store.dispatch("custMnModule/setMnSingleData", {
+                this.$store.dispatch("setMnSingleData", {
                     go_mnSingleData: lo_saveSingleData,
                     go_mnOriSingleData: lo_saveOriSingleData
                 });

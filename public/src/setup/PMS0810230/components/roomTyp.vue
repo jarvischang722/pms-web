@@ -4,7 +4,7 @@
             <div class="grid" @click="leaveCell">
                 <div class="grid-item">
                     <label class="width-auto">{{i18nLang.program.PMS0810230.useTime}}</label>
-                    <bac-select v-model="selectedUseTimeData"
+                    <bac-select v-model="selectedUseTimeData" style="width: 170px;"
                                 :data="useTimeSelectData" :data-display="useTimeSelectData"
                                 is-qry-src-before="Y" value-field="value" text-field="display"
                                 @update:v-model="val => selectedUseTimeData = val"
@@ -15,9 +15,6 @@
                 <div class="right-menu-co pull-right" style="width: 80px;">
                     <button role="button" class="btn btn-danger btn-white btn-defaultWidth" @click="setStopSell">
                         {{stopSellButton.text}}
-
-
-
                     </button>
                 </div>
             </div>
@@ -32,7 +29,6 @@
                             <tr class="grayBg">
                                 <th class="ca-headerTitle grayBg defHt" style="width: 15%">
                                     {{i18nLang.program.PMS0810230.dateRule}}
-
 
 
                                 </th>
@@ -56,11 +52,9 @@
                                             *
 
 
-
                                         </template>
                                         <template v-else style="width: 100%">
                                             {{ratecodData.rent_amt}}
-
 
 
                                         </template>
@@ -88,9 +82,11 @@
         name: 'roomTyp',
         props: ["rowData", "isRoomType"],
         created() {
-            //取得使用期間資料(改變後未存檔)
+            //取得使用期間資料(改變後未存檔: 刪除或修改,使用期間新增為getAndConvertTmpUseTimeData處理)
             this.$eventHub.$on("setUseTimeSelectData", () => {
+                //改變後的使用期間
                 let la_useTimeSelectData = [];
+                //尚未改變的使用期間
                 let la_oriUseTimeSelectData = JSON.parse(JSON.stringify(this.useTimeSelectData));
                 _.each(this.$store.state.go_allData.ga_utDataGridRowsData, (lo_useTimeSelectData, idx) => {
                     let lo_addData = {
@@ -335,6 +331,7 @@
                 });
             });
 
+            //清空暫存
             this.$eventHub.$on('setClearData', () => {
                 this.tmpCUD = {
                     createData: [],
@@ -350,7 +347,6 @@
         },
         data() {
             return {
-                dollar: 123456789,
                 i18nLang: go_i18nLang,
                 rentCalDat: '',             //滾房租日
                 isLoading: true,
@@ -387,31 +383,7 @@
             },
             rateCodDtData: {
                 handler(val) {
-                    console.log("reatCOd")
-                    console.log(val)
-                    _.each(val, (lo_val, ln_idx) => {
-                        console.log(ln_idx + "==>" + val[ln_idx].rent_amt)
-                        //原始資料找不到  && isCreate一定要存在 ==> 新增過後修改
-                        if (_.isUndefined(this.oriRateCodDtData[ln_idx]) || !_.isUndefined(lo_val.isCreate)) {
-                            let ln_createIndex = _.findIndex(this.tmpCUD.createData, {uniKey: lo_val.uniKey});
-                            if (ln_createIndex > -1) {
-                                this.tmpCUD.createData.splice(ln_createIndex, 1);
-                            }
-                            this.tmpCUD.createData.push(_.extend(lo_val, {event_time: moment(new Date()).format("YYYY/MM/DD HH:mm:ss")}));
-                        }
-                        // if ratecode的原始資料和 此筆資料一模一樣 ==> 表示原始資料要修改的
-                        else if (!_.isMatch(lo_val, this.oriRateCodDtData[ln_idx]) && lo_val.supply_nos == this.oriRateCodDtData[ln_idx].supply_nos) {
-                            let ln_editIndex = _.findIndex(this.tmpCUD.updateData, {uniKey: lo_val.uniKey});
-                            if (ln_editIndex > -1) {
-                                this.tmpCUD.updateData.splice(ln_editIndex, 1);
-                                this.tmpCUD.oriData.splice(ln_editIndex, 1);
-                            }
-                            this.tmpCUD.updateData.push(_.extend(lo_val, {event_time: moment(new Date()).format("YYYY/MM/DD HH:mm:ss")}));
-                            this.tmpCUD.oriData.push(_.extend(this.oriRateCodDtData[ln_idx], {event_time: moment(new Date()).format("YYYY/MM/DD HH:mm:ss")}));
-                        }
-
-                    });
-
+                    this.convertDataToTmpCUD();
                 },
                 deep: true
             },
@@ -421,7 +393,7 @@
                     let la_allData = [];
                     _.each(lo_cloneData, (val, key) => {
                         _.each(val, (lo_val) => {
-                            lo_val.rent_amt = go_formatDisplayClass.removeAmtFormat(JSON.parse(JSON.stringify(lo_val.rent_amt)).toString());
+                            lo_val.rent_amt = go_formatDisplayClass.removeAmtFormat(lo_val.rent_amt.toString()).toString();
                             lo_val.begin_dat = moment(lo_val.begin_dat).format("YYYY/MM/DD");
                             lo_val.end_dat = moment(lo_val.end_dat).format("YYYY/MM/DD");
                             la_allData.push(lo_val);
@@ -435,6 +407,8 @@
                             this.rateCodDtData[idx]["isEdit"] = false;
                         }
                     });
+                    //無法watch到ratecodDtData,所以直接在這處理tmpCUD2e
+                    this.convertDataToTmpCUD();
                 },
                 deep: true
             },
@@ -547,15 +521,13 @@
                             this.rentAmtFieldData = _.findWhere(result.dgFieldsData, {ui_field_name: "rent_amt"});
                             //添加唯一值屬姓
                             _.each(result.dgRowData, (lo_dgRowData, idx) => {
-                                lo_dgRowData["uniKey"] =
-                                    crypto.randomBytes(32).toString('base64').replace(/([\(\)\[\]\{\}\^\$\+\=\-\*\?\.\"\'\|\/\\])/g, "");
-                                lo_dgRowData["isEdit"] = false;
-                                lo_dgRowData["event_time"] = moment(new Date()).format("YYYY/MM/DD HH:mm:ss");
-                                lo_dgRowData["rent_amt"] = go_formatDisplayClass.amtFormat(lo_dgRowData["rent_amt"], this.rentAmtFieldData.format_func_name.rule_val);
-                                this.rateCodDtData.push(lo_dgRowData);
-                                this.oriRateCodDtData.push(JSON.parse(JSON.stringify(lo_dgRowData)));
+                                result.dgRowData[idx]["uniKey"] =
+                                    crypto.randomBytes(32).toString('base64').replace(/([\(\)\[\]\{\}\^\$\+\=\-\*\?\.\"\'\|\/\\])/g, "");result.dgRowData[idx]["isEdit"] = false;
+                                result.dgRowData[idx]["event_time"] = moment(new Date()).format("YYYY/MM/DD HH:mm:ss");
+                                result.dgRowData[idx]["rent_amt"] = go_formatDisplayClass.amtFormat(lo_dgRowData["rent_amt"], this.rentAmtFieldData.format_func_name.rule_val);
                             });
-
+                            this.rateCodDtData = result.dgRowData;
+                            this.oriRateCodDtData = JSON.parse(JSON.stringify(result.dgRowData));
                             //剛新增的使用期間(未入到資料庫)
                             this.getAndConvertTmpUseTimeData();
                         }
@@ -690,15 +662,42 @@
                         })
                     });
                 }
+
+                //金額轉格式轉換
+                _.each(this.rateCodDtData, (lo_rateCodDtData, idx) => {
+                    this.rateCodDtData[idx].rent_amt = go_formatDisplayClass.amtFormat(lo_rateCodDtData.rent_amt, this.rentAmtFieldData.format_func_name.rule_val);
+                });
+
                 //依照room_cod、command_option轉換成頁面上呈現
-                let la_rateCodDtData4RoomCod = JSON.parse(JSON.stringify(this.rateCodDtData));
-                let la_rateCodDtData4DayNam = JSON.parse(JSON.stringify(this.rateCodDtData));
                 this.roomCodData4Display =
-                    _.groupBy(_.where(la_rateCodDtData4RoomCod, {supply_nos: this.selectedUseTimeData}), "room_cod");
+                    _.groupBy(_.where(this.rateCodDtData, {supply_nos: this.selectedUseTimeData}), "room_cod");
                 this.dayNamData4Display =
-                    _.groupBy(_.where(la_rateCodDtData4DayNam, {supply_nos: this.selectedUseTimeData}), "day_nam");
+                    _.groupBy(_.where(this.rateCodDtData, {supply_nos: this.selectedUseTimeData}), "day_nam");
 
                 this.tableCellWidth = 85 / _.keys(this.roomCodData4Display).length;
+            },
+            convertDataToTmpCUD() {
+                _.each(this.rateCodDtData, (lo_rateCodDtData, ln_idx) => {
+                    //原始資料找不到  && isCreate一定要存在 ==> 新增過後修改
+                    if (_.isUndefined(this.oriRateCodDtData[ln_idx]) || !_.isUndefined(lo_rateCodDtData.isCreate)) {
+                        let ln_createIndex = _.findIndex(this.tmpCUD.createData, {uniKey: lo_rateCodDtData.uniKey});
+                        if (ln_createIndex > -1) {
+                            this.tmpCUD.createData.splice(ln_createIndex, 1);
+                        }
+                        this.tmpCUD.createData.push(_.extend(lo_rateCodDtData, {event_time: moment(new Date()).format("YYYY/MM/DD HH:mm:ss")}));
+                    }
+                    // if ratecode的原始資料和 此筆資料一模一樣 ==> 表示原始資料要修改的
+                    else if (!_.isMatch(lo_rateCodDtData, this.oriRateCodDtData[ln_idx]) && lo_rateCodDtData.supply_nos == this.oriRateCodDtData[ln_idx].supply_nos) {
+                        let ln_editIndex = _.findIndex(this.tmpCUD.updateData, {uniKey: lo_rateCodDtData.uniKey});
+                        if (ln_editIndex > -1) {
+                            this.tmpCUD.updateData.splice(ln_editIndex, 1);
+                            this.tmpCUD.oriData.splice(ln_editIndex, 1);
+                        }
+                        this.tmpCUD.updateData.push(_.extend(lo_rateCodDtData, {event_time: moment(new Date()).format("YYYY/MM/DD HH:mm:ss")}));
+                        this.tmpCUD.oriData.push(_.extend(this.oriRateCodDtData[ln_idx], {event_time: moment(new Date()).format("YYYY/MM/DD HH:mm:ss")}));
+                    }
+
+                });
             }
         }
     }

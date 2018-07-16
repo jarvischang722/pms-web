@@ -111,17 +111,17 @@ const actions = {
         let lo_rt = {
             page_id: 2,
             tab_page_id: 12
-        }
+        };
         let lo_ut = {
             page_id: 1010,
             tab_page_id: 1
-        }
+        };
         let lo_mn = {
             page_id: 2,
             tab_page_id: 1
-        }
+        };
         if (state.gb_isCreateStatus) {
-            lo_tmpCUD.createData.push(state.go_allData.go_mnSingleData);
+            lo_tmpCUD.createData.push(_.extend(state.go_allData.go_mnSingleData, lo_mn));
             _.each(state.go_rtTmpCUD.createData, function (lo_createData) {
                 lo_tmpCUD.createData.push(_.extend(lo_createData, lo_rt));
             });
