@@ -191,18 +191,6 @@
                 });
                 this.dgIns.loadPageDgData(la_dgRowsData);
             },
-            fetchDgRowData() {
-//                let lo_params = {
-//                    prg_id: this.prg_id,
-//                    page_id: 1,
-//                    searchCond: this.searchCond
-//                };
-//                BacUtils.doHttpPromisePostProxy("/api/fetchDgRowData", lo_params).then(result => {
-//                    console.log(result);
-//                    this.mnDgRowsData = result.dgRowData;
-//                    this.dgIns.loadPageDgData(this.mnDgRowsData);
-//                });
-            },
             appendRow() {
                 this.isEditStatus = false;
                 this.isCreateStatus = true;

@@ -743,7 +743,7 @@ module.exports = {
     r_commis_rat_modify: (postData, session, callback) => {
         const lo_return = new ReturnClass();
         let lo_error = null;
-        if(_.isUndefined(postData.singleRowData)){
+        if (_.isUndefined(postData.singleRowData)) {
             return callback(null, lo_return);
         }
         const lo_params = {
@@ -768,6 +768,31 @@ module.exports = {
                 }
             }
             callback(lo_error, lo_return);
+        });
+    },
+
+    del_order_dt: async (postData, session) => {
+        const lo_return = new ReturnClass();
+        const lo_param = {
+            athena_id: session.athena_id,
+            ikey: postData.rowData.ikey,
+            ikey_seq_nos: postData.rowData.ikey_seq_nos
+        };
+
+        return await new Promise((resolve, reject) => {
+            const lo_daoParams = commandRules.ConvertToQueryParams(session.athena_id, "QRY_ASSIGN_QNT_ISEXIST");
+            clusterQueryAgent.query(lo_daoParams, lo_param, (err, result) => {
+                if (err) {
+                    reject(err);
+                }
+                else {
+                    if (result.assign_qnt >= 0) {
+                        lo_return.showConfirm = true;
+                        lo_return.confirmMsg = "此筆已有排房，確定要刪除？";
+                    }
+                    resolve(lo_return);
+                }
+            });
         });
     }
 };

@@ -323,4 +323,20 @@
         <statement test="_v(param.ikey_seq_nos)"><![CDATA[and ikey_seq_nos in(:ikey_seq_nos)]]></statement>
         <orderby>order by ikey_seq_nos</orderby>
     </dao>
+
+    <!-- [PMS0110041] 查詢是否有排房-->
+    <dao name="QRY_ASSIGN_QNT_ISEXIST">
+        <statement><![CDATA[
+            SELECT SUM(NVL(ASSIGN_QNT, 0) + NVL(CI_QNT, 0)) as assign_qnt FROM ORDER_DT
+            where athena_id = :athena_id
+            and ikey = :ikey
+            and ikey_seq_nos = :ikey_seq_nos
+        ]]>
+        </statement>
+        <parameter type="number" kind="3">athena_id</parameter>
+        <parameter type="string" kind="3">ikey</parameter>
+        <parameter type="string" kind="3">ikey_seq_nos</parameter>
+    </dao>
+
+
 </root>

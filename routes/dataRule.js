@@ -13,6 +13,8 @@ module.exports = function (app) {
     //欄位規則檢查
     app.post('/api/chkFieldRule', apiMiddles, ruleCrtl.chkFieldRule);
 
+    app.post('/api/chkPrgFuncRule', apiMiddles, ruleCrtl.chkPrgFuncRule);
+
     //dt欄位規則檢查
     app.post('/api/chkDtFieldRule', apiMiddles, ruleCrtl.chkDtFieldRule);
 

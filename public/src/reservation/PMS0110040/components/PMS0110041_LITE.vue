@@ -1889,20 +1889,34 @@
                     this.editingOrderDtIdx = _.isUndefined(this.editingOrderDtIdx) ? 0 : this.editingOrderDtIdx + 1;
                 }
             },
+
             /**
              * 刪除訂房明細資料(order_dt)資料
              * @param index {number} order_dt的index
              */
             removeRow(index) {
                 if (this.isModifiable) {
-
-                    BacUtils.doHttpPromisePostProxy("/api/chkFieldRule", {})
+                    const lo_param = {
+                        prg_id: gs_prgId,
+                        page_id: 1,
+                        tab_page_id: 1,
+                        func_id: 1110,
+                        rowData: this.orderDtRowsData[index]
+                    };
+                    BacUtils.doHttpPromisePostProxy("/api/chkPrgFuncRule", lo_param)
                         .then(result => {
-
+                            console.log(result);
+                            if(result.success){
+                                if(result.showConfirm){
+                                    if (confirm(result.confirmMsg)) {
+                                        console.log(true);
+                                    }
+                                }
+                            }
                         })
                         .catch(err => {
 
-                        })
+                        });
 
                     let lo_deletingData = this.orderDtRowsData4table[index];
                     let lo_groupParam = {
@@ -1959,6 +1973,7 @@
                     this.editingOrderDtIdx = undefined;
                 }
             },
+
             changeOrderSta(orderStaSelectData) {
                 this.orderStatus = orderStaSelectData.value;
                 if (this.orderStatus == 'D') {

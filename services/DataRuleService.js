@@ -318,8 +318,28 @@ exports.handleBlurUiField = function (postData, session, callback) {
     }
 };
 
+/**
+ * 使用者按下按鈕時檢查
+ * @param postData
+ * @param session
+ * @returns {Promise<void>}
+ */
 exports.handlePrgFuncRule = async (postData, session) => {
+    const lo_param = {
+        prg_id: postData.prg_id,
+        func_id: postData.func_id
+    };
+    const lo_prgFuncData = await mongoAgent.PrgFunction.findOne(lo_param).exec()
+        .then(result => {
+            return commonTools.mongoDocToObject(result);
+        })
+        .catch(err => {
+            throw Error(err);
+        });
 
+    const lo_ruleResult = await ruleAgent[lo_prgFuncData.rule_func_name](postData, session);
+
+    return lo_ruleResult;
 };
 
 exports.handleClickUiRow = function (postData, session, callback) {

@@ -5,6 +5,8 @@ let ruleSVC = require("../services/DataRuleService");
 let commonTools = require("../utils/CommonTools");
 let ruleAgent = require("../ruleEngine/ruleAgent");
 let queryAgent = require('../plugins/kplug-oracle/QueryAgent');
+const ReturnClass = require("../ruleEngine/returnClass");
+const ErrorClass = require("../ruleEngine/errorClass");
 /**
  * 欄位規則檢查
  */
@@ -29,7 +31,14 @@ exports.chkFieldRule = function (req, res) {
  * @param res
  */
 exports.chkPrgFuncRule = async (req, res) => {
-    await ruleSVC.handlePrgFuncRule(req.body, req.session);
+    let lo_result, lo_error = null;
+    try {
+        lo_result = await ruleSVC.handlePrgFuncRule(req.body, req.session);
+    }
+    catch (error) {
+        lo_error = error;
+    }
+    res.json(commonTools.mergeRtnErrResultJson(lo_error, lo_result));
 };
 
 exports.chkDtFieldRule = function (req, res) {
@@ -38,8 +47,10 @@ exports.chkDtFieldRule = function (req, res) {
     });
 };
 
-/*
-*data grid select click 規則檢查
+/**
+ * data grid select click 規則檢查
+ * @param req
+ * @param res
  */
 exports.chkDgSelectClickRule = function (req, res) {
     ruleSVC.chkSelectClickRule(req.body, req.session, function (err, result) {
