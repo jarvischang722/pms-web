@@ -6,6 +6,8 @@
     {"consumeNum":"2017/03/20 00130","consumeItem":"房租","quantity":"1","consumeSum":"4,200","billingDate":"2017/03/20","billingNum":"2017/03/20 00140","recordOffice":"客務櫃檯","addBy":"Batch","addShift":"1","tax":"01:加值營業","consumeRoom":"002","liveTransferRm":"","adjustRm":"","cashierRm":"","billingRm":"","consumeDate":"2017/03/20"},
     {"consumeNum":"2017/03/20 00130","consumeItem":"房租","quantity":"1","consumeSum":"4,200","billingDate":"2017/03/20","billingNum":"2017/03/20 00140","recordOffice":"客務櫃檯","addBy":"Batch","addShift":"1","tax":"01:加值營業","consumeRoom":"002","liveTransferRm":"","adjustRm":"","cashierRm":"","billingRm":"","consumeDate":"2017/03/20"},
     {"consumeNum":"2017/03/20 00130","consumeItem":"房租","quantity":"1","consumeSum":"4,200","billingDate":"2017/03/20","billingNum":"2017/03/20 00140","recordOffice":"客務櫃檯","addBy":"Batch","addShift":"1","tax":"01:加值營業","consumeRoom":"002","liveTransferRm":"","adjustRm":"","cashierRm":"","billingRm":"","consumeDate":"2017/03/20"},
-    {"consumeNum":"2017/03/20 00130","consumeItem":"房租","quantity":"1","consumeSum":"4,200","billingDate":"2017/03/20","billingNum":"2017/03/20 00140","recordOffice":"客務櫃檯","addBy":"Batch","addShift":"1","tax":"01:加值營業","consumeRoom":"002","liveTransferRm":"","adjustRm":"","cashierRm":"","billingRm":"","consumeDate":"2017/03/20"}
+    {"consumeNum":"2017/03/20 00130","consumeItem":"房租","quantity":"1","consumeSum":"4,200","billingDate":"2017/03/20","billingNum":"2017/03/20 00140","recordOffice":"客務櫃檯","addBy":"Batch","addShift":"1","tax":"01:加值營業","consumeRoom":"002","liveTransferRm":"","adjustRm":"","cashierRm":"","billingRm":"","consumeDate":"2017/03/20"},
+    {"consumeNum":"","consumeItem":"","quantity":"","consumeSum":"24,000","billingDate":"","billingNum":"","recordOffice":"","addBy":"","addShift":"","tax":"","consumeRoom":"","liveTransferRm":"","adjustRm":"","cashierRm":"","billingRm":"","consumeDate":""}
+
   ]}
 
