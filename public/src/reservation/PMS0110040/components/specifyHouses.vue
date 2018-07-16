@@ -349,7 +349,7 @@
                     _.each(this.orderDtRowsData, (lo_rowsData) => {
                         if (lo_rowsData.ikey_seq_nos === this.selectOrderDtRowsDataIkeySeqNos) {
                             _.each(this.guestMnRowDataChecked, (lo_checkedData) => {
-                                let lo_oriCheckedData = this.findOriData(this.oriGuestMnRowsData, lo_checkedData);
+                                let lo_oriCheckedData = this.findOriData(this.oriAllGuestMnRowsData, lo_checkedData);
                                 lo_checkedData.ikey_seq_nos = lo_rowsData.ikey_seq_nos;
                                 lo_rowsData.guest_list += ',' + lo_checkedData.alt_nam;
                                 la_oriData.push(lo_oriCheckedData);
@@ -388,7 +388,7 @@
                     let la_changeData = [];
                     _.each(this.orderDtRowsData, (lo_rowsData) => {
                         if (ln_index < this.guestMnRowsData.length) {
-                            let lo_oriCheckedData = this.findOriData(this.oriGuestMnRowsData, this.guestMnRowsData[ln_index]);
+                            let lo_oriCheckedData = this.findOriData(this.oriAllGuestMnRowsData, this.guestMnRowsData[ln_index]);
                             this.guestMnRowsData[ln_index].ikey_seq_nos = lo_rowsData.ikey_seq_nos;
                             lo_rowsData.guest_list += this.guestMnRowsData[ln_index].alt_nam;
                             la_removeIndex.push(ln_index);
@@ -530,8 +530,6 @@
 
 
 
-
-
                 // console.log(this.tmpCUD.oriData);
                 // console.log(this.tmpCUD.updateData);
             },
@@ -539,10 +537,11 @@
             findOriData(oriData, searchData) {
                 let lo_result;
                 _.each(oriData, (lo_item) => {
-                    if (lo_item.ikey === searchData.ikey && lo_item.ikey_seq_nos === searchData.ikey_seq_nos && lo_item.ci_ser === searchData.ci_ser) {
+                    if (lo_item.ikey === searchData.ikey && lo_item.alt_nam === searchData.alt_nam && lo_item.ci_ser === searchData.ci_ser) {
                         lo_result = lo_item;
                     }
                 });
+
                 return lo_result;
             },
             //比對原始資料，並找出原始資料的那一筆(找尋多筆)
