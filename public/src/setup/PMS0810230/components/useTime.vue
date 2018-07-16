@@ -120,10 +120,10 @@
         computed: {
             isReadOnly() {
                 let lb_isReadOnly = false;
-                //開始日已過滾房租日期時開始日欄位唯讀不可修改
-                lb_isReadOnly = moment(this.rowData.begin_dat).diff(this.rowData.rentCalDat) > 0 ? true : false;
-                //當筆使用期間結束日期大於滾房租日期時為整筆唯讀，不可修改。
-                lb_isReadOnly = moment(this.rowData.end_dat).diff(this.rowData.rentCalDat) > 0 ? true : false;
+//                //開始日已過滾房租日期時開始日欄位唯讀不可修改
+//                lb_isReadOnly = moment(this.rowData.begin_dat).diff(this.rowData.rentCalDat) > 0 ? true : false;
+//                //當筆使用期間結束日期大於滾房租日期時為整筆唯讀，不可修改。
+//                lb_isReadOnly = moment(this.rowData.end_dat).diff(this.rowData.rentCalDat) > 0 ? true : false;
 
                 return lb_isReadOnly
             }
@@ -166,7 +166,7 @@
             isReadOnly() {
                 let lb_isReadOnly = false;
                 //當筆使用期間結束日期大於滾房租日期時為整筆唯讀，不可修改。
-                lb_isReadOnly = moment(this.rowData.end_dat).diff(this.rowData.rentCalDat) > 0 ? true : false;
+//                lb_isReadOnly = moment(this.rowData.end_dat).diff(this.rowData.rentCalDat) > 0 ? true : false;
 
                 return lb_isReadOnly
             }
@@ -208,7 +208,7 @@
             isReadOnly() {
                 let lb_isReadOnly = false;
                 //當筆使用期間結束日期大於滾房租日期時為整筆唯讀，不可修改。
-                lb_isReadOnly = moment(this.rowData.end_dat).diff(this.rowData.rentCalDat) > 0 ? true : false;
+//                lb_isReadOnly = moment(this.rowData.end_dat).diff(this.rowData.rentCalDat) > 0 ? true : false;
 
                 return lb_isReadOnly
             }
@@ -249,7 +249,7 @@
             isReadOnly() {
                 let lb_isReadOnly = false;
                 //當筆使用期間結束日期大於滾房租日期時為整筆唯讀，不可修改。
-                lb_isReadOnly = moment(this.rowData.end_dat).diff(this.rowData.rentCalDat) > 0 ? true : false;
+//                lb_isReadOnly = moment(this.rowData.end_dat).diff(this.rowData.rentCalDat) > 0 ? true : false;
 
                 return lb_isReadOnly
             }
@@ -281,8 +281,7 @@
                 this.$emit('on-custom-comp', lo_params);
             }
         }
-    })
-    ;
+    });
     //房型
     Vue.component('table-room-cods', {
         template: '<bac-select v-model="rowData.room_cods" :field="rowData.rcFieldsData" :data="rowData.rcFieldsData.selectData" ' +
@@ -304,7 +303,7 @@
             isReadOnly() {
                 let lb_isReadOnly = false;
                 //當筆使用期間結束日期大於滾房租日期時為整筆唯讀，不可修改。
-                lb_isReadOnly = moment(this.rowData.end_dat).diff(this.rowData.rentCalDat) > 0 ? true : false;
+//                lb_isReadOnly = moment(this.rowData.end_dat).diff(this.rowData.rentCalDat) > 0 ? true : false;
 
                 return lb_isReadOnly
             }
@@ -455,6 +454,7 @@
             async fetchRoomCodSelectData() {
                 BacUtils.doHttpPostAgent('/api/chkFieldRule', {rule_func_name: 'qry_ratesupplydt_room_cod'}, (result) => {
                     this.roomCodSelectData = result.selectOptions;
+                    console.log("下拉資料")
                     console.log(result)
                 });
             },
