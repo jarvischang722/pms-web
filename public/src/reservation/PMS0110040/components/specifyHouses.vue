@@ -348,10 +348,18 @@
                     let la_changeData = [];
                     _.each(this.orderDtRowsData, (lo_rowsData) => {
                         if (lo_rowsData.ikey_seq_nos === this.selectOrderDtRowsDataIkeySeqNos) {
-                            _.each(this.guestMnRowDataChecked, (lo_checkedData) => {
+                            _.each(this.guestMnRowDataChecked, (lo_checkedData, ln_index) => {
                                 let lo_oriCheckedData = this.findOriData(this.oriAllGuestMnRowsData, lo_checkedData);
+                                // 處理文字顯示樣子
+                                if (lo_rowsData.guest_list === '') {
+                                    lo_rowsData.guest_list += lo_checkedData.alt_nam;
+                                } else if (lo_rowsData.guest_list === null || lo_rowsData.guest_list === undefined) {
+                                    lo_rowsData.guest_list = '';
+                                    lo_rowsData.guest_list += lo_checkedData.alt_nam;
+                                } else if (lo_rowsData.guest_list.length > 0) {
+                                    lo_rowsData.guest_list += ',' + lo_checkedData.alt_nam;
+                                }
                                 lo_checkedData.ikey_seq_nos = lo_rowsData.ikey_seq_nos;
-                                lo_rowsData.guest_list += ',' + lo_checkedData.alt_nam;
                                 la_oriData.push(lo_oriCheckedData);
                                 la_changeData.push(lo_checkedData);
                             });
@@ -375,6 +383,9 @@
                         // 回傳沒有在la_removeIndex移除清單內最後結果資料
                         return la_removeIndex.indexOf(ln_rowsDataIndex) === -1;
                     });
+
+                    // 最後記得把已勾選的項目陣列資料移除!!
+                    this.guestMnRowDataChecked = [];
                 } else {
 
                     alert(go_i18nLang["program"]["PMS0110042"]["isSelected"]);
@@ -389,8 +400,18 @@
                     _.each(this.orderDtRowsData, (lo_rowsData) => {
                         if (ln_index < this.guestMnRowsData.length) {
                             let lo_oriCheckedData = this.findOriData(this.oriAllGuestMnRowsData, this.guestMnRowsData[ln_index]);
+
+                            // 處理文字顯示樣子
+                            if (lo_rowsData.guest_list === '') {
+                                lo_rowsData.guest_list += this.guestMnRowsData[ln_index].alt_nam;
+                            } else if (lo_rowsData.guest_list === null || lo_rowsData.guest_list === undefined) {
+                                lo_rowsData.guest_list = '';
+                                lo_rowsData.guest_list += this.guestMnRowsData[ln_index].alt_nam;
+                            } else if (lo_rowsData.guest_list.length > 0) {
+                                lo_rowsData.guest_list += ',' + this.guestMnRowsData[ln_index].alt_nam;
+                            }
+
                             this.guestMnRowsData[ln_index].ikey_seq_nos = lo_rowsData.ikey_seq_nos;
-                            lo_rowsData.guest_list += this.guestMnRowsData[ln_index].alt_nam;
                             la_removeIndex.push(ln_index);
                             la_oriData.push(lo_oriCheckedData);
                             la_changeData.push(this.guestMnRowsData[ln_index]);
@@ -504,7 +525,7 @@
                         if (lo_item.ikey_seq_nos !== changeData[ln_changeIndex].ikey_seq_nos) {
                             this.tmpCUD.oriData.splice(ln_oriDataIndex, 1);
                             this.tmpCUD.oriData.push(lo_item);
-                        } else if (lo_item.ikey_seq_nos === changeData[ln_changeIndex].ikey_seq_nos){
+                        } else if (lo_item.ikey_seq_nos === changeData[ln_changeIndex].ikey_seq_nos) {
                             this.tmpCUD.oriData.splice(ln_oriDataIndex, 1);
                         }
                     } else {
@@ -528,7 +549,7 @@
                         if (lo_item.ikey_seq_nos !== oriData[ln_oriIndex].ikey_seq_nos) {
                             this.tmpCUD.updateData.splice(ln_oriDataIndex, 1);
                             this.tmpCUD.updateData.push(lo_item);
-                        } else if(lo_item.ikey_seq_nos === oriData[ln_oriIndex].ikey_seq_nos){
+                        } else if (lo_item.ikey_seq_nos === oriData[ln_oriIndex].ikey_seq_nos) {
                             this.tmpCUD.updateData.splice(ln_oriDataIndex, 1);
                         }
                     } else {
