@@ -344,8 +344,6 @@
                 if (this.selectOrderDtRowsDataIkeySeqNos !== '' && this.guestMnRowDataChecked.length > 0) {
                     // orderDtRowsData和selectOrderDtRowsDataIkeySeqNos(當下點擊儲存的ikeySeqNos)進行資料比對
                     // 並進行顧客資料移動和異動guest_mns ikey_seq_nos狀態
-                    let la_oriData = [];
-                    let la_changeData = [];
                     _.each(this.orderDtRowsData, (lo_rowsData) => {
                         if (lo_rowsData.ikey_seq_nos === this.selectOrderDtRowsDataIkeySeqNos) {
                             _.each(this.guestMnRowDataChecked, (lo_checkedData, ln_index) => {
@@ -360,15 +358,12 @@
                                     lo_rowsData.guest_list += ',' + lo_checkedData.alt_nam;
                                 }
                                 lo_checkedData.ikey_seq_nos = lo_rowsData.ikey_seq_nos;
-                                la_oriData.push(lo_oriCheckedData);
-                                la_changeData.push(lo_checkedData);
+
+                                // 更新資料
+                                this.changeTmpCUD(lo_oriCheckedData, lo_checkedData);
                             });
                         }
                     });
-
-                    // 更新資料
-                    this.changeTmpCUD(la_oriData, la_changeData);
-
                     // guestMnRowsData和guestMnRowDataChecked資料比對，抓出要移除資料index
                     let la_removeIndex = [];
                     _.each(this.guestMnRowsData, (lo_rowData, ln_rowDataIndex) => {
@@ -395,8 +390,6 @@
                 if (this.guestMnRowsData.length > 0) {
                     let ln_index = 0;
                     let la_removeIndex = [];
-                    let la_oriData = [];
-                    let la_changeData = [];
                     _.each(this.orderDtRowsData, (lo_rowsData) => {
                         if (ln_index < this.guestMnRowsData.length) {
                             let lo_oriCheckedData = this.findOriData(this.oriAllGuestMnRowsData, this.guestMnRowsData[ln_index]);
@@ -410,17 +403,13 @@
                             } else if (lo_rowsData.guest_list.length > 0) {
                                 lo_rowsData.guest_list += ',' + this.guestMnRowsData[ln_index].alt_nam;
                             }
-
                             this.guestMnRowsData[ln_index].ikey_seq_nos = lo_rowsData.ikey_seq_nos;
                             la_removeIndex.push(ln_index);
-                            la_oriData.push(lo_oriCheckedData);
-                            la_changeData.push(this.guestMnRowsData[ln_index]);
+                            // 更新資料
+                            this.changeTmpCUD(lo_oriCheckedData, this.guestMnRowsData[ln_index]);
                             ln_index++;
                         }
                     });
-
-                    // 更新資料
-                    this.changeTmpCUD(la_oriData, la_changeData);
 
                     // 移除guest_mn資料
                     this.guestMnRowsData = _.filter(this.guestMnRowsData, (rowsData, ln_rowsDataIndex) => {
@@ -440,24 +429,12 @@
                             ikey_seq_nos: lo_currentClick.ikey_seq_nos,
                         });
                         if (lo_guestMnData.length > 0) {
-                            let la_oriData = [];
-                            let la_changeData = [];
-                            // 這邊要和oriAllGuestMnRowsData資料比對，撈出原始資料
-                            let la_oriGuestInfo = this.findOriDataMul(this.oriAllGuestMnRowsData, lo_guestMnData);
-                            //變更資料狀態，並更新資料
                             _.each(lo_guestMnData, (lo_data) => {
+                                let lo_oriGuestInfo = this.findOriData(this.oriAllGuestMnRowsData, lo_data);
                                 lo_data.ikey_seq_nos = 0;
                                 this.guestMnRowsData.push(lo_data);
-                                la_changeData.push(lo_data);
+                                this.changeTmpCUD(lo_oriGuestInfo, lo_data);
                             });
-                            //更新原始資料，lo_oriGuestInfo是一個陣列可能有多筆的情況
-                            _.each(la_oriGuestInfo, (lo_data) => {
-                                la_oriData.push(lo_data);
-                            });
-
-                            // 更新資料
-                            this.changeTmpCUD(la_oriData, la_changeData);
-
                             // 移除order_dt顧客資料
                             _.each(this.orderDtRowsData, (lo_data) => {
                                 if (lo_data.ikey_seq_nos === this.selectOrderDtRowsDataIkeySeqNos) {
@@ -486,20 +463,12 @@
                 });
                 // la_guestInfo 有資料才做，更新狀態、資料
                 if (la_guestInfo.length > 0) {
-                    let la_oriData = [];
-                    let la_changeData = [];
-                    let la_oriGuestMnData = this.findOriDataMul(this.oriAllGuestMnRowsData, la_guestInfo);
-                    _.each(la_guestInfo, (lo_guestInfo) => {
-                        lo_guestInfo.ikey_seq_nos = 0;
-                        this.guestMnRowsData.push(lo_guestInfo);
-                        la_changeData.push(lo_guestInfo);
+                    _.each(la_guestInfo, (lo_data) => {
+                        let lo_oriGuestMnData = this.findOriData(this.oriAllGuestMnRowsData, lo_data);
+                        lo_data.ikey_seq_nos = 0;
+                        this.guestMnRowsData.push(lo_data);
+                        this.changeTmpCUD(lo_oriGuestMnData, lo_data);
                     });
-                    // 更新原始資料
-                    _.each(la_oriGuestMnData, (lo_oriGuestMnData) => {
-                        la_oriData.push(lo_oriGuestMnData);
-                    });
-                    // 更新資料
-                    this.changeTmpCUD(la_oriData, la_changeData);
 
                     // 移除order_dt顧客資料
                     _.each(this.orderDtRowsData, (lo_orderDtRowsData) => {
@@ -510,60 +479,44 @@
                 }
             },
             changeTmpCUD(oriData, changeData) {
-                // console.log(oriData);
-                // console.log(changeData);
-
-                // 檢查原始資料，並異動
-                let ln_changeIndex = 0;
-                _.each(oriData, (lo_item) => {
-                    let lo_oriData = _.findWhere(this.tmpCUD.oriData, {
-                        ikey: lo_item.ikey, alt_nam: lo_item.alt_nam, ci_ser: lo_item.ci_ser
-                    });
-                    if (lo_oriData !== undefined) {
-                        let ln_oriDataIndex = _.findIndex(this.tmpCUD.oriData, {
-                            ikey: lo_oriData.ikey, alt_nam: lo_oriData.alt_nam, ci_ser: lo_oriData.ci_ser
-                        });
-                        if (lo_item.ikey_seq_nos !== changeData[ln_changeIndex].ikey_seq_nos) {
-                            this.tmpCUD.oriData.splice(ln_oriDataIndex, 1);
-                            this.tmpCUD.oriData.push(lo_item);
-                        } else if (lo_item.ikey_seq_nos === changeData[ln_changeIndex].ikey_seq_nos) {
-                            this.tmpCUD.oriData.splice(ln_oriDataIndex, 1);
-                        }
-                    } else {
-                        this.tmpCUD.oriData.push(lo_item);
-                    }
-                    ln_changeIndex++
+                // 檢查並更新原始資料
+                let lo_oriData = _.findWhere(this.tmpCUD.oriData, {
+                    ikey: oriData.ikey, alt_nam: oriData.alt_nam, ci_ser: oriData.ci_ser
                 });
 
-
-
-                // 檢查更新資料，並異動
-                let ln_oriIndex = 0;
-                _.each(changeData, (lo_item) => {
-                    let lo_changeData = _.findWhere(this.tmpCUD.updateData, {
-                        ikey: lo_item.ikey, alt_nam: lo_item.alt_nam, ci_ser: lo_item.ci_ser
+                if (lo_oriData !== undefined) {
+                    let ln_oriDataIndex = _.findIndex(this.tmpCUD.oriData, {
+                        ikey: lo_oriData.ikey, alt_nam: lo_oriData.alt_nam, ci_ser: lo_oriData.ci_ser
                     });
-
-                    // console.log(lo_changeData);
-                    // console.log(lo_changeData);
-                    if (lo_changeData !== undefined) {
-                        let ln_oriDataIndex = _.findIndex(this.tmpCUD.updateData, {
-                            ikey: lo_changeData.ikey, alt_nam: lo_changeData.alt_nam, ci_ser: lo_changeData.ci_ser
-                        });
-
-                        if (lo_item.ikey_seq_nos !== oriData[ln_oriIndex].ikey_seq_nos) {
-                            this.tmpCUD.updateData.splice(ln_oriDataIndex, 1);
-                            this.tmpCUD.updateData.push(lo_item);
-                        } else if (lo_item.ikey_seq_nos === oriData[ln_oriIndex].ikey_seq_nos) {
-                            this.tmpCUD.updateData.splice(ln_oriDataIndex, 1);
-                        }
-                    } else {
-                        this.tmpCUD.updateData.push(lo_item);
+                    if (oriData.ikey_seq_nos !== changeData.ikey_seq_nos) {
+                        this.tmpCUD.oriData.splice(ln_oriDataIndex, 1);
+                        this.tmpCUD.oriData.push(oriData);
+                    } else if (oriData.ikey_seq_nos === changeData.ikey_seq_nos) {
+                        this.tmpCUD.oriData.splice(ln_oriDataIndex, 1);
                     }
-                    ln_oriIndex++;
+                } else {
+                    this.tmpCUD.oriData.push(oriData);
+                }
+
+                // 檢查並更新異動後的資料
+                let lo_changeData = _.findWhere(this.tmpCUD.updateData, {
+                    ikey: changeData.ikey, alt_nam: changeData.alt_nam, ci_ser: changeData.ci_ser
                 });
 
-                //
+                if (lo_changeData !== undefined) {
+                    let ln_changeDataIndex = _.findIndex(this.tmpCUD.updateData, {
+                        ikey: lo_changeData.ikey, alt_nam: lo_changeData.alt_nam, ci_ser: lo_changeData.ci_ser
+                    });
+                    if (changeData.ikey_seq_nos !== oriData.ikey_seq_nos) {
+                        this.tmpCUD.updateData.splice(ln_changeDataIndex, 1);
+                        this.tmpCUD.updateData.push(changeData);
+                    } else if (changeData.ikey_seq_nos === oriData.ikey_seq_nos) {
+                        this.tmpCUD.updateData.splice(ln_changeDataIndex, 1);
+                    }
+                } else {
+                    this.tmpCUD.updateData.push(changeData);
+                }
+
                 // console.log(this.tmpCUD.oriData);
                 // console.log(this.tmpCUD.updateData);
             },
@@ -575,18 +528,7 @@
                         lo_result = lo_item;
                     }
                 });
-
                 return lo_result;
-            },
-            //比對原始資料，並找出原始資料的那一筆(找尋多筆)
-            findOriDataMul(oriData, searchData) {
-                let la_result;
-                la_result = _.where(oriData, {
-                    ikey: searchData[0].ikey,
-                    alt_nam: searchData[0].alt_nam,
-                    ci_ser: searchData[0].ci_ser
-                });
-                return la_result;
             }
         }
     }
