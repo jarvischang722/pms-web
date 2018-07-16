@@ -513,6 +513,7 @@
                 // console.log(oriData);
                 // console.log(changeData);
 
+                // 檢查原始資料，並異動
                 let ln_changeIndex = 0;
                 _.each(oriData, (lo_item) => {
                     let lo_oriData = _.findWhere(this.tmpCUD.oriData, {
@@ -535,6 +536,8 @@
                 });
 
 
+
+                // 檢查更新資料，並異動
                 let ln_oriIndex = 0;
                 _.each(changeData, (lo_item) => {
                     let lo_changeData = _.findWhere(this.tmpCUD.updateData, {
@@ -542,10 +545,12 @@
                     });
 
                     // console.log(lo_changeData);
+                    // console.log(lo_changeData);
                     if (lo_changeData !== undefined) {
                         let ln_oriDataIndex = _.findIndex(this.tmpCUD.updateData, {
                             ikey: lo_changeData.ikey, alt_nam: lo_changeData.alt_nam, ci_ser: lo_changeData.ci_ser
                         });
+
                         if (lo_item.ikey_seq_nos !== oriData[ln_oriIndex].ikey_seq_nos) {
                             this.tmpCUD.updateData.splice(ln_oriDataIndex, 1);
                             this.tmpCUD.updateData.push(lo_item);
@@ -558,9 +563,9 @@
                     ln_oriIndex++;
                 });
 
-
-                console.log(this.tmpCUD.oriData);
-                console.log(this.tmpCUD.updateData);
+                //
+                // console.log(this.tmpCUD.oriData);
+                // console.log(this.tmpCUD.updateData);
             },
             // 比對原始資料，並找出原始資料的那一筆(找尋單筆)
             findOriData(oriData, searchData) {

@@ -1643,7 +1643,7 @@
                 }
             },
             chkFieldRule(field, rule_func_name) {
-                console.log(field, rule_func_name);
+                // console.log(field, rule_func_name);
             },
             //欄位型態為button
             buttonFunction(fieldData) {
