@@ -489,29 +489,32 @@
                 }
             },
             changeTmpCUD(oriData, changeData) {
-
-
                 // console.log(oriData);
                 // console.log(changeData);
 
+                let ln_changeIndex = 0;
                 _.each(oriData, (lo_item) => {
                     let lo_oriData = _.findWhere(this.tmpCUD.oriData, {
                         ikey: lo_item.ikey, alt_nam: lo_item.alt_nam, ci_ser: lo_item.ci_ser
                     });
-
                     if (lo_oriData !== undefined) {
                         let ln_oriDataIndex = _.findIndex(this.tmpCUD.oriData, {
                             ikey: lo_oriData.ikey, alt_nam: lo_oriData.alt_nam, ci_ser: lo_oriData.ci_ser
                         });
-                        this.tmpCUD.oriData.splice(ln_oriDataIndex, 1);
+                        if (lo_item.ikey_seq_nos !== changeData[ln_changeIndex].ikey_seq_nos) {
+                            this.tmpCUD.oriData.splice(ln_oriDataIndex, 1);
+                            this.tmpCUD.oriData.push(lo_item);
+                        } else if (lo_item.ikey_seq_nos === changeData[ln_changeIndex].ikey_seq_nos){
+                            this.tmpCUD.oriData.splice(ln_oriDataIndex, 1);
+                        }
                     } else {
-
                         this.tmpCUD.oriData.push(lo_item);
-
                     }
+                    ln_changeIndex++
                 });
 
 
+                let ln_oriIndex = 0;
                 _.each(changeData, (lo_item) => {
                     let lo_changeData = _.findWhere(this.tmpCUD.updateData, {
                         ikey: lo_item.ikey, alt_nam: lo_item.alt_nam, ci_ser: lo_item.ci_ser
@@ -522,16 +525,21 @@
                         let ln_oriDataIndex = _.findIndex(this.tmpCUD.updateData, {
                             ikey: lo_changeData.ikey, alt_nam: lo_changeData.alt_nam, ci_ser: lo_changeData.ci_ser
                         });
-                        this.tmpCUD.updateData.splice(ln_oriDataIndex, 1);
+                        if (lo_item.ikey_seq_nos !== oriData[ln_oriIndex].ikey_seq_nos) {
+                            this.tmpCUD.updateData.splice(ln_oriDataIndex, 1);
+                            this.tmpCUD.updateData.push(lo_item);
+                        } else if(lo_item.ikey_seq_nos === oriData[ln_oriIndex].ikey_seq_nos){
+                            this.tmpCUD.updateData.splice(ln_oriDataIndex, 1);
+                        }
                     } else {
                         this.tmpCUD.updateData.push(lo_item);
                     }
+                    ln_oriIndex++;
                 });
 
 
-
-                // console.log(this.tmpCUD.oriData);
-                // console.log(this.tmpCUD.updateData);
+                console.log(this.tmpCUD.oriData);
+                console.log(this.tmpCUD.updateData);
             },
             // 比對原始資料，並找出原始資料的那一筆(找尋單筆)
             findOriData(oriData, searchData) {
