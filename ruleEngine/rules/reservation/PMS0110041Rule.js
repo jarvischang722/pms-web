@@ -206,6 +206,7 @@ module.exports = {
     },
 
     /**
+     * 訂房卡序號最大值變數
      * 取order dt ikey_seq_nos
      * @param postData
      * @param session
@@ -750,6 +751,7 @@ module.exports = {
         const lo_daoParams = commandRules.ConvertToQueryParams(session.athena_id, "QRY_COMMIS_CHG_BY_RATE_COD");
         clusterQueryAgent.query(lo_daoParams, lo_params, (err, result) => {
             if (err) {
+
                 lo_error = new ErrorClass();
                 lo_error.errorMsg = err;
             }
