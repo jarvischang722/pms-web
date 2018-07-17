@@ -53,6 +53,8 @@ module.exports = {
             lo_result.effectValues.days = ln_days;
             lo_result.effectValues.ci_dat = moment(ls_ciDat).format("YYYY/MM/DD");
             lo_result.effectValues.co_dat = moment(ls_coDat).format("YYYY/MM/DD");
+            lo_result.effectValues.ci_dat_week = moment(ls_ciDat).format("ddd");
+            lo_result.effectValues.co_dat_week = moment(ls_coDat).format("ddd");
             lo_result.effectValues = _.extend(lo_result.effectValues, lo_calculationRoomPrice.data);
         }
         catch (err) {
@@ -79,11 +81,12 @@ module.exports = {
         let lo_error = null;
 
         try {
+            console.log(postData)
             let ls_ciDat = postData.singleRowData[0].ci_dat || "";
             let ls_coDat = postData.singleRowData[0].co_dat || "";
 
             //連動欄位days
-            let ln_days = moment(new Date(ls_ciDat)).diff(moment(new Date(ls_coDat)), "days");
+            let ln_days = moment(new Date(ls_coDat)).diff(moment(new Date(ls_ciDat)), "days");
 
             //當source_typ=DU時,days=0
             let ls_sourceTyp = postData.singleRowData[0].source_typ || "";
@@ -95,13 +98,15 @@ module.exports = {
             let lo_calculationRoomPrice = {};
             if (ln_days !== 0) {
                 postData.singleRowData[0].days = ln_days;
-                lo_calculationRoomPrice = await CalculationRoomPrice(postData.singleRowData[0], session);
+                lo_calculationRoomPrice = await this.CalculationRoomPrice(postData.singleRowData[0], session);
 
             }
 
             lo_result.effectValues.days = ln_days;
             lo_result.effectValues.ci_dat = moment(ls_ciDat).format("YYYY/MM/DD");
             lo_result.effectValues.co_dat = moment(ls_coDat).format("YYYY/MM/DD");
+            lo_result.effectValues.ci_dat_week = moment(ls_ciDat).format("ddd");
+            lo_result.effectValues.co_dat_week = moment(ls_coDat).format("ddd");
             lo_result.effectValues = _.extend(lo_result.effectValues, lo_calculationRoomPrice.data);
         }
         catch (err) {
