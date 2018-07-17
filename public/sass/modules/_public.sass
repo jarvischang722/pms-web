@@ -697,3 +697,23 @@ input[type=checkbox]
 .datagrid-body
   td
     cursor: pointer
+
+// 修改隱藏scroll bar 樣式
+.scroll-bar
+  background-color: #aaaaaa
+  border-radius: 6px
+  right: 2px
+  +transition(background-color .2s linear, width .2s ease-in-out)
+  &:hover
+    width: 12px
+    +transition(.2s ease-in-out)
+
+.scroll-track.scroll-active
+  right: 2px
+  border-radius: 6px
+  &:hover
+    width: 12px
+    +transition(.2s ease-in-out)
+
+.h-400
+  height: 100px
