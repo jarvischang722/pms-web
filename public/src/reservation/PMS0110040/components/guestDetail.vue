@@ -50,7 +50,9 @@
                                                         <thead>
                                                         <tr>
                                                             <th class="text-center ca-headerTitle height-fntThead rp-first-th">
-                                                                <i class="fa fa-plus green"></i>
+                                                                <i class="fa fa-plus green"
+                                                                   :class="{'pointer': isModifiable}"
+                                                                   @click="addRow"></i>
                                                             </th>
                                                             <template v-for="field in orderDtFieldData">
                                                                 <th v-if="field.visiable == 'Y'" class="text-left"
@@ -90,7 +92,9 @@
                                                                       v-for="(singleData, idx) in rowsData">
                                                                 <tr>
                                                                     <td class="text-center">
-                                                                        <i class="fa fa-minus red"></i>
+                                                                        <i class="fa fa-minus red"
+                                                                           :class="{'pointer': isModifiable}"
+                                                                        ></i>
                                                                     </td>
                                                                     <template v-for="field in orderDtFieldData">
                                                                         <td class="text-left input-noEdit"
@@ -109,6 +113,7 @@
                                                                                    :maxlength="field.ui_field_length"
                                                                                    class="selectHt"
                                                                                    :class="{'input_sta_required' : field.requirable == 'Y'}"
+                                                                                   @change="chkOrderDtFieldRule(field.ui_field_name, field.rule_func_name)"
                                                                                    :disabled="field.modificable == 'N'|| !isModifiable ||
                                                                     (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)">
                                                                         </td>
@@ -126,6 +131,7 @@
                                                                                         :default-val="singleData[field.ui_field_name] || field.defaultVal"
                                                                                         class="el-select-ht selectHt"
                                                                                         style="height: 25px;"
+                                                                                        @change="chkOrderDtFieldRule(field.ui_field_name, field.rule_func_name)"
                                                                                         :disabled="field.modificable == 'N'|| !isModifiable ||
                                                                     (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)">
                                                                             </bac-select>
@@ -143,6 +149,7 @@
                                                                                     format="yyyy/MM/dd"
                                                                                     :style="{width:field.width + 'px'}"
                                                                                     :editable="false" :clearable="false"
+                                                                                    @change="chkOrderDtFieldRule(field.ui_field_name, field.rule_func_name)"
                                                                             >
                                                                             </el-date-picker>
                                                                         </td>
@@ -155,6 +162,7 @@
                                                                                    :style="{width:field.width + 'px'}"
                                                                                    class="text-right selectHt"
                                                                                    :class="{'input_sta_required' : field.requirable == 'Y'}"
+                                                                                   @change="chkOrderDtFieldRule(field.ui_field_name, field.rule_func_name)"
                                                                                    :disabled="field.modificable == 'N'|| !isModifiable ||
                                                                     (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)">
                                                                         </td>
@@ -170,6 +178,7 @@
                                                                                    :maxlength="field.ui_field_length"
                                                                                    :class="{'input_sta_required' : field.requirable == 'Y'}"
                                                                                    class="selectHt pull-left wt-input"
+                                                                                   @change="chkOrderDtFieldRule(field.ui_field_name, field.rule_func_name)"
                                                                                    :disabled="field.modificable == 'N'|| !isModifiable ||
                                                                     (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)">
                                                                             <i class="moreClick fa fa-ellipsis-h pull-left"
@@ -419,6 +428,10 @@
             //取得rate cod 資料
             this.$eventHub.$on("getGuestDetailRateCod", (data) => {
                 this.orderDtRowsData[this.editingGroupDataIndex][this.editingOrderDtIdx].rate_cod = data.rateCodData.rate_cod;
+                let lo_rateFieldData = _.findWhere(this.orderDtFieldData, {ui_field_name: 'rate_cod'});
+                if (!_.isUndefined(lo_rateFieldData)) {
+                    this.chkOrderDtFieldRule(lo_rateFieldData.ui_field_name, lo_rateFieldData.rule_func_name);
+                }
             });
             //取得ghist mn 資料
             this.$eventHub.$on("getGhistMnDataToOrder", (data) => {
@@ -456,8 +469,9 @@
                 orderDtGroupData: {},               //分組後的order dt資料
 
                 orderDtFieldData: [],               //所group 到的所有 order dt 欄位資料
-                orderDtRowsData: {},                //所group 到的所有 order dt 資料
+                orderDtRowsData: {},                //所group 到的所有 order dt 現在資料
                 oriOrderDtRowsData: {},             //所group 到的所有 order dt 原始資料
+                beforeOrderDtRowsData: {},          //所group 到的所有 order dt 修改前資料
 
                 guestMnFieldData: [],               //所group 到的所有 guest mn 欄位資料
                 guestMnRowsData: {},                //所group 到的所有 guest mn 原始資料
@@ -476,7 +490,9 @@
                     updateData: [],
                     deleteData: [],
                     oriData: []
-                }
+                },
+
+                isEffectFromRule: true
             }
         },
         watch: {
@@ -504,7 +520,7 @@
                         this.groupOrderDtData();
                         //將所有guest mn 資料依據group order dt 做分組
                         this.groupGuestMnData();
-                        this.activeName = 'guestDetail';
+                        this.activeName = 'orderDetail';
                         this.isLoading = false;
                     }
                 }
@@ -569,6 +585,14 @@
                 });
 
                 if (lo_fetchOrderDtData.success) {
+                    _.each(lo_fetchOrderDtData.dgRowData, data => {
+                        data.ci_dat = moment(data.ci_dat).format("YYYY/MM/DD");
+                        data.co_dat = moment(data.co_dat).format("YYYY/MM/DD");
+                        data.ci_dat_week = moment(data.ci_dat).format("ddd");
+                        data.co_dat_week = moment(data.co_dat).format("ddd");
+                        data.key_nos = this.rowData.key_nos;
+                    });
+
                     this.allOrderDtRowsData = lo_fetchOrderDtData.dgRowData;
                     let ls_groupStatement = "select *, count(*) as order_qnt from ? where order_sta <> 'X' group by rate_cod,order_sta,days,ci_dat,co_dat,use_cod,room_cod,rent_amt,serv_amt,block_cod";
                     this.orderDtGroupRowsData = alasql(ls_groupStatement, [this.allOrderDtRowsData]);
@@ -642,6 +666,7 @@
                 this.$eventHub.$emit("setSelectRateCodData", {
                     rowData: this.editingOrderDtData,
                     openModule: "orderDetail"
+                    // openModule: "pms0110041_lite"
                 });
             },
             searchGuestMnAltName(guestMnData, index) {
@@ -664,6 +689,123 @@
                     dialogClass: "test",
                     resizable: true
                 });
+            },
+            async addRow() {
+                // 取當前頁面的最大
+                let la_allOrderDtRowsData = [];
+                _.each(this.orderDtRowsData, (la_orderDtRowsData) => {
+                    _.each(la_orderDtRowsData, (lo_orderDtRowsData) => {
+                        la_allOrderDtRowsData.push(lo_orderDtRowsData);
+                    });
+                });
+
+                // 從資料庫取得預設的 ikey_seq_nos
+                let lo_getOracleDefaultData = await BacUtils.doHttpPromisePostProxy("/api/chkFieldRule", {
+                    rule_func_name: 'get_order_dt_default_data',
+                    allRowData: la_allOrderDtRowsData
+                });
+
+                $("#orderDtTable").datagrid('selectRow', this.editingGroupDataIndex);
+                this.editingGroupData = $("#orderDtTable").datagrid('getSelected');
+
+
+                let lo_cloneOrderData = JSON.parse(JSON.stringify(this.editingGroupData));
+                lo_cloneOrderData.ikey_seq_nos = lo_getOracleDefaultData.defaultValues.ikey_seq_nos;
+
+                let lo_orderDtData = JSON.parse(JSON.stringify(this.orderDtRowsData));
+                lo_orderDtData[this.editingGroupDataIndex].push(lo_cloneOrderData);
+
+                this.orderDtRowsData = lo_orderDtData;
+            },
+            chkOrderDtFieldRule(ui_field_name, rule_func_name) {
+                let self = this;
+                if (_.isEmpty(this.beforeOrderDtRowsData)) {
+                    this.beforeOrderDtRowsData = this.oriOrderDtRowsData;
+                }
+
+                let lo_param = {key_nos: this.rowData.key_nos, acust_cod: this.rowData.acust_cod};
+                let la_beforeData = [_.extend(this.beforeOrderDtRowsData[this.editingGroupDataIndex][this.editingOrderDtIdx], lo_param)];
+                let la_orderData = [_.extend(this.orderDtRowsData[this.editingGroupDataIndex][this.editingOrderDtIdx], lo_param)];
+                let la_diff = _.difference(la_beforeData, la_orderData);
+
+                if (la_diff.length === 0) {
+                    return;
+                }
+                if (rule_func_name === '' || !this.isEffectFromRule) {
+                    this.isEffectFromRule = true;
+                    return;
+                }
+
+                if (!_.isEmpty(rule_func_name.trim())) {
+                    let lo_postData = {
+                        prg_id: "PMS0110042",
+                        rule_func_name: rule_func_name,
+                        validateField: ui_field_name,
+                        singleRowData: la_orderData,
+                        oriSingleData: la_beforeData
+                    };
+
+                    BacUtils.doHttpPromisePostProxy('/api/chkFieldRule', lo_postData).then((result) => {
+                        if (result.success) {
+
+                            //連動帶回的值
+                            if (!_.isUndefined(result.effectValues) && _.size(result.effectValues) > 0) {
+                                this.orderDtRowsData[this.editingGroupDataIndex][this.editingOrderDtIdx] =
+                                    _.extend(this.orderDtRowsData[this.editingGroupDataIndex][this.editingOrderDtIdx], result.effectValues);
+
+                                this.isEffectFromRule = result.isEffectFromRule;
+                            }
+                            //是否要show出訊息
+                            if (result.showAlert) {
+                                alert(result.alertMsg);
+                            }
+
+                            //是否要show出詢問視窗
+                            if (result.showConfirm) {
+                                if (confirm(result.confirmMsg)) {
+                                    self.chgSingleData = _.extend(self.singleData, result.effectValues);
+                                    self.singleData = _.extend(self.singleData, result.effectValues);
+                                }
+                                else {
+                                    //有沒有要再打一次ajax到後端
+                                    if (result.isGoPostAjax && !_.isEmpty(result.ajaxURL)) {
+                                        BacUtils.doHttpPromisePostProxy(result.ajaxURL, postData).then((result) => {
+                                            if (!result.success) {
+                                                alert(result.errorMsg);
+                                            }
+                                            else {
+                                                if (!_.isUndefined(result.effectValues) && _.size(result.effectValues) > 0) {
+                                                    self.chgSingleData = _.extend(self.singleData, result.effectValues);
+                                                    self.singleData = _.extend(self.singleData, result.effectValues);
+                                                    self.isEffectFromRule = result.isEffectFromRule;
+                                                }
+                                            }
+                                        });
+                                    }
+                                    else {
+                                        self.singleData = self.chgSingleData
+                                    }
+                                }
+                            }
+
+                            //欄位是否唯獨
+                            if (result.readonlyFields.length > 0) {
+                                _.each(result.readonlyFields, (ls_field) => {
+                                    let ln_changFieldIndex = _.findIndex(this.orderDtFieldData, {ui_field_name: ls_field});
+                                    if (ln_changFieldIndex > -1) {
+                                        this.orderDtFieldData[ln_changFieldIndex].modificable = 'N';
+                                    }
+                                });
+                            }
+                        }
+                        else {
+                            alert(result.errorMsg);
+                        }
+                    }).catch((err) => {
+                        alert(err);
+                    })
+                }
+
             }
         }
     }

@@ -1589,6 +1589,7 @@
                             alert(lo_fetchOderDtData.errorMsg);
                         }
                     }
+                    this.orderMnSingleData = _.extend(this.orderMnSingleData, {key_nos: this.keyNos});
                 }
                 catch (err) {
                     console.log(err)
