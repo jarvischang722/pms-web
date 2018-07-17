@@ -74,7 +74,7 @@
                                 <ul>
                                     <li>
                                         <button class="btn btn-primary btn-white btn-defaultWidth"
-                                                role="button">存檔
+                                                role="button" @click="doSave">存檔
                                         </button>
                                     </li>
                                     <li>
@@ -397,6 +397,7 @@
                                 lo_checkedData.ikey_seq_nos = lo_rowsData.ikey_seq_nos;
 
                                 // 更新資料
+                                console.log(lo_checkedData);
                                 this.changeTmpCUD(lo_oriCheckedData, lo_checkedData);
                             });
                         }
@@ -528,6 +529,9 @@
              */
             changeTmpCUD(oriData, changeData) {
                 // 檢查並更新原始資料
+                oriData = _.extend(oriData, {page_id: 1010, tab_page_id: 3});
+                changeData = _.extend(changeData, {page_id: 1010, tab_page_id: 3});
+
                 let lo_oriData = _.findWhere(this.tmpCUD.oriData, {
                     ikey: oriData.ikey, alt_nam: oriData.alt_nam, ci_ser: oriData.ci_ser
                 });
@@ -563,8 +567,22 @@
                 } else {
                     this.tmpCUD.updateData.push(changeData);
                 }
-                // console.log(this.tmpCUD.oriData);
-                // console.log(this.tmpCUD.updateData);
+                console.log(this.tmpCUD.oriData);
+                console.log(this.tmpCUD.updateData);
+            },
+
+            doSave() {
+                BacUtils.doHttpPromisePostProxy('/api/execNewFormatSQL', {
+                    prg_id: 'PMS0110042',
+                    func_id: "1016",
+                    tmpCUD: this.tmpCUD
+                }).then(lo_result => {
+                    if (lo_result.success) {
+                        alert("save success");
+                    }
+                }).catch(lo_err => {
+                    alert(lo_err.errorMsg);
+                });
             },
             /**
              * 比對原始資料，並找出原始資料的那一筆
