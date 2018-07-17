@@ -31,11 +31,13 @@ exports.chkFieldRule = function (req, res) {
  * @param res
  */
 exports.chkPrgFuncRule = async (req, res) => {
-    let lo_result, lo_error = null;
+    let lo_result = new ReturnClass();
+    let lo_error = null;
     try {
         lo_result = await ruleSVC.handlePrgFuncRule(req.body, req.session);
     }
     catch (error) {
+        lo_result.success = false;
         lo_error = error;
     }
     res.json(commonTools.mergeRtnErrResultJson(lo_error, lo_result));

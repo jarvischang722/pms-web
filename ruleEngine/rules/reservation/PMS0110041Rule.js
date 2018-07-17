@@ -771,6 +771,12 @@ module.exports = {
         });
     },
 
+    /**
+     * 刪除明細
+     * @param postData {object} postData資料
+     * @param session {object} 使用者資訊
+     * @returns {Promise<any>}
+     */
     del_order_dt: async (postData, session) => {
         const lo_return = new ReturnClass();
         const lo_param = {
@@ -783,7 +789,9 @@ module.exports = {
             const lo_daoParams = commandRules.ConvertToQueryParams(session.athena_id, "QRY_ASSIGN_QNT_ISEXIST");
             clusterQueryAgent.query(lo_daoParams, lo_param, (err, result) => {
                 if (err) {
-                    reject(err);
+                    const lo_error = new ErrorClass();
+                    lo_error.errorMsg = err;
+                    reject(lo_error);
                 }
                 else {
                     if (result.assign_qnt >= 0) {

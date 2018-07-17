@@ -329,17 +329,30 @@ exports.handlePrgFuncRule = async (postData, session) => {
         prg_id: postData.prg_id,
         func_id: postData.func_id
     };
+
+    if (!_.isUndefined(postData.page_id)) lo_param.page_id = postData.page_id;
+    if (!_.isUndefined(postData.tab_page_id)) lo_param.tab_page_id = postData.tab_page_id;
+
+    //從mongo PrgFunction 找資料
     const lo_prgFuncData = await mongoAgent.PrgFunction.findOne(lo_param).exec()
         .then(result => {
             return commonTools.mongoDocToObject(result);
         })
         .catch(err => {
-            throw Error(err);
+            let lo_error = new ErrorClass();
+            lo_error.errorMsg = err;
+            throw lo_error;
         });
 
-    const lo_ruleResult = await ruleAgent[lo_prgFuncData.rule_func_name](postData, session);
-
-    return lo_ruleResult;
+    //判斷ruleAgent裡是否有規則
+    if (!_.isUndefined(ruleAgent[lo_prgFuncData.rule_func_name])) {
+        return await ruleAgent[lo_prgFuncData.rule_func_name](postData, session);
+    }
+    else {
+        let lo_error = new ErrorClass();
+        lo_error.errorMsg = "Not found rule function.";
+        throw lo_error;
+    }
 };
 
 exports.handleClickUiRow = function (postData, session, callback) {

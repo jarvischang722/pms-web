@@ -1501,11 +1501,11 @@
                     }
                     lo_fetchSingleData = await await BacUtils.doHttpPromisePostProxy(ls_apiUrl, lo_params)
                         .then((result) => {
-                        return result;
-                    })
+                            return result;
+                        })
                         .catch(err => {
-                        return {success: false, errMsg: err};
-                    });
+                            return {success: false, errMsg: err};
+                        });
                     if (lo_fetchSingleData.success) {
                         if (this.isCreateStatus) {
                             this.orderMnSingleData = lo_fetchSingleData.gsDefaultData;
@@ -1644,10 +1644,38 @@
                     }
                 }
             },
+
+            /**
+             * 欄位規則檢查
+             * @param field {array} 欄位資料
+             * @param rule_func_name {string} 規則名稱
+             **/
             chkFieldRule(field, rule_func_name) {
                 // console.log(field, rule_func_name);
             },
-            //欄位型態為button
+
+            /**
+             * 按鈕規則檢查
+             * @param params {object} 欄位資料
+             **/
+            async chkPrgFuncRule(params) {
+                return await BacUtils.doHttpPromisePostProxy("/api/chkPrgFuncRule", params)
+                    .then(result => {
+                        if (result.success) {
+                            return result;
+                        }
+                        else {
+                            throw result;
+                        }
+                    })
+                    .catch(err => {
+                        throw err;
+                    });
+            },
+
+            /**
+             * 欄位型態為button
+             **/
             buttonFunction(fieldData) {
                 if (this.isModifiable) {
                     if (!_.isUndefined(this[fieldData.rule_func_name])) {
@@ -1796,11 +1824,14 @@
                     }
                 }
             },
+
+            /**
+             * 新增訂房明細
+             */
             async appendRow() {
                 let la_sourceTypSelectData = _.isUndefined(_.findWhere(this.oriOrderDtFieldsData, {ui_field_name: 'source_typ'})) ? [] : _.findWhere(this.oriOrderDtFieldsData, {ui_field_name: 'source_typ'}).selectData;
                 let la_guestTypSelectData = _.isUndefined(_.findWhere(this.oriOrderDtFieldsData, {ui_field_name: 'guest_typ'})) ? [] : _.findWhere(this.oriOrderDtFieldsData, {ui_field_name: 'guest_typ'}).selectData;
 
-                console.log(this.isModifiable);
                 if (this.isModifiable) {
                     let lo_addData = {
                         add_baby: 0,
@@ -1842,12 +1873,13 @@
                     let lo_ikeySeqNos = await BacUtils.doHttpPromisePostProxy("/api/chkFieldRule", {
                         rule_func_name: 'get_order_dt_default_data',
                         allRowData: this.orderDtRowsData.length == 0 ? [lo_addData] : this.orderDtRowsData
-                    }).then((result) => {
-                        return result;
                     })
+                        .then((result) => {
+                            return result;
+                        })
                         .catch(err => {
-                        return {success: false, errorMsg: err}
-                    });
+                            return {success: false, errorMsg: err}
+                        });
                     lo_addData.ikey_seq_nos = lo_ikeySeqNos.success ?
                         lo_ikeySeqNos.defaultValues.ikey_seq_nos : _.max(this.orderDtRowsData, (lo_orderDtRowsData) => {
                         return lo_orderDtRowsData.ikey_seq_nos;
@@ -1894,7 +1926,8 @@
              * 刪除訂房明細資料(order_dt)資料
              * @param index {number} order_dt的index
              */
-            removeRow(index) {
+            async removeRow(index) {
+                let lb_isRowDataDelete = false;
                 if (this.isModifiable) {
                     const lo_param = {
                         prg_id: gs_prgId,
@@ -1903,21 +1936,27 @@
                         func_id: 1110,
                         rowData: this.orderDtRowsData[index]
                     };
-                    BacUtils.doHttpPromisePostProxy("/api/chkPrgFuncRule", lo_param)
-                        .then(result => {
-                            console.log(result);
-                            if(result.success){
-                                if(result.showConfirm){
-                                    if (confirm(result.confirmMsg)) {
-                                        console.log(true);
-                                    }
-                                }
+                    try {
+                        const lo_ruleResult = await this.chkPrgFuncRule(lo_param);
+                        if (lo_ruleResult.showConfirm) {
+                            if (confirm(lo_ruleResult.confirmMsg)) {
+                                lb_isRowDataDelete = true;
                             }
-                        })
-                        .catch(err => {
+                        }
+                    }
+                    catch (err) {
+                        alert(err.errorMsg);
+                        return;
+                    }
 
-                        });
+                    //選Y則刪除，選N則什麼事都不做
+                    if (!lb_isRowDataDelete) return;
 
+                    /**
+                     * 2.注意:訂房明細刪除分兩種狀態(1)本次才新增明細 【DB沒資料】(2)之前新增的明細【DB有資料】
+                     * (1)隱藏掉訂房明細order_dt與屬於這個order_dt的guest_mn
+                     * (2)將(i)order_dt.order_sta 改成 'X'   (ii)guest_mn.guest_sta 改成 'X'
+                     */
                     let lo_deletingData = this.orderDtRowsData4table[index];
                     let lo_groupParam = {
                         rate_cod: lo_deletingData.rate_cod,
