@@ -350,7 +350,8 @@
       "isSelected": "請選項目",
       "noData": "無住客資料",
       "noResultsFound": "找不到此資料",
-      "noNeedToCancel": "無須取消的住客資料"
+      "noNeedToCancel": "無須取消的住客資料",
+      "save": "請先存檔"
     },
     "PMS0110050": {
       "roomTyp": "房型",

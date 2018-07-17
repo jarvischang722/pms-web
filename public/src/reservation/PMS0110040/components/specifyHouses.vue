@@ -128,12 +128,12 @@
     }
 
     DatagridSingleGridClass.prototype = new DatagridBaseClass();
-    DatagridSingleGridClass.prototype.onClickCell = function (index, row) {
-        vmHub.$emit("selectDataGridRow", {row: row, index: index});
+    DatagridSingleGridClass.prototype.onClickCell = function (ln_index, ln_row) {
+        vmHub.$emit("selectDataGridRow", {row: ln_row, index: ln_index});
         // console.log('我是row'+' '+row);
         // console.log('我是index'+' '+index);
     };
-    DatagridSingleGridClass.prototype.onClickRow = function (index, row) {
+    DatagridSingleGridClass.prototype.onClickRow = function (ln_index, ln_row) {
 
     };
 
@@ -158,7 +158,7 @@
                 editingGroupData: {},
                 dgIns: {},
                 selectOrderDtRowsDataIkeySeqNos: '',
-                guestMnRowDataChecked: [],
+                guestMnRowDataChecked: [],      //勾選的住客資料
                 tmpCUD: {
                     createData: [],
                     updateData: [],
@@ -168,8 +168,8 @@
             }
         },
         created() {
-            vmHub.$on("selectDataGridRow", (data) => {
-                this.editingGroupDataIndex = data.index;
+            vmHub.$on("selectDataGridRow", (lo_data) => {
+                this.editingGroupDataIndex = lo_data.index;
             })
         },
         watch: {
@@ -187,7 +187,7 @@
                 }
             },
             async editingGroupDataIndex(newVal, oldVal) {
-                if (!_.isUndefined(newVal)) {
+                if (!_.isUndefined(newVal) && this.tmpCUD.oriData.length === 0 && this.tmpCUD.updateData.length === 0) {
                     $("#resv_assignHouseTable").datagrid('selectRow', newVal);
                     this.editingGroupData = $("#resv_assignHouseTable").datagrid('getSelected');
                     let lo_groupParam = {
@@ -205,6 +205,8 @@
                     //把group後order_dt資料和一開始order_dt資料進行資料比對，使用where抓出所有符合資料
                     let la_detailOrderDtData = _.where(this.allOrderDtRowsData, lo_groupParam);
                     await this.fetchDetailRowsData(la_detailOrderDtData);
+                } else {
+                    alert(go_i18nLang["program"]["PMS0110042"]["save"]);
                 }
             }
         },
