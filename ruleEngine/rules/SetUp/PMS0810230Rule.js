@@ -235,10 +235,26 @@ module.exports = {
                     }
                 });
             });
+            let la_roomTypeViewSeq = await new Promise((resolve, reject) => {
+                queryAgent.queryList("QRY_ROOM_COD_ORDER", lo_params, 0, 0, (err, result) => {
+                    if (err) {
+                        reject(err);
+                    }
+                    else {
+                        resolve(result);
+                    }
+                });
+            });
             _.each(la_roomTypeSelectData, (lo_roomTypeSelectData) => {
+                let lo_roomType = _.findWhere(la_roomTypeViewSeq, {room_cod: lo_roomTypeSelectData.value});
+                if (!_.isUndefined(lo_roomType)) {
+                    lo_roomTypeSelectData.view_seq = lo_roomType.view_seq;
+                } else {
+                    lo_roomTypeSelectData.view_seq = 0;
+                }
                 lo_roomTypeSelectData.display = lo_roomTypeSelectData.value + " : " + lo_roomTypeSelectData.display;
             });
-            lo_result.selectOptions = la_roomTypeSelectData;
+            lo_result.selectOptions = _.sortBy(la_roomTypeSelectData, 'view_seq');
         }
         catch (err) {
             console.log(err);

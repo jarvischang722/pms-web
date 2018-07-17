@@ -1081,7 +1081,11 @@
                             }, 200);
                             if (result.success) {
                                 alert(go_i18nLang.program.PMS0810230.save_success);
-                                $("#PMS0810230SingleGrid").dialog('close');
+                                let lo_cloneData = JSON.parse(JSON.stringify(this.rowData));
+                                this.rowData = {}
+                                this.isEditStatus = true;
+                                this.isCreateStatus = false;
+                                this.rowData = lo_cloneData;
                             }
                             else {
                                 alert(result.errorMsg);

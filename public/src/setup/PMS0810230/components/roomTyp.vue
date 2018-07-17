@@ -15,6 +15,7 @@
                 <div class="right-menu-co pull-right" style="width: 80px;">
                     <button role="button" class="btn btn-danger btn-white btn-defaultWidth" @click="setStopSell">
                         {{stopSellButton.text}}
+
                     </button>
                 </div>
             </div>
@@ -30,7 +31,6 @@
                                 <th class="ca-headerTitle grayBg defHt" style="width: 15%">
                                     {{i18nLang.program.PMS0810230.dateRule}}
 
-
                                 </th>
                                 <th class="defHt" v-for="(value, key, index) in roomCodData4Display">{{key}}</th>
                             </tr>
@@ -38,7 +38,7 @@
                             <tbody class="tbodyRight">
                             <tr class="grayBg" v-for="(value, key, index) in dayNamData4Display">
                                 <td class="middle td-first defHt">{{key}}</td>
-                                <template v-for="ratecodData in value">
+                                <template v-for="(ratecodData,ratecodidx) in value">
                                     <td class="numeric defHt" :style="{width: tableCellWidth + '%'}"
                                         style="background-color: white;"
                                         @click="getData(ratecodData)" :id="ratecodData.uniKey"
@@ -46,16 +46,16 @@
                                         <template v-if="ratecodData.isEdit && ratecodData.use_sta == 'Y'">
                                             <input type="text" class="defHt width-100"
                                                    @keyup="formatAmt(ratecodData.rent_amt, rentAmtFieldData)"
-                                                   v-model="ratecodData.rent_amt">
+                                                   v-model="ratecodData.rent_amt"
+                                                   @keyup.enter="showNextColData(key,ratecodidx)"
+                                                   @keyup.space="showNextRowData(key,ratecodidx)">
                                         </template>
                                         <template v-else-if="ratecodData.use_sta == 'N'" style="width: 100%">
                                             *
 
-
                                         </template>
                                         <template v-else style="width: 100%">
                                             {{ratecodData.rent_amt}}
-
 
                                         </template>
                                     </td>
@@ -444,6 +444,7 @@
             },
             //取使用期間資料
             fetchUseTime() {
+                let ld_rentCalDat = moment(this.rentCalDat).format("YYYY/MM/DD");
                 if (this.$store.state.gs_rateCod != "") {
                     BacUtils.doHttpPostAgent('/api/chkFieldRule', {
                         rule_func_name: 'qry_ratesupplydt_for_select_data',
@@ -451,7 +452,10 @@
                     }, (result) => {
                         if (result.success) {
                             //取得使用期間下拉資料
-                            this.useTimeSelectData = result.selectOptions;
+                            this.useTimeSelectData = _.filter(result.selectOptions, function (obj) {
+                                let ld_endDat = moment(obj.end_dat).format("YYYY/MM/DD");
+                                return moment(ld_endDat).diff(ld_rentCalDat) > 0;
+                            });
                             this.firstFetchRateCodDtData();
                         }
                         else {
@@ -522,7 +526,8 @@
                             //添加唯一值屬姓
                             _.each(result.dgRowData, (lo_dgRowData, idx) => {
                                 result.dgRowData[idx]["uniKey"] =
-                                    crypto.randomBytes(32).toString('base64').replace(/([\(\)\[\]\{\}\^\$\+\=\-\*\?\.\"\'\|\/\\])/g, "");result.dgRowData[idx]["isEdit"] = false;
+                                    crypto.randomBytes(32).toString('base64').replace(/([\(\)\[\]\{\}\^\$\+\=\-\*\?\.\"\'\|\/\\])/g, "");
+                                result.dgRowData[idx]["isEdit"] = false;
                                 result.dgRowData[idx]["event_time"] = moment(new Date()).format("YYYY/MM/DD HH:mm:ss");
                                 result.dgRowData[idx]["rent_amt"] = go_formatDisplayClass.amtFormat(lo_dgRowData["rent_amt"], this.rentAmtFieldData.format_func_name.rule_val);
                             });
@@ -698,6 +703,17 @@
                     }
 
                 });
+            },
+            showNextRowData(key, ratecodidx){
+                if (!_.isUndefined(this.dayNamData4Display[key][ratecodidx + 1])) {
+                    this.getData(this.dayNamData4Display[key][ratecodidx + 1]);
+                }
+            },
+            showNextColData(key, ratecodidx){
+                alert("www")
+                if (!_.isUndefined(this.dayNamData4Display[key + 1][ratecodidx])) {
+                    this.getData(this.dayNamData4Display[key + 1][ratecodidx]);
+                }
             }
         }
     }
