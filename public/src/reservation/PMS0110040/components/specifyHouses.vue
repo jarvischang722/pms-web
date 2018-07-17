@@ -211,7 +211,7 @@
                     let la_detailOrderDtData = _.where(this.allOrderDtRowsData, lo_groupParam);
                     await this.fetchDetailRowsData(la_detailOrderDtData);
                 } else {
-                    alert(go_i18nLang["program"]["PMS0110042"]["save"]);
+                    alert(go_i18nLang["program"]["PMS0110042"]["isSave"]);
                 }
             }
         },
@@ -395,9 +395,10 @@
                                     lo_rowsData.guest_list += ',' + lo_checkedData.alt_nam;
                                 }
                                 lo_checkedData.ikey_seq_nos = lo_rowsData.ikey_seq_nos;
+                                lo_checkedData.room_nos = lo_rowsData.room_nos;
+                                lo_checkedData.assign_sta = lo_rowsData.assign_sta;
 
                                 // 更新資料
-                                console.log(lo_checkedData);
                                 this.changeTmpCUD(lo_oriCheckedData, lo_checkedData);
                             });
                         }
@@ -444,6 +445,8 @@
                                 lo_rowsData.guest_list += ',' + this.guestMnRowsData[ln_index].alt_nam;
                             }
                             this.guestMnRowsData[ln_index].ikey_seq_nos = lo_rowsData.ikey_seq_nos;
+                            this.guestMnRowsData[ln_index].room_nos = lo_rowsData.room_nos;
+                            this.guestMnRowsData[ln_index].assign_sta = lo_rowsData.assign_sta;
                             la_removeIndex.push(ln_index);
                             // 更新資料
                             this.changeTmpCUD(lo_oriCheckedData, this.guestMnRowsData[ln_index]);
@@ -474,6 +477,8 @@
                             _.each(lo_guestMnData, (lo_data) => {
                                 let lo_oriGuestInfo = this.findOriData(this.oriAllGuestMnRowsData, lo_data);
                                 lo_data.ikey_seq_nos = 0;
+                                lo_data.room_nos = null;
+                                lo_data.assign_sta = "N";
                                 this.guestMnRowsData.push(lo_data);
                                 this.changeTmpCUD(lo_oriGuestInfo, lo_data);
                             });
@@ -511,6 +516,8 @@
                     _.each(la_guestInfo, (lo_data) => {
                         let lo_oriGuestMnData = this.findOriData(this.oriAllGuestMnRowsData, lo_data);
                         lo_data.ikey_seq_nos = 0;
+                        lo_data.room_nos = null;
+                        lo_data.assign_sta = "N";
                         this.guestMnRowsData.push(lo_data);
                         this.changeTmpCUD(lo_oriGuestMnData, lo_data);
                     });
@@ -567,22 +574,29 @@
                 } else {
                     this.tmpCUD.updateData.push(changeData);
                 }
-                console.log(this.tmpCUD.oriData);
-                console.log(this.tmpCUD.updateData);
+                // console.log(this.tmpCUD.oriData);
+                // console.log(this.tmpCUD.updateData);
             },
-
+            /**
+             * 資料儲存
+             */
             doSave() {
-                BacUtils.doHttpPromisePostProxy('/api/execNewFormatSQL', {
-                    prg_id: 'PMS0110042',
-                    func_id: "1016",
-                    tmpCUD: this.tmpCUD
-                }).then(lo_result => {
-                    if (lo_result.success) {
-                        alert("save success");
-                    }
-                }).catch(lo_err => {
-                    alert(lo_err.errorMsg);
-                });
+                if (this.tmpCUD.oriData.length > 0 && this.tmpCUD.updateData.length > 0) {
+                    BacUtils.doHttpPromisePostProxy('/api/execNewFormatSQL', {
+                        prg_id: 'PMS0110042',
+                        func_id: "1016",
+                        tmpCUD: this.tmpCUD
+                    }).then(lo_result => {
+                        if (lo_result.success) {
+                            alert(go_i18nLang["program"]["PMS0110042"]["saveSuccess"]);
+                            this.initTmpCUD();
+                        }
+                    }).catch(lo_err => {
+                        alert(lo_err.errorMsg);
+                    });
+                } else {
+                    alert(go_i18nLang["program"]["PMS0110042"]["nothingChange"]);
+                }
             },
             /**
              * 比對原始資料，並找出原始資料的那一筆
