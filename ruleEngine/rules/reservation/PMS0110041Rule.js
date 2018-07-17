@@ -237,7 +237,7 @@ module.exports = {
                 });
             });
             let lo_nowMaxIkeySeqNos = _.isUndefined(postData.allRowData[0].ikey_seq_nos) ? 0 : _.max(postData.allRowData, (lo_orderDtRowsData) => {
-                return lo_orderDtRowsData.ikey_seq_nos;
+                return Number(lo_orderDtRowsData.ikey_seq_nos);
             });
             let ln_ikeySeqNos = 0;
             if (!_.isNull(lo_fetchMaxIkeySeqNos.ikey_seq_nos)) {

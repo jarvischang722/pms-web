@@ -26,7 +26,7 @@
                                                             text-field="display" :field="field"
                                                             @update:v-model="val => orderMnSingleData[field.ui_field_name] = val"
                                                             :default-val="orderMnSingleData[field.ui_field_name]"
-                                                            @change="chkFieldRule(field.ui_field_name,field.rule_func_name)"
+                                                            @change="chkOrderMnFieldRule(field.ui_field_name,field.rule_func_name)"
                                                             :disabled="field.modificable == 'N'|| !isModifiable ||
                                                     (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)">
                                                     </bac-select>
@@ -65,7 +65,7 @@
                                                                            :required="field.requirable == 'Y'" min="0"
                                                                            :maxlength="field.ui_field_length"
                                                                            :class="{'input_sta_required' : field.requirable == 'Y'}"
-                                                                           @change="chkFieldRule(field.ui_field_name,field.rule_func_name)"
+                                                                           @change="chkGuestMnFiledRule(field.ui_field_name,field.rule_func_name)"
                                                                            :disabled="field.modificable == 'N'||
                                                    (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)">
 
@@ -81,7 +81,7 @@
                                                                             text-field="display"
                                                                             @update:v-model="val => guestMnRowsData4Single[field.ui_field_name] = val"
                                                                             :default-val="guestMnRowsData4Single[field.ui_field_name]"
-                                                                            @change="chkFieldRule(field.ui_field_name,field.rule_func_name)"
+                                                                            @change="chkGuestMnFiledRule(field.ui_field_name,field.rule_func_name)"
                                                                             :disabled="field.modificable == 'N'||
                                                    (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)"
                                                                     >
@@ -101,7 +101,7 @@
                                                                             :text-field="field.selectData.display"
                                                                             @update:v-model="val => guestMnRowsData4Single[field.ui_field_name] = val"
                                                                             :default-val="guestMnRowsData4Single[field.ui_field_name]"
-                                                                            @change="chkFieldRule(field.ui_field_name,field.rule_func_name)"
+                                                                            @change="chkGuestMnFiledRule(field.ui_field_name,field.rule_func_name)"
                                                                             :disabled="field.modificable == 'N'|| !isModifiable ||
                                                    (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)">
                                                                     </bac-select-grid>
@@ -122,7 +122,7 @@
                                                                                type="checkbox"
                                                                                :required="field.requirable == 'Y'"
                                                                                :maxlength="field.ui_field_length"
-                                                                               @change="chkFieldRule(field.ui_field_name,field.rule_func_name)"
+                                                                               @change="chkOrderMnFieldRule(field.ui_field_name,field.rule_func_name)"
                                                                                :disabled="field.modificable == 'N'|| !isModifiable ||
                                                 (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus) ">
                                                                         <label style="width:auto"
@@ -144,7 +144,7 @@
                                                                             text-field="display" :field="field"
                                                                             @update:v-model="val => orderMnSingleData[field.ui_field_name] = val"
                                                                             :default-val="orderMnSingleData[field.ui_field_name]"
-                                                                            @change="chkFieldRule(field.ui_field_name,field.rule_func_name)"
+                                                                            @change="chkOrderMnFieldRule(field.ui_field_name,field.rule_func_name)"
                                                                             :disabled="field.modificable == 'N'|| !isModifiable ||
                                                       (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)">
                                                                     </bac-select>
@@ -158,7 +158,7 @@
                                                                             style="resize: none;"
                                                                             :required="field.requirable == 'Y'"
                                                                             :maxlength="field.ui_field_length"
-                                                                            @change="chkFieldRule(field.ui_field_name,field.rule_func_name)"
+                                                                            @change="chkOrderMnFieldRule(field.ui_field_name,field.rule_func_name)"
                                                                             :disabled="field.modificable == 'N'|| !isModifiable ||
                                                       (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)">
                                                                     </textarea>
@@ -192,7 +192,7 @@
                                                                         text-field="display" :field="field"
                                                                         @update:v-model="val => orderMnSingleData[field.ui_field_name] = val"
                                                                         :default-val="orderMnSingleData[field.ui_field_name]"
-                                                                        @change="chkFieldRule(field.ui_field_name,field.rule_func_name)"
+                                                                        @change="chkOrderMnFieldRule(field.ui_field_name,field.rule_func_name)"
                                                                         :disabled="field.modificable == 'N'|| !isModifiable ||
                                                    (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)">
                                                                 </bac-select>
@@ -211,7 +211,7 @@
                                                                         :text-field="field.selectData.display"
                                                                         @update:v-model="val => orderMnSingleData[field.ui_field_name] = val"
                                                                         :default-val="orderMnSingleData[field.ui_field_name]"
-                                                                        @change="chkFieldRule(field.ui_field_name,field.rule_func_name)"
+                                                                        @change="chkOrderMnFieldRule(field.ui_field_name,field.rule_func_name)"
                                                                         :disabled="field.modificable == 'N'|| !isModifiable ||
                                                    (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)">
                                                                 </bac-select-grid>
@@ -230,7 +230,7 @@
                                                                        :class="{'input_sta_required' : field.requirable == 'Y', 'text-right' : field.ui_type == 'number'}"
                                                                        :required="field.requirable == 'Y'" min="0"
                                                                        :maxlength="field.ui_field_length"
-                                                                       @change="chkFieldRule(field.ui_field_name,field.rule_func_name)"
+                                                                       @change="chkOrderMnFieldRule(field.ui_field_name,field.rule_func_name)"
                                                                        :disabled="field.modificable == 'N'|| !isModifiable ||
                                                                         (field.modificable == 'I') || (field.modificable == 'E')">
                                                             </div>
@@ -421,6 +421,7 @@
                                                                :required="field.requirable == 'Y'" min="0"
                                                                :maxlength="field.ui_field_length"
                                                                :class="{'input_sta_required' : field.requirable == 'Y'}"
+                                                               @change="chkDgFieldRule(field.ui_field_name, field.rule_func_name)"
                                                                :disabled="field.modificable == 'N'|| !isModifiable ||
                                                    (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)">
                                                         <input type="text" style="margin-left: -12px;"
@@ -430,6 +431,7 @@
                                                                :required="field.requirable == 'Y'" min="0"
                                                                :maxlength="field.ui_field_length"
                                                                :class="{'input_sta_required' : field.requirable == 'Y'}"
+                                                               @change="chkDgFieldRule(field.ui_field_name, field.rule_func_name)"
                                                                :disabled="field.modificable == 'N'|| !isModifiable ||
                                                    (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)">
 
@@ -443,6 +445,7 @@
                                                                 @update:v-model="val => orderDtRowsData4Single[field.ui_field_name] = val"
                                                                 :default-val="orderDtRowsData4Single[field.ui_field_name]"
                                                                 :field="field"
+                                                                @change="chkDgFieldRule(field.ui_field_name, field.rule_func_name)"
                                                                 :disabled="field.modificable == 'N'|| !isModifiable ||
                                                    (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)">
                                                         </bac-select>
@@ -1586,6 +1589,7 @@
                             alert(lo_fetchOderDtData.errorMsg);
                         }
                     }
+                    this.orderMnSingleData = _.extend(this.orderMnSingleData, {key_nos: this.keyNos});
                 }
                 catch (err) {
                     console.log(err)
@@ -1644,14 +1648,11 @@
                     }
                 }
             },
+            chkOrderMnFieldRule(field, rule_func_name) {
 
-            /**
-             * 欄位規則檢查
-             * @param field {array} 欄位資料
-             * @param rule_func_name {string} 規則名稱
-             **/
-            chkFieldRule(field, rule_func_name) {
-                // console.log(field, rule_func_name);
+            },
+            chkGuestMnFiledRule(filed, rule_func_name) {
+
             },
 
             /**
@@ -1921,7 +1922,6 @@
                     this.editingOrderDtIdx = _.isUndefined(this.editingOrderDtIdx) ? 0 : this.editingOrderDtIdx + 1;
                 }
             },
-
             /**
              * 刪除訂房明細資料(order_dt)資料
              * @param index {number} order_dt的index
