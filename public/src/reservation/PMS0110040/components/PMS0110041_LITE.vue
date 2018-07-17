@@ -26,7 +26,7 @@
                                                             text-field="display" :field="field"
                                                             @update:v-model="val => orderMnSingleData[field.ui_field_name] = val"
                                                             :default-val="orderMnSingleData[field.ui_field_name]"
-                                                            @change="chkFieldRule(field.ui_field_name,field.rule_func_name)"
+                                                            @change="chkOrderMnFieldRule(field.ui_field_name,field.rule_func_name)"
                                                             :disabled="field.modificable == 'N'|| !isModifiable ||
                                                     (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)">
                                                     </bac-select>
