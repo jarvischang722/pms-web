@@ -37,6 +37,12 @@ module.exports = {
             //連動欄位days
             let ln_days = moment(new Date(ls_coDat)).diff(moment(new Date(ls_ciDat)), "days");
 
+            if(ln_days <= 0) {
+                lo_result.success = false;
+                lo_error = new ErrorClass();
+                lo_error.errorMsg = 'c/i 日期要小於 c/o日期';
+            }
+
             //當source_typ=DU時,days=0
             let ls_sourceTyp = postData.singleRowData[0].source_typ || "";
             if (ls_sourceTyp !== "") {
@@ -81,12 +87,17 @@ module.exports = {
         let lo_error = null;
 
         try {
-            console.log(postData)
             let ls_ciDat = postData.singleRowData[0].ci_dat || "";
             let ls_coDat = postData.singleRowData[0].co_dat || "";
 
             //連動欄位days
             let ln_days = moment(new Date(ls_coDat)).diff(moment(new Date(ls_ciDat)), "days");
+
+            if(ln_days <= 0) {
+                lo_result.success = false;
+                lo_error = new ErrorClass();
+                lo_error.errorMsg = 'c/i 日期要小於 c/o日期';
+            }
 
             //當source_typ=DU時,days=0
             let ls_sourceTyp = postData.singleRowData[0].source_typ || "";
