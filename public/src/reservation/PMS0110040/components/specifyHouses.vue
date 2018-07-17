@@ -74,7 +74,7 @@
                                 <ul>
                                     <li>
                                         <button class="btn btn-primary btn-white btn-defaultWidth"
-                                                role="button">存檔
+                                                role="button" @click="doSave">存檔
                                         </button>
                                     </li>
                                     <li>
@@ -128,12 +128,12 @@
     }
 
     DatagridSingleGridClass.prototype = new DatagridBaseClass();
-    DatagridSingleGridClass.prototype.onClickCell = function (index, row) {
-        vmHub.$emit("selectDataGridRow", {row: row, index: index});
+    DatagridSingleGridClass.prototype.onClickCell = function (ln_index, ln_row) {
+        vmHub.$emit("selectDataGridRow", {row: ln_row, index: ln_index});
         // console.log('我是row'+' '+row);
         // console.log('我是index'+' '+index);
     };
-    DatagridSingleGridClass.prototype.onClickRow = function (index, row) {
+    DatagridSingleGridClass.prototype.onClickRow = function (ln_index, ln_row) {
 
     };
 
@@ -158,7 +158,7 @@
                 editingGroupData: {},
                 dgIns: {},
                 selectOrderDtRowsDataIkeySeqNos: '',
-                guestMnRowDataChecked: [],
+                guestMnRowDataChecked: [],      //勾選的住客資料
                 tmpCUD: {
                     createData: [],
                     updateData: [],
@@ -168,8 +168,8 @@
             }
         },
         created() {
-            vmHub.$on("selectDataGridRow", (data) => {
-                this.editingGroupDataIndex = data.index;
+            vmHub.$on("selectDataGridRow", (lo_data) => {
+                this.editingGroupDataIndex = lo_data.index;
             })
         },
         watch: {
@@ -186,8 +186,13 @@
                     this.initTmpCUD();
                 }
             },
-            async editingGroupDataIndex(newVal, oldVal) {
-                if (!_.isUndefined(newVal)) {
+            /**
+             * 監測group order_dt所選擇欄位的列，顯示相關明細
+             * @param newVal {number} 選擇group order_dt 欄位的列
+             * @returns {Promise<void>}
+             */
+            async editingGroupDataIndex(newVal) {
+                if (!_.isUndefined(newVal) && this.tmpCUD.oriData.length === 0 && this.tmpCUD.updateData.length === 0) {
                     $("#resv_assignHouseTable").datagrid('selectRow', newVal);
                     this.editingGroupData = $("#resv_assignHouseTable").datagrid('getSelected');
                     let lo_groupParam = {
@@ -205,10 +210,15 @@
                     //把group後order_dt資料和一開始order_dt資料進行資料比對，使用where抓出所有符合資料
                     let la_detailOrderDtData = _.where(this.allOrderDtRowsData, lo_groupParam);
                     await this.fetchDetailRowsData(la_detailOrderDtData);
+                } else {
+                    alert(go_i18nLang["program"]["PMS0110042"]["isSave"]);
                 }
             }
         },
         methods: {
+            /**
+             * 初始化資料
+             */
             initData() {
                 this.orderDtGroupFieldData = [];
                 this.orderDtFieldData = [];
@@ -228,6 +238,9 @@
                 this.selectOrderDtRowsDataIkeySeqNos = "";
                 this.guestMnRowDataChecked = [];
             },
+            /**
+             * 初始化tmpCUD
+             */
             initTmpCUD() {
                 this.tmpCUD = {
                     createData: [],
@@ -236,6 +249,9 @@
                     oriData: []
                 }
             },
+            /**
+             * 撈回單個table欄位名稱
+             */
             async fetchFieldsData(param) {
                 return await BacUtils.doHttpPromisePostProxy("/api/fetchOnlyDataGridFieldData", param)
                     .then((result) => {
@@ -245,7 +261,10 @@
                         return {success: false, errMsg: err};
                     })
             },
-            // 撈回所有欄位名稱
+            /**
+             * 撈回所有table欄位名稱
+             * @returns {Promise<void>}
+             */
             async fetchAllFieldsData() {
                 try {
                     let [lo_fetchGroupOrderDtFieldsData, lo_fetchOrderDtFieldsData, lo_fetchGuestMnFieldsData] = await Promise.all([
@@ -265,7 +284,9 @@
                     console.log(err);
                 }
             },
-            // 撈回OrderDt資料
+            /**
+             *  撈回OrderDt資料
+             */
             fetchOrderDtRowData() {
                 BacUtils.doHttpPromisePostProxy("/api/fetchDgRowData", {
                     prg_id: 'PMS0110042',
@@ -285,13 +306,20 @@
                     console.log(err);
                 })
             },
-
+            /**
+             * 顯示group order_dt 欄位和資料
+             */
             showDataGrid() {
                 this.dgIns = new DatagridSingleGridClass();
                 this.dgIns.init("PMS0110042", "resv_assignHouseTable", DatagridFieldAdapter.combineFieldOption(this.orderDtGroupFieldData, "resv_assignHouseTable"), this.orderDtGroupFieldData);
                 this.dgIns.loadDgData(this.orderDtGroupRowsData);
                 this.editingGroupDataIndex = 0;
             },
+            /**
+             * 顯示 order_dt 相關明細
+             * @param detailRowsData {array} 代入需要的key值
+             * @returns {Promise<void>}
+             */
             async fetchDetailRowsData(detailRowsData) {
                 // 找出每一筆資料的ikey_seq_nos
                 let la_ikeySeqNos = [];
@@ -313,6 +341,9 @@
                     console.log(err);
                 })
             },
+            /**
+             * 顯示guest_mn 顧客資料
+             */
             fetchGuestRowsData() {
                 BacUtils.doHttpPromisePostProxy("/api/fetchDgRowData", {
                     prg_id: 'PMS0110042',
@@ -336,10 +367,16 @@
                     console.log(err);
                 })
             },
-
+            /**
+             * 當下所選擇order_dt明細資料，紀錄ikey_seq_nos
+             * @param rowsData {object} 紀錄ikey_seq_nos
+             */
             selectOrderDtRowsData(rowsData) {
                 this.selectOrderDtRowsDataIkeySeqNos = rowsData.ikey_seq_nos;
             },
+            /**
+             * 指定按鈕
+             */
             specify() {
                 if (this.selectOrderDtRowsDataIkeySeqNos !== '' && this.guestMnRowDataChecked.length > 0) {
                     // orderDtRowsData和selectOrderDtRowsDataIkeySeqNos(當下點擊儲存的ikeySeqNos)進行資料比對
@@ -358,6 +395,8 @@
                                     lo_rowsData.guest_list += ',' + lo_checkedData.alt_nam;
                                 }
                                 lo_checkedData.ikey_seq_nos = lo_rowsData.ikey_seq_nos;
+                                lo_checkedData.room_nos = lo_rowsData.room_nos;
+                                lo_checkedData.assign_sta = lo_rowsData.assign_sta;
 
                                 // 更新資料
                                 this.changeTmpCUD(lo_oriCheckedData, lo_checkedData);
@@ -386,6 +425,9 @@
                     alert(go_i18nLang["program"]["PMS0110042"]["isSelected"]);
                 }
             },
+            /**
+             * 自動指定按鈕
+             */
             automaticSpecify() {
                 if (this.guestMnRowsData.length > 0) {
                     let ln_index = 0;
@@ -393,7 +435,6 @@
                     _.each(this.orderDtRowsData, (lo_rowsData) => {
                         if (ln_index < this.guestMnRowsData.length) {
                             let lo_oriCheckedData = this.findOriData(this.oriAllGuestMnRowsData, this.guestMnRowsData[ln_index]);
-
                             // 處理文字顯示樣子
                             if (lo_rowsData.guest_list === '') {
                                 lo_rowsData.guest_list += this.guestMnRowsData[ln_index].alt_nam;
@@ -404,13 +445,14 @@
                                 lo_rowsData.guest_list += ',' + this.guestMnRowsData[ln_index].alt_nam;
                             }
                             this.guestMnRowsData[ln_index].ikey_seq_nos = lo_rowsData.ikey_seq_nos;
+                            this.guestMnRowsData[ln_index].room_nos = lo_rowsData.room_nos;
+                            this.guestMnRowsData[ln_index].assign_sta = lo_rowsData.assign_sta;
                             la_removeIndex.push(ln_index);
                             // 更新資料
                             this.changeTmpCUD(lo_oriCheckedData, this.guestMnRowsData[ln_index]);
                             ln_index++;
                         }
                     });
-
                     // 移除guest_mn資料
                     this.guestMnRowsData = _.filter(this.guestMnRowsData, (rowsData, ln_rowsDataIndex) => {
                         // 回傳沒有在la_removeIndex移除清單內最後結果資料
@@ -420,6 +462,9 @@
                     alert(go_i18nLang["program"]["PMS0110042"]["noData"]);
                 }
             },
+            /**
+             * 取消指定
+             */
             cancelSpecify() {
                 if (this.selectOrderDtRowsDataIkeySeqNos !== '') {
                     let lo_currentClick = _.findWhere(this.orderDtRowsData, {ikey_seq_nos: this.selectOrderDtRowsDataIkeySeqNos});
@@ -432,6 +477,8 @@
                             _.each(lo_guestMnData, (lo_data) => {
                                 let lo_oriGuestInfo = this.findOriData(this.oriAllGuestMnRowsData, lo_data);
                                 lo_data.ikey_seq_nos = 0;
+                                lo_data.room_nos = null;
+                                lo_data.assign_sta = "N";
                                 this.guestMnRowsData.push(lo_data);
                                 this.changeTmpCUD(lo_oriGuestInfo, lo_data);
                             });
@@ -451,6 +498,9 @@
                     alert(go_i18nLang["program"]["PMS0110042"]["isSelected"]);
                 }
             },
+            /**
+             * 全部取消指定按鈕
+             */
             allCancelSpecify() {
                 // orderDtRowsData和allGuestMnRowsData資料比對，撈符合資料
                 let la_guestInfo = [];
@@ -466,10 +516,11 @@
                     _.each(la_guestInfo, (lo_data) => {
                         let lo_oriGuestMnData = this.findOriData(this.oriAllGuestMnRowsData, lo_data);
                         lo_data.ikey_seq_nos = 0;
+                        lo_data.room_nos = null;
+                        lo_data.assign_sta = "N";
                         this.guestMnRowsData.push(lo_data);
                         this.changeTmpCUD(lo_oriGuestMnData, lo_data);
                     });
-
                     // 移除order_dt顧客資料
                     _.each(this.orderDtRowsData, (lo_orderDtRowsData) => {
                         lo_orderDtRowsData.guest_list = '';
@@ -478,8 +529,16 @@
                     alert(go_i18nLang["program"]["PMS0110042"]["noNeedToCancel"]);
                 }
             },
+            /**
+             * 檢查tmpCUD並更新資料
+             * @param oriData {object} 該明細原始資料
+             * @param changeData {object} 該明細異動資料
+             */
             changeTmpCUD(oriData, changeData) {
                 // 檢查並更新原始資料
+                oriData = _.extend(oriData, {page_id: 1010, tab_page_id: 3});
+                changeData = _.extend(changeData, {page_id: 1010, tab_page_id: 3});
+
                 let lo_oriData = _.findWhere(this.tmpCUD.oriData, {
                     ikey: oriData.ikey, alt_nam: oriData.alt_nam, ci_ser: oriData.ci_ser
                 });
@@ -497,7 +556,6 @@
                 } else {
                     this.tmpCUD.oriData.push(oriData);
                 }
-
                 // 檢查並更新異動後的資料
                 let lo_changeData = _.findWhere(this.tmpCUD.updateData, {
                     ikey: changeData.ikey, alt_nam: changeData.alt_nam, ci_ser: changeData.ci_ser
@@ -516,11 +574,36 @@
                 } else {
                     this.tmpCUD.updateData.push(changeData);
                 }
-
                 // console.log(this.tmpCUD.oriData);
                 // console.log(this.tmpCUD.updateData);
             },
-            // 比對原始資料，並找出原始資料的那一筆(找尋單筆)
+            /**
+             * 資料儲存
+             */
+            doSave() {
+                if (this.tmpCUD.oriData.length > 0 && this.tmpCUD.updateData.length > 0) {
+                    BacUtils.doHttpPromisePostProxy('/api/execNewFormatSQL', {
+                        prg_id: 'PMS0110042',
+                        func_id: "1016",
+                        tmpCUD: this.tmpCUD
+                    }).then(lo_result => {
+                        if (lo_result.success) {
+                            alert(go_i18nLang["program"]["PMS0110042"]["saveSuccess"]);
+                            this.initTmpCUD();
+                        }
+                    }).catch(lo_err => {
+                        alert(lo_err.errorMsg);
+                    });
+                } else {
+                    alert(go_i18nLang["program"]["PMS0110042"]["nothingChange"]);
+                }
+            },
+            /**
+             * 比對原始資料，並找出原始資料的那一筆
+             * @param oriData {array} 原始資料
+             * @param searchData {object} 要搜尋的資料
+             * @returns {*}
+             */
             findOriData(oriData, searchData) {
                 let lo_result;
                 _.each(oriData, (lo_item) => {
