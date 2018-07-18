@@ -661,6 +661,8 @@ module.exports = {
 
     /**
      * 公帳號 手動選取
+     * 1.卡住公帳號不讓別人選到 call API
+     * 2.帶回公帳號
      * @param postData
      * @param session
      * @param callback
@@ -693,7 +695,44 @@ module.exports = {
         callback(lo_error, lo_result);
     },
 
+    /**
+     * 公帳號離開
+     * 檢查公帳號欄位master_nos有沒有值,有值則call API
+     * @param postData
+     * @param session
+     * @returns {Promise<void>}
+     */
     r_1144: async (postData, session) => {
+        //卡住公帳號釋放
+        // let lo_doLockMaster = await new Promise((resolve, reject) => {
+        //     tools.requestApi(sysConf.api_url.java, apiParams, function (apiErr, apiRes, data) {
+        //         if (apiErr || !data) {
+        //             reject(apiErr)
+        //         }
+        //         else {
+        //             resolve(data)
+        //         }
+        //     });
+        // });
+    },
+
+    /**
+     * 公帳狀態master_sta欄位,從"有"改成"無"
+     * 1.call API【看宏興儲存SD  卡住公帳號釋放】,傳入清空前的公帳號master_nos
+     * 2.將公帳號master_nos清空
+     * @param postData
+     * @param session
+     * @param callback
+     * @returns {Promise<void>}
+     */
+    chkMastersta: async (postData, session, callback) => {
+        const lo_return = new ReturnClass();
+        let lo_error = null;
+        const lo_param = {
+            master_nos: postData.oriSingleData.master_nos
+        };
+        //CALL API
+
 
     },
 
