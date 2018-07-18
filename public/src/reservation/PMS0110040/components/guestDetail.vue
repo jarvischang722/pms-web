@@ -780,9 +780,9 @@
                                     }
                                 });
                             }
-                            //韓味是否可修改
-                            if (lo_doChkFiledRule.modifyFields.length > 0) {
-                                _.each(lo_doChkFiledRule.modifyFields, (ls_field) => {
+                            //欄位是否可修改
+                            if (lo_doChkFiledRule.unReadonlyFields.length > 0) {
+                                _.each(lo_doChkFiledRule.unReadonlyFields, (ls_field) => {
                                     let ln_changFieldIndex = _.findIndex(this.orderDtFieldData, {ui_field_name: ls_field});
                                     if (ln_changFieldIndex > -1) {
                                         this.orderDtFieldData[ln_changFieldIndex].modificable = 'Y';
@@ -803,6 +803,7 @@
                             this.beforeOrderDtRowsData = JSON.parse(JSON.stringify(this.orderDtRowsData));
                         }
                         else {
+                            this.orderDtRowsData = JSON.parse(JSON.stringify(this.beforeOrderDtRowsData));
                             alert(lo_doChkFiledRule.errorMsg);
                         }
                     }

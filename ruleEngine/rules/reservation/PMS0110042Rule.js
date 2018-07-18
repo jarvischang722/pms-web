@@ -38,7 +38,7 @@ module.exports = {
             //連動欄位days
             let ln_days = moment(new Date(ls_coDat)).diff(moment(new Date(ls_ciDat)), "days");
 
-            if(ln_days <= 0) {
+            if (ln_days <= 0) {
                 lo_result.success = false;
                 lo_error = new ErrorClass();
                 lo_error.errorMsg = 'c/i 日期要小於 c/o日期';
@@ -101,7 +101,7 @@ module.exports = {
             //連動欄位days
             let ln_days = moment(new Date(ls_coDat)).diff(moment(new Date(ls_ciDat)), "days");
 
-            if(ln_days <= 0) {
+            if (ln_days <= 0) {
                 lo_result.success = false;
                 lo_error = new ErrorClass();
                 lo_error.errorMsg = 'c/i 日期要小於 c/o日期';
@@ -197,7 +197,7 @@ module.exports = {
                     lo_result.readonlyFields.push("commis_rat");
                 }
                 else {
-                    lo_result.modifyFields.push("commis_rat");
+                    lo_result.unReadonlyFields.push("commis_rat");
                 }
 
                 //檢查新rate_cod與計價房型能否配對
@@ -239,22 +239,18 @@ module.exports = {
 
         try {
 
-            let ls_roomCod = postData.singleRowData[0].room_cod || "";
-            if (ls_roomCod != "") {
+            let ls_useCod = postData.singleRowData[0].use_cod || "";
+            if (ls_useCod != "") {
                 let lo_param = {
                     athena_id: session.athena_id,
                     hotel_cod: session.hotel_cod,
-                    room_cod: ls_roomCod
+                    room_cod: ls_useCod
                 };
 
-            }
-
-
-            //帶回soruce_typ, guest_typ,commis_rat
-            let lo_daoParams = commandRules.ConvertToQueryParams(lo_param.athena_id, "SEL_SOURCE_TYP_GUEST_TYP_COMMIS_RAT_FOR_RATECOD");
-            let lo_fetchData = await
-                new Promise((resolve, reject) => {
-                    clusterQueryAgent.queryList(lo_daoParams, lo_param, function (err, result) {
+                let lo_calculationRoomPrice = {};
+                let lo_doChkQnt = await new Promise((resolve, reject) => {
+                    const lo_daoParams = commandRules.ConvertToQueryParams(session.athena_id, "SEL_ORDER_DT_ADUL_QNT");
+                    clusterQueryAgent.queryList(lo_daoParams, lo_params, (err, result) => {
                         if (err) {
                             reject(err);
                         }
@@ -264,37 +260,21 @@ module.exports = {
                     });
                 });
 
-            //欄位佣金commis_rat,可否修改
-            lo_daoParams = commandRules.ConvertToQueryParams(lo_param.athena_id, "SEL_COMMIS_CHG_FOR_ATHENA_ID_AND_HOTEL_ID_AND_RATE_COD");
-            let lo_fetchCommis = await
-                new Promise((resolve, reject) => {
-                    clusterQueryAgent.queryList(lo_daoParams, lo_param, function (err, result) {
-                        if (err) {
-                            reject(err);
-                        } else {
-                            resolve(result);
-                        }
-                    });
-                });
-            if (lo_fetchCommis.commis_chg == "N") {
-                lo_result.readonlyFields.push("commis_rat");
+                let ln_maxQnt = Number(lo_doChkQnt.max_guest_qnt);
+                let ln_adultQnt = Number(postData.singleRowData[0].adult_qnt);
+                let ln_childQnt = Number(postData.singleRowData[0].child_qnt);
+                if (ln_adultQnt + ln_childQnt < ln_maxQnt) {
+                    //計算房價
+                    lo_calculationRoomPrice = await CalculationRoomPrice(postData.singleRowData[0], session);
+                }
+                else{
+
+                }
             }
 
-            //檢查新rate_cod與計價房型能否配對
 
 
-            //重算房價
-            let lo_calculationRoomPrice = await CalculationRoomPrice(postData.singleRowData[0], session);
 
-            lo_result.effectValues = _.extend(lo_result.effectValues, lo_fetchData);
-            lo_result.effectValues = _.extend(lo_result.effectValues, lo_calculationRoomPrice.data);
-
-            //取得房型下拉資料
-            let lo_roomTypSelectData = await
-                GetRoomTypSelectOption(postData.singleRowData[0], session);
-            lo_result.selectField = ["room_cod", "use_cod"];
-            lo_result.multiSelectOptions.room_cod = lo_roomTypSelectData.data.roomCodSelectData;
-            lo_result.multiSelectOptions.use_cod = lo_roomTypSelectData.data.useCodSelectData;
         }
         catch (err) {
             console.log(err);
