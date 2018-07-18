@@ -241,7 +241,7 @@ module.exports = {
 
             let ls_useCod = postData.singleRowData[0].use_cod || "";
             if (ls_useCod != "") {
-                let lo_param = {
+                let lo_params = {
                     athena_id: session.athena_id,
                     hotel_cod: session.hotel_cod,
                     room_cod: ls_useCod
@@ -263,18 +263,86 @@ module.exports = {
                 let ln_maxQnt = Number(lo_doChkQnt.max_guest_qnt);
                 let ln_adultQnt = Number(postData.singleRowData[0].adult_qnt);
                 let ln_childQnt = Number(postData.singleRowData[0].child_qnt);
-                if (ln_adultQnt + ln_childQnt < ln_maxQnt) {
+                if (ln_adultQnt + ln_childQnt <= ln_maxQnt) {
                     //計算房價
                     lo_calculationRoomPrice = await CalculationRoomPrice(postData.singleRowData[0], session);
+                    lo_result.effectValues = _.extend(lo_result.effectValues, lo_calculationRoomPrice.data);
                 }
-                else{
-
+                else {
+                    lo_error = new ErrorClass();
+                    lo_result.success = false;
+                    lo_error.errorMsg = commandRules.getMsgByCod('pms11msg2', session.locale);
                 }
             }
+            else {
+                lo_error = new ErrorClass();
+                lo_result.success = false;
+                lo_error.errorMsg = commandRules.getMsgByCod('pms11msg3', session.locale);
+            }
+        }
+        catch (err) {
+            console.log(err);
+            lo_error = new ErrorClass();
+            lo_result.success = false;
+            lo_error.errorMsg = err;
+        }
 
+        callback(lo_error, lo_result);
+    },
 
+    /**
+     * order dt 欄位 小孩
+     * 1.檢查人數不可超過計價房型設定中的最大人數
+     * @param postData
+     * @param session
+     * @param callback
+     */
+    chkOrderdtChildqnt: async function (postData, session, callback) {
+        let lo_result = new ReturnClass();
+        let lo_error = null;
 
+        try {
 
+            let ls_useCod = postData.singleRowData[0].use_cod || "";
+            if (ls_useCod != "") {
+                let lo_params = {
+                    athena_id: session.athena_id,
+                    hotel_cod: session.hotel_cod,
+                    room_cod: ls_useCod
+                };
+
+                let lo_calculationRoomPrice = {};
+                let lo_doChkQnt = await new Promise((resolve, reject) => {
+                    const lo_daoParams = commandRules.ConvertToQueryParams(session.athena_id, "SEL_ORDER_DT_ADUL_QNT");
+                    clusterQueryAgent.queryList(lo_daoParams, lo_params, (err, result) => {
+                        if (err) {
+                            reject(err);
+                        }
+                        else {
+                            resolve(result);
+                        }
+                    });
+                });
+
+                let ln_maxQnt = Number(lo_doChkQnt.max_guest_qnt);
+                let ln_adultQnt = Number(postData.singleRowData[0].adult_qnt);
+                let ln_childQnt = Number(postData.singleRowData[0].child_qnt);
+                if (ln_adultQnt + ln_childQnt <= ln_maxQnt) {
+                    //計算房價
+                    lo_calculationRoomPrice = await CalculationRoomPrice(postData.singleRowData[0], session);
+                    lo_result.effectValues = _.extend(lo_result.effectValues, lo_calculationRoomPrice.data);
+                }
+                else {
+                    lo_error = new ErrorClass();
+                    lo_result.success = false;
+                    lo_error.errorMsg = commandRules.getMsgByCod('pms11msg2', session.locale);
+                }
+            }
+            else {
+                lo_error = new ErrorClass();
+                lo_result.success = false;
+                lo_error.errorMsg = commandRules.getMsgByCod('pms11msg3', session.locale);
+            }
         }
         catch (err) {
             console.log(err);
