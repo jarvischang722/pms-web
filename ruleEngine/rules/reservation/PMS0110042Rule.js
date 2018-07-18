@@ -47,7 +47,7 @@ module.exports = {
             let lo_calculationRoomPrice = {};
             if (ln_days !== 0) {
                 postData.singleRowData[0].days = ln_days;
-                lo_calculationRoomPrice = await this.CalculationRoomPrice(postData.singleRowData[0], session);
+                lo_calculationRoomPrice = await CalculationRoomPrice(postData.singleRowData[0], session);
             }
 
             lo_result.effectValues.days = ln_days;
@@ -182,80 +182,80 @@ module.exports = {
 
         callback(lo_error, lo_result);
     },
+};
 
-    //計算房價
-    CalculationRoomPrice: async function (orderDtData, session) {
-        let lo_data = {
-            success: true,
-            errorMsg: "",
-            data: {}
+//計算房價
+async function CalculationRoomPrice(orderDtData, session) {
+    let lo_data = {
+        success: true,
+        errorMsg: "",
+        data: {}
+    };
+
+    try {
+        let apiParams = {
+            "REVE-CODE": "PMS0110041",
+            "prg_id": "PMS0110041",
+            "func_id": "0700",
+            "athena_id": session.user.athena_id,
+            "hotel_cod": session.user.hotel_cod,
+            "key_nos": orderDtData.key_nos,
+            "rate_cod": orderDtData.rate_cod,
+            "room_cod": orderDtData.room_cod,
+            "acust_cod": orderDtData.acust_cod,
+            "ci_dat": moment(orderDtData.ci_dat).format("YYYY/MM/DD"),
+            "stay_night": orderDtData.days,
+            "order_sta": orderDtData.order_sta,
+            "add_man_qnt": 0,
+            "add_child_qnt": 0,
+            "ikey": orderDtData.ikey,
+            "ikey_seq_nos": [orderDtData.ikey_seq_nos],
+            "upd_usr": session.user.usr_id,
         };
 
-        try {
-            let apiParams = {
-                "REVE-CODE": "PMS0110041",
-                "prg_id": "PMS0110041",
-                "func_id": "0700",
-                "athena_id": session.user.athena_id,
-                "hotel_cod": session.user.hotel_cod,
-                "key_nos": orderDtData.key_nos,
-                "rate_cod": orderDtData.rate_cod,
-                "room_cod": orderDtData.room_cod,
-                "acust_cod": orderDtData.acust_cod,
-                "ci_dat": moment(orderDtData.ci_dat).format("YYYY/MM/DD"),
-                "stay_night": orderDtData.days,
-                "order_sta": orderDtData.order_sta,
-                "add_man_qnt": 0,
-                "add_child_qnt": 0,
-                "ikey": orderDtData.ikey,
-                "ikey_seq_nos": orderDtData.ikey_seq_nos,
-                "upd_usr": session.user.usr_id,
-            };
+        let lo_computePrice = await new Promise((resolve, reject) => {
+            tools.requestApi(sysConf.api_url.java, apiParams, function (apiErr, apiRes, data) {
+                if (apiErr || !data) {
+                    reject(apiErr)
+                }
+                else {
+                    resolve(data)
+                }
+            });
+        });
 
-            let lo_computePrice = await new Promise((resolve, reject) => {
-                tools.requestApi(sysConf.api_url.java, apiParams, function (apiErr, apiRes, data) {
-                    if (apiErr || !data) {
-                        reject(apiErr)
+        if (lo_computePrice["RETN-CODE"] != "0000") {
+            lo_data.success = false;
+            lo_data.errorMsg = lo_computePrice["RETN-CODE-DESC"];
+        }
+        else {
+            let lo_params = {
+                athena_id: session.user.athena_id,
+                hotel_cod: session.user.hotel_cod,
+                ikey_seq_nos: orderDtData.ikey_seq_nos,
+                ikey: orderDtData.ikey,
+                key_nos: orderDtData.key_nos
+            };
+            let lo_fetchPrice = await new Promise((resolve, reject) => {
+                queryAgent.query("QUY_ORDER_APPRAISE_FOR_ORDER_DT", lo_params, (err, result) => {
+                    if (err) {
+                        reject(err);
                     }
                     else {
-                        resolve(data)
+                        resolve(result);
                     }
                 });
             });
-
-            if (lo_computePrice["RETN-CODE"] != "0000") {
-                lo_data.success = false;
-                lo_data.errorMsg = lo_computePrice["RETN-CODE-DESC"];
-            }
-            else {
-                let lo_params = {
-                    athena_id: session.user.athena_id,
-                    hotel_cod: session.user.hotel_cod,
-                    ikey_seq_nos: orderDtData.ikey_seq_nos,
-                    ikey: orderDtData.ikey,
-                    key_nos: orderDtData.key_nos
-                };
-                let lo_fetchPrice = await new Promise((resolve, reject) => {
-                    queryAgent.query("QUY_ORDER_APPRAISE_FOR_ORDER_DT", lo_params, (err, result) => {
-                        if (err) {
-                            reject(err);
-                        }
-                        else {
-                            resolve(result);
-                        }
-                    });
-                });
-                lo_data.data.rent_amt = lo_fetchPrice.rent_amt;
-                lo_data.data.serv_amt = lo_fetchPrice.serv_amt;
-                lo_data.data.other_amt = Number(lo_fetchPrice.total) - Number(lo_fetchPrice.serv_amt) - Number(lo_fetchPrice.rent_amt);
-            }
+            lo_data.data.rent_amt = lo_fetchPrice.rent_amt;
+            lo_data.data.serv_amt = lo_fetchPrice.serv_amt;
+            lo_data.data.other_amt = Number(lo_fetchPrice.total) - Number(lo_fetchPrice.serv_amt) - Number(lo_fetchPrice.rent_amt);
         }
-        catch (err) {
-            console.log(err);
-            lo_data.success = false;
-            lo_data.errorMsg = err;
-        }
-
-        return lo_data;
     }
-};
+    catch (err) {
+        console.log(err);
+        lo_data.success = false;
+        lo_data.errorMsg = err;
+    }
+
+    return lo_data;
+}

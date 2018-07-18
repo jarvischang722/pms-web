@@ -731,6 +731,7 @@
                 if (la_diff.length === 0) {
                     return;
                 }
+                console.log(rule_func_name);
                 if (rule_func_name === '' || !this.isEffectFromRule) {
                     this.isEffectFromRule = true;
                     return;
