@@ -117,7 +117,7 @@ module.exports = {
             let lo_calculationRoomPrice = {};
             if (ln_days !== 0) {
                 postData.singleRowData[0].days = ln_days;
-                lo_calculationRoomPrice = await this.CalculationRoomPrice(postData.singleRowData[0], session);
+                lo_calculationRoomPrice = await CalculationRoomPrice(postData.singleRowData[0], session);
 
             }
 
