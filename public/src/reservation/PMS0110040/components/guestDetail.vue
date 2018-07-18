@@ -510,34 +510,8 @@
             async isGuestDetail(val) {
                 if (val && !_.isUndefined(this.rowData.ikey)) {
                     //是否第一次開起
-                    if (this.orderDtGroupFieldData.length == 0) {
-                        this.isLoading = true;
-                        //清空資料
-                        this.initData();
-                        //取三個table的欄位資料
-                        await this.fetchAllFieldsData();
-                        //取所有order dt 資料
-                        await this.fetchAllOrderDtRowData();
-                        //取所有guest mn 資料
-                        await this.fetchAllGuestRowsData();
-                        //顯示group order dt 的table
-                        this.showDataGrid();
-                        //設定group order dt table所選定的index
-                        this.editingGroupDataIndex = this.orderDtGroupRowsData.length > 0 ? 0 : undefined;
-                        if (!_.isUndefined(this.editingGroupDataIndex)) {
-                            $("#orderDtTable").datagrid('selectRow', this.editingGroupDataIndex);
-                        }
-
-                        // 下拉選項 - 計價房型、使用房型 初始化的顯示
-                        this.queryDataByRule();
-
-                        //將所有order dt 資料依據group order dt 做分組
-                        this.groupOrderDtData();
-                        //將所有guest mn 資料依據group order dt 做分組
-                        this.groupGuestMnData();
-                        this.activeName = 'orderDetail';
-                        this.editingOrderDtIdx = this.orderDtGroupRowsData[this.editingGroupDataIndex].length > 0 ? 0 : undefined;
-                        this.isLoading = false;
+                    if (this.orderDtGroupFieldData.length === 0) {
+                        this.initPage();
                     }
                 }
                 else {
@@ -568,6 +542,10 @@
                 this.editingGroupData = {};
                 this.activeName = '';
                 this.isOpenSpecifyHouse = false;
+
+                Object.keys(this.tmpCUD).forEach(key => {
+                    this.tmpCUD[key] = [];
+                })
             },
             async fetchFieldsData(param) {
                 return await BacUtils.doHttpPromisePostProxy("/api/fetchOnlyDataGridFieldData", param).then((result) => {
@@ -698,7 +676,7 @@
             toggle() {
                 //TODO 檢查資料是否有異動之後做
                 this.isOpenSpecifyHouse = true;
-                var dialog = $("#resv_assignHouse_dialog").removeClass('hide').dialog({
+                let dialog = $("#resv_assignHouse_dialog").removeClass('hide').dialog({
                     modal: true,
                     title: "指定房組",
                     title_html: true,
@@ -774,18 +752,22 @@
                 this.orderDtRowsData = la_orderDtRowsData;
             },
             // 儲存
-            save: function () {
-                BacUtils.doHttpPromisePostProxy('/api/execNewFormatSQL', {
-                    prg_id: 'PMS0110042',
-                    func_id: "0500",
-                    tmpCUD: this.tmpCUD
-                })
-                    .then(result => {
-                        return result;
-                    })
-                    .catch(err => {
-                        return {success: false, errorMsg: err};
+            save: async function () {
+                try {
+                    let lo_result = await BacUtils.doHttpPromisePostProxy('/api/execNewFormatSQL', {
+                        prg_id: 'PMS0110042',
+                        func_id: "0500",
+                        tmpCUD: this.tmpCUD
                     });
+
+                    if (lo_result.success) {
+                        this.initPage();
+                    } else {
+                        alert(lo_result.errorMsg)
+                    }
+                } catch (err) {
+                    // alert(err)
+                }
             },
             async chkOrderDtFieldRule(ui_field_name, rule_func_name) {
                 if (_.isEmpty(this.beforeOrderDtRowsData)) {
@@ -937,7 +919,36 @@
                 lo_select_roomCod.selectData = lo_fetchSelectData.multiSelectOptions.room_cod;
                 lo_select_roomCod.selectDataDisplay = lo_fetchSelectData.multiSelectOptions.room_cod;
             },
-        }
+            initPage: async function () {
+                this.isLoading = true;
+                //清空資料
+                this.initData();
+                //取三個table的欄位資料
+                await this.fetchAllFieldsData();
+                //取所有order dt 資料
+                await this.fetchAllOrderDtRowData();
+                //取所有guest mn 資料
+                await this.fetchAllGuestRowsData();
+                //顯示group order dt 的table
+                this.showDataGrid();
+                //設定group order dt table所選定的index
+                this.editingGroupDataIndex = this.orderDtGroupRowsData.length > 0 ? 0 : undefined;
+                if (!_.isUndefined(this.editingGroupDataIndex)) {
+                    $("#orderDtTable").datagrid('selectRow', this.editingGroupDataIndex);
+                }
+
+                // 下拉選項 - 計價房型、使用房型 初始化的顯示
+                this.queryDataByRule();
+
+                //將所有order dt 資料依據group order dt 做分組
+                this.groupOrderDtData();
+                //將所有guest mn 資料依據group order dt 做分組
+                this.groupGuestMnData();
+                this.activeName = 'orderDetail';
+                this.editingOrderDtIdx = this.orderDtGroupRowsData[this.editingGroupDataIndex].length > 0 ? 0 : undefined;
+                this.isLoading = false;
+            }
+        },
     }
 </script>
 
