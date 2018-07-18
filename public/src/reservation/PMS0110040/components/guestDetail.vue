@@ -94,6 +94,7 @@
                                                                     <td class="text-center">
                                                                         <i class="fa fa-minus red"
                                                                            :class="{'pointer': isModifiable}"
+                                                                           @click="remove(singleData)"
                                                                         ></i>
                                                                     </td>
                                                                     <template v-for="field in orderDtFieldData">
@@ -371,7 +372,9 @@
                                     </li>
                                     <li>
                                         <button class="btn btn-primary btn-white btn-defaultWidth"
-                                                role="button">儲存
+                                                role="button"
+                                                @click="save"
+                                        >儲存
                                         </button>
                                     </li>
                                     <li>
@@ -491,6 +494,12 @@
                     deleteData: [],
                     oriData: []
                 },
+                tmpCUD: {
+                    createData: [],
+                    updateData: [],
+                    deleteData: [],
+                    oriData: []
+                },
 
                 isEffectFromRule: true
             }
@@ -527,6 +536,9 @@
                 else {
                     this.initData();
                 }
+            },
+            editingOrderDtIdx(newVal, oldVal) {
+                this.beforeOrderDtRowsData = JSON.parse(JSON.stringify(this.orderDtRowsData));
             },
         },
         methods: {
@@ -711,14 +723,50 @@
 
                 let lo_cloneOrderData = JSON.parse(JSON.stringify(this.editingGroupData));
                 lo_cloneOrderData.ikey_seq_nos = lo_getOracleDefaultData.defaultValues.ikey_seq_nos;
+                this.tmpCUD.createData.push(lo_cloneOrderData);
 
                 let lo_orderDtData = JSON.parse(JSON.stringify(this.orderDtRowsData));
                 lo_orderDtData[this.editingGroupDataIndex].push(lo_cloneOrderData);
 
                 this.orderDtRowsData = lo_orderDtData;
             },
+            remove(data){
+                let lo_DataRow = _.findWhere(this.oriOrderDtRowsData[this.editingGroupDataIndex], {ikey_seq_nos: data.ikey_seq_nos});
+
+                // 刪除tmpCUD資料
+                if (lo_DataRow === undefined) {
+                    // 刪除此次新增的資料
+                    let ln_tmpIndex = _.findIndex(this.tmpCUD.createData, {ikey_seq_nos: data.ikey_seq_nos});
+                    this.tmpCUD.createData.splice(ln_tmpIndex, 1);
+                } else {
+                    // 刪除既有的資料
+                    let ln_modifyIndex = _.findIndex(this.tmpCUD.updateData, {
+                        ikey_seq_nos: data.ikey_seq_nos
+                    });
+
+                    let lo_cloneDataRow = JSON.parse(JSON.stringify(lo_DataRow));
+                    lo_cloneDataRow.order_sta = 'X';
+
+                    if (ln_modifyIndex > -1) {
+                        this.tmpCUD.updateData[ln_modifyIndex] = lo_cloneDataRow;
+                    } else {
+                        this.tmpCUD.updateData.push(lo_cloneDataRow);
+                        this.tmpCUD.oriData.push(lo_DataRow);
+                    }
+                }
+
+                // 刪除 orderDtRowsData的資料
+                let ln_index = _.findIndex(this.orderDtRowsData[this.editingGroupDataIndex], {
+                    ikey_seq_nos: data.ikey_seq_nos
+                });
+                let la_orderDtRowsData = JSON.parse(JSON.stringify(this.orderDtRowsData));
+                la_orderDtRowsData[this.editingGroupDataIndex].splice(ln_index, 1);
+                this.orderDtRowsData = la_orderDtRowsData;
+            },
+            save: function () {
+                console.log(this.tmpCUD)
+            },
             chkOrderDtFieldRule(ui_field_name, rule_func_name) {
-                let self = this;
                 if (_.isEmpty(this.beforeOrderDtRowsData)) {
                     this.beforeOrderDtRowsData = this.oriOrderDtRowsData;
                 }
@@ -797,13 +845,46 @@
                                     }
                                 });
                             }
+
+                            // 儲存
+                            let lo_orderData = this.orderDtRowsData[this.editingGroupDataIndex][this.editingOrderDtIdx];
+                            let ls_ikeyseqnos = lo_orderData.ikey_seq_nos;
+                            let lo_oriOrderData = _.findWhere(this.oriOrderDtRowsData[this.editingGroupDataIndex], {
+                                ikey_seq_nos: ls_ikeyseqnos
+                            });
+
+                            if (lo_orderData !== undefined && lo_oriOrderData === undefined) {
+                                // 此次新增的資料 並且要修改
+                                let ln_createIndex = _.findIndex(this.tmpCUD.createData, {
+                                    ikey_seq_nos: ikey_seq_nos
+                                });
+
+                                this.tmpCUD.createData[ln_createIndex] = lo_orderData; //
+
+                            } else if ( !_.isUndefined(lo_orderData) && !_.isUndefined(lo_oriOrderData) ) {
+                                //既有的資料 並且要修改
+                                let ln_modifyIndex = _.findIndex(this.tmpCUD.updateData, {
+                                    ikey_seq_nos: ls_ikeyseqnos
+                                });
+
+                                if (ln_modifyIndex > -1) {
+                                    //tmp已經有值
+                                    this.tmpCUD.updateData[ln_modifyIndex] = lo_orderData;
+                                } else {
+                                    //tmp沒有
+                                    this.tmpCUD.updateData.push(lo_orderData);
+                                    this.tmpCUD.oriData.push(lo_oriOrderData);
+                                }
+                            }
+
+                            console.log(this.tmpCUD);
                         }
                         else {
                             alert(result.errorMsg);
                         }
                     }).catch((err) => {
                         alert(err);
-                    })
+                    });
                 }
 
             }
