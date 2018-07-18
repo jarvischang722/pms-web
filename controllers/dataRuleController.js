@@ -108,6 +108,19 @@ exports.queryDataByRule = function (req, res) {
     });
 };
 
+exports.chkSelectOptionRule = async function(req, res){
+    let lo_result = new ReturnClass();
+    let lo_error = null;
+    try {
+        lo_result = await ruleSVC.handleSelectOptionRule(req.body, req.session);
+    }
+    catch (error) {
+        lo_result.success = false;
+        lo_error = error;
+    }
+    res.json(commonTools.mergeRtnErrResultJson(lo_error, lo_result));
+};
+
 
 /**
  * 復原此RoomCod 原來的房間名稱

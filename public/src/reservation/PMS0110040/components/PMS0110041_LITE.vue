@@ -306,7 +306,7 @@
                                                                     (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)">
                                                                         </td>
                                                                         <td class="text-left"
-                                                                            @click="selectedCell(idx, field)"
+                                                                            @click="editingOrderDtIdx = idx"
                                                                             v-if="field.visiable == 'Y' && field.ui_type=='select'">
                                                                             <bac-select :field="field"
                                                                                         :style="{width:field.width + 'px'}"
@@ -831,7 +831,7 @@
                             allRowData: this.orderDtRowsData4table
                         };
                         let lo_fetchSelectData = await new Promise((resolve, reject) => {
-                            BacUtils.doHttpPostAgent('/api/chkFieldRule', lo_postData, (result) => {
+                            BacUtils.doHttpPostAgent('/api/queryDataByRule', lo_postData, (result) => {
                                 resolve(result);
                             });
                         });
@@ -995,7 +995,7 @@
                                     acust_cod: this.orderMnSingleData.acust_cod
                                 };
 //
-                                let lo_doComputePrice = await $.post("/api/chkFieldRule", lo_params).then(result => {
+                                let lo_doComputePrice = await $.post("/api/queryDataByRule", lo_params).then(result => {
                                     return result;
                                 }, err => {
                                     throw Error(err);
@@ -1052,7 +1052,7 @@
                             gcust_cod: "",
                             ikey: this.orderMnSingleData.ikey
                         };
-                        BacUtils.doHttpPromisePostProxy('/api/chkFieldRule', {
+                        BacUtils.doHttpPromisePostProxy('/api/queryDataByRule', {
                             rule_func_name: 'get_guest_mn_default_data'
                         }).then(result => {
                             if (result.success) {
@@ -1070,7 +1070,7 @@
                         if (_.isUndefined(this.guestMnRowsData4Single.ikey_seq_nos)) {
                             this.guestMnRowsData4Single.ikey_seq_nos = val;
                             this.guestMnRowsData4Single.ikey = this.orderMnSingleData.ikey;
-                            BacUtils.doHttpPromisePostProxy('/api/chkFieldRule', {
+                            BacUtils.doHttpPromisePostProxy('/api/queryDataByRule', {
                                 rule_func_name: 'get_guest_mn_default_data'
                             }).then(result => {
                                 if (result.success) {
@@ -1099,7 +1099,7 @@
                                 ikey: this.orderMnSingleData.ikey
                             };
                             BacUtils.doHttpPromisePostProxy('/api/chkFieldRule', {
-                                rule_func_name: 'get_guest_mn_default_data'
+                                rule_func_name: '/api/queryDataByRule'
                             }).then(result => {
                                 if (result.success) {
                                     this.guestMnRowsData4Single = _.extend(this.guestMnRowsData4Single, result.defaultValues);
@@ -1120,7 +1120,7 @@
                     let la_convertData = newVal.toString().split(":");
                     if (la_convertData.length > 1) {
                         this.guestMnRowsData4Single["gcust_cod"] = la_convertData[0];
-                        BacUtils.doHttpPromisePostProxy("/api/chkFieldRule", {
+                        BacUtils.doHttpPromisePostProxy("/api/queryDataByRule", {
                             rule_func_name: 'set_guest_mn_data',
                             rowData: this.guestMnRowsData4Single
                         }).then((result) => {
@@ -1232,7 +1232,7 @@
                                         key_nos: this.keyNos,
                                         acust_cod: this.orderMnSingleData.acust_cod
                                     };
-                                    let lo_doComputePrice = await BacUtils.doHttpPromisePostProxy("/api/chkFieldRule", lo_params).then((result) => {
+                                    let lo_doComputePrice = await BacUtils.doHttpPromisePostProxy("/api/queryDataByRule", lo_params).then((result) => {
                                         return result;
                                     }).catch(err => {
                                         return {success: false, errorMsg: err}
@@ -1433,6 +1433,9 @@
                 this.oriGuestMnFieldsData = lo_guestMnFieldsData.gsFieldsData;
                 this.oriOrderMnFieldsData = lo_orderMnFieldsData.gsFieldsData;
                 this.oriOrderDtFieldsData = lo_orderDtFieldsData.gsFieldsData;
+                _.each(lo_orderDtFieldsData.dgFieldsData, (lo_data, ln_idx) => {
+                    lo_orderDtFieldsData.dgFieldsData[ln_idx].col_seq = Number(lo_data.col_seq);
+                });
                 this.orderDtFieldsData4table = _.sortBy(lo_orderDtDgFieldsData.dgFieldsData, "col_seq");
 
                 //將單筆orderMn、guestMn欄位資料組成頁面上顯示
@@ -1795,36 +1798,6 @@
                     });
                 }
             },
-            async selectedCell(idx, field) {
-                //單筆order dt的設定
-                this.editingOrderDtIdx = idx;
-
-                ////取得使用房型及計價房型下拉
-                let la_fieldName = ['room_cod', 'use_cod'];
-                if (la_fieldName.indexOf(field.ui_field_name) > -1) {
-                    let lo_postData = {
-                        rule_func_name: 'select_cod_data',
-                        rowData: this.orderDtRowsData4table[idx],
-                        allRowData: this.orderDtRowsData4table
-                    };
-                    let lo_fetchSelectData = await new Promise((resolve, reject) => {
-                        BacUtils.doHttpPostAgent('/api/chkFieldRule', lo_postData, (result) => {
-                            resolve(result);
-                        });
-                    });
-
-                    let lo_useCodFieldData = _.findWhere(this.orderDtFieldsData4table, {ui_field_name: 'use_cod'});
-                    if (!_.isUndefined(lo_useCodFieldData)) {
-                        lo_useCodFieldData.selectData = lo_fetchSelectData.multiSelectOptions.use_cod;
-                        lo_useCodFieldData.selectDataDisplay = lo_fetchSelectData.multiSelectOptions.use_cod;
-                    }
-                    let lo_roomCodFieldData = _.findWhere(this.orderDtFieldsData4table, {ui_field_name: 'room_cod'});
-                    if (!_.isUndefined(lo_roomCodFieldData)) {
-                        lo_roomCodFieldData.selectData = lo_fetchSelectData.multiSelectOptions.room_cod;
-                        lo_roomCodFieldData.selectDataDisplay = lo_fetchSelectData.multiSelectOptions.room_cod;
-                    }
-                }
-            },
 
             /**
              * 新增訂房明細
@@ -1871,7 +1844,7 @@
                         use_cod: null
                     };
                     //取得ikey_seq_nos
-                    let lo_ikeySeqNos = await BacUtils.doHttpPromisePostProxy("/api/chkFieldRule", {
+                    let lo_ikeySeqNos = await BacUtils.doHttpPromisePostProxy("/api/queryDataByRule", {
                         rule_func_name: 'get_order_dt_default_data',
                         allRowData: this.orderDtRowsData.length == 0 ? [lo_addData] : this.orderDtRowsData
                     })

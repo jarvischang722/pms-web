@@ -161,7 +161,8 @@ exports.getSelectOptions = async function (session, typeSelectField, field, call
             });
         }
     }
-    else {
+    //下拉來源為對應檔
+    else if (typeSelectField.ds_from_sql.toUpperCase() != "R") {
         if (!_.isUndefined(ruleAgent[typeSelectField.rule_func_name])) {
             //方法訂義都需傳入一個Object參數集合
             let la_selectOptions = await new Promise(resolve => {
@@ -189,6 +190,10 @@ exports.getSelectOptions = async function (session, typeSelectField, field, call
         else {
             callback(lo_selectData);
         }
+    }
+    //下拉來源為當之作業的rule
+    else {
+        callback(lo_selectData);
     }
 };
 
@@ -354,6 +359,44 @@ exports.handlePrgFuncRule = async (postData, session) => {
         throw lo_error;
     }
 };
+
+/**
+ * 透過規則取下拉資料
+ * @param postData
+ * @param session
+ * @returns {Promise.<void>}
+ */
+exports.handleSelectOptionRule = async function (postData, session) {
+    const lo_param = {
+        prg_id: postData.prg_id,
+        ui_field_name: postData.ui_field_name
+    };
+
+    if (!_.isUndefined(postData.page_id)) lo_param.page_id = postData.page_id;
+    if (!_.isUndefined(postData.tab_page_id)) lo_param.tab_page_id = postData.tab_page_id;
+
+    //從mongo UITypeSelect 找資料
+    const lo_prgFuncData = await mongoAgent.UITypeSelect.findOne(lo_param).exec()
+        .then(result => {
+            return commonTools.mongoDocToObject(result);
+        })
+        .catch(err => {
+            let lo_error = new ErrorClass();
+            lo_error.errorMsg = err;
+            throw lo_error;
+        });
+
+    //判斷ruleAgent裡是否有規則
+    if (!_.isUndefined(ruleAgent[lo_prgFuncData.rule_func_name]) && lo_prgFuncData.ds_from_sql.toUpperCase() == "R") {
+        return await ruleAgent[lo_prgFuncData.rule_func_name](postData, session);
+    }
+    else {
+        let lo_error = new ErrorClass();
+        lo_error.errorMsg = "Not found rule function.";
+        throw lo_error;
+    }
+};
+
 
 exports.handleClickUiRow = function (postData, session, callback) {
     let la_dtField = postData.dtField;
