@@ -35,11 +35,19 @@
                                                 role="button" @click="confirmData">{{i18nLang.program.PMS0810230.OK}}
 
 
+
+
+
+
                                         </button>
                                     </li>
                                     <li>
                                         <button class="btn btn-primary btn-white btn-defaultWidth"
                                                 role="button" @click="closeDialog">{{i18nLang.program.PMS0810230.leave}}
+
+
+
+
 
 
                                         </button>
@@ -569,29 +577,25 @@
                     this.useTimeColumns.splice(3, 0, lo_commandCod);
                 }
                 this.useTimeData = [];
-                let la_displayDataGridRowsData = this.isShowExpire ?
-                    this.dataGridRowsData : _.filter(this.dataGridRowsData, (lo_dataGridRowsData) => {
-                        let lo_endDat = moment(lo_dataGridRowsData.end_dat);
-                        let lo_rentCalDat = moment(this.rentCalDat);
-                        return lo_endDat.diff(lo_rentCalDat, 'days') >= 1
+                if (this.dataGridRowsData.length > 0) {
+                    _.each(this.dataGridRowsData, (lo_dataGridRowsData) => {
+                        let lb_overDate = moment(lo_dataGridRowsData.end_dat).diff(this.rentCalDat, 'days') >= 1 ? true : false;
+                        if (this.isShowExpire || !this.isShowExpire && !lb_overDate) {
+                            this.useTimeData.push({
+                                "begin_dat": moment(lo_dataGridRowsData.begin_dat).format("YYYY/MM/DD"),
+                                "end_dat": moment(lo_dataGridRowsData.end_dat).format("YYYY/MM/DD"),
+                                "command_cod": lo_dataGridRowsData.command_cod,
+                                "command_option": _.isUndefined(lo_dataGridRowsData.command_option) ? "" : this.convertSelectData(lo_dataGridRowsData.command_option),
+                                "room_cods": _.isUndefined(lo_dataGridRowsData.room_cods) ? "" : this.convertSelectData(lo_dataGridRowsData.room_cods),
+                                "supply_nos": lo_dataGridRowsData.supply_nos,
+                                "cmFieldsData": _.findWhere(this.fieldsData, {ui_field_name: 'command_cod'}),
+                                "dtdFieldsData": this.convertCommandOption(lo_dataGridRowsData),
+                                "rcFieldsData": _.findWhere(this.fieldsData, {ui_field_name: 'room_cods'}),
+                                "rentCalDat": this.rentCalDat
+                            });
+                        }
                     });
-                if (la_displayDataGridRowsData.length > 0) {
-                    _.each(la_displayDataGridRowsData, (lo_dataGridRowsData) => {
-                        this.useTimeData.push({
-                            "begin_dat": moment(lo_dataGridRowsData.begin_dat).format("YYYY/MM/DD"),
-                            "end_dat": moment(lo_dataGridRowsData.end_dat).format("YYYY/MM/DD"),
-                            "command_cod": lo_dataGridRowsData.command_cod,
-                            "command_option": this.convertSelectData(lo_dataGridRowsData.command_option),
-                            "room_cods": _.isUndefined(lo_dataGridRowsData.room_cods) ? "" : this.convertSelectData(lo_dataGridRowsData.room_cods),
-                            "supply_nos": lo_dataGridRowsData.supply_nos,
-                            "cmFieldsData": _.findWhere(this.fieldsData, {ui_field_name: 'command_cod'}),
-                            "dtdFieldsData": this.convertCommandOption(lo_dataGridRowsData),
-                            "rcFieldsData": _.findWhere(this.fieldsData, {ui_field_name: 'room_cods'}),
-                            "rentCalDat": this.rentCalDat
-                        });
-                    });
-                }
-                else {
+                } else {
                     this.useTimeData = [{
                         "cmFieldsData": _.findWhere(this.fieldsData, {ui_field_name: 'command_cod'}),
                         "dtdFieldsData": _.findWhere(this.fieldsData, {ui_field_name: 'command_option'}),

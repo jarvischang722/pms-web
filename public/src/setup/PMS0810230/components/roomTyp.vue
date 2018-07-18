@@ -16,6 +16,7 @@
                     <button role="button" class="btn btn-danger btn-white btn-defaultWidth" @click="setStopSell">
                         {{stopSellButton.text}}
 
+
                     </button>
                 </div>
             </div>
@@ -30,6 +31,7 @@
                             <tr class="grayBg">
                                 <th class="ca-headerTitle grayBg defHt" style="width: 15%">
                                     {{i18nLang.program.PMS0810230.dateRule}}
+
 
                                 </th>
                                 <th class="defHt" v-for="(value, key, index) in roomCodData4Display">{{key}}</th>
@@ -47,15 +49,16 @@
                                             <input type="text" class="defHt width-100"
                                                    @keyup="formatAmt(ratecodData.rent_amt, rentAmtFieldData)"
                                                    v-model="ratecodData.rent_amt"
-                                                   @keyup.enter="showNextColData(key,ratecodidx)"
-                                                   @keyup.space="showNextRowData(key,ratecodidx)">
+                                                   @keyup.enter="showNextColData(key,ratecodidx)">
                                         </template>
                                         <template v-else-if="ratecodData.use_sta == 'N'" style="width: 100%">
                                             *
 
+
                                         </template>
                                         <template v-else style="width: 100%">
                                             {{ratecodData.rent_amt}}
+
 
                                         </template>
                                     </td>
@@ -454,7 +457,7 @@
                             //取得使用期間下拉資料
                             this.useTimeSelectData = _.filter(result.selectOptions, function (obj) {
                                 let ld_endDat = moment(obj.end_dat).format("YYYY/MM/DD");
-                                return moment(ld_endDat).diff(ld_rentCalDat) > 0;
+                                return moment(ld_endDat).diff(ld_rentCalDat) >= 1;
                             });
                             this.firstFetchRateCodDtData();
                         }
@@ -704,13 +707,16 @@
 
                 });
             },
-            showNextRowData(key, ratecodidx){
+            showNextColData(key, ratecodidx){
+                console.log(key)
+                console.log(ratecodidx)
+                console.log(this.dayNamData4Display)
                 if (!_.isUndefined(this.dayNamData4Display[key][ratecodidx + 1])) {
                     this.getData(this.dayNamData4Display[key][ratecodidx + 1]);
                 }
+
             },
-            showNextColData(key, ratecodidx){
-                alert("www")
+            showNextRowData(key, ratecodidx){
                 if (!_.isUndefined(this.dayNamData4Display[key + 1][ratecodidx])) {
                     this.getData(this.dayNamData4Display[key + 1][ratecodidx]);
                 }
