@@ -527,6 +527,10 @@
                         if (!_.isUndefined(this.editingGroupDataIndex)) {
                             $("#orderDtTable").datagrid('selectRow', this.editingGroupDataIndex);
                         }
+
+                        // 下拉選項 - 計價房型、使用房型 初始化的顯示
+                        this.queryDataByRule();
+
                         //將所有order dt 資料依據group order dt 做分組
                         this.groupOrderDtData();
                         //將所有guest mn 資料依據group order dt 做分組
@@ -705,6 +709,7 @@
                 });
             },
             async addRow() {
+                this.isLoading = true;
                 // 取當前頁面的最大
                 let la_allOrderDtRowsData = [];
                 _.each(this.orderDtRowsData, (la_orderDtRowsData) => {
@@ -719,6 +724,7 @@
                     allRowData: la_allOrderDtRowsData
                 });
 
+                this.isLoading = false;
                 $("#orderDtTable").datagrid('selectRow', this.editingGroupDataIndex);
                 this.editingGroupData = $("#orderDtTable").datagrid('getSelected');
 
@@ -767,8 +773,19 @@
                 la_orderDtRowsData[this.editingGroupDataIndex].splice(ln_index, 1);
                 this.orderDtRowsData = la_orderDtRowsData;
             },
+            // 儲存
             save: function () {
-                console.log(this.tmpCUD);
+                BacUtils.doHttpPromisePostProxy('/api/execNewFormatSQL', {
+                    prg_id: 'PMS0110042',
+                    func_id: "0500",
+                    tmpCUD: this.tmpCUD
+                })
+                    .then(result => {
+                        return result;
+                    })
+                    .catch(err => {
+                        return {success: false, errorMsg: err};
+                    });
             },
             async chkOrderDtFieldRule(ui_field_name, rule_func_name) {
                 if (_.isEmpty(this.beforeOrderDtRowsData)) {
@@ -852,13 +869,15 @@
                             //改變前資料改為現在資料
                             this.beforeOrderDtRowsData = JSON.parse(JSON.stringify(this.orderDtRowsData));
 
-                            // 儲存
+                            // todo 儲存,要拉出此方法不在這做tmpCUD事情
                             let lo_orderData = this.orderDtRowsData[this.editingGroupDataIndex][this.editingOrderDtIdx];
                             let ls_ikeyseqnos = lo_orderData.ikey_seq_nos;
                             let lo_oriOrderData = _.findWhere(this.oriOrderDtRowsData[this.editingGroupDataIndex], {
                                 ikey_seq_nos: ls_ikeyseqnos
                             });
 
+                            lo_orderData.page_id = 1;
+                            lo_orderData.tab_page_id = 2;
                             if (lo_orderData !== undefined && lo_oriOrderData === undefined) {
                                 // 此次新增的資料 並且要修改
                                 let ln_createIndex = _.findIndex(this.tmpCUD.createData, {
@@ -892,7 +911,32 @@
                 catch (err) {
                     console.log(err)
                 }
-            }
+            },
+            // 下拉選項 - 計價房型、使用房型 初始化的顯示
+            queryDataByRule: async function() {
+                let lo_postData = {
+                    rule_func_name: 'select_cod_data',
+                    rowData: this.orderDtGroupRowsData[this.editingGroupDataIndex],
+                    allRowData: this.orderDtGroupRowsData
+                };
+                let lo_fetchSelectData = await new Promise((resolve, reject) => {
+                    BacUtils.doHttpPostAgent('/api/queryDataByRule', lo_postData, (result) => {
+                        resolve(result);
+                    });
+                });
+
+                let lo_select_UseCod = _.find(this.orderDtFieldData, {
+                    ui_field_name: 'use_cod'
+                });
+                let lo_select_roomCod = _.find(this.orderDtFieldData, {
+                    ui_field_name: 'room_cod'
+                });
+
+                lo_select_UseCod.selectData = lo_fetchSelectData.multiSelectOptions.use_cod;
+                lo_select_UseCod.selectDataDisplay = lo_fetchSelectData.multiSelectOptions.use_cod;
+                lo_select_roomCod.selectData = lo_fetchSelectData.multiSelectOptions.room_cod;
+                lo_select_roomCod.selectDataDisplay = lo_fetchSelectData.multiSelectOptions.room_cod;
+            },
         }
     }
 </script>
