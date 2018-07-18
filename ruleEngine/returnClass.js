@@ -19,6 +19,7 @@ function rtnObject() {
     this.modifiedRowData = {};   //修改後的Row資料
     this.isModifiable = true;    // 是否能修改
     this.readonlyFields = [];    // 需readonly的欄位
+    this.modifyFields = [];      // 可以修改的欄位
     this.selectField = [];       // 需動態產生下拉選單的欄位
     this.multiSelectOptions = {}; //多個欄位的下拉選單
 }

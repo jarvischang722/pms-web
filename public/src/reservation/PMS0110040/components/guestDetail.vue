@@ -521,6 +521,7 @@
                         //將所有guest mn 資料依據group order dt 做分組
                         this.groupGuestMnData();
                         this.activeName = 'orderDetail';
+                        this.editingOrderDtIdx = this.orderDtGroupRowsData[this.editingGroupDataIndex].length > 0 ? 0 : undefined;
                         this.isLoading = false;
                     }
                 }
@@ -528,6 +529,9 @@
                     this.initData();
                 }
             },
+            editingGroupDataIndex(val) {
+                this.editingOrderDtIdx = undefined;
+            }
         },
         methods: {
             initData() {
@@ -666,7 +670,6 @@
                 this.$eventHub.$emit("setSelectRateCodData", {
                     rowData: this.editingOrderDtData,
                     openModule: "orderDetail"
-                    // openModule: "pms0110041_lite"
                 });
             },
             searchGuestMnAltName(guestMnData, index) {
@@ -717,12 +720,14 @@
 
                 this.orderDtRowsData = lo_orderDtData;
             },
-            chkOrderDtFieldRule(ui_field_name, rule_func_name) {
-                let self = this;
+            async chkOrderDtFieldRule(ui_field_name, rule_func_name) {
                 if (_.isEmpty(this.beforeOrderDtRowsData)) {
                     this.beforeOrderDtRowsData = this.oriOrderDtRowsData;
                 }
 
+                if (_.isUndefined(this.editingOrderDtIdx)) {
+                    return;
+                }
                 let lo_param = {key_nos: this.rowData.key_nos, acust_cod: this.rowData.acust_cod};
                 let la_beforeData = [_.extend(this.beforeOrderDtRowsData[this.editingGroupDataIndex][this.editingOrderDtIdx], lo_param)];
                 let la_orderData = [_.extend(this.orderDtRowsData[this.editingGroupDataIndex][this.editingOrderDtIdx], lo_param)];
@@ -731,82 +736,80 @@
                 if (la_diff.length === 0) {
                     return;
                 }
-                console.log(rule_func_name);
+
                 if (rule_func_name === '' || !this.isEffectFromRule) {
                     this.isEffectFromRule = true;
                     return;
                 }
 
-                if (!_.isEmpty(rule_func_name.trim())) {
-                    let lo_postData = {
-                        prg_id: "PMS0110042",
-                        rule_func_name: rule_func_name,
-                        validateField: ui_field_name,
-                        singleRowData: la_orderData,
-                        oriSingleData: la_beforeData
-                    };
+                try {
+                    if (!_.isEmpty(rule_func_name.trim())) {
+                        let lo_postData = {
+                            prg_id: "PMS0110042",
+                            rule_func_name: rule_func_name,
+                            validateField: ui_field_name,
+                            singleRowData: la_orderData,
+                            oriSingleData: la_beforeData
+                        };
 
-                    BacUtils.doHttpPromisePostProxy('/api/chkFieldRule', lo_postData).then((result) => {
-                        if (result.success) {
+                        let lo_doChkFiledRule = await BacUtils.doHttpPromisePostProxy('/api/chkFieldRule', lo_postData)
+                            .then((result) => {
+                                return result;
+                            }).catch((err) => {
+                                return {success: false, errorMsg}
+                            });
 
+                        if (lo_doChkFiledRule.success) {
                             //連動帶回的值
-                            if (!_.isUndefined(result.effectValues) && _.size(result.effectValues) > 0) {
+                            if (!_.isUndefined(lo_doChkFiledRule.effectValues) && _.size(lo_doChkFiledRule.effectValues) > 0) {
                                 this.orderDtRowsData[this.editingGroupDataIndex][this.editingOrderDtIdx] =
-                                    _.extend(this.orderDtRowsData[this.editingGroupDataIndex][this.editingOrderDtIdx], result.effectValues);
+                                    _.extend(this.orderDtRowsData[this.editingGroupDataIndex][this.editingOrderDtIdx], lo_doChkFiledRule.effectValues);
 
-                                this.isEffectFromRule = result.isEffectFromRule;
+                                this.isEffectFromRule = lo_doChkFiledRule.isEffectFromRule;
                             }
                             //是否要show出訊息
-                            if (result.showAlert) {
-                                alert(result.alertMsg);
+                            if (lo_doChkFiledRule.showAlert) {
+                                alert(lo_doChkFiledRule.alertMsg);
                             }
-
-                            //是否要show出詢問視窗
-                            if (result.showConfirm) {
-                                if (confirm(result.confirmMsg)) {
-                                    self.chgSingleData = _.extend(self.singleData, result.effectValues);
-                                    self.singleData = _.extend(self.singleData, result.effectValues);
-                                }
-                                else {
-                                    //有沒有要再打一次ajax到後端
-                                    if (result.isGoPostAjax && !_.isEmpty(result.ajaxURL)) {
-                                        BacUtils.doHttpPromisePostProxy(result.ajaxURL, postData).then((result) => {
-                                            if (!result.success) {
-                                                alert(result.errorMsg);
-                                            }
-                                            else {
-                                                if (!_.isUndefined(result.effectValues) && _.size(result.effectValues) > 0) {
-                                                    self.chgSingleData = _.extend(self.singleData, result.effectValues);
-                                                    self.singleData = _.extend(self.singleData, result.effectValues);
-                                                    self.isEffectFromRule = result.isEffectFromRule;
-                                                }
-                                            }
-                                        });
-                                    }
-                                    else {
-                                        self.singleData = self.chgSingleData
-                                    }
-                                }
-                            }
-
                             //欄位是否唯獨
-                            if (result.readonlyFields.length > 0) {
-                                _.each(result.readonlyFields, (ls_field) => {
+                            if (lo_doChkFiledRule.readonlyFields.length > 0) {
+                                _.each(lo_doChkFiledRule.readonlyFields, (ls_field) => {
                                     let ln_changFieldIndex = _.findIndex(this.orderDtFieldData, {ui_field_name: ls_field});
                                     if (ln_changFieldIndex > -1) {
                                         this.orderDtFieldData[ln_changFieldIndex].modificable = 'N';
                                     }
                                 });
                             }
+                            //韓味是否可修改
+                            if (lo_doChkFiledRule.modifyFields.length > 0) {
+                                _.each(lo_doChkFiledRule.modifyFields, (ls_field) => {
+                                    let ln_changFieldIndex = _.findIndex(this.orderDtFieldData, {ui_field_name: ls_field});
+                                    if (ln_changFieldIndex > -1) {
+                                        this.orderDtFieldData[ln_changFieldIndex].modificable = 'Y';
+                                    }
+                                });
+                            }
+                            //欄位下拉資料
+                            if (lo_doChkFiledRule.selectField.length > 0) {
+                                _.each(lo_doChkFiledRule.selectField, (ls_field) => {
+                                    let ln_changFieldIndex = _.findIndex(this.orderDtFieldData, {ui_field_name: ls_field});
+                                    if (ln_changFieldIndex > -1) {
+                                        this.orderDtFieldData[ln_changFieldIndex].selectData = lo_doChkFiledRule.multiSelectOptions[ls_field];
+                                        this.orderDtFieldData[ln_changFieldIndex].selectDataDisplay = lo_doChkFiledRule.multiSelectOptions[ls_field];
+                                    }
+                                });
+                            }
+                            //改變前資料改為現在資料
+                            this.beforeOrderDtRowsData = JSON.parse(JSON.stringify(this.orderDtRowsData));
                         }
                         else {
-                            alert(result.errorMsg);
+                            alert(lo_doChkFiledRule.errorMsg);
                         }
-                    }).catch((err) => {
-                        alert(err);
-                    })
+                    }
                 }
-
+                catch (err) {
+                    console.log(err)
+                }
             }
         }
     }
