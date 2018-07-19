@@ -307,4 +307,19 @@
         <parameter type="string" kind="3">room_cod</parameter>
     </dao>
 
+    <!--取房型預設人數-->
+    <dao name="SEL_ROOM_TYP_DEFAULT_NUM">
+        <statement><![CDATA[
+            select default_adult_qnt, default_child_qnt, default_baby_qnt
+            from rvrmcod_rf
+            where athena_id = :athena_id
+            and hotel_cod = :hotel_cod
+            and room_cod = :room_cod
+        ]]>
+        </statement>
+        <parameter type="number" kind="3">athena_id</parameter>
+        <parameter type="string" kind="3">hotel_cod</parameter>
+        <parameter type="string" kind="3">room_cod</parameter>
+    </dao>
+
 </root>

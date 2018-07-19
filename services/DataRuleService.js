@@ -335,8 +335,8 @@ exports.handlePrgFuncRule = async (postData, session) => {
         func_id: postData.func_id
     };
 
-    if (!_.isUndefined(postData.page_id)) lo_param.page_id = postData.page_id;
-    if (!_.isUndefined(postData.tab_page_id)) lo_param.tab_page_id = postData.tab_page_id;
+    if (!_.isUndefined(postData.page_id)) lo_param.page_id = Number(postData.page_id);
+    if (!_.isUndefined(postData.tab_page_id)) lo_param.tab_page_id = Number(postData.tab_page_id);
 
     //從mongo PrgFunction 找資料
     const lo_prgFuncData = await mongoAgent.PrgFunction.findOne(lo_param).exec()
@@ -351,7 +351,16 @@ exports.handlePrgFuncRule = async (postData, session) => {
 
     //判斷ruleAgent裡是否有規則
     if (!_.isUndefined(ruleAgent[lo_prgFuncData.rule_func_name])) {
-        return await ruleAgent[lo_prgFuncData.rule_func_name](postData, session);
+        return await new Promise((resolve, reject) => {
+            ruleAgent[lo_prgFuncData.rule_func_name](postData, session, (err, result) => {
+                if (err) {
+                    reject(err);
+                }
+                else {
+                    resolve(result);
+                }
+            });
+        });
     }
     else {
         let lo_error = new ErrorClass();
@@ -372,11 +381,11 @@ exports.handleSelectOptionRule = async function (postData, session) {
         ui_field_name: postData.ui_field_name
     };
 
-    if (!_.isUndefined(postData.page_id)) lo_param.page_id = postData.page_id;
-    if (!_.isUndefined(postData.tab_page_id)) lo_param.tab_page_id = postData.tab_page_id;
+    if (!_.isUndefined(postData.page_id)) lo_param.page_id = Number(postData.page_id);
+    if (!_.isUndefined(postData.tab_page_id)) lo_param.tab_page_id = Number(postData.tab_page_id);
 
     //從mongo UITypeSelect 找資料
-    const lo_prgFuncData = await mongoAgent.UITypeSelect.findOne(lo_param).exec()
+    const lo_uiTypeSelectData = await mongoAgent.UITypeSelect.findOne(lo_param).exec()
         .then(result => {
             return commonTools.mongoDocToObject(result);
         })
@@ -387,8 +396,17 @@ exports.handleSelectOptionRule = async function (postData, session) {
         });
 
     //判斷ruleAgent裡是否有規則
-    if (!_.isUndefined(ruleAgent[lo_prgFuncData.rule_func_name]) && lo_prgFuncData.ds_from_sql.toUpperCase() == "R") {
-        return await ruleAgent[lo_prgFuncData.rule_func_name](postData, session);
+    if (!_.isUndefined(ruleAgent[lo_uiTypeSelectData.rule_func_name]) && lo_uiTypeSelectData.ds_from_sql.toUpperCase() == "R") {
+        return await new Promise((resolve, reject) => {
+            ruleAgent[lo_uiTypeSelectData.rule_func_name](postData, session, (err, result) => {
+                if (err) {
+                    reject(err);
+                }
+                else {
+                    resolve(result);
+                }
+            });
+        })
     }
     else {
         let lo_error = new ErrorClass();

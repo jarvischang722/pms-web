@@ -533,7 +533,8 @@
                         this.groupGuestMnData();
                         this.activeName = 'orderDetail';
                         this.editingOrderDtIdx = this.orderDtRowsData[this.editingGroupDataIndex].length > 0 ? 0 : undefined;
-                        this.qrySlectOption();
+                        //取房型下拉資料
+                        await this.qryRoomCodSelectOption();
                         this.isLoading = false;
                     }
                 }
@@ -555,11 +556,11 @@
                 this.orderDtGroupRowsData = [];
                 this.oriOrderDtGroupRowsData = [];
                 this.orderDtFieldData = [];
-                this.orderDtRowsData = [];
-                this.oriOrderDtRowsData = [];
+                this.orderDtRowsData = {};
+                this.oriOrderDtRowsData = {};
                 this.guestMnFieldData = [];
-                this.guestMnRowsData = [];
-                this.oriGuestMnRowsData = [];
+                this.guestMnRowsData = {};
+                this.oriGuestMnRowsData = {};
                 this.dgIns = {};
                 this.editingGroupDataIndex = undefined;
                 this.editingGroupData = {};
@@ -675,6 +676,49 @@
                 this.guestMnRowsData["unspecified"] = _.where(this.allGuestMnRowsData, {ikey_seq_nos: 0});
 
                 this.oriGuestMnRowsData = JSON.parse(JSON.stringify(this.guestMnRowsData));
+            },
+            //因為房型下拉資料會因為當筆order dt影響，因此要一開始透過規則以第一個渠組的第一筆資料去產生下拉資料
+            async qryRoomCodSelectOption() {
+                let ln_roomCodIndex = _.findIndex(this.orderDtFieldData, {ui_field_name: 'room_cod'});
+                let ln_useCodIndex = _.findIndex(this.orderDtFieldData, {ui_field_name: 'use_cod'});
+                if (ln_roomCodIndex > -1 && ln_useCodIndex > -1) {
+                    let lo_roomCodParam = {
+                        prg_id: 'PMS0110042',
+                        page_id: 1,
+                        tab_page_id: 2,
+                        ui_field_name: this.orderDtFieldData[ln_roomCodIndex].ui_field_name,
+                        singleRowData: [this.orderDtRowsData[this.editingGroupDataIndex][this.editingOrderDtIdx]]
+                    };
+                    let lo_useCodParam = {
+                        prg_id: 'PMS0110042',
+                        page_id: 1,
+                        tab_page_id: 2,
+                        ui_field_name: this.orderDtFieldData[ln_useCodIndex].ui_field_name,
+                        singleRowData: [this.orderDtRowsData[this.editingGroupDataIndex][this.editingOrderDtIdx]]
+                    };
+                    let [lo_fetchRoomCod, lo_fetchUseCod] = await Promise.all([
+                        BacUtils.doHttpPromisePostProxy("/api/chkSelectOptionRule", lo_roomCodParam)
+                            .then(result => {
+                                return result;
+                            }).catch(err => {
+                            return {success: false, errorMsg: err};
+                        }),
+                        BacUtils.doHttpPromisePostProxy("/api/chkSelectOptionRule", lo_useCodParam)
+                            .then(result => {
+                                return result;
+                            }).catch(err => {
+                            return {success: false, errorMsg: err};
+                        })
+                    ]);
+                    if (lo_fetchRoomCod.success) {
+                        this.orderDtFieldData[ln_roomCodIndex].selectData = lo_fetchRoomCod.selectOptions;
+                        this.orderDtFieldData[ln_roomCodIndex].selectDataDisplay = lo_fetchRoomCod.selectOptions;
+                    }
+                    if (lo_fetchUseCod.success) {
+                        this.orderDtFieldData[ln_useCodIndex].selectData = lo_fetchUseCod.selectOptions;
+                        this.orderDtFieldData[ln_useCodIndex].selectDataDisplay = lo_fetchUseCod.selectOptions;
+                    }
+                }
             },
             showRateCodDialog(index) {
                 this.editingOrderDtIdx = index;

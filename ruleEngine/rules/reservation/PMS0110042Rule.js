@@ -38,7 +38,7 @@ module.exports = {
             //連動欄位days
             let ln_days = moment(new Date(ls_coDat)).diff(moment(new Date(ls_ciDat)), "days");
 
-            if (ln_days <= 0) {
+            if (ln_days < 0) {
                 lo_result.success = false;
                 lo_error = new ErrorClass();
                 lo_error.errorMsg = 'c/i 日期要小於 c/o日期';
@@ -65,10 +65,13 @@ module.exports = {
             lo_result.effectValues = _.extend(lo_result.effectValues, lo_calculationRoomPrice.data);
 
             //取得房型下拉資料
-            let lo_roomTypSelectData = await GetRoomTypSelectOption(postData.singleRowData[0], session);
+            let lo_roomCodSelectData = await GetRoomCodSelectOption(postData.singleRowData[0], session);
+            let lo_useCodSelectData = await GetUseCodSelectOption(postData.singleRowData[0], session);
             lo_result.selectField = ["room_cod", "use_cod"];
-            lo_result.multiSelectOptions.room_cod = lo_roomTypSelectData.data.roomCodSelectData;
-            lo_result.multiSelectOptions.use_cod = lo_roomTypSelectData.data.useCodSelectData;
+            lo_result.multiSelectOptions.room_cod = lo_roomCodSelectData.data;
+            lo_result.multiSelectOptions.use_cod = lo_useCodSelectData.data;
+
+            lo_result.isEffectFromRule = false;
         }
         catch (err) {
             console.log(err);
@@ -101,7 +104,7 @@ module.exports = {
             //連動欄位days
             let ln_days = moment(new Date(ls_coDat)).diff(moment(new Date(ls_ciDat)), "days");
 
-            if (ln_days <= 0) {
+            if (ln_days < 0) {
                 lo_result.success = false;
                 lo_error = new ErrorClass();
                 lo_error.errorMsg = 'c/i 日期要小於 c/o日期';
@@ -129,10 +132,13 @@ module.exports = {
             lo_result.effectValues = _.extend(lo_result.effectValues, lo_calculationRoomPrice.data);
 
             //取得房型下拉資料
-            let lo_roomTypSelectData = await GetRoomTypSelectOption(postData.singleRowData[0], session);
+            let lo_roomCodSelectData = await GetRoomCodSelectOption(postData.singleRowData[0], session);
+            let lo_useCodSelectData = await GetUseCodSelectOption(postData.singleRowData[0], session);
             lo_result.selectField = ["room_cod", "use_cod"];
-            lo_result.multiSelectOptions.room_cod = lo_roomTypSelectData.data.roomCodSelectData;
-            lo_result.multiSelectOptions.use_cod = lo_roomTypSelectData.data.useCodSelectData;
+            lo_result.multiSelectOptions.room_cod = lo_roomCodSelectData.data;
+            lo_result.multiSelectOptions.use_cod = lo_useCodSelectData.data;
+
+            lo_result.isEffectFromRule = false;
         }
         catch (err) {
             console.log(err);
@@ -172,7 +178,7 @@ module.exports = {
                 //帶回soruce_typ, guest_typ,commis_rat
                 let lo_daoParams = commandRules.ConvertToQueryParams(lo_param.athena_id, "SEL_SOURCE_TYP_GUEST_TYP_COMMIS_RAT_FOR_RATECOD");
                 let lo_fetchData = await new Promise((resolve, reject) => {
-                    clusterQueryAgent.queryList(lo_daoParams, lo_param, function (err, result) {
+                    clusterQueryAgent.query(lo_daoParams, lo_param, function (err, result) {
                         if (err) {
                             reject(err);
                         }
@@ -201,7 +207,12 @@ module.exports = {
                 }
 
                 //檢查新rate_cod與計價房型能否配對
-
+                let lo_chkRoomTyp = await GetUseCodSelectOption(postData.singleRowData[0], session);
+                let la_roomTyp = lo_chkRoomTyp.data;
+                let ln_roomTypIdx = _.findIndex(la_roomTyp, {room_cod: postData.singleRowData[0].use_cod});
+                if (ln_roomTypIdx == -1) {
+                    lo_result.effectValues.use_cod = "";
+                }
 
                 //重算房價
                 let lo_calculationRoomPrice = await CalculationRoomPrice(postData.singleRowData[0], session);
@@ -210,10 +221,164 @@ module.exports = {
                 lo_result.effectValues = _.extend(lo_result.effectValues, lo_calculationRoomPrice.data);
 
                 //取得房型下拉資料
-                let lo_roomTypSelectData = await GetRoomTypSelectOption(postData.singleRowData[0], session);
+                let lo_roomCodSelectData = await GetRoomCodSelectOption(postData.singleRowData[0], session);
+                let lo_useCodSelectData = await GetUseCodSelectOption(postData.singleRowData[0], session);
                 lo_result.selectField = ["room_cod", "use_cod"];
-                lo_result.multiSelectOptions.room_cod = lo_roomTypSelectData.data.roomCodSelectData;
-                lo_result.multiSelectOptions.use_cod = lo_roomTypSelectData.data.useCodSelectData;
+                lo_result.multiSelectOptions.room_cod = lo_roomCodSelectData.data;
+                lo_result.multiSelectOptions.use_cod = lo_useCodSelectData.data;
+
+                lo_result.isEffectFromRule = false;
+            }
+        }
+        catch (err) {
+            console.log(err);
+            lo_error = new ErrorClass();
+            lo_result.success = false;
+            lo_error.errorMsg = err;
+        }
+
+        callback(lo_error, lo_result);
+    },
+
+    /**
+     * order dt 欄位 使用房型
+     * 1.若有排房，顯示訊息『已有排房不可修改，請至排房作業調整』
+     * 2.取房型資料
+     * @param postData
+     * @param session
+     * @param callback
+     * @returns {Promise.<void>}
+     */
+    chkOrderdtRoomcod: async function (postData, session, callback) {
+        let lo_result = new ReturnClass();
+        let lo_error = null;
+
+        try {
+            let ls_ciDat = postData.singleRowData[0].ci_dat || "";
+            let ls_coDat = postData.singleRowData[0].co_dat || "";
+            let ls_rateCod = postData.singleRowData[0].rate_cod || "";
+            let ls_ikey = postData.singleRowData[0].ikey || "";
+            let ls_ikeySeqNos = postData.singleRowData[0].ikey_seq_nos || "";
+            let la_chkFiled = [ls_ciDat, ls_coDat, ls_rateCod, ls_ikey, ls_ikeySeqNos];
+            if (la_chkFiled.indexOf("") == -1) {
+                //檢查是否有排房
+                let lo_chkIsAssign = await new Promise((resolve, reject) => {
+                    const lo_params = {
+                        athena_id: session.athena_id,
+                        ikey: ls_ikeySeqNos,
+                        ikey_seq_nos: la_chkFiled
+                    };
+                    const lo_daoParams = commandRules.ConvertToQueryParams(session.athena_id, "QRY_ASSIGN_QNT_ISEXIST");
+                    clusterQueryAgent.query(lo_daoParams, lo_params, (err, result) => {
+                        if (err) {
+                            reject(err);
+                        }
+                        else {
+                            resolve(result);
+                        }
+                    });
+                });
+                if (lo_chkIsAssign.assign_qnt > 0) {
+                    lo_error = new ErrorClass();
+                    lo_result.success = false;
+                    lo_error.errorMsg = commandRules.getMsgByCod("pms11msg4", session.locale);
+                }
+                else {
+                    //取房型下拉資料
+                    let [lo_roomCodSelectData, lo_useCodSelectData] = await Promise.all([
+                        GetRoomCodSelectOption(postData.singleRowData[0], session),
+                        GetUseCodSelectOption(postData.singleRowData[0], session)
+                    ]);
+                    lo_result.selectFiled = ["use_cod", "room_cod"];
+                    lo_result.multiSelectOptions.room_cod = lo_roomCodSelectData.data;
+                    lo_result.multiSelectOptions.use_cod = lo_useCodSelectData.data;
+                }
+            }
+            else {
+                lo_error = new ErrorClass();
+                lo_result.success = false;
+                lo_error.errorMsg = commandRules.getMsgByCod('pms11msg3', session.locale);
+            }
+        }
+        catch (err) {
+            console.log(err);
+            lo_error = new ErrorClass();
+            lo_result.success = false;
+            lo_error.errorMsg = err;
+        }
+
+        callback(lo_error, lo_result);
+    },
+
+    /**
+     * order dt 欄位 計價房型
+     * 1.取房型資料
+     * 2.使用房型要同時修改成相同房型
+     * 3.Upgrade授權人(upgrade_usr)與Upgrade原因(upgrade_reason) 要清空
+     * 4.當使用房型為空值而帶入計價房型時，需再帶此房型設定標準人數
+     * 5.重算房價
+     * @param postData
+     * @param session
+     * @param callback
+     * @returns {Promise.<void>}
+     */
+    chkOrderdtUsecod: async function (postData, session, callback) {
+        let lo_result = new ReturnClass();
+        let lo_error = null;
+
+        try {
+            let ls_ciDat = postData.singleRowData[0].ci_dat || "";
+            let ls_coDat = postData.singleRowData[0].co_dat || "";
+            let ls_rateCod = postData.singleRowData[0].rate_cod || "";
+            let ls_uesCod = postData.singleRowData[0].use_cod || "";
+            let la_chkFiled = [ls_ciDat, ls_coDat, ls_rateCod, ls_uesCod];
+            if (la_chkFiled.indexOf("") == -1) {
+                //取房型下拉資料
+                let [lo_roomCodSelectData, lo_useCodSelectData] = await Promise.all([
+                    GetRoomCodSelectOption(postData.singleRowData[0], session),
+                    GetUseCodSelectOption(postData.singleRowData[0], session)]);
+                lo_result.selectFiled = ["use_cod", "room_cod"];
+                lo_result.multiSelectOptions.room_cod = lo_roomCodSelectData.data;
+                lo_result.multiSelectOptions.use_cod = lo_useCodSelectData.data;
+
+                //使用房型要同時修改成相同房型
+                lo_result.effectValues.room_cod = ls_uesCod;
+
+                //清空Upgrade授權人、Upgrade原因
+                lo_result.effectValues.upgrade_usr = "";
+                lo_result.effectValues.upgrade_reason = "";
+
+                //當使用房型為空值而帶入計價房型時，需再帶此房型設定標準人數
+                let lo_fetchRoomNum = await new Promise((resolve, reject) => {
+                    const lo_params = {
+                        athena_id: session.athena_id,
+                        hotel_cod: session.hotel_cod,
+                        room_cod: ls_uesCod
+                    };
+                    const lo_daoParams = commandRules.ConvertToQueryParams(session.athena_id, "SEL_ROOM_TYP_DEFAULT_NUM");
+                    clusterQueryAgent.query(lo_daoParams, lo_params, (err, result) => {
+                        if (err) {
+                            reject(err);
+                        }
+                        else {
+                            resolve(result);
+                        }
+                    });
+                });
+                lo_result.effectValues.adult_qnt = lo_fetchRoomNum.default_adult_qnt;
+                lo_result.effectValues.child_qnt = lo_fetchRoomNum.default_child_qnt;
+                lo_result.effectValues.baby_qnt = lo_fetchRoomNum.default_baby_qnt;
+
+                //重算房價
+                let lo_calculationRoomPrice = await CalculationRoomPrice(postData.singleRowData[0], session);
+                lo_result.effectValues = _.extend(lo_result.effectValues, lo_calculationRoomPrice.data);
+
+                lo_result.isEffectFromRule = false;
+            }
+            else {
+                lo_error = new ErrorClass();
+                lo_result.success = false;
+                lo_error.errorMsg = commandRules.getMsgByCod('pms11msg3', session.locale);
             }
         }
         catch (err) {
@@ -250,7 +415,7 @@ module.exports = {
                 let lo_calculationRoomPrice = {};
                 let lo_doChkQnt = await new Promise((resolve, reject) => {
                     const lo_daoParams = commandRules.ConvertToQueryParams(session.athena_id, "SEL_ORDER_DT_ADUL_QNT");
-                    clusterQueryAgent.queryList(lo_daoParams, lo_params, (err, result) => {
+                    clusterQueryAgent.query(lo_daoParams, lo_params, (err, result) => {
                         if (err) {
                             reject(err);
                         }
@@ -267,6 +432,8 @@ module.exports = {
                     //計算房價
                     lo_calculationRoomPrice = await CalculationRoomPrice(postData.singleRowData[0], session);
                     lo_result.effectValues = _.extend(lo_result.effectValues, lo_calculationRoomPrice.data);
+
+                    lo_result.isEffectFromRule = false;
                 }
                 else {
                     lo_error = new ErrorClass();
@@ -314,7 +481,7 @@ module.exports = {
                 let lo_calculationRoomPrice = {};
                 let lo_doChkQnt = await new Promise((resolve, reject) => {
                     const lo_daoParams = commandRules.ConvertToQueryParams(session.athena_id, "SEL_ORDER_DT_ADUL_QNT");
-                    clusterQueryAgent.queryList(lo_daoParams, lo_params, (err, result) => {
+                    clusterQueryAgent.query(lo_daoParams, lo_params, (err, result) => {
                         if (err) {
                             reject(err);
                         }
@@ -331,6 +498,8 @@ module.exports = {
                     //計算房價
                     lo_calculationRoomPrice = await CalculationRoomPrice(postData.singleRowData[0], session);
                     lo_result.effectValues = _.extend(lo_result.effectValues, lo_calculationRoomPrice.data);
+
+                    lo_result.isEffectFromRule = false;
                 }
                 else {
                     lo_error = new ErrorClass();
@@ -352,7 +521,99 @@ module.exports = {
         }
 
         callback(lo_error, lo_result);
-    }
+    },
+
+    /**
+     * order dt 欄位　訂房來源
+     * @param postData
+     * @param session
+     * @param callback
+     */
+    chk_source_typ: function (postData, session, callback) {
+        let lo_result = new ReturnClass();
+        let lo_error = null;
+
+        let ls_sourceTyp = postData.singleRowData[0].source_typ || "";
+        if (ls_sourceTyp !== "" && ls_sourceTyp === "DU") {
+            lo_result.effectValues.co_dat = postData.singleRowData[0].ci_dat;
+        }
+
+        callback(lo_error, lo_result);
+    },
+
+    /**
+     * 取使用房型下拉資料
+     * @param postData
+     * @param session
+     * @param callback
+     * @returns {Promise.<void>}
+     */
+    sel_room_cod_rule: async function (postData, session, callback) {
+        let lo_result = new ReturnClass();
+        let lo_error = null;
+
+        try {
+
+            let ls_ciDat = postData.singleRowData[0].ci_dat || "";
+            let ls_coDat = postData.singleRowData[0].co_dat || "";
+            let ls_rateCod = postData.singleRowData[0].rate_cod || "";
+            let la_chkFiled = [ls_ciDat, ls_coDat, ls_rateCod];
+            if (la_chkFiled.indexOf("") == -1) {
+                let lo_fetchSelectData = await GetRoomCodSelectOption(postData.singleRowData[0], session);
+                lo_result.selectOptions = lo_fetchSelectData.data;
+            }
+            else {
+                lo_error = new ErrorClass();
+                lo_result.success = false;
+                lo_error.errorMsg = commandRules.getMsgByCod('pms11msg3', session.locale);
+            }
+        }
+        catch (err) {
+            console.log(err);
+            lo_error = new ErrorClass();
+            lo_result.success = false;
+            lo_error.errorMsg = err;
+        }
+
+        callback(lo_error, lo_result);
+    },
+
+    /**
+     * 取計價房型下拉資料
+     * @param postData
+     * @param session
+     * @param callback
+     * @returns {Promise.<void>}
+     */
+    sel_use_cod_rule: async function (postData, session, callback) {
+        let lo_result = new ReturnClass();
+        let lo_error = null;
+
+        try {
+
+            let ls_ciDat = postData.singleRowData[0].ci_dat || "";
+            let ls_coDat = postData.singleRowData[0].co_dat || "";
+            let ls_rateCod = postData.singleRowData[0].rate_cod || "";
+            let la_chkFiled = [ls_ciDat, ls_coDat, ls_rateCod];
+            if (la_chkFiled.indexOf("") == -1) {
+                let lo_fetchSelectData = await GetUseCodSelectOption(postData.singleRowData[0], session);
+                lo_result.selectOptions = lo_fetchSelectData.data;
+            }
+            else {
+                lo_error = new ErrorClass();
+                lo_result.success = false;
+                lo_error.errorMsg = commandRules.getMsgByCod('pms11msg3', session.locale);
+            }
+        }
+        catch (err) {
+            console.log(err);
+            lo_error = new ErrorClass();
+            lo_result.success = false;
+            lo_error.errorMsg = err;
+        }
+
+        callback(lo_error, lo_result);
+    },
 };
 
 //計算房價
@@ -431,8 +692,8 @@ async function CalculationRoomPrice(orderDtData, session) {
     return lo_data;
 }
 
-//取房型下拉資料
-async function GetRoomTypSelectOption(orderDtData, session) {
+//取使用房型下拉資料
+async function GetRoomCodSelectOption(postData, session) {
     let lo_data = {
         success: true,
         errorMsg: "",
@@ -443,46 +704,72 @@ async function GetRoomTypSelectOption(orderDtData, session) {
         let lo_params = {
             athena_id: session.athena_id,
             hotel_cod: session.hotel_cod,
-            co_dat: moment(orderDtData.co_dat).format("YYYY/MM/DD"),
-            ci_dat: moment(orderDtData.ci_dat).format("YYYY/MM/DD"),
-            rate_cod: orderDtData.rate_cod,
-            days: orderDtData.days
+            co_dat: moment(postData.co_dat).format("YYYY/MM/DD"),
+            ci_dat: moment(postData.ci_dat).format("YYYY/MM/DD"),
+            rate_cod: postData.rate_cod,
+            days: postData.days
         };
 
-        let [la_roomCodSelectData, la_useCodSelectData] = await Promise.all([
-            await new Promise((resolve, reject) => {
-                const lo_daoParams = commandRules.ConvertToQueryParams(session.athena_id, "SEL_ORDERDTROOMCOD");
-                clusterQueryAgent.queryList(lo_daoParams, lo_params, (err, result) => {
-                    if (err) {
-                        reject(err);
-                    }
-                    else {
-                        resolve(result);
-                    }
-                });
-            }),
-            await new Promise((resolve, reject) => {
-                const lo_daoParams = commandRules.ConvertToQueryParams(session.athena_id, "SEL_ORDERDTUSECOD");
-                clusterQueryAgent.queryList(lo_daoParams, lo_params, (err, result) => {
-                    if (err) {
-                        reject(err);
-                    }
-                    else {
-                        resolve(result);
-                    }
-                });
-            }),
-        ]);
-
+        let la_roomCodSelectData = await new Promise((resolve, reject) => {
+            const lo_daoParams = commandRules.ConvertToQueryParams(session.athena_id, "SEL_ORDERDTROOMCOD");
+            clusterQueryAgent.queryList(lo_daoParams, lo_params, (err, result) => {
+                if (err) {
+                    reject(err);
+                }
+                else {
+                    resolve(result);
+                }
+            });
+        });
         _.each(la_roomCodSelectData, (lo_roomCodSelectData, idx) => {
             la_roomCodSelectData[idx].display = lo_roomCodSelectData.value + ':' + lo_roomCodSelectData.display;
         });
-        _.each(la_useCodSelectData, (lo_useCodSelectData, idx) => {
-            la_useCodSelectData[idx].display = lo_useCodSelectData.value + ':' + lo_useCodSelectData.display;
+
+        lo_data.data = la_roomCodSelectData;
+    }
+    catch (err) {
+        console.log(err);
+        lo_data.success = false;
+        lo_data.errorMsg = err;
+    }
+
+    return lo_data;
+}
+
+//取計價房型下拉資料
+async function GetUseCodSelectOption(postData, session) {
+    let lo_data = {
+        success: true,
+        errorMsg: "",
+        data: {}
+    };
+
+    try {
+        let lo_params = {
+            athena_id: session.athena_id,
+            hotel_cod: session.hotel_cod,
+            co_dat: moment(postData.co_dat).format("YYYY/MM/DD"),
+            ci_dat: moment(postData.ci_dat).format("YYYY/MM/DD"),
+            rate_cod: postData.rate_cod,
+            days: postData.days
+        };
+
+        let la_roomCodSelectData = await new Promise((resolve, reject) => {
+            const lo_daoParams = commandRules.ConvertToQueryParams(session.athena_id, "SEL_ORDERDTUSECOD");
+            clusterQueryAgent.queryList(lo_daoParams, lo_params, (err, result) => {
+                if (err) {
+                    reject(err);
+                }
+                else {
+                    resolve(result);
+                }
+            });
+        });
+        _.each(la_roomCodSelectData, (lo_roomCodSelectData, idx) => {
+            la_roomCodSelectData[idx].display = lo_roomCodSelectData.value + ':' + lo_roomCodSelectData.display;
         });
 
-        lo_data.data.roomCodSelectData = la_roomCodSelectData;
-        lo_data.data.useCodSelectData = la_useCodSelectData;
+        lo_data.data = la_roomCodSelectData;
     }
     catch (err) {
         console.log(err);
