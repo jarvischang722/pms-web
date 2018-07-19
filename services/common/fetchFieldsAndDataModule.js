@@ -344,8 +344,8 @@ async function qryGsTemplateRf(params, session) {
  * 查詢多筆資料
  */
 async function qryRowData(lo_rfData, params, session) {
-    let lo_params = filterSearchCond(params, session);;
-    let ls_rule_func_name = lo_rfData.rule_func_name
+    let lo_params = filterSearchCond(params, session);
+    let ls_rule_func_name = lo_rfData.rule_func_name;
 
     return new Promise((resolve, reject) => {
         queryAgent.queryList(ls_rule_func_name.toLocaleUpperCase(), lo_params, 0, 0, function (err, result) {
@@ -694,7 +694,8 @@ function filterSearchCond(params, session) {
     _.each(params.searchCond, function (condVal, condKey) {
         if (_.isArray(condVal) && condVal.length > 0) {
             lo_params[condKey] = condVal;
-        } else if (!_.isUndefined(condVal) && !_.isEmpty(condVal)) {
+        }
+        else if (!_.isUndefined(condVal) && !_.isEmpty(condVal)) {
             lo_params[condKey] = condVal;
         }
     });
