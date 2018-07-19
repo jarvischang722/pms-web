@@ -33,23 +33,11 @@
                                     <li>
                                         <button class="btn btn-primary btn-white btn-defaultWidth"
                                                 role="button" @click="confirmData">{{i18nLang.program.PMS0810230.OK}}
-
-
-
-
-
-
                                         </button>
                                     </li>
                                     <li>
                                         <button class="btn btn-primary btn-white btn-defaultWidth"
                                                 role="button" @click="closeDialog">{{i18nLang.program.PMS0810230.leave}}
-
-
-
-
-
-
                                         </button>
                                     </li>
                                     <li>
@@ -101,9 +89,9 @@
             deleteRow() {
                 let lb_isReadOnly = false;
                 //開始日已過滾房租日期時開始日欄位唯讀不可修改
-                lb_isReadOnly = moment(this.rowData.begin_dat).diff(this.rowData.rentCalDat) > 0 ? true : false;
+                lb_isReadOnly = moment(this.rowData.begin_dat).diff(this.rowData.rentCalDat) > 0 ? false : true;
                 //當筆使用期間結束日期大於滾房租日期時為整筆唯讀，不可修改。
-                lb_isReadOnly = moment(this.rowData.end_dat).diff(this.rowData.rentCalDat) > 0 ? true : false;
+                lb_isReadOnly = moment(this.rowData.end_dat).diff(this.rowData.rentCalDat) > 0 ? false : true;
 
                 if (!lb_isReadOnly) {
                     let params = {type: 'delete', index: this.index, rowData: this.rowData};
@@ -129,9 +117,9 @@
             isReadOnly() {
                 let lb_isReadOnly = false;
                 //開始日已過滾房租日期時開始日欄位唯讀不可修改
-                lb_isReadOnly = moment(this.rowData.begin_dat).diff(this.rowData.rentCalDat) > 0 ? true : false;
+                lb_isReadOnly = moment(this.rowData.begin_dat).diff(this.rowData.rentCalDat) > 0 ? false : true;
                 //當筆使用期間結束日期大於滾房租日期時為整筆唯讀，不可修改。
-                lb_isReadOnly = moment(this.rowData.end_dat).diff(this.rowData.rentCalDat) > 0 ? true : false;
+                lb_isReadOnly = moment(this.rowData.end_dat).diff(this.rowData.rentCalDat) > 0 ? false : true;
 
                 return lb_isReadOnly
             }
@@ -174,7 +162,7 @@
             isReadOnly() {
                 let lb_isReadOnly = false;
                 //當筆使用期間結束日期大於滾房租日期時為整筆唯讀，不可修改。
-                lb_isReadOnly = moment(this.rowData.end_dat).diff(this.rowData.rentCalDat) > 0 ? true : false;
+                lb_isReadOnly = moment(this.rowData.end_dat).diff(this.rowData.rentCalDat) > 0 ? false : true;
 
                 return lb_isReadOnly
             }
@@ -216,7 +204,7 @@
             isReadOnly() {
                 let lb_isReadOnly = false;
                 //當筆使用期間結束日期大於滾房租日期時為整筆唯讀，不可修改。
-                lb_isReadOnly = moment(this.rowData.end_dat).diff(this.rowData.rentCalDat) > 0 ? true : false;
+                lb_isReadOnly = moment(this.rowData.end_dat).diff(this.rowData.rentCalDat) > 0 ? false : true;
 
                 return lb_isReadOnly
             }
@@ -257,7 +245,7 @@
             isReadOnly() {
                 let lb_isReadOnly = false;
                 //當筆使用期間結束日期大於滾房租日期時為整筆唯讀，不可修改。
-                lb_isReadOnly = moment(this.rowData.end_dat).diff(this.rowData.rentCalDat) > 0 ? true : false;
+                lb_isReadOnly = moment(this.rowData.end_dat).diff(this.rowData.rentCalDat) > 0 ? false : true;
 
                 return lb_isReadOnly
             }
@@ -311,7 +299,7 @@
             isReadOnly() {
                 let lb_isReadOnly = false;
                 //當筆使用期間結束日期大於滾房租日期時為整筆唯讀，不可修改。
-                lb_isReadOnly = moment(this.rowData.end_dat).diff(this.rowData.rentCalDat) > 0 ? true : false;
+                lb_isReadOnly = moment(this.rowData.end_dat).diff(this.rowData.rentCalDat) > 0 ? false : true;
 
                 return lb_isReadOnly
             }
@@ -579,7 +567,7 @@
                 this.useTimeData = [];
                 if (this.dataGridRowsData.length > 0) {
                     _.each(this.dataGridRowsData, (lo_dataGridRowsData) => {
-                        let lb_overDate = moment(lo_dataGridRowsData.end_dat).diff(this.rentCalDat, 'days') >= 1 ? true : false;
+                        let lb_overDate = moment(lo_dataGridRowsData.end_dat).diff(this.rentCalDat, 'days') >= 1 ? false : true;
                         if (this.isShowExpire || !this.isShowExpire && !lb_overDate) {
                             this.useTimeData.push({
                                 "begin_dat": moment(lo_dataGridRowsData.begin_dat).format("YYYY/MM/DD"),

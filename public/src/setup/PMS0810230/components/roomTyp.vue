@@ -17,6 +17,7 @@
                         {{stopSellButton.text}}
 
 
+
                     </button>
                 </div>
             </div>
@@ -31,6 +32,7 @@
                             <tr class="grayBg">
                                 <th class="ca-headerTitle grayBg defHt" style="width: 15%">
                                     {{i18nLang.program.PMS0810230.dateRule}}
+
 
 
                                 </th>
@@ -52,9 +54,11 @@
                                         </template>
                                         <template v-else-if="ratecodData.use_sta == 'N'" style="width: 100%">
                                             *
+
                                         </template>
                                         <template v-else style="width: 100%">
                                             {{ratecodData.rent_amt}}
+
                                         </template>
                                     </td>
                                 </template>
@@ -452,7 +456,7 @@
                             //取得使用期間下拉資料
                             this.useTimeSelectData = _.filter(result.selectOptions, function (obj) {
                                 let ld_endDat = moment(obj.end_dat).format("YYYY/MM/DD");
-                                return moment(ld_endDat).diff(ld_rentCalDat) >= 1;
+                                return moment(ld_endDat).diff(ld_rentCalDat) > 0;
                             });
                             this.firstFetchRateCodDtData();
                         }
