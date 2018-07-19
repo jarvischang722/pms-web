@@ -43,23 +43,18 @@
                                 <template v-for="(ratecodData,ratecodidx) in value">
                                     <td class="numeric defHt" :style="{width: tableCellWidth + '%'}"
                                         style="background-color: white;"
-                                        @click="getData(ratecodData)" :id="ratecodData.uniKey"
-                                        @blur="leaveCell(ratecodData)">
+                                        @click="getData(ratecodData)" :id="ratecodData.uniKey">
                                         <template v-if="ratecodData.isEdit && ratecodData.use_sta == 'Y'">
-                                            <input type="text" class="defHt width-100"
+                                            <input type="text"
                                                    @keyup="formatAmt(ratecodData.rent_amt, rentAmtFieldData)"
                                                    v-model="ratecodData.rent_amt"
                                                    @keyup.enter="showNextColData(key,ratecodidx)">
                                         </template>
                                         <template v-else-if="ratecodData.use_sta == 'N'" style="width: 100%">
                                             *
-
-
                                         </template>
                                         <template v-else style="width: 100%">
                                             {{ratecodData.rent_amt}}
-
-
                                         </template>
                                     </td>
                                 </template>
@@ -228,7 +223,7 @@
                                                         supply_nos: la_useTimeSelectData[ln_editIndex].value,
                                                         use_sta: 'Y',
                                                         isCreate: true,
-                                                        isEdit: false,
+                                                        isEdit: true,
                                                         uniKey: crypto.randomBytes(32).toString('base64').replace(/([\(\)\[\]\{\}\^\$\+\=\-\*\?\.\"\'\|\/\\])/g, "")
                                                     };
                                                     this.rateCodDtData.push(_.extend(lo_appendData, {event_time: moment(new Date()).format("YYYY/MM/DD HH:mm:ss")}));
@@ -488,7 +483,7 @@
                             _.each(result.dgRowData, (lo_dgRowData, idx) => {
                                 lo_dgRowData["uniKey"] =
                                     crypto.randomBytes(32).toString('base64').replace(/([\(\)\[\]\{\}\^\$\+\=\-\*\?\.\"\'\|\/\\])/g, "");
-                                lo_dgRowData["isEdit"] = false;
+                                lo_dgRowData["isEdit"] = true;
                                 lo_dgRowData["event_time"] = moment(new Date()).format("YYYY/MM/DD HH:mm:ss");
                                 lo_dgRowData["rent_amt"] = go_formatDisplayClass.amtFormat(lo_dgRowData["rent_amt"], this.rentAmtFieldData.format_func_name.rule_val);
                                 this.rateCodDtData.push(lo_dgRowData);
@@ -530,7 +525,7 @@
                             _.each(result.dgRowData, (lo_dgRowData, idx) => {
                                 result.dgRowData[idx]["uniKey"] =
                                     crypto.randomBytes(32).toString('base64').replace(/([\(\)\[\]\{\}\^\$\+\=\-\*\?\.\"\'\|\/\\])/g, "");
-                                result.dgRowData[idx]["isEdit"] = false;
+                                result.dgRowData[idx]["isEdit"] = true;
                                 result.dgRowData[idx]["event_time"] = moment(new Date()).format("YYYY/MM/DD HH:mm:ss");
                                 result.dgRowData[idx]["rent_amt"] = go_formatDisplayClass.amtFormat(lo_dgRowData["rent_amt"], this.rentAmtFieldData.format_func_name.rule_val);
                             });
@@ -662,7 +657,7 @@
                                     supply_nos: lo_useTimeData.supply_nos,
                                     use_sta: 'Y',
                                     isCreate: true,
-                                    isEdit: false,
+                                    isEdit: true,
                                     uniKey: crypto.randomBytes(32).toString('base64').replace(/([\(\)\[\]\{\}\^\$\+\=\-\*\?\.\"\'\|\/\\])/g, "")
                                 };
                                 this.rateCodDtData.push(lo_appendData);
@@ -708,13 +703,10 @@
                 });
             },
             showNextColData(key, ratecodidx){
-                console.log(key)
-                console.log(ratecodidx)
-                console.log(this.dayNamData4Display)
+                this.dayNamData4Display[key][ratecodidx + 1]['isEdit'] = true;
                 if (!_.isUndefined(this.dayNamData4Display[key][ratecodidx + 1])) {
                     this.getData(this.dayNamData4Display[key][ratecodidx + 1]);
                 }
-
             },
             showNextRowData(key, ratecodidx){
                 if (!_.isUndefined(this.dayNamData4Display[key + 1][ratecodidx])) {
