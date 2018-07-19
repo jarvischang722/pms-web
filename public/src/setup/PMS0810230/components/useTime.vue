@@ -33,11 +33,15 @@
                                     <li>
                                         <button class="btn btn-primary btn-white btn-defaultWidth"
                                                 role="button" @click="confirmData">{{i18nLang.program.PMS0810230.OK}}
+
+
                                         </button>
                                     </li>
                                     <li>
                                         <button class="btn btn-primary btn-white btn-defaultWidth"
                                                 role="button" @click="closeDialog">{{i18nLang.program.PMS0810230.leave}}
+
+
                                         </button>
                                     </li>
                                     <li>
@@ -89,10 +93,9 @@
             deleteRow() {
                 let lb_isReadOnly = false;
                 //開始日已過滾房租日期時開始日欄位唯讀不可修改
-                lb_isReadOnly = moment(this.rowData.begin_dat).diff(this.rowData.rentCalDat) > 0 ? false : true;
+                lb_isReadOnly = compareRentCalDat(this.rowData.begin_dat, this.rowData.rentCalDat);
                 //當筆使用期間結束日期大於滾房租日期時為整筆唯讀，不可修改。
-                lb_isReadOnly = moment(this.rowData.end_dat).diff(this.rowData.rentCalDat) > 0 ? false : true;
-
+                lb_isReadOnly = compareRentCalDat(this.rowData.end_dat, this.rowData.rentCalDat);
                 if (!lb_isReadOnly) {
                     let params = {type: 'delete', index: this.index, rowData: this.rowData};
                     this.$emit('on-custom-comp', params);
@@ -116,11 +119,9 @@
         computed: {
             isReadOnly() {
                 let lb_isReadOnly = false;
-                //開始日已過滾房租日期時開始日欄位唯讀不可修改
-                lb_isReadOnly = moment(this.rowData.begin_dat).diff(this.rowData.rentCalDat) > 0 ? false : true;
+                lb_isReadOnly = compareRentCalDat(this.rowData.begin_dat, this.rowData.rentCalDat);
                 //當筆使用期間結束日期大於滾房租日期時為整筆唯讀，不可修改。
-                lb_isReadOnly = moment(this.rowData.end_dat).diff(this.rowData.rentCalDat) > 0 ? false : true;
-
+                lb_isReadOnly = compareRentCalDat(this.rowData.end_dat, this.rowData.rentCalDat);
                 return lb_isReadOnly
             }
         },
@@ -160,10 +161,7 @@
         },
         computed: {
             isReadOnly() {
-                let lb_isReadOnly = false;
-                //當筆使用期間結束日期大於滾房租日期時為整筆唯讀，不可修改。
-                lb_isReadOnly = moment(this.rowData.end_dat).diff(this.rowData.rentCalDat) > 0 ? false : true;
-
+                let lb_isReadOnly = compareRentCalDat(this.rowData.end_dat, this.rowData.rentCalDat);
                 return lb_isReadOnly
             }
         },
@@ -202,10 +200,7 @@
         },
         computed: {
             isReadOnly() {
-                let lb_isReadOnly = false;
-                //當筆使用期間結束日期大於滾房租日期時為整筆唯讀，不可修改。
-                lb_isReadOnly = moment(this.rowData.end_dat).diff(this.rowData.rentCalDat) > 0 ? false : true;
-
+                let lb_isReadOnly = compareRentCalDat(this.rowData.end_dat, this.rowData.rentCalDat);
                 return lb_isReadOnly
             }
         },
@@ -243,10 +238,7 @@
         },
         computed: {
             isReadOnly() {
-                let lb_isReadOnly = false;
-                //當筆使用期間結束日期大於滾房租日期時為整筆唯讀，不可修改。
-                lb_isReadOnly = moment(this.rowData.end_dat).diff(this.rowData.rentCalDat) > 0 ? false : true;
-
+                let lb_isReadOnly = compareRentCalDat(this.rowData.end_dat, this.rowData.rentCalDat);
                 return lb_isReadOnly
             }
         },
@@ -297,10 +289,7 @@
         },
         computed: {
             isReadOnly() {
-                let lb_isReadOnly = false;
-                //當筆使用期間結束日期大於滾房租日期時為整筆唯讀，不可修改。
-                lb_isReadOnly = moment(this.rowData.end_dat).diff(this.rowData.rentCalDat) > 0 ? false : true;
-
+                let lb_isReadOnly = compareRentCalDat(this.rowData.end_dat, this.rowData.rentCalDat);
                 return lb_isReadOnly
             }
         },
@@ -867,5 +856,9 @@
                 return la_returnData;
             }
         }
+    }
+
+    function compareRentCalDat(nowDate, rentCalDat) {
+        return moment(nowDate).diff(rentCalDat) < 0 ? true : false;
     }
 </script>
