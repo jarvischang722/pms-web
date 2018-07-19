@@ -208,7 +208,8 @@
                                                         <thead>
                                                         <tr>
                                                             <th class="text-center ca-headerTitle height-fntThead rp-first-th">
-                                                                <i class="fa fa-plus green"></i>
+                                                                <i class="fa fa-plus green" @click="addGuestMnData()"
+                                                                   :class="{'pointer': isModifiable}"></i>
                                                             </th>
                                                             <template v-for="field in guestMnFieldData">
                                                                 <th v-if="field.visiable == 'Y'" class="text-left"
@@ -234,7 +235,8 @@
                                                                       v-for="(singleData, idx) in rowsData.concat(guestMnRowsData['unspecified'])">
                                                                 <tr>
                                                                     <td class="text-center">
-                                                                        <i class="fa fa-minus red"></i>
+                                                                        <i class="fa fa-minus red" @click="removeGuestMnData(singleData)"
+                                                                           :class="{'pointer': isModifiable}"></i>
                                                                     </td>
                                                                     <template v-for="field in guestMnFieldData">
                                                                         <td class="text-left input-noEdit"
@@ -407,7 +409,8 @@
     import specifyHouses from './specifyHouses';
     import selectRateCod from './selectRateCod';
 
-    var vmHub = new Vue();
+    const vmHub = new Vue();
+    const gs_prgId = "PMS0110042";
 
     /** DatagridRmSingleGridClass **/
     function DatagridSingleGridClass() {
@@ -718,9 +721,15 @@
                         this.orderDtFieldData[ln_roomCodIndex].selectData = lo_fetchRoomCod.selectOptions;
                         this.orderDtFieldData[ln_roomCodIndex].selectDataDisplay = lo_fetchRoomCod.selectOptions;
                     }
+                    else {
+                        alert(lo_fetchRoomCod.errorMsg);
+                    }
                     if (lo_fetchUseCod.success) {
                         this.orderDtFieldData[ln_useCodIndex].selectData = lo_fetchUseCod.selectOptions;
                         this.orderDtFieldData[ln_useCodIndex].selectDataDisplay = lo_fetchUseCod.selectOptions;
+                    }
+                    else {
+                        alert(lo_fetchRoomCod.errorMsg);
                     }
                 }
             },
@@ -909,6 +918,7 @@
                     prg_id: gs_prgId,
                     page_id: 1,
                     tab_page_id: 3,
+                    func_id: "0200",
                     allRowData: la_allGuestMnData
                 }).then(result => {
                     return result

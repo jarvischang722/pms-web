@@ -341,22 +341,25 @@ exports.handlePrgFuncRule = async (postData, session) => {
     //從mongo PrgFunction 找資料
     const lo_prgFuncData = await mongoAgent.PrgFunction.findOne(lo_param).exec()
         .then(result => {
+            if (!result) {
+                throw "Not found prg function."
+            }
             return commonTools.mongoDocToObject(result);
         })
         .catch(err => {
-            let lo_error = new ErrorClass();
-            lo_error.errorMsg = err;
-            throw lo_error;
+            throw err;
         });
+
+    if (lo_prgFuncData.rule_func_name.trim() === "") {
+        return await new ReturnClass();
+    }
 
     //判斷ruleAgent裡是否有規則
     if (!_.isUndefined(ruleAgent[lo_prgFuncData.rule_func_name])) {
         return await ruleAgent[lo_prgFuncData.rule_func_name](postData, session);
     }
     else {
-        let lo_error = new ErrorClass();
-        lo_error.errorMsg = "Not found rule function.";
-        throw lo_error;
+        throw "Not found rule function.";
     }
 };
 
@@ -378,31 +381,24 @@ exports.handleSelectOptionRule = async function (postData, session) {
     //從mongo UITypeSelect 找資料
     const lo_uiTypeSelectData = await mongoAgent.UITypeSelect.findOne(lo_param).exec()
         .then(result => {
+            if (!result) {
+                throw "Not found select function.";
+            }
             return commonTools.mongoDocToObject(result);
-        })
-        .catch(err => {
-            let lo_error = new ErrorClass();
-            lo_error.errorMsg = err;
-            throw lo_error;
+        }).catch(err => {
+            throw err;
         });
+
+    if (lo_uiTypeSelectData.rule_func_name.trim() === "") {
+        return await new ReturnClass();
+    }
 
     //判斷ruleAgent裡是否有規則
     if (!_.isUndefined(ruleAgent[lo_uiTypeSelectData.rule_func_name]) && lo_uiTypeSelectData.ds_from_sql.toUpperCase() == "R") {
-        return await new Promise((resolve, reject) => {
-            ruleAgent[lo_uiTypeSelectData.rule_func_name](postData, session, (err, result) => {
-                if (err) {
-                    reject(err);
-                }
-                else {
-                    resolve(result);
-                }
-            });
-        })
+        return await ruleAgent[lo_uiTypeSelectData.rule_func_name](postData, session);
     }
     else {
-        let lo_error = new ErrorClass();
-        lo_error.errorMsg = "Not found rule function.";
-        throw lo_error;
+        throw "Not found rule function.";
     }
 };
 
@@ -838,7 +834,6 @@ exports.chkDatagridDeleteEventRule = function (postData, session, callback) {
                         });
                     }
                 );
-
             });
             async.parallel(delChkFuncs, function (err, result) {
                 let lo_result = new ReturnClass();
