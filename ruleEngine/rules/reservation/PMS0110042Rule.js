@@ -548,12 +548,10 @@ module.exports = {
      * @param callback
      * @returns {Promise.<void>}
      */
-    sel_room_cod_rule: async function (postData, session, callback) {
+    sel_room_cod_rule: async function (postData, session) {
         let lo_result = new ReturnClass();
-        let lo_error = null;
 
         try {
-
             let ls_ciDat = postData.singleRowData[0].ci_dat || "";
             let ls_coDat = postData.singleRowData[0].co_dat || "";
             let ls_rateCod = postData.singleRowData[0].rate_cod || "";
@@ -561,21 +559,15 @@ module.exports = {
             if (la_chkFiled.indexOf("") == -1) {
                 let lo_fetchSelectData = await GetRoomCodSelectOption(postData.singleRowData[0], session);
                 lo_result.selectOptions = lo_fetchSelectData.data;
+                return lo_result;
             }
             else {
-                lo_error = new ErrorClass();
-                lo_result.success = false;
-                lo_error.errorMsg = commandRules.getMsgByCod('pms11msg3', session.locale);
+                throw commandRules.getMsgByCod('pms11msg3', session.locale);
             }
         }
         catch (err) {
-            console.log(err);
-            lo_error = new ErrorClass();
-            lo_result.success = false;
-            lo_error.errorMsg = err;
+            throw err;
         }
-
-        callback(lo_error, lo_result);
     },
 
     /**
@@ -585,12 +577,11 @@ module.exports = {
      * @param callback
      * @returns {Promise.<void>}
      */
-    sel_use_cod_rule: async function (postData, session, callback) {
+    sel_use_cod_rule: async function (postData, session) {
         let lo_result = new ReturnClass();
         let lo_error = null;
 
         try {
-
             let ls_ciDat = postData.singleRowData[0].ci_dat || "";
             let ls_coDat = postData.singleRowData[0].co_dat || "";
             let ls_rateCod = postData.singleRowData[0].rate_cod || "";
@@ -598,11 +589,10 @@ module.exports = {
             if (la_chkFiled.indexOf("") == -1) {
                 let lo_fetchSelectData = await GetUseCodSelectOption(postData.singleRowData[0], session);
                 lo_result.selectOptions = lo_fetchSelectData.data;
+                return lo_result;
             }
             else {
-                lo_error = new ErrorClass();
-                lo_result.success = false;
-                lo_error.errorMsg = commandRules.getMsgByCod('pms11msg3', session.locale);
+                throw commandRules.getMsgByCod('pms11msg3', session.locale);
             }
         }
         catch (err) {
@@ -610,9 +600,8 @@ module.exports = {
             lo_error = new ErrorClass();
             lo_result.success = false;
             lo_error.errorMsg = err;
+            throw err;
         }
-
-        callback(lo_error, lo_result);
     },
 
     /**
@@ -666,7 +655,57 @@ module.exports = {
             lo_error.errorMsg = err;
             throw lo_error;
         }
-    }
+    },
+
+    /**
+     * 新增guest mn 資料
+     * @param postData
+     * @param session
+     * @returns {Promise.<void>}
+     */
+    ins_guest_mn: async function (postData, session) {
+        let lo_result = new ReturnClass();
+        let lo_error = null;
+        try {
+            return await new Promise((resolve, reject) => {
+                let apiParams = {
+                    "REVE-CODE": "BAC0900805",
+                    "func_id": "0000",
+                    "athena_id": session.user.athena_id,
+                    "comp_cod": "NULL",
+                    "hotel_cod": session.user.hotel_cod,
+                    "sys_cod": "HFD",
+                    "nos_nam": "CI_SER",
+                    "link_dat": "2000/01/01"
+                };
+                tools.requestApi(sysConf.api_url.java, apiParams, function (apiErr, apiRes, data) {
+                    if (apiErr || !data) {
+                        reject(apiErr)
+                    }
+                    else {
+                        if (data["RETN-CODE"] != "0000") {
+                            reject(data["RETN-CODE-DESC"]);
+                        }
+                        else {
+                            lo_result.defaultValues = {
+                                athena_id: session.user.athena_id,
+                                hotel_cod: session.user.hotel_cod,
+                                ci_ser: data["SERIES_NOS"],
+                                assign_sta: 'N',
+                                guest_sta: 'E',
+                                master_sta: 'G',
+                                system_typ: 'HFD'
+                            };
+                            resolve(lo_result);
+                        }
+                    }
+                });
+            });
+        }
+        catch (err) {
+            throw err;
+        }
+    },
 };
 
 //計算房價

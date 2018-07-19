@@ -36,9 +36,10 @@ exports.chkPrgFuncRule = async (req, res) => {
     try {
         lo_result = await ruleSVC.handlePrgFuncRule(req.body, req.session);
     }
-    catch (error) {
+    catch (errorMsg) {
+        lo_error = new ErrorClass();
         lo_result.success = false;
-        lo_error = error;
+        lo_error.errorMsg = errorMsg;
     }
     res.json(commonTools.mergeRtnErrResultJson(lo_error, lo_result));
 };
@@ -108,15 +109,16 @@ exports.queryDataByRule = function (req, res) {
     });
 };
 
-exports.chkSelectOptionRule = async function(req, res){
+exports.chkSelectOptionRule = async function (req, res) {
     let lo_result = new ReturnClass();
     let lo_error = null;
     try {
         lo_result = await ruleSVC.handleSelectOptionRule(req.body, req.session);
     }
-    catch (error) {
+    catch (errorMsg) {
         lo_result.success = false;
-        lo_error = error;
+        lo_error = new ErrorClass();
+        lo_error.errorMsg = errorMsg;
     }
     res.json(commonTools.mergeRtnErrResultJson(lo_error, lo_result));
 };
