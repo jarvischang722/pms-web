@@ -727,6 +727,9 @@
                     let ln_tmpIndex = _.findIndex(this.tmpCUD.createData, {ikey_seq_nos: data.ikey_seq_nos});
                     this.tmpCUD.createData.splice(ln_tmpIndex, 1);
                 } else {
+                    lo_DataRow.page_id = 1;
+                    lo_DataRow.tab_page_id = 2;
+
                     // 刪除既有的資料
                     let ln_modifyIndex = _.findIndex(this.tmpCUD.updateData, {
                         ikey_seq_nos: data.ikey_seq_nos
@@ -754,6 +757,59 @@
             // 儲存
             save: async function () {
                 try {
+                    // 原始資料、現在資料 排序
+                    let la_allOriOrderData = [];
+                    let la_allOrderdata = [];
+                    _.each(this.oriOrderDtRowsData, lo_oriOrderData => {
+                        _.each(lo_oriOrderData, x => {
+                            la_allOriOrderData.push(x);
+                        })
+                    });
+
+                    _.each(this.orderDtRowsData, data => {
+                        _.each(data, x => {
+                            la_allOrderdata.push(x);
+                        })
+                    });
+                    la_allOriOrderData = _.sortBy(la_allOriOrderData, 'ikey_seq_nos');
+                    la_allOrderdata = _.sortBy(la_allOrderdata, 'ikey_seq_nos');
+
+                    // 新增
+                    if (la_allOriOrderData.length < la_allOrderdata.length) {
+                        let la_newOrderData = la_allOrderdata.slice( la_allOriOrderData.length );
+                        _.each(la_newOrderData, x => {
+                            x.page_id = 1;
+                            x.tab_page_id = 2;
+                        });
+
+                        this.tmpCUD.createData = la_newOrderData;
+                    }
+
+                    // 修改
+                    let la_beforeOrder = [];
+                    let la_afterOrder = [];
+                    la_allOriOrderData.forEach((val, idx) => {
+                        if (val.ikey_seq_nos === la_allOrderdata[idx].ikey_seq_nos) {
+                            let la_keys = _.keys(val);
+
+                            let lb_diffMark = true;
+                            la_keys.forEach(x => {
+                                if (val[x] !== la_allOrderdata[idx][x] && lb_diffMark) {
+                                    lb_diffMark = false;
+                                    val.page_id = 1;
+                                    val.tab_page_id = 2;
+                                    la_allOrderdata[idx].page_id = 1;
+                                    la_allOrderdata[idx].tab_page_id = 2;
+                                    la_beforeOrder.push(val);
+                                    la_afterOrder.push(la_allOrderdata[idx]);
+                                }
+                            });
+                        }
+                    });
+                    this.tmpCUD.updateData = la_afterOrder;
+                    this.tmpCUD.oriData = la_beforeOrder;
+
+                    // 儲存
                     let lo_result = await BacUtils.doHttpPromisePostProxy('/api/execNewFormatSQL', {
                         prg_id: 'PMS0110042',
                         func_id: "0500",
@@ -850,40 +906,6 @@
                             }
                             //改變前資料改為現在資料
                             this.beforeOrderDtRowsData = JSON.parse(JSON.stringify(this.orderDtRowsData));
-
-                            // todo 儲存,要拉出此方法不在這做tmpCUD事情
-                            let lo_orderData = this.orderDtRowsData[this.editingGroupDataIndex][this.editingOrderDtIdx];
-                            let ls_ikeyseqnos = lo_orderData.ikey_seq_nos;
-                            let lo_oriOrderData = _.findWhere(this.oriOrderDtRowsData[this.editingGroupDataIndex], {
-                                ikey_seq_nos: ls_ikeyseqnos
-                            });
-
-                            lo_orderData.page_id = 1;
-                            lo_orderData.tab_page_id = 2;
-                            if (lo_orderData !== undefined && lo_oriOrderData === undefined) {
-                                // 此次新增的資料 並且要修改
-                                let ln_createIndex = _.findIndex(this.tmpCUD.createData, {
-                                    ikey_seq_nos: ls_ikeyseqnos
-                                });
-
-                                this.tmpCUD.createData[ln_createIndex] = lo_orderData; //
-
-                            }
-                            else if ( !_.isUndefined(lo_orderData) && !_.isUndefined(lo_oriOrderData) ) {
-                                //既有的資料 並且要修改
-                                let ln_modifyIndex = _.findIndex(this.tmpCUD.updateData, {
-                                    ikey_seq_nos: ls_ikeyseqnos
-                                });
-
-                                if (ln_modifyIndex > -1) {
-                                    //tmp已經有值
-                                    this.tmpCUD.updateData[ln_modifyIndex] = lo_orderData;
-                                } else {
-                                    //tmp沒有
-                                    this.tmpCUD.updateData.push(lo_orderData);
-                                    this.tmpCUD.oriData.push(lo_oriOrderData);
-                                }
-                            }
                         }
                         else {
                             alert(lo_doChkFiledRule.errorMsg);
