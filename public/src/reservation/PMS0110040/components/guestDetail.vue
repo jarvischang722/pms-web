@@ -208,7 +208,7 @@
                                                         <thead>
                                                         <tr>
                                                             <th class="text-center ca-headerTitle height-fntThead rp-first-th">
-                                                                <i class="fa fa-plus green" @click="addGuestMnData()"
+                                                                <i class="fa fa-plus green" @click="addGuestMnData"
                                                                    :class="{'pointer': isModifiable}"></i>
                                                             </th>
                                                             <template v-for="field in guestMnFieldData">
@@ -235,7 +235,8 @@
                                                                       v-for="(singleData, idx) in rowsData.concat(guestMnRowsData['unspecified'])">
                                                                 <tr>
                                                                     <td class="text-center">
-                                                                        <i class="fa fa-minus red" @click="removeGuestMnData(singleData)"
+                                                                        <i class="fa fa-minus red"
+                                                                           @click="removeGuestMnData(singleData)"
                                                                            :class="{'pointer': isModifiable}"></i>
                                                                     </td>
                                                                     <template v-for="field in guestMnFieldData">
@@ -908,30 +909,62 @@
             },
             //新增guest mn 資料
             async addGuestMnData() {
-                let la_allGuestMnData = [];
-                _.each(this.guestMnRowsData, (la_data) => {
-                    _.each(la_data, (lo_data) => {
-                        la_allGuestMnData.push(lo_data);
-                    });
-                });
-                //新增guest mn 前要做得規則
-                let lo_chkAddRule = await BacUtils.doHttpPromisePostProxy("/api/chkPrgFuncRule", {
-                    prg_id: gs_prgId,
-                    page_id: 1,
-                    tab_page_id: 3,
-                    func_id: "0200",
-                    allRowData: la_allGuestMnData
-                }).then(result => {
-                    return result
-                }).catch(err => {
-                    return {success: false, errorMsg: err}
-                });
 
-                if (lo_chkAddRule.success) {
-                    let lo_addRowData = lo_chkAddRule.defaultValues;
-                }
-                else {
-                    alert(lo_chkAddRule.errorMsg);
+
+                // 讀取group order_dt 當前選擇的列的資料
+                this.editingGroupData = $("#orderDtTable").datagrid('getSelected');
+                let lo_groupParam = {
+                    rate_cod: this.editingGroupData.rate_cod,
+                    order_sta: this.editingGroupData.order_sta,
+                    days: this.editingGroupData.days,
+                    ci_dat: this.editingGroupData.ci_dat,
+                    co_dat: this.editingGroupData.co_dat,
+                    use_cod: this.editingGroupData.use_cod,
+                    room_cod: this.editingGroupData.room_cod,
+                    rent_amt: this.editingGroupData.rent_amt,
+                    serv_amt: this.editingGroupData.serv_amt,
+                    block_cod: this.editingGroupData.block_cod
+                };
+                // 篩選order_dt 明細
+                let la_detailOrderDtData = _.where(this.allOrderDtRowsData, lo_groupParam);
+
+
+                if (la_detailOrderDtData.length > 0) {
+
+                    _.each(la_detailOrderDtData, (lo_orderDtData) => {
+                        // _.findWhere(this.orderDtRowsData, {ikey_seq_nos: });
+
+                    });
+
+
+                    if (false) {
+
+                        let la_allGuestMnData = [];
+                        _.each(this.guestMnRowsData, (la_data) => {
+                            _.each(la_data, (lo_data) => {
+                                la_allGuestMnData.push(lo_data);
+                            });
+                        });
+                        //新增guest mn 前要做得規則
+                        let lo_chkAddRule = await BacUtils.doHttpPromisePostProxy("/api/chkPrgFuncRule", {
+                            prg_id: gs_prgId,
+                            page_id: 1,
+                            tab_page_id: 3,
+                            func_id: "0200",
+                            allRowData: la_allGuestMnData
+                        }).then(result => {
+                            return result
+                        }).catch(err => {
+                            return {success: false, errorMsg: err}
+                        });
+
+                        if (lo_chkAddRule.success) {
+                            let lo_addRowData = lo_chkAddRule.defaultValues;
+                        }
+                        else {
+                            alert(lo_chkAddRule.errorMsg);
+                        }
+                    }
                 }
             },
             //刪除guest mn 資料
