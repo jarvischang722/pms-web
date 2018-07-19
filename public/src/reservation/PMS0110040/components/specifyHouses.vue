@@ -539,11 +539,12 @@
                 oriData = _.extend(oriData, {page_id: 1010, tab_page_id: 3});
                 changeData = _.extend(changeData, {page_id: 1010, tab_page_id: 3});
 
-                let lo_oriData = _.findWhere(this.tmpCUD.oriData, {
+                let ln_oriDataIndex = _.findIndex(this.tmpCUD.oriData, {
                     ikey: oriData.ikey, alt_nam: oriData.alt_nam, ci_ser: oriData.ci_ser
                 });
 
-                if (lo_oriData !== undefined) {
+                if (ln_oriDataIndex > -1) {
+                    let lo_oriData = this.tmpCUD.oriData[ln_oriDataIndex];
                     let ln_oriDataIndex = _.findIndex(this.tmpCUD.oriData, {
                         ikey: lo_oriData.ikey, alt_nam: lo_oriData.alt_nam, ci_ser: lo_oriData.ci_ser
                     });
@@ -557,19 +558,17 @@
                     this.tmpCUD.oriData.push(oriData);
                 }
                 // 檢查並更新異動後的資料
-                let lo_changeData = _.findWhere(this.tmpCUD.updateData, {
+                let ln_changeDataIndex = _.findIndex(this.tmpCUD.updateData, {
                     ikey: changeData.ikey, alt_nam: changeData.alt_nam, ci_ser: changeData.ci_ser
                 });
 
-                if (lo_changeData !== undefined) {
-                    let ln_changeDataIndex = _.findIndex(this.tmpCUD.updateData, {
-                        ikey: lo_changeData.ikey, alt_nam: lo_changeData.alt_nam, ci_ser: lo_changeData.ci_ser
-                    });
+                if (ln_changeDataIndex > -1) {
                     if (changeData.ikey_seq_nos !== oriData.ikey_seq_nos) {
                         this.tmpCUD.updateData.splice(ln_changeDataIndex, 1);
                         this.tmpCUD.updateData.push(changeData);
                     } else if (changeData.ikey_seq_nos === oriData.ikey_seq_nos) {
-                        this.tmpCUD.updateData.splice(ln_changeDataIndex, 1);
+                        this.tmpCUD.updateData.splice(ln_changeDataIndex, 1)
+                        ;
                     }
                 } else {
                     this.tmpCUD.updateData.push(changeData);

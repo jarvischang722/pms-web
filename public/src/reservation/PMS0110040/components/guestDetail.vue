@@ -1,19 +1,19 @@
 <template>
     <div id="resvGuestDetail_dialog" class="hide padding-5">
-        <div class="businessCompanyData" v-loading="isLoading" :element-loading-text="loadingText">
-            <div class="col-xs-12 col-sm-12">
-                <!--訂房資料 dataGrid-->
-                <div class="row">
-                    <div class="col-xs-11 col-sm-11">
-                        <div class="row no-margin-right">
-                            <table id="orderDtTable"></table>
-                        </div>
-                    </div>
-                    <div class="col-xs-1 col-sm-1">
-                        <div class="row"></div>
+    <div class="businessCompanyData" v-loading="isLoading" :element-loading-text="loadingText">
+        <div class="col-xs-12 col-sm-12">
+            <!--訂房資料 dataGrid-->
+            <div class="row">
+                <div class="col-xs-11 col-sm-11">
+                    <div class="row no-margin-right">
+                        <table id="orderDtTable"></table>
                     </div>
                 </div>
-                <!--/.訂房資料 dataGrid-->
+                <div class="col-xs-1 col-sm-1">
+                    <div class="row"></div>
+                </div>
+            </div>
+            <!--/.訂房資料 dataGrid-->
 
                 <div class="clearfix"></div>
                 <div class="space-6"></div>
@@ -566,6 +566,10 @@
                 this.editingGroupData = {};
                 this.activeName = '';
                 this.isOpenSpecifyHouse = false;
+
+                Object.keys(this.tmpCUD).forEach(key => {
+                    this.tmpCUD[key] = [];
+                })
             },
             async fetchFieldsData(param) {
                 return await BacUtils.doHttpPromisePostProxy("/api/fetchOnlyDataGridFieldData", param).then((result) => {
@@ -677,49 +681,6 @@
 
                 this.oriGuestMnRowsData = JSON.parse(JSON.stringify(this.guestMnRowsData));
             },
-            //因為房型下拉資料會因為當筆order dt影響，因此要一開始透過規則以第一個渠組的第一筆資料去產生下拉資料
-            async qryRoomCodSelectOption() {
-                let ln_roomCodIndex = _.findIndex(this.orderDtFieldData, {ui_field_name: 'room_cod'});
-                let ln_useCodIndex = _.findIndex(this.orderDtFieldData, {ui_field_name: 'use_cod'});
-                if (ln_roomCodIndex > -1 && ln_useCodIndex > -1) {
-                    let lo_roomCodParam = {
-                        prg_id: 'PMS0110042',
-                        page_id: 1,
-                        tab_page_id: 2,
-                        ui_field_name: this.orderDtFieldData[ln_roomCodIndex].ui_field_name,
-                        singleRowData: [this.orderDtRowsData[this.editingGroupDataIndex][this.editingOrderDtIdx]]
-                    };
-                    let lo_useCodParam = {
-                        prg_id: 'PMS0110042',
-                        page_id: 1,
-                        tab_page_id: 2,
-                        ui_field_name: this.orderDtFieldData[ln_useCodIndex].ui_field_name,
-                        singleRowData: [this.orderDtRowsData[this.editingGroupDataIndex][this.editingOrderDtIdx]]
-                    };
-                    let [lo_fetchRoomCod, lo_fetchUseCod] = await Promise.all([
-                        BacUtils.doHttpPromisePostProxy("/api/chkSelectOptionRule", lo_roomCodParam)
-                            .then(result => {
-                                return result;
-                            }).catch(err => {
-                            return {success: false, errorMsg: err};
-                        }),
-                        BacUtils.doHttpPromisePostProxy("/api/chkSelectOptionRule", lo_useCodParam)
-                            .then(result => {
-                                return result;
-                            }).catch(err => {
-                            return {success: false, errorMsg: err};
-                        })
-                    ]);
-                    if (lo_fetchRoomCod.success) {
-                        this.orderDtFieldData[ln_roomCodIndex].selectData = lo_fetchRoomCod.selectOptions;
-                        this.orderDtFieldData[ln_roomCodIndex].selectDataDisplay = lo_fetchRoomCod.selectOptions;
-                    }
-                    if (lo_fetchUseCod.success) {
-                        this.orderDtFieldData[ln_useCodIndex].selectData = lo_fetchUseCod.selectOptions;
-                        this.orderDtFieldData[ln_useCodIndex].selectDataDisplay = lo_fetchUseCod.selectOptions;
-                    }
-                }
-            },
             showRateCodDialog(index) {
                 this.editingOrderDtIdx = index;
                 this.editingOrderDtData = _.extend(this.rowData, this.orderDtRowsData[this.editingGroupDataIndex][this.editingOrderDtIdx]);
@@ -739,7 +700,7 @@
             toggle() {
                 //TODO 檢查資料是否有異動之後做
                 this.isOpenSpecifyHouse = true;
-                var dialog = $("#resv_assignHouse_dialog").removeClass('hide').dialog({
+                let dialog = $("#resv_assignHouse_dialog").removeClass('hide').dialog({
                     modal: true,
                     title: "指定房組",
                     title_html: true,
@@ -750,6 +711,7 @@
                 });
             },
             async addRow() {
+                this.isLoading = true;
                 // 取當前頁面的最大
                 let la_allOrderDtRowsData = [];
                 _.each(this.orderDtRowsData, (la_orderDtRowsData) => {
@@ -764,6 +726,7 @@
                     allRowData: la_allOrderDtRowsData
                 });
 
+                this.isLoading = false;
                 $("#orderDtTable").datagrid('selectRow', this.editingGroupDataIndex);
                 this.editingGroupData = $("#orderDtTable").datagrid('getSelected');
 
@@ -788,6 +751,9 @@
                     let ln_tmpIndex = _.findIndex(this.tmpCUD.createData, {ikey_seq_nos: data.ikey_seq_nos});
                     this.tmpCUD.createData.splice(ln_tmpIndex, 1);
                 } else {
+                    lo_DataRow.page_id = 1;
+                    lo_DataRow.tab_page_id = 2;
+
                     // 刪除既有的資料
                     let ln_modifyIndex = _.findIndex(this.tmpCUD.updateData, {
                         ikey_seq_nos: data.ikey_seq_nos
@@ -814,6 +780,76 @@
             },
             save() {
                 console.log(this.tmpCUD);
+            // 儲存
+            save: async function () {
+                try {
+                    // 原始資料、現在資料 排序
+                    let la_allOriOrderData = [];
+                    let la_allOrderdata = [];
+                    _.each(this.oriOrderDtRowsData, lo_oriOrderData => {
+                        _.each(lo_oriOrderData, x => {
+                            la_allOriOrderData.push(x);
+                        })
+                    });
+
+                    _.each(this.orderDtRowsData, data => {
+                        _.each(data, x => {
+                            la_allOrderdata.push(x);
+                        })
+                    });
+                    la_allOriOrderData = _.sortBy(la_allOriOrderData, 'ikey_seq_nos');
+                    la_allOrderdata = _.sortBy(la_allOrderdata, 'ikey_seq_nos');
+
+                    // 新增
+                    if (la_allOriOrderData.length < la_allOrderdata.length) {
+                        let la_newOrderData = la_allOrderdata.slice( la_allOriOrderData.length );
+                        _.each(la_newOrderData, x => {
+                            x.page_id = 1;
+                            x.tab_page_id = 2;
+                        });
+
+                        this.tmpCUD.createData = la_newOrderData;
+                    }
+
+                    // 修改
+                    let la_beforeOrder = [];
+                    let la_afterOrder = [];
+                    la_allOriOrderData.forEach((val, idx) => {
+                        if (val.ikey_seq_nos === la_allOrderdata[idx].ikey_seq_nos) {
+                            let la_keys = _.keys(val);
+
+                            let lb_diffMark = true;
+                            la_keys.forEach(x => {
+                                if (val[x] !== la_allOrderdata[idx][x] && lb_diffMark) {
+                                    lb_diffMark = false;
+                                    val.page_id = 1;
+                                    val.tab_page_id = 2;
+                                    la_allOrderdata[idx].page_id = 1;
+                                    la_allOrderdata[idx].tab_page_id = 2;
+                                    la_beforeOrder.push(val);
+                                    la_afterOrder.push(la_allOrderdata[idx]);
+                                }
+                            });
+                        }
+                    });
+                    this.tmpCUD.updateData = la_afterOrder;
+                    this.tmpCUD.oriData = la_beforeOrder;
+
+                    // 儲存
+                    let lo_result = await BacUtils.doHttpPromisePostProxy('/api/execNewFormatSQL', {
+                        prg_id: 'PMS0110042',
+                        func_id: "0500",
+                        tmpCUD: this.tmpCUD
+                    });
+
+                    if (lo_result.success) {
+                        this.initPage();
+                    } else {
+                        alert(lo_result.errorMsg)
+                    }
+                } catch (err) {
+                    // alert(err)
+                }
             },
             async chkOrderDtFieldRule(ui_field_name, rule_func_name) {
                 if (_.isEmpty(this.beforeOrderDtRowsData)) {
@@ -898,40 +934,39 @@
                             //改變前資料改為現在資料
                             this.beforeOrderDtRowsData = JSON.parse(JSON.stringify(this.orderDtRowsData));
 
-//                            // 儲存
-//                            let lo_orderData = this.orderDtRowsData[this.editingGroupDataIndex][this.editingOrderDtIdx];
-//                            let ls_ikeyseqnos = lo_orderData.ikey_seq_nos;
-//                            let lo_oriOrderData = _.findWhere(this.oriOrderDtRowsData[this.editingGroupDataIndex], {
-//                                ikey_seq_nos: ls_ikeyseqnos
-//                            });
-//
-//                            if (lo_orderData !== undefined && lo_oriOrderData === undefined) {
-//                                // 此次新增的資料 並且要修改
-//                                let ln_createIndex = _.findIndex(this.tmpCUD.createData, {
-//                                    ikey_seq_nos: ls_ikeyseqnos
-//                                });
-//
-//                                this.tmpCUD.createData[ln_createIndex] = lo_orderData; //
-//
-//                            }
-//                            else if ( !_.isUndefined(lo_orderData) && !_.isUndefined(lo_oriOrderData) ) {
-//                                //既有的資料 並且要修改
-//                                let ln_modifyIndex = _.findIndex(this.tmpCUD.updateData, {
-//                                    ikey_seq_nos: ls_ikeyseqnos
-//                                });
-//
-//                                if (ln_modifyIndex > -1) {
-//                                    //tmp已經有值
-//                                    this.tmpCUD.updateData[ln_modifyIndex] = lo_orderData;
-//                                } else {
-//                                    //tmp沒有
-//                                    this.tmpCUD.updateData.push(lo_orderData);
-//                                    this.tmpCUD.oriData.push(lo_oriOrderData);
-//                                }
-//                            }
+                            // 儲存
+                            let lo_orderData = this.orderDtRowsData[this.editingGroupDataIndex][this.editingOrderDtIdx];
+                            let ls_ikeyseqnos = lo_orderData.ikey_seq_nos;
+                            let lo_oriOrderData = _.findWhere(this.oriOrderDtRowsData[this.editingGroupDataIndex], {
+                                ikey_seq_nos: ls_ikeyseqnos
+                            });
+
+                            if (lo_orderData !== undefined && lo_oriOrderData === undefined) {
+                                // 此次新增的資料 並且要修改
+                                let ln_createIndex = _.findIndex(this.tmpCUD.createData, {
+                                    ikey_seq_nos: ls_ikeyseqnos
+                                });
+
+                                this.tmpCUD.createData[ln_createIndex] = lo_orderData; //
+
+                            }
+                            else if ( !_.isUndefined(lo_orderData) && !_.isUndefined(lo_oriOrderData) ) {
+                                //既有的資料 並且要修改
+                                let ln_modifyIndex = _.findIndex(this.tmpCUD.updateData, {
+                                    ikey_seq_nos: ls_ikeyseqnos
+                                });
+
+                                if (ln_modifyIndex > -1) {
+                                    //tmp已經有值
+                                    this.tmpCUD.updateData[ln_modifyIndex] = lo_orderData;
+                                } else {
+                                    //tmp沒有
+                                    this.tmpCUD.updateData.push(lo_orderData);
+                                    this.tmpCUD.oriData.push(lo_oriOrderData);
+                                }
+                            }
                         }
                         else {
-                            this.orderDtRowsData = JSON.parse(JSON.stringify(this.beforeOrderDtRowsData));
                             alert(lo_doChkFiledRule.errorMsg);
                         }
                     }
@@ -939,8 +974,62 @@
                 catch (err) {
                     console.log(err)
                 }
+            },
+            // 下拉選項 - 計價房型、使用房型 初始化的顯示
+            queryDataByRule: async function() {
+                let lo_postData = {
+                    rule_func_name: 'select_cod_data',
+                    rowData: this.orderDtGroupRowsData[this.editingGroupDataIndex],
+                    allRowData: this.orderDtGroupRowsData
+                };
+                let lo_fetchSelectData = await new Promise((resolve, reject) => {
+                    BacUtils.doHttpPostAgent('/api/queryDataByRule', lo_postData, (result) => {
+                        resolve(result);
+                    });
+                });
+
+                let lo_select_UseCod = _.find(this.orderDtFieldData, {
+                    ui_field_name: 'use_cod'
+                });
+                let lo_select_roomCod = _.find(this.orderDtFieldData, {
+                    ui_field_name: 'room_cod'
+                });
+
+                lo_select_UseCod.selectData = lo_fetchSelectData.multiSelectOptions.use_cod;
+                lo_select_UseCod.selectDataDisplay = lo_fetchSelectData.multiSelectOptions.use_cod;
+                lo_select_roomCod.selectData = lo_fetchSelectData.multiSelectOptions.room_cod;
+                lo_select_roomCod.selectDataDisplay = lo_fetchSelectData.multiSelectOptions.room_cod;
+            },
+            initPage: async function () {
+                this.isLoading = true;
+                //清空資料
+                this.initData();
+                //取三個table的欄位資料
+                await this.fetchAllFieldsData();
+                //取所有order dt 資料
+                await this.fetchAllOrderDtRowData();
+                //取所有guest mn 資料
+                await this.fetchAllGuestRowsData();
+                //顯示group order dt 的table
+                this.showDataGrid();
+                //設定group order dt table所選定的index
+                this.editingGroupDataIndex = this.orderDtGroupRowsData.length > 0 ? 0 : undefined;
+                if (!_.isUndefined(this.editingGroupDataIndex)) {
+                    $("#orderDtTable").datagrid('selectRow', this.editingGroupDataIndex);
+                }
+
+                // 下拉選項 - 計價房型、使用房型 初始化的顯示
+                this.queryDataByRule();
+
+                //將所有order dt 資料依據group order dt 做分組
+                this.groupOrderDtData();
+                //將所有guest mn 資料依據group order dt 做分組
+                this.groupGuestMnData();
+                this.activeName = 'orderDetail';
+                this.editingOrderDtIdx = this.orderDtGroupRowsData[this.editingGroupDataIndex].length > 0 ? 0 : undefined;
+                this.isLoading = false;
             }
-        }
+        },
     }
 </script>
 
