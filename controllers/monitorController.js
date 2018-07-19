@@ -29,7 +29,12 @@ exports.monitor = function (req, res) {
                 url: "http://localhost:8888/checkServerSta",
                 timeout: 20000
             }, function (err, response, body) {
-                callback(err, body);
+                if(body.indexOf("success") == -1){
+                    callback(body, body);
+                }
+                else{
+                    callback(null, body);
+                }
             });
 
         }
@@ -126,10 +131,25 @@ exports.checkServerSta = function (req, res) {
                 }, function (error, response, body) {
                     if (error || !response || response && response.statusCode != "200" || (body && body.indexOf("success") == -1)) {
                         gas_outputMsg.push(`<br><b>API 回應</b>: <span style="color: red;">ERROR</span>`);
+
+                        if(error && !_.isUndefined(error.message)){
+                            gas_outputMsg.push(`<b>API 回應內容</b>: ${JSON.stringify(error.message)}`);
+                        }
+                        if(response && response.statusCode){
+                            gas_outputMsg.push(`<b>API 回應內容</b>: statusCode =  ${JSON.stringify(response.statusCode)}`);
+                        }
+
                     } else {
                         gas_outputMsg.push(`<br><b>API 回應</b>: OK`);
                     }
-                    gas_outputMsg.push(`<b>API 回應內容</b>: ${body.replace(/#/g, '<br>')}`);
+
+                    if(body){
+                        gas_outputMsg.push(`<b>API 回應內容</b>: ${body.replace(/#/g, '<br>')}`);
+                    }
+                    else {
+                        gas_outputMsg.push(`<b>API 回應內容</b>: body為空`);
+                    }
+
                     cb(null);
                 });
             }
