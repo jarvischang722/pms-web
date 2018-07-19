@@ -1,19 +1,19 @@
 <template>
     <div id="resvGuestDetail_dialog" class="hide padding-5">
-    <div class="businessCompanyData" v-loading="isLoading" :element-loading-text="loadingText">
-        <div class="col-xs-12 col-sm-12">
-            <!--訂房資料 dataGrid-->
-            <div class="row">
-                <div class="col-xs-11 col-sm-11">
-                    <div class="row no-margin-right">
-                        <table id="orderDtTable"></table>
+        <div class="businessCompanyData" v-loading="isLoading" :element-loading-text="loadingText">
+            <div class="col-xs-12 col-sm-12">
+                <!--訂房資料 dataGrid-->
+                <div class="row">
+                    <div class="col-xs-11 col-sm-11">
+                        <div class="row no-margin-right">
+                            <table id="orderDtTable"></table>
+                        </div>
+                    </div>
+                    <div class="col-xs-1 col-sm-1">
+                        <div class="row"></div>
                     </div>
                 </div>
-                <div class="col-xs-1 col-sm-1">
-                    <div class="row"></div>
-                </div>
-            </div>
-            <!--/.訂房資料 dataGrid-->
+                <!--/.訂房資料 dataGrid-->
 
                 <div class="clearfix"></div>
                 <div class="space-6"></div>
@@ -52,7 +52,7 @@
                                                             <th class="text-center ca-headerTitle height-fntThead rp-first-th">
                                                                 <i class="fa fa-plus green"
                                                                    :class="{'pointer': isModifiable}"
-                                                                   @click="addRow"></i>
+                                                                   @click="addOrderDtRow"></i>
                                                             </th>
                                                             <template v-for="field in orderDtFieldData">
                                                                 <th v-if="field.visiable == 'Y'" class="text-left"
@@ -94,7 +94,7 @@
                                                                     <td class="text-center">
                                                                         <i class="fa fa-minus red"
                                                                            :class="{'pointer': isModifiable}"
-                                                                           @click="remove(singleData)"
+                                                                           @click="removeOrderDtRow(singleData)"
                                                                         ></i>
                                                                     </td>
                                                                     <template v-for="field in orderDtFieldData">
@@ -681,6 +681,49 @@
 
                 this.oriGuestMnRowsData = JSON.parse(JSON.stringify(this.guestMnRowsData));
             },
+            //因為房型下拉資料會因為當筆order dt影響，因此要一開始透過規則以第一個渠組的第一筆資料去產生下拉資料
+            async qryRoomCodSelectOption() {
+                let ln_roomCodIndex = _.findIndex(this.orderDtFieldData, {ui_field_name: 'room_cod'});
+                let ln_useCodIndex = _.findIndex(this.orderDtFieldData, {ui_field_name: 'use_cod'});
+                if (ln_roomCodIndex > -1 && ln_useCodIndex > -1) {
+                    let lo_roomCodParam = {
+                        prg_id: 'PMS0110042',
+                        page_id: 1,
+                        tab_page_id: 2,
+                        ui_field_name: this.orderDtFieldData[ln_roomCodIndex].ui_field_name,
+                        singleRowData: [this.orderDtRowsData[this.editingGroupDataIndex][this.editingOrderDtIdx]]
+                    };
+                    let lo_useCodParam = {
+                        prg_id: 'PMS0110042',
+                        page_id: 1,
+                        tab_page_id: 2,
+                        ui_field_name: this.orderDtFieldData[ln_useCodIndex].ui_field_name,
+                        singleRowData: [this.orderDtRowsData[this.editingGroupDataIndex][this.editingOrderDtIdx]]
+                    };
+                    let [lo_fetchRoomCod, lo_fetchUseCod] = await Promise.all([
+                        BacUtils.doHttpPromisePostProxy("/api/chkSelectOptionRule", lo_roomCodParam)
+                            .then(result => {
+                                return result;
+                            }).catch(err => {
+                            return {success: false, errorMsg: err};
+                        }),
+                        BacUtils.doHttpPromisePostProxy("/api/chkSelectOptionRule", lo_useCodParam)
+                            .then(result => {
+                                return result;
+                            }).catch(err => {
+                            return {success: false, errorMsg: err};
+                        })
+                    ]);
+                    if (lo_fetchRoomCod.success) {
+                        this.orderDtFieldData[ln_roomCodIndex].selectData = lo_fetchRoomCod.selectOptions;
+                        this.orderDtFieldData[ln_roomCodIndex].selectDataDisplay = lo_fetchRoomCod.selectOptions;
+                    }
+                    if (lo_fetchUseCod.success) {
+                        this.orderDtFieldData[ln_useCodIndex].selectData = lo_fetchUseCod.selectOptions;
+                        this.orderDtFieldData[ln_useCodIndex].selectDataDisplay = lo_fetchUseCod.selectOptions;
+                    }
+                }
+            },
             showRateCodDialog(index) {
                 this.editingOrderDtIdx = index;
                 this.editingOrderDtData = _.extend(this.rowData, this.orderDtRowsData[this.editingGroupDataIndex][this.editingOrderDtIdx]);
@@ -710,7 +753,7 @@
                     resizable: true
                 });
             },
-            async addRow() {
+            async addOrderDtRow() {
                 this.isLoading = true;
                 // 取當前頁面的最大
                 let la_allOrderDtRowsData = [];
@@ -720,68 +763,190 @@
                     });
                 });
 
-                // 從資料庫取得預設的 ikey_seq_nos
-                let lo_getOracleDefaultData = await BacUtils.doHttpPromisePostProxy("/api/chkFieldRule", {
-                    rule_func_name: 'get_order_dt_default_data',
+                //新增 order dt 前要做得規則
+                let lo_chkAddRule = await BacUtils.doHttpPromisePostProxy("/api/chkPrgFuncRule", {
+                    prg_id: "PMS0110042",
+                    page_id: 1,
+                    tab_page_id: 2,
+                    func_id: "0200",
                     allRowData: la_allOrderDtRowsData
+                }).then(result => {
+                    return result
+                }).catch(err => {
+                    return {success: false, errorMsg: err}
                 });
 
+                if (lo_chkAddRule.success) {
+                    $("#orderDtTable").datagrid('selectRow', this.editingGroupDataIndex);
+                    this.editingGroupData = $("#orderDtTable").datagrid('getSelected');
+
+
+                    let lo_cloneOrderData = JSON.parse(JSON.stringify(this.editingGroupData));
+                    lo_cloneOrderData.ikey_seq_nos = lo_chkAddRule.defaultValues.ikey_seq_nos;
+                    lo_cloneOrderData.page_id = 1;
+                    lo_cloneOrderData.tab_page_id = 2;
+                    this.tmpCUD.createData.push(lo_cloneOrderData);
+
+                    let lo_orderDtData = JSON.parse(JSON.stringify(this.orderDtRowsData));
+                    lo_orderDtData[this.editingGroupDataIndex].push(lo_cloneOrderData);
+
+                    this.orderDtRowsData = lo_orderDtData;
+                }
+                else {
+                    alert(lo_chkAddRule.errorMsg);
+                }
                 this.isLoading = false;
-                $("#orderDtTable").datagrid('selectRow', this.editingGroupDataIndex);
-                this.editingGroupData = $("#orderDtTable").datagrid('getSelected');
-
-
-                let lo_cloneOrderData = JSON.parse(JSON.stringify(this.editingGroupData));
-                lo_cloneOrderData.ikey_seq_nos = lo_getOracleDefaultData.defaultValues.ikey_seq_nos;
-                lo_cloneOrderData.page_id = 1;
-                lo_cloneOrderData.tab_page_id = 2;
-                this.tmpCUD.createData.push(lo_cloneOrderData);
-
-                let lo_orderDtData = JSON.parse(JSON.stringify(this.orderDtRowsData));
-                lo_orderDtData[this.editingGroupDataIndex].push(lo_cloneOrderData);
-
-                this.orderDtRowsData = lo_orderDtData;
             },
-            remove(data) {
-                let lo_DataRow = _.findWhere(this.oriOrderDtRowsData[this.editingGroupDataIndex], {ikey_seq_nos: data.ikey_seq_nos});
+            async removeOrderDtRow(data) {
+                this.isLoading = true;
+                //刪除 order dt 前要做得規則
+                let lo_chkDelRule = await BacUtils.doHttpPromisePostProxy("/api/chkPrgFuncRule", {
+                    prg_id: "PMS0110042",
+                    page_id: 1,
+                    tab_page_id: 2,
+                    func_id: "0300",
+                    rowData: data
+                }).then(result => {
+                    return result
+                }).catch(err => {
+                    return {success: false, errorMsg: err}
+                });
 
-                // 刪除tmpCUD資料
-                if (lo_DataRow === undefined) {
-                    // 刪除此次新增的資料
-                    let ln_tmpIndex = _.findIndex(this.tmpCUD.createData, {ikey_seq_nos: data.ikey_seq_nos});
-                    this.tmpCUD.createData.splice(ln_tmpIndex, 1);
-                } else {
-                    lo_DataRow.page_id = 1;
-                    lo_DataRow.tab_page_id = 2;
+                if (lo_chkDelRule.success) {
+                    console.log(lo_chkDelRule);
+                    if (lo_chkDelRule.showConfirm) {
+                        if (confirm(lo_chkDelRule.confirmMsg)) {
+                            let lo_DataRow = _.findWhere(this.oriOrderDtRowsData[this.editingGroupDataIndex], {ikey_seq_nos: data.ikey_seq_nos});
 
-                    // 刪除既有的資料
-                    let ln_modifyIndex = _.findIndex(this.tmpCUD.updateData, {
-                        ikey_seq_nos: data.ikey_seq_nos
-                    });
+                            // 刪除tmpCUD資料
+                            if (lo_DataRow === undefined) {
+                                // 刪除此次新增的資料
+                                let ln_tmpIndex = _.findIndex(this.tmpCUD.createData, {ikey_seq_nos: data.ikey_seq_nos});
+                                this.tmpCUD.createData.splice(ln_tmpIndex, 1);
+                            }
+                            else {
+                                lo_DataRow.page_id = 1;
+                                lo_DataRow.tab_page_id = 2;
 
-                    let lo_cloneDataRow = JSON.parse(JSON.stringify(lo_DataRow));
-                    lo_cloneDataRow.order_sta = 'X';
+                                // 刪除既有的資料
+                                let ln_modifyIndex = _.findIndex(this.tmpCUD.updateData, {
+                                    ikey_seq_nos: data.ikey_seq_nos
+                                });
 
-                    if (ln_modifyIndex > -1) {
-                        this.tmpCUD.updateData[ln_modifyIndex] = lo_cloneDataRow;
-                    } else {
-                        this.tmpCUD.updateData.push(lo_cloneDataRow);
-                        this.tmpCUD.oriData.push(lo_DataRow);
+                                let lo_cloneDataRow = JSON.parse(JSON.stringify(lo_DataRow));
+                                lo_cloneDataRow.order_sta = 'X';
+
+                                if (ln_modifyIndex > -1) {
+                                    this.tmpCUD.updateData[ln_modifyIndex] = lo_cloneDataRow;
+                                } else {
+                                    this.tmpCUD.updateData.push(lo_cloneDataRow);
+                                    this.tmpCUD.oriData.push(lo_DataRow);
+                                }
+                            }
+
+                            // 刪除 orderDtRowsData的資料
+                            let ln_index = _.findIndex(this.orderDtRowsData[this.editingGroupDataIndex], {
+                                ikey_seq_nos: data.ikey_seq_nos
+                            });
+                            let la_orderDtRowsData = JSON.parse(JSON.stringify(this.orderDtRowsData));
+                            la_orderDtRowsData[this.editingGroupDataIndex].splice(ln_index, 1);
+                            this.orderDtRowsData = la_orderDtRowsData;
+                        }
+                    }
+                    else {
+                        let lo_DataRow = _.findWhere(this.oriOrderDtRowsData[this.editingGroupDataIndex], {ikey_seq_nos: data.ikey_seq_nos});
+
+                        // 刪除tmpCUD資料
+                        if (lo_DataRow === undefined) {
+                            // 刪除此次新增的資料
+                            let ln_tmpIndex = _.findIndex(this.tmpCUD.createData, {ikey_seq_nos: data.ikey_seq_nos});
+                            this.tmpCUD.createData.splice(ln_tmpIndex, 1);
+                        }
+                        else {
+                            lo_DataRow.page_id = 1;
+                            lo_DataRow.tab_page_id = 2;
+
+                            // 刪除既有的資料
+                            let ln_modifyIndex = _.findIndex(this.tmpCUD.updateData, {
+                                ikey_seq_nos: data.ikey_seq_nos
+                            });
+
+                            let lo_cloneDataRow = JSON.parse(JSON.stringify(lo_DataRow));
+                            lo_cloneDataRow.order_sta = 'X';
+
+                            if (ln_modifyIndex > -1) {
+                                this.tmpCUD.updateData[ln_modifyIndex] = lo_cloneDataRow;
+                            } else {
+                                this.tmpCUD.updateData.push(lo_cloneDataRow);
+                                this.tmpCUD.oriData.push(lo_DataRow);
+                            }
+                        }
+
+                        // 刪除 orderDtRowsData的資料
+                        let ln_index = _.findIndex(this.orderDtRowsData[this.editingGroupDataIndex], {
+                            ikey_seq_nos: data.ikey_seq_nos
+                        });
+                        let la_orderDtRowsData = JSON.parse(JSON.stringify(this.orderDtRowsData));
+                        la_orderDtRowsData[this.editingGroupDataIndex].splice(ln_index, 1);
+                        this.orderDtRowsData = la_orderDtRowsData;
                     }
                 }
-
-                // 刪除 orderDtRowsData的資料
-                let ln_index = _.findIndex(this.orderDtRowsData[this.editingGroupDataIndex], {
-                    ikey_seq_nos: data.ikey_seq_nos
-                });
-                let la_orderDtRowsData = JSON.parse(JSON.stringify(this.orderDtRowsData));
-                la_orderDtRowsData[this.editingGroupDataIndex].splice(ln_index, 1);
-                this.orderDtRowsData = la_orderDtRowsData;
+                else {
+                    alert(lo_chkDelRule.errorMsg);
+                }
+                this.isLoading = false;
             },
-            save() {
-                console.log(this.tmpCUD);
-            // 儲存
-            save: async function () {
+            //新增guest mn 資料
+            async addGuestMnData() {
+                let la_allGuestMnData = [];
+                _.each(this.guestMnRowsData, (la_data) => {
+                    _.each(la_data, (lo_data) => {
+                        la_allGuestMnData.push(lo_data);
+                    });
+                });
+                //新增guest mn 前要做得規則
+                let lo_chkAddRule = await BacUtils.doHttpPromisePostProxy("/api/chkPrgFuncRule", {
+                    prg_id: gs_prgId,
+                    page_id: 1,
+                    tab_page_id: 3,
+                    allRowData: la_allGuestMnData
+                }).then(result => {
+                    return result
+                }).catch(err => {
+                    return {success: false, errorMsg: err}
+                });
+
+                if (lo_chkAddRule.success) {
+                    let lo_addRowData = lo_chkAddRule.defaultValues;
+                }
+                else {
+                    alert(lo_chkAddRule.errorMsg);
+                }
+            },
+            //刪除guest mn 資料
+            async removeGuestMnData(data) {
+                this.isLoading = true;
+                //刪除guest mn 前要做得規則
+                let lo_chkDelRule = await BacUtils.doHttpPromisePostProxy("/api/chkPrgFuncRule", {
+                    prg_id: gs_prgId,
+                    page_id: 1,
+                    tab_page_id: 3,
+                    func_id: "0300",
+                    rowData: data
+                }).then(result => {
+                    return result
+                }).catch(err => {
+                    return {success: false, errorMsg: err}
+                });
+
+                if (lo_chkDelRule.success) {
+                }
+                else {
+                    alert(lo_chkDelRule.errorMsg);
+                }
+                this.isLoading = false;
+            },
+            async save() {
                 try {
                     // 原始資料、現在資料 排序
                     let la_allOriOrderData = [];
@@ -802,7 +967,7 @@
 
                     // 新增
                     if (la_allOriOrderData.length < la_allOrderdata.length) {
-                        let la_newOrderData = la_allOrderdata.slice( la_allOriOrderData.length );
+                        let la_newOrderData = la_allOrderdata.slice(la_allOriOrderData.length);
                         _.each(la_newOrderData, x => {
                             x.page_id = 1;
                             x.tab_page_id = 2;
@@ -864,6 +1029,13 @@
                 let la_orderData = [_.extend(this.orderDtRowsData[this.editingGroupDataIndex][this.editingOrderDtIdx], lo_param)];
                 let la_diff = _.difference(la_beforeData, la_orderData);
 
+                let la_allOrderDtRowsData = [];
+                _.each(this.orderDtRowsData, (la_data) => {
+                    _.each(la_data, (lo_data) => {
+                        la_allOrderDtRowsData.push(lo_data);
+                    });
+                });
+
                 if (la_diff.length === 0 && !this.isFirstFetch) {
                     return;
                 }
@@ -881,7 +1053,8 @@
                             rule_func_name: rule_func_name,
                             validateField: ui_field_name,
                             singleRowData: la_orderData,
-                            oriSingleData: la_beforeData
+                            oriSingleData: la_beforeData,
+                            allRowData: la_allOrderDtRowsData
                         };
 
                         let lo_doChkFiledRule = await BacUtils.doHttpPromisePostProxy('/api/chkFieldRule', lo_postData)
@@ -950,7 +1123,7 @@
                                 this.tmpCUD.createData[ln_createIndex] = lo_orderData; //
 
                             }
-                            else if ( !_.isUndefined(lo_orderData) && !_.isUndefined(lo_oriOrderData) ) {
+                            else if (!_.isUndefined(lo_orderData) && !_.isUndefined(lo_oriOrderData)) {
                                 //既有的資料 並且要修改
                                 let ln_modifyIndex = _.findIndex(this.tmpCUD.updateData, {
                                     ikey_seq_nos: ls_ikeyseqnos
@@ -975,60 +1148,6 @@
                     console.log(err)
                 }
             },
-            // 下拉選項 - 計價房型、使用房型 初始化的顯示
-            queryDataByRule: async function() {
-                let lo_postData = {
-                    rule_func_name: 'select_cod_data',
-                    rowData: this.orderDtGroupRowsData[this.editingGroupDataIndex],
-                    allRowData: this.orderDtGroupRowsData
-                };
-                let lo_fetchSelectData = await new Promise((resolve, reject) => {
-                    BacUtils.doHttpPostAgent('/api/queryDataByRule', lo_postData, (result) => {
-                        resolve(result);
-                    });
-                });
-
-                let lo_select_UseCod = _.find(this.orderDtFieldData, {
-                    ui_field_name: 'use_cod'
-                });
-                let lo_select_roomCod = _.find(this.orderDtFieldData, {
-                    ui_field_name: 'room_cod'
-                });
-
-                lo_select_UseCod.selectData = lo_fetchSelectData.multiSelectOptions.use_cod;
-                lo_select_UseCod.selectDataDisplay = lo_fetchSelectData.multiSelectOptions.use_cod;
-                lo_select_roomCod.selectData = lo_fetchSelectData.multiSelectOptions.room_cod;
-                lo_select_roomCod.selectDataDisplay = lo_fetchSelectData.multiSelectOptions.room_cod;
-            },
-            initPage: async function () {
-                this.isLoading = true;
-                //清空資料
-                this.initData();
-                //取三個table的欄位資料
-                await this.fetchAllFieldsData();
-                //取所有order dt 資料
-                await this.fetchAllOrderDtRowData();
-                //取所有guest mn 資料
-                await this.fetchAllGuestRowsData();
-                //顯示group order dt 的table
-                this.showDataGrid();
-                //設定group order dt table所選定的index
-                this.editingGroupDataIndex = this.orderDtGroupRowsData.length > 0 ? 0 : undefined;
-                if (!_.isUndefined(this.editingGroupDataIndex)) {
-                    $("#orderDtTable").datagrid('selectRow', this.editingGroupDataIndex);
-                }
-
-                // 下拉選項 - 計價房型、使用房型 初始化的顯示
-                this.queryDataByRule();
-
-                //將所有order dt 資料依據group order dt 做分組
-                this.groupOrderDtData();
-                //將所有guest mn 資料依據group order dt 做分組
-                this.groupGuestMnData();
-                this.activeName = 'orderDetail';
-                this.editingOrderDtIdx = this.orderDtGroupRowsData[this.editingGroupDataIndex].length > 0 ? 0 : undefined;
-                this.isLoading = false;
-            }
         },
     }
 </script>

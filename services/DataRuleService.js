@@ -351,16 +351,7 @@ exports.handlePrgFuncRule = async (postData, session) => {
 
     //判斷ruleAgent裡是否有規則
     if (!_.isUndefined(ruleAgent[lo_prgFuncData.rule_func_name])) {
-        return await new Promise((resolve, reject) => {
-            ruleAgent[lo_prgFuncData.rule_func_name](postData, session, (err, result) => {
-                if (err) {
-                    reject(err);
-                }
-                else {
-                    resolve(result);
-                }
-            });
-        });
+        return await ruleAgent[lo_prgFuncData.rule_func_name](postData, session);
     }
     else {
         let lo_error = new ErrorClass();

@@ -614,6 +614,59 @@ module.exports = {
 
         callback(lo_error, lo_result);
     },
+
+    /**
+     * 新增order dt明細
+     * 1.取訂房卡序號
+     * @param postData
+     * @param session
+     * @param callback
+     * @returns {Promise.<void>}
+     */
+    ins_order_dt: async function (postData, session) {
+        let lo_result = new ReturnClass();
+        let lo_error = null;
+        try {
+            let lo_params = {
+                athena_id: session.user.athena_id,
+                hotel_cod: session.user.hotel_cod,
+                ikey: postData.allRowData[0].ikey
+            };
+
+            //取order_dt max ikey_seq_nos
+            let lo_fetchMaxIkeySeqNos = await new Promise((resolve, reject) => {
+                const lo_daoParams = commandRules.ConvertToQueryParams(session.athena_id, "SEL_ORDER_DT_MAX_IKEY_SEQ_NOS");
+                clusterQueryAgent.query(lo_daoParams, lo_params, (err, result) => {
+                    if (err) {
+                        reject(err);
+                    }
+                    else {
+                        resolve(result);
+                    }
+                });
+            });
+            let lo_nowMaxIkeySeqNos = _.isUndefined(postData.allRowData[0].ikey_seq_nos) ?
+                0 : _.max(postData.allRowData, (lo_orderDtRowsData) => {
+                    return Number(lo_orderDtRowsData.ikey_seq_nos);
+                });
+            let ln_ikeySeqNos = 0;
+            if (!_.isNull(lo_fetchMaxIkeySeqNos.ikey_seq_nos)) {
+                ln_ikeySeqNos = Number(lo_fetchMaxIkeySeqNos.ikey_seq_nos) > Number(lo_nowMaxIkeySeqNos.ikey_seq_nos) ?
+                    Number(lo_fetchMaxIkeySeqNos.ikey_seq_nos) : Number(lo_nowMaxIkeySeqNos.ikey_seq_nos);
+            }
+            lo_result.defaultValues.ikey_seq_nos = ln_ikeySeqNos + 1;
+
+            return lo_result;
+
+        }
+        catch (err) {
+            console.log(err);
+            lo_error = new ErrorClass();
+            lo_result.success = false;
+            lo_error.errorMsg = err;
+            throw lo_error;
+        }
+    }
 };
 
 //計算房價
