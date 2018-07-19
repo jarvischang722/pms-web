@@ -407,7 +407,8 @@
     import specifyHouses from './specifyHouses';
     import selectRateCod from './selectRateCod';
 
-    var vmHub = new Vue();
+    const vmHub = new Vue();
+    const gs_prgId = "PMS0110042";
 
     /** DatagridRmSingleGridClass **/
     function DatagridSingleGridClass() {
@@ -440,6 +441,7 @@
             this.$eventHub.$on("getGhistMnDataToOrder", (data) => {
                 if (this.$store.state.orderMnModule.gs_openModule == "guestDetail") {
                     let lo_ghistMnData = JSON.parse(JSON.stringify(data.ghistMnData));
+                    console.log(data.ghistMnData);
                     if (this.editingGuestMnData.ikey_seq_nos == 0) {
                         let ln_editIdx = _.findIndex(this.guestMnRowsData["unspecified"], {ci_ser: this.editingGuestMnData.ci_ser});
                         if (ln_editIdx > -1) {
@@ -581,9 +583,9 @@
             async fetchAllFieldsData() {
                 try {
                     let [lo_fetchGroupOrderDtFieldsData, lo_fetchOrderDtFieldsData, lo_fetchGuestMnFieldsData] = await Promise.all([
-                        this.fetchFieldsData({prg_id: 'PMS0110042', page_id: 1, tab_page_id: 1}),
-                        this.fetchFieldsData({prg_id: 'PMS0110042', page_id: 1, tab_page_id: 2}),
-                        this.fetchFieldsData({prg_id: 'PMS0110042', page_id: 1, tab_page_id: 3})
+                        this.fetchFieldsData({prg_id: gs_prgId, page_id: 1, tab_page_id: 1}),
+                        this.fetchFieldsData({prg_id: gs_prgId, page_id: 1, tab_page_id: 2}),
+                        this.fetchFieldsData({prg_id: gs_prgId, page_id: 1, tab_page_id: 3})
                     ]);
                     this.orderDtGroupFieldData = lo_fetchGroupOrderDtFieldsData.dgFieldsData;
                     this.orderDtFieldData = _.sortBy(lo_fetchOrderDtFieldsData.dgFieldsData, "col_seq");
@@ -595,7 +597,7 @@
             },
             async fetchAllOrderDtRowData() {
                 let lo_fetchOrderDtData = await BacUtils.doHttpPromisePostProxy("/api/fetchDgRowData", {
-                    prg_id: 'PMS0110042',
+                    prg_id: gs_prgId,
                     page_id: 1,
                     tab_page_id: 1,
                     searchCond: {ikey: this.rowData.ikey}
@@ -624,7 +626,7 @@
             },
             async fetchAllGuestRowsData() {
                 let lo_fetchGuestMnData = await BacUtils.doHttpPromisePostProxy("/api/fetchDgRowData", {
-                    prg_id: 'PMS0110042',
+                    prg_id: gs_prgId,
                     page_id: 1,
                     tab_page_id: 3,
                     searchCond: {ikey: this.rowData.ikey}
@@ -687,14 +689,14 @@
                 let ln_useCodIndex = _.findIndex(this.orderDtFieldData, {ui_field_name: 'use_cod'});
                 if (ln_roomCodIndex > -1 && ln_useCodIndex > -1) {
                     let lo_roomCodParam = {
-                        prg_id: 'PMS0110042',
+                        prg_id: gs_prgId,
                         page_id: 1,
                         tab_page_id: 2,
                         ui_field_name: this.orderDtFieldData[ln_roomCodIndex].ui_field_name,
                         singleRowData: [this.orderDtRowsData[this.editingGroupDataIndex][this.editingOrderDtIdx]]
                     };
                     let lo_useCodParam = {
-                        prg_id: 'PMS0110042',
+                        prg_id: gs_prgId,
                         page_id: 1,
                         tab_page_id: 2,
                         ui_field_name: this.orderDtFieldData[ln_useCodIndex].ui_field_name,
@@ -765,7 +767,7 @@
 
                 //新增 order dt 前要做得規則
                 let lo_chkAddRule = await BacUtils.doHttpPromisePostProxy("/api/chkPrgFuncRule", {
-                    prg_id: "PMS0110042",
+                    prg_id: gs_prgId,
                     page_id: 1,
                     tab_page_id: 2,
                     func_id: "0200",
@@ -801,7 +803,7 @@
                 this.isLoading = true;
                 //刪除 order dt 前要做得規則
                 let lo_chkDelRule = await BacUtils.doHttpPromisePostProxy("/api/chkPrgFuncRule", {
-                    prg_id: "PMS0110042",
+                    prg_id: gs_prgId,
                     page_id: 1,
                     tab_page_id: 2,
                     func_id: "0300",
@@ -909,6 +911,7 @@
                     prg_id: gs_prgId,
                     page_id: 1,
                     tab_page_id: 3,
+                    func_id: "0200",
                     allRowData: la_allGuestMnData
                 }).then(result => {
                     return result
@@ -1002,7 +1005,7 @@
 
                     // 儲存
                     let lo_result = await BacUtils.doHttpPromisePostProxy('/api/execNewFormatSQL', {
-                        prg_id: 'PMS0110042',
+                        prg_id: gs_prgId,
                         func_id: "0500",
                         tmpCUD: this.tmpCUD
                     });
@@ -1049,7 +1052,7 @@
                     this.isFirstFetch = false;
                     if (!_.isEmpty(rule_func_name.trim())) {
                         let lo_postData = {
-                            prg_id: "PMS0110042",
+                            prg_id: gs_prgId,
                             rule_func_name: rule_func_name,
                             validateField: ui_field_name,
                             singleRowData: la_orderData,
