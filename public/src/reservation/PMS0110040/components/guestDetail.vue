@@ -937,18 +937,6 @@
             //刪除guest mn 資料
             async removeGuestMnData(data) {
                 this.isLoading = true;
-                //刪除guest mn 前要做得規則
-                let lo_chkDelRule = await BacUtils.doHttpPromisePostProxy("/api/chkPrgFuncRule", {
-                    prg_id: gs_prgId,
-                    page_id: 1,
-                    tab_page_id: 3,
-                    func_id: "0300",
-                    rowData: data
-                }).then(result => {
-                    return result
-                }).catch(err => {
-                    return {success: false, errorMsg: err}
-                });
 
                 if (lo_chkDelRule.success) {
                 }
