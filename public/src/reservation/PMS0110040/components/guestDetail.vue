@@ -961,6 +961,7 @@
 
                         if (lo_chkAddRule.success) {
                             let lo_addRowData = lo_chkAddRule.defaultValues;
+                            console.log(lo_addRowData);
                             // 新增顧客資料把目前缺少的ikey_seq_nos補齊
                             if (la_lossIkeySeqNosGuest.length > 0) {
                                 _.each(la_lossIkeySeqNosGuest, (lo_guest) => {
@@ -982,11 +983,7 @@
                 if (this.isModifiable) {
                     this.isLoading = true;
 
-                    if (lo_chkDelRule.success) {
-                    }
-                    else {
-                        alert(lo_chkDelRule.errorMsg);
-                    }
+
                     this.isLoading = false;
                 }
             },
