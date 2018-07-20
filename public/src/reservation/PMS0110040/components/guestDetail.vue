@@ -1094,7 +1094,6 @@
                 }
             },
             async chkOrderDtFieldRule(ui_field_name, rule_func_name) {
-                console.log(ui_field_name, rule_func_name);
                 if (_.isEmpty(this.beforeOrderDtRowsData)) {
                     this.beforeOrderDtRowsData = this.oriOrderDtRowsData;
                 }
