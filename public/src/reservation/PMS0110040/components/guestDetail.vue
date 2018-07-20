@@ -535,7 +535,8 @@
                     oriData: []
                 },
                 allOrderDetail: [],
-                allMark: false
+                allMark: false,
+                reload: false,
             }
         },
         watch: {
@@ -575,6 +576,42 @@
                     this.initData();
                 }
             },
+            async reload(newV) {
+                /**
+                 * 上方的 isGuestDetail 因為是 props，無法再guestDetail 進行改變，但也不想隨意讓子組件傳遞資料後，改變父組件資料
+                 * 目前我無法預測改了 父層級的資料會有甚麼變化影響到其他功能。
+                 */
+                if (newV) {
+                    if (this.isGuestDetail && !_.isUndefined(this.rowData.ikey)) {
+                        this.initData();
+                        //取三個table的欄位資料
+                        await this.fetchAllFieldsData();
+                        //取所有order dt 資料
+                        await this.fetchAllOrderDtRowData();
+                        //取所有guest mn 資料
+                        await this.fetchAllGuestRowsData();
+                        //顯示group order dt 的table
+                        this.showDataGrid();
+                        //設定group order dt table所選定的index
+                        this.editingGroupDataIndex = this.orderDtGroupRowsData.length > 0 ? 0 : undefined;
+                        if (!_.isUndefined(this.editingGroupDataIndex)) {
+                            $("#orderDtTable").datagrid('selectRow', this.editingGroupDataIndex);
+                        }
+                        //將所有order dt 資料依據group order dt 做分組
+                        this.groupOrderDtData();
+                        //將所有guest mn 資料依據group order dt 做分組
+                        this.groupGuestMnData();
+                        this.activeName = 'orderDetail';
+                        this.editingOrderDtIdx = this.orderDtRowsData[this.editingGroupDataIndex].length > 0 ? 0 : undefined;
+                        //取房型下拉資料
+                        await this.qryRoomCodSelectOption();
+                    }
+                    else {
+                        this.initData();
+                    }
+                    this.reload = false;
+                }
+            },
             editingGroupDataIndex(val) {
                 this.editingOrderDtIdx = undefined;
                 $("#orderDtTable").datagrid('selectRow', this.editingGroupDataIndex);
@@ -582,8 +619,13 @@
                 if (!_.isUndefined(this.editingGroupData)) {
                     let ls_orderSta = this.editingGroupData.order_sta;
                     let ls_ciDat = this.editingGroupData.ci_dat;
-                    let la_checkField = ["I", "O", "S", "D"];
-                    this.isModifiable = (la_checkField.indexOf(ls_orderSta) > -1 && moment(ls_ciDat).diff(moment(this.rentCalDat), "days") >= 0) ? true : false
+
+                    /**
+                     * 看文件應該是'I,O,S,D'不能修改的，能修改的只有 order_sta: N 以及 C/I日期小於滾房租日期
+                     */
+                    // let la_checkField = ["I", "O", "S", "D"];
+                    // this.isModifiable = (la_checkField.indexOf(ls_orderSta) > -1 && moment(ls_ciDat).diff(moment(this.rentCalDat), "days") >= 0)
+                    this.isModifiable = (ls_orderSta === 'N' && moment(ls_ciDat).diff(moment(this.rentCalDat), "days") >= 0)
                 }
             },
             allMark(newVal) {
@@ -1045,6 +1087,8 @@
             },
             async save() {
                 try {
+                    this.isLoading = true;
+
                     // 原始資料、現在資料 排序
                     let la_allOriOrderData = [];
                     let la_allOrderdata = [];
@@ -1097,6 +1141,21 @@
                     this.tmpCUD.updateData = la_afterOrder;
                     this.tmpCUD.oriData = la_beforeOrder;
 
+                    // 驗證
+                    let la_orderDtRowsData = [];
+                    Object.keys(this.tmpCUD).forEach(key => {
+                        if (this.tmpCUD[key].length > 0 && this.tmpCUD[key] !== 'oriData' ) {
+                            la_orderDtRowsData.push(this.dataValidate(this.tmpCUD[key], this.orderDtFieldData));
+                        }
+                    });
+
+                    let la_chkData = await Promise.all(la_orderDtRowsData);
+                    let ln_chkIndex = _.findIndex(la_chkData, {success: false});
+                    if (ln_chkIndex > -1) {
+                        alert(la_chkData[ln_chkIndex].msg);
+                        return;
+                    }
+
                     // 儲存
                     let lo_result = await BacUtils.doHttpPromisePostProxy('/api/execNewFormatSQL', {
                         prg_id: gs_prgId,
@@ -1105,11 +1164,13 @@
                     });
 
                     if (lo_result.success) {
-                        this.initPage();
+                        this.isLoading = false;
+                        this.reload = true;
                     } else {
                         alert(lo_result.errorMsg)
                     }
                 } catch (err) {
+                    console.log(err)
                     // alert(err)
                 }
             },
@@ -1253,6 +1314,34 @@
                     })
                 });
                 this.orderDtRowsData = JSON.parse(JSON.stringify(la_allOrderdata));
+            },
+            // 驗證
+            dataValidate(chkData, chkFields) {
+                return new Promise((resolve, reject) => {
+                    let lo_checkResult = {success: true, msg: ""};
+                    let la_chkData = Array.isArray(chkData) ? chkData : [chkData];
+
+                    //檢查資料
+                    for (let lo_chkData of la_chkData) {
+                        for (let lo_field of chkFields) {
+                            //必填
+                            if (lo_field.requirable === "Y" && lo_field.modificable !== "N" && lo_field.ui_type !== "checkbox") {
+                                lo_checkResult = go_validateClass.required(lo_chkData[lo_field.ui_field_name], lo_field.ui_display_name);
+                                if (lo_checkResult.success === false) {
+                                    break;
+                                }
+                            }
+                            //有format
+                            if (lo_field.format_func_name.validate !== "" && !_.isUndefined(go_validateClass[lo_field.format_func_name.validate]) && lo_chkData[lo_field.ui_field_name] !== '') {
+                                lo_checkResult = go_validateClass[lo_field.format_func_name.validate](lo_chkData[lo_field.ui_field_name], lo_field.ui_display_name);
+                                if (lo_checkResult.success === false) {
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                    resolve(lo_checkResult)
+                });
             },
         },
     }
