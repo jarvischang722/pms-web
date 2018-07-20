@@ -27,7 +27,9 @@
                                           <label class="checkbox-width">
                                               <input name="form-field-checkbox"
                                                      type="checkbox"
-                                                     class="ace">
+                                                     class="ace"
+                                                     v-model="allMark"
+                                              >
                                               <span class="lbl">
                                                   <span class="subtxt">顯示全部</span>
                                               </span>
@@ -208,8 +210,7 @@
                                                         <thead>
                                                         <tr>
                                                             <th class="text-center ca-headerTitle height-fntThead rp-first-th">
-                                                                <i class="fa fa-plus green" @click="addGuestMnData()"
-                                                                   :class="{'pointer': isModifiable}"></i>
+                                                                <i class="fa fa-plus green"></i>
                                                             </th>
                                                             <template v-for="field in guestMnFieldData">
                                                                 <th v-if="field.visiable == 'Y'" class="text-left"
@@ -235,7 +236,8 @@
                                                                       v-for="(singleData, idx) in rowsData.concat(guestMnRowsData['unspecified'])">
                                                                 <tr>
                                                                     <td class="text-center">
-                                                                        <i class="fa fa-minus red" @click="removeGuestMnData(singleData)"
+                                                                        <i class="fa fa-minus red"
+                                                                           @click="removeGuestMnData(singleData)"
                                                                            :class="{'pointer': isModifiable}"></i>
                                                                     </td>
                                                                     <template v-for="field in guestMnFieldData">
@@ -443,7 +445,6 @@
             this.$eventHub.$on("getGhistMnDataToOrder", (data) => {
                 if (this.$store.state.orderMnModule.gs_openModule == "guestDetail") {
                     let lo_ghistMnData = JSON.parse(JSON.stringify(data.ghistMnData));
-                    console.log(data.ghistMnData);
                     if (this.editingGuestMnData.ikey_seq_nos == 0) {
                         let ln_editIdx = _.findIndex(this.guestMnRowsData["unspecified"], {ci_ser: this.editingGuestMnData.ci_ser});
                         if (ln_editIdx > -1) {
@@ -458,6 +459,9 @@
                 }
             });
         },
+        mounted() {
+            this.fetchRentCalDat();
+        },
         data() {
             return {
                 activeName: '',
@@ -465,6 +469,7 @@
                 isLoading: false,
                 loadingText: "loading...",
                 isOpenSpecifyHouse: false,
+                rentCalDat: "",                     //訂房中心滾房租日
 
                 allOrderDtRowsData: [],             //所有的order dt資料
                 oriAllOrderDtRowsData: [],          //所有的原始order dt資料
@@ -508,6 +513,8 @@
                     deleteData: [],
                     oriData: []
                 },
+                allOrderDetail: [],
+                allMark: false
             }
         },
         watch: {
@@ -548,9 +555,31 @@
             },
             editingGroupDataIndex(val) {
                 this.editingOrderDtIdx = undefined;
+                $("#orderDtTable").datagrid('selectRow', this.editingGroupDataIndex);
+                this.editingGroupData = $("#orderDtTable").datagrid('getSelected');
+                if (!_.isUndefined(this.editingGroupData)) {
+                    let ls_orderSta = this.editingGroupData.order_sta;
+                    let ls_ciDat = this.editingGroupData.ci_dat;
+                    let la_checkField = ["I", "O", "S", "D"];
+                    this.isModifiable = (la_checkField.indexOf(ls_orderSta) > -1 && moment(ls_ciDat).diff(moment(this.rentCalDat), "days") >= 0) ? true : false
+                }
+            },
+            allMark(newVal) {
+                if (newVal) {
+                    this.allDetail();
+                } else {
+                    this.orderDtRowsData.length = 0;
+                    this.groupOrderDtData();
+                }
             }
         },
         methods: {
+            //取滾房租日
+            fetchRentCalDat() {
+                BacUtils.doHttpPromisePostProxy('/api/qryRentCalDat').then((result) => {
+                    this.rentCalDat = result.rent_cal_dat;
+                });
+            },
             initData() {
                 this.allOrderDtRowsData = [];
                 this.oriAllOrderDtRowsData = [];
@@ -764,68 +793,110 @@
                 });
             },
             async addOrderDtRow() {
-                this.isLoading = true;
-                // 取當前頁面的最大
-                let la_allOrderDtRowsData = [];
-                _.each(this.orderDtRowsData, (la_orderDtRowsData) => {
-                    _.each(la_orderDtRowsData, (lo_orderDtRowsData) => {
-                        la_allOrderDtRowsData.push(lo_orderDtRowsData);
+                if (this.isModifiable) {
+                    this.isLoading = true;
+                    // 取當前頁面的最大
+                    let la_allOrderDtRowsData = [];
+                    _.each(this.orderDtRowsData, (la_orderDtRowsData) => {
+                        _.each(la_orderDtRowsData, (lo_orderDtRowsData) => {
+                            la_allOrderDtRowsData.push(lo_orderDtRowsData);
+                        });
                     });
-                });
 
-                //新增 order dt 前要做得規則
-                let lo_chkAddRule = await BacUtils.doHttpPromisePostProxy("/api/chkPrgFuncRule", {
-                    prg_id: gs_prgId,
-                    page_id: 1,
-                    tab_page_id: 2,
-                    func_id: "0200",
-                    allRowData: la_allOrderDtRowsData
-                }).then(result => {
-                    return result
-                }).catch(err => {
-                    return {success: false, errorMsg: err}
-                });
+                    //新增 order dt 前要做得規則
+                    let lo_chkAddRule = await BacUtils.doHttpPromisePostProxy("/api/chkPrgFuncRule", {
+                        prg_id: gs_prgId,
+                        page_id: 1,
+                        tab_page_id: 2,
+                        func_id: "0200",
+                        allRowData: la_allOrderDtRowsData
+                    }).then(result => {
+                        return result
+                    }).catch(err => {
+                        return {success: false, errorMsg: err}
+                    });
 
-                if (lo_chkAddRule.success) {
-                    $("#orderDtTable").datagrid('selectRow', this.editingGroupDataIndex);
-                    this.editingGroupData = $("#orderDtTable").datagrid('getSelected');
+                    if (lo_chkAddRule.success) {
+                        $("#orderDtTable").datagrid('selectRow', this.editingGroupDataIndex);
+                        this.editingGroupData = $("#orderDtTable").datagrid('getSelected');
 
 
-                    let lo_cloneOrderData = JSON.parse(JSON.stringify(this.editingGroupData));
-                    lo_cloneOrderData.ikey_seq_nos = lo_chkAddRule.defaultValues.ikey_seq_nos;
-                    lo_cloneOrderData.page_id = 1;
-                    lo_cloneOrderData.tab_page_id = 2;
-                    this.tmpCUD.createData.push(lo_cloneOrderData);
+                        let lo_cloneOrderData = JSON.parse(JSON.stringify(this.editingGroupData));
+                        lo_cloneOrderData.ikey_seq_nos = lo_chkAddRule.defaultValues.ikey_seq_nos;
+                        lo_cloneOrderData.page_id = 1;
+                        lo_cloneOrderData.tab_page_id = 2;
+                        this.tmpCUD.createData.push(lo_cloneOrderData);
 
-                    let lo_orderDtData = JSON.parse(JSON.stringify(this.orderDtRowsData));
-                    lo_orderDtData[this.editingGroupDataIndex].push(lo_cloneOrderData);
+                        let lo_orderDtData = JSON.parse(JSON.stringify(this.orderDtRowsData));
+                        lo_orderDtData[this.editingGroupDataIndex].push(lo_cloneOrderData);
 
-                    this.orderDtRowsData = lo_orderDtData;
+                        this.orderDtRowsData = lo_orderDtData;
+                    }
+                    else {
+                        alert(lo_chkAddRule.errorMsg);
+                    }
+                    this.isLoading = false;
                 }
-                else {
-                    alert(lo_chkAddRule.errorMsg);
-                }
-                this.isLoading = false;
+
             },
             async removeOrderDtRow(data) {
-                this.isLoading = true;
-                //刪除 order dt 前要做得規則
-                let lo_chkDelRule = await BacUtils.doHttpPromisePostProxy("/api/chkPrgFuncRule", {
-                    prg_id: gs_prgId,
-                    page_id: 1,
-                    tab_page_id: 2,
-                    func_id: "0300",
-                    rowData: data
-                }).then(result => {
-                    return result
-                }).catch(err => {
-                    return {success: false, errorMsg: err}
-                });
+                if (this.isModifiable) {
+                    this.isLoading = true;
+                    //刪除 order dt 前要做得規則
+                    let lo_chkDelRule = await BacUtils.doHttpPromisePostProxy("/api/chkPrgFuncRule", {
+                        prg_id: gs_prgId,
+                        page_id: 1,
+                        tab_page_id: 2,
+                        func_id: "0300",
+                        rowData: data
+                    }).then(result => {
+                        return result
+                    }).catch(err => {
+                        return {success: false, errorMsg: err}
+                    });
 
-                if (lo_chkDelRule.success) {
-                    console.log(lo_chkDelRule);
-                    if (lo_chkDelRule.showConfirm) {
-                        if (confirm(lo_chkDelRule.confirmMsg)) {
+                    if (lo_chkDelRule.success) {
+                        console.log(lo_chkDelRule);
+                        if (lo_chkDelRule.showConfirm) {
+                            if (confirm(lo_chkDelRule.confirmMsg)) {
+                                let lo_DataRow = _.findWhere(this.oriOrderDtRowsData[this.editingGroupDataIndex], {ikey_seq_nos: data.ikey_seq_nos});
+
+                                // 刪除tmpCUD資料
+                                if (lo_DataRow === undefined) {
+                                    // 刪除此次新增的資料
+                                    let ln_tmpIndex = _.findIndex(this.tmpCUD.createData, {ikey_seq_nos: data.ikey_seq_nos});
+                                    this.tmpCUD.createData.splice(ln_tmpIndex, 1);
+                                }
+                                else {
+                                    lo_DataRow.page_id = 1;
+                                    lo_DataRow.tab_page_id = 2;
+
+                                    // 刪除既有的資料
+                                    let ln_modifyIndex = _.findIndex(this.tmpCUD.updateData, {
+                                        ikey_seq_nos: data.ikey_seq_nos
+                                    });
+
+                                    let lo_cloneDataRow = JSON.parse(JSON.stringify(lo_DataRow));
+                                    lo_cloneDataRow.order_sta = 'X';
+
+                                    if (ln_modifyIndex > -1) {
+                                        this.tmpCUD.updateData[ln_modifyIndex] = lo_cloneDataRow;
+                                    } else {
+                                        this.tmpCUD.updateData.push(lo_cloneDataRow);
+                                        this.tmpCUD.oriData.push(lo_DataRow);
+                                    }
+                                }
+
+                                // 刪除 orderDtRowsData的資料
+                                let ln_index = _.findIndex(this.orderDtRowsData[this.editingGroupDataIndex], {
+                                    ikey_seq_nos: data.ikey_seq_nos
+                                });
+                                let la_orderDtRowsData = JSON.parse(JSON.stringify(this.orderDtRowsData));
+                                la_orderDtRowsData[this.editingGroupDataIndex].splice(ln_index, 1);
+                                this.orderDtRowsData = la_orderDtRowsData;
+                            }
+                        }
+                        else {
                             let lo_DataRow = _.findWhere(this.oriOrderDtRowsData[this.editingGroupDataIndex], {ikey_seq_nos: data.ikey_seq_nos});
 
                             // 刪除tmpCUD資料
@@ -864,47 +935,11 @@
                         }
                     }
                     else {
-                        let lo_DataRow = _.findWhere(this.oriOrderDtRowsData[this.editingGroupDataIndex], {ikey_seq_nos: data.ikey_seq_nos});
-
-                        // 刪除tmpCUD資料
-                        if (lo_DataRow === undefined) {
-                            // 刪除此次新增的資料
-                            let ln_tmpIndex = _.findIndex(this.tmpCUD.createData, {ikey_seq_nos: data.ikey_seq_nos});
-                            this.tmpCUD.createData.splice(ln_tmpIndex, 1);
-                        }
-                        else {
-                            lo_DataRow.page_id = 1;
-                            lo_DataRow.tab_page_id = 2;
-
-                            // 刪除既有的資料
-                            let ln_modifyIndex = _.findIndex(this.tmpCUD.updateData, {
-                                ikey_seq_nos: data.ikey_seq_nos
-                            });
-
-                            let lo_cloneDataRow = JSON.parse(JSON.stringify(lo_DataRow));
-                            lo_cloneDataRow.order_sta = 'X';
-
-                            if (ln_modifyIndex > -1) {
-                                this.tmpCUD.updateData[ln_modifyIndex] = lo_cloneDataRow;
-                            } else {
-                                this.tmpCUD.updateData.push(lo_cloneDataRow);
-                                this.tmpCUD.oriData.push(lo_DataRow);
-                            }
-                        }
-
-                        // 刪除 orderDtRowsData的資料
-                        let ln_index = _.findIndex(this.orderDtRowsData[this.editingGroupDataIndex], {
-                            ikey_seq_nos: data.ikey_seq_nos
-                        });
-                        let la_orderDtRowsData = JSON.parse(JSON.stringify(this.orderDtRowsData));
-                        la_orderDtRowsData[this.editingGroupDataIndex].splice(ln_index, 1);
-                        this.orderDtRowsData = la_orderDtRowsData;
+                        alert(lo_chkDelRule.errorMsg);
                     }
+                    this.isLoading = false;
                 }
-                else {
-                    alert(lo_chkDelRule.errorMsg);
-                }
-                this.isLoading = false;
+
             },
             //新增guest mn 資料
             async addGuestMnData() {
@@ -1016,6 +1051,7 @@
                 }
             },
             async chkOrderDtFieldRule(ui_field_name, rule_func_name) {
+                console.log(ui_field_name, rule_func_name);
                 if (_.isEmpty(this.beforeOrderDtRowsData)) {
                     this.beforeOrderDtRowsData = this.oriOrderDtRowsData;
                 }
@@ -1146,6 +1182,15 @@
                 catch (err) {
                     console.log(err)
                 }
+            },
+            allDetail: function () {
+                let la_allOrderdata = [];
+                _.each(this.oriOrderDtRowsData, la_orderDtRowsData => {
+                    _.each(la_orderDtRowsData, lo_orderDtRowsData => {
+                        la_allOrderdata.push(lo_orderDtRowsData);
+                    })
+                });
+                this.orderDtRowsData = JSON.parse(JSON.stringify(la_allOrderdata));
             },
         },
     }
