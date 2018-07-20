@@ -562,7 +562,7 @@
                             $("#orderDtTable").datagrid('selectRow', this.editingGroupDataIndex);
                         }
                         //將所有order dt 資料依據group order dt 做分組
-                        this.groupOrderDtData();
+                        this.groupOrderDtData(this.allOrderDtRowsData);
                         //將所有guest mn 資料依據group order dt 做分組
                         this.groupGuestMnData();
                         this.activeName = 'orderDetail';
@@ -598,7 +598,7 @@
                             $("#orderDtTable").datagrid('selectRow', this.editingGroupDataIndex);
                         }
                         //將所有order dt 資料依據group order dt 做分組
-                        this.groupOrderDtData();
+                        this.groupOrderDtData(this.allOrderDtRowsData);
                         //將所有guest mn 資料依據group order dt 做分組
                         this.groupGuestMnData();
                         this.activeName = 'orderDetail';
@@ -632,8 +632,8 @@
                 if (newVal) {
                     this.allDetail();
                 } else {
-                    this.orderDtRowsData.length = 0;
-                    this.groupOrderDtData();
+                    // this.orderDtRowsData.length = 0;
+                    this.groupOrderDtData(this.orderDtRowsData);
                 }
             }
         },
@@ -742,7 +742,11 @@
                 this.dgIns.init("PMS0110042", "orderDtTable", DatagridFieldAdapter.combineFieldOption(this.orderDtGroupFieldData, "orderDtTable"), this.orderDtGroupFieldData);
                 this.dgIns.loadDgData(this.orderDtGroupRowsData);
             },
-            groupOrderDtData() {
+            /**
+             *
+             * @param currentOrderDtRowsData 當前的頁面資料
+             */
+            groupOrderDtData(currentOrderDtRowsData) {
                 //組分組後的order dt 資料
                 _.each(this.orderDtGroupRowsData, (lo_groupData, idx) => {
                     let lo_groupParam = {
@@ -757,7 +761,7 @@
                         serv_amt: lo_groupData.serv_amt,
                         block_cod: lo_groupData.block_cod
                     };
-                    this.orderDtRowsData[idx] = _.where(this.allOrderDtRowsData, lo_groupParam);
+                    this.orderDtRowsData[idx] = _.where(currentOrderDtRowsData, lo_groupParam);
                 });
 
                 this.oriOrderDtRowsData = JSON.parse(JSON.stringify(this.orderDtRowsData));
@@ -1308,11 +1312,12 @@
             },
             allDetail: function () {
                 let la_allOrderdata = [];
-                _.each(this.oriOrderDtRowsData, la_orderDtRowsData => {
+                _.each(this.orderDtRowsData, la_orderDtRowsData => {
                     _.each(la_orderDtRowsData, lo_orderDtRowsData => {
                         la_allOrderdata.push(lo_orderDtRowsData);
                     })
                 });
+                la_allOrderdata = _.sortBy(la_allOrderdata, 'ikey_seq_nos');
                 this.orderDtRowsData = JSON.parse(JSON.stringify(la_allOrderdata));
             },
             // 驗證
