@@ -28,19 +28,20 @@ module.exports = {
         lo_result.defaultValues = {
             base_carry: 'RND',
             base_unit: 0,
-            rent_cal_rul: 'RM',
-            min_stay_day: 0,
-            serv_rat: 10,
-            view_seq: 0,
             commis_rat: 0,
             eb_ctl: 'N',
             eb_from_day: 0,
             eb_to_day: 0,
-            sell_ctl: 'N',
+            gen_from: 'H',//此欄位文件沒有，宏興大哥給的問題單有
+            min_stay_day: 0,
+            min_occupy_rat: 0,
+            max_occupy_rat: 1,
             occupy_rate_ctl: 'N',
             occupy_rate_rul: 'ROM',
-            min_occupy_rat: 0,
-            max_occupy_rat: 1
+            rent_cal_rul: 'RM',
+            sell_ctl: 'N',
+            serv_rat: 0.1,
+            view_seq: 0,
         };
         callback(lo_error, lo_result);
     },
@@ -174,22 +175,25 @@ module.exports = {
 
         let la_examData = postData.rowsData;
         for (let i = 0; i < la_examData.length; i++) {
-            for (let j = 0; j < i; j++) {
-                let lo_nowData = la_examData[i];
-                let lo_compareData = la_examData[j];
+            for (let j = 0; j <= i; j++) {
+                if (i != j) {
+                    let lo_nowData = la_examData[i];
+                    let lo_compareData = la_examData[j];
 
-                let ls_nowBeginDat = moment(new Date(lo_nowData.begin_dat));
-                let ls_nowEndDat = moment(new Date(lo_nowData.end_dat));
-                let ls_compareBeginDat = moment(new Date(lo_compareData.begin_dat));
-                let ls_compareEndDat = moment(new Date(lo_compareData.begin_dat));
-                let lb_chkOverLap = commandRules.chkDateIsBetween(ls_compareBeginDat, ls_compareEndDat, ls_nowBeginDat, ls_nowEndDat);
+                    let ls_nowBeginDat = moment(new Date(lo_nowData.begin_dat));
+                    let ls_nowEndDat = moment(new Date(lo_nowData.end_dat));
+                    let ls_compareBeginDat = moment(new Date(lo_compareData.begin_dat));
+                    let ls_compareEndDat = moment(new Date(lo_compareData.end_dat));
+                    let lb_chkOverLap = commandRules.chkDateIsBetween(ls_compareBeginDat, ls_compareEndDat, ls_nowBeginDat, ls_nowEndDat);
 
-                if (lb_chkOverLap) {
-                    lo_result.success = false;
-                    lo_error = new ErrorClass();
-                    lo_error.errorMsg = commandRules.getMsgByCod("pms81msg44", session.locale);
-                    break;
+                    if (lb_chkOverLap) {
+                        lo_result.success = false;
+                        lo_error = new ErrorClass();
+                        lo_error.errorMsg = commandRules.getMsgByCod("pms81msg44", session.locale);
+                        break;
+                    }
                 }
+
             }
         }
         callback(lo_error, lo_result);
@@ -231,10 +235,26 @@ module.exports = {
                     }
                 });
             });
+            let la_roomTypeViewSeq = await new Promise((resolve, reject) => {
+                queryAgent.queryList("QRY_ROOM_COD_ORDER", lo_params, 0, 0, (err, result) => {
+                    if (err) {
+                        reject(err);
+                    }
+                    else {
+                        resolve(result);
+                    }
+                });
+            });
             _.each(la_roomTypeSelectData, (lo_roomTypeSelectData) => {
+                let lo_roomType = _.findWhere(la_roomTypeViewSeq, {room_cod: lo_roomTypeSelectData.value});
+                if (!_.isUndefined(lo_roomType)) {
+                    lo_roomTypeSelectData.view_seq = lo_roomType.view_seq;
+                } else {
+                    lo_roomTypeSelectData.view_seq = 0;
+                }
                 lo_roomTypeSelectData.display = lo_roomTypeSelectData.value + " : " + lo_roomTypeSelectData.display;
             });
-            lo_result.selectOptions = la_roomTypeSelectData;
+            lo_result.selectOptions = _.sortBy(la_roomTypeSelectData, 'view_seq');
         }
         catch (err) {
             console.log(err);
@@ -371,5 +391,33 @@ module.exports = {
             });
         }
         return postData;
+    },
+
+    /**
+     * 房型資料預設值設定
+     * @param postData
+     * @param session
+     * @param callback
+     */
+    r_1011(postData, session, callback) {
+        let lo_result = new ReturnClass;
+        let lo_error = null;
+        let lo_params = {
+            athena_id: session.user.athena_id,
+            hotel_cod: session.user.hotel_cod
+        };
+
+        queryAgent.query("QRY_HOLIDAY_RF_MAXDATE", lo_params, function (err, result) {
+            if (err) {
+                console.log(err);
+                lo_error = new ErrorClass();
+                lo_result.success = false;
+                lo_error.errorMsg = err;
+            }
+            else {
+                lo_result.defaultValues = moment(result.maxDat).format("YYYY/MM/DD");
+            }
+            callback(lo_error, lo_result);
+        })
     }
 };

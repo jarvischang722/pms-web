@@ -51,7 +51,7 @@ class saveDataAdapter {
             let lo_page_data = await this.formatData(la_gsFields);
             let lo_apiFormat = this.apiFormat();
             lo_apiFormat.page_data = lo_page_data;
-            lo_apiFormat.lo_page_data = await commonRule.trimSaveExecData(lo_apiFormat, this.session);
+            lo_apiFormat.page_data = await commonRule.trimSaveExecData(lo_apiFormat, this.session);
 
             return lo_apiFormat;
         }

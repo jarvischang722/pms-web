@@ -4,7 +4,7 @@
             <div class="grid" @click="leaveCell">
                 <div class="grid-item">
                     <label class="width-auto">{{i18nLang.program.PMS0810230.useTime}}</label>
-                    <bac-select v-model="selectedUseTimeData"
+                    <bac-select v-model="selectedUseTimeData" style="width: 170px;"
                                 :data="useTimeSelectData" :data-display="useTimeSelectData"
                                 is-qry-src-before="Y" value-field="value" text-field="display"
                                 @update:v-model="val => selectedUseTimeData = val"
@@ -15,6 +15,9 @@
                 <div class="right-menu-co pull-right" style="width: 80px;">
                     <button role="button" class="btn btn-danger btn-white btn-defaultWidth" @click="setStopSell">
                         {{stopSellButton.text}}
+
+
+
                     </button>
                 </div>
             </div>
@@ -29,6 +32,9 @@
                             <tr class="grayBg">
                                 <th class="ca-headerTitle grayBg defHt" style="width: 15%">
                                     {{i18nLang.program.PMS0810230.dateRule}}
+
+
+
                                 </th>
                                 <th class="defHt" v-for="(value, key, index) in roomCodData4Display">{{key}}</th>
                             </tr>
@@ -36,19 +42,23 @@
                             <tbody class="tbodyRight">
                             <tr class="grayBg" v-for="(value, key, index) in dayNamData4Display">
                                 <td class="middle td-first defHt">{{key}}</td>
-                                <template v-for="ratecodData in value">
-                                    <td class="numeric defHt" :style="{width: tableCellWidth + '%'}" style="background-color: white;"
-                                        @click="getData(ratecodData)" :id="ratecodData.uniKey" @blur="leaveCell(ratecodData)">
+                                <template v-for="(ratecodData,ratecodidx) in value">
+                                    <td class="numeric defHt" :style="{width: tableCellWidth + '%'}"
+                                        style="background-color: white;"
+                                        @click="getData(ratecodData)" :id="ratecodData.uniKey">
                                         <template v-if="ratecodData.isEdit && ratecodData.use_sta == 'Y'">
-                                            <input type="text" class="defHt width-100"
+                                            <input type="text"
                                                    @keyup="formatAmt(ratecodData.rent_amt, rentAmtFieldData)"
-                                                   v-model="ratecodData.rent_amt">
+                                                   v-model="ratecodData.rent_amt"
+                                                   @keyup.enter="showNextColData(key,ratecodidx)">
                                         </template>
                                         <template v-else-if="ratecodData.use_sta == 'N'" style="width: 100%">
                                             *
+
                                         </template>
                                         <template v-else style="width: 100%">
                                             {{ratecodData.rent_amt}}
+
                                         </template>
                                     </td>
                                 </template>
@@ -74,9 +84,11 @@
         name: 'roomTyp',
         props: ["rowData", "isRoomType"],
         created() {
-            //取得使用期間資料(改變後未存檔)
+            //取得使用期間資料(改變後未存檔: 刪除或修改,使用期間新增為getAndConvertTmpUseTimeData處理)
             this.$eventHub.$on("setUseTimeSelectData", () => {
+                //改變後的使用期間
                 let la_useTimeSelectData = [];
+                //尚未改變的使用期間
                 let la_oriUseTimeSelectData = JSON.parse(JSON.stringify(this.useTimeSelectData));
                 _.each(this.$store.state.go_allData.ga_utDataGridRowsData, (lo_useTimeSelectData, idx) => {
                     let lo_addData = {
@@ -215,7 +227,7 @@
                                                         supply_nos: la_useTimeSelectData[ln_editIndex].value,
                                                         use_sta: 'Y',
                                                         isCreate: true,
-                                                        isEdit: false,
+                                                        isEdit: true,
                                                         uniKey: crypto.randomBytes(32).toString('base64').replace(/([\(\)\[\]\{\}\^\$\+\=\-\*\?\.\"\'\|\/\\])/g, "")
                                                     };
                                                     this.rateCodDtData.push(_.extend(lo_appendData, {event_time: moment(new Date()).format("YYYY/MM/DD HH:mm:ss")}));
@@ -321,6 +333,7 @@
                 });
             });
 
+            //清空暫存
             this.$eventHub.$on('setClearData', () => {
                 this.tmpCUD = {
                     createData: [],
@@ -372,25 +385,7 @@
             },
             rateCodDtData: {
                 handler(val) {
-                    _.each(val, (lo_val, ln_idx) => {
-                        //修改新增的暫存
-                        if (_.isUndefined(this.oriRateCodDtData[ln_idx]) || !_.isUndefined(lo_val.isCreate)) {
-                            let ln_createIndex = _.findIndex(this.tmpCUD.createData, {uniKey: lo_val.uniKey});
-                            if (ln_createIndex > -1) {
-                                this.tmpCUD.createData.splice(ln_createIndex, 1);
-                            }
-                            this.tmpCUD.createData.push(_.extend(lo_val, {event_time: moment(new Date()).format("YYYY/MM/DD HH:mm:ss")}));
-                        }
-                        else if (!_.isMatch(lo_val, this.oriRateCodDtData[ln_idx]) && lo_val.supply_nos == this.oriRateCodDtData[ln_idx].supply_nos) {
-                            let ln_editIndex = _.findIndex(this.tmpCUD.updateData, {uniKey: lo_val.uniKey});
-                            if (ln_editIndex > -1) {
-                                this.tmpCUD.updateData.splice(ln_editIndex, 1);
-                                this.tmpCUD.oriData.splice(ln_editIndex, 1);
-                            }
-                            this.tmpCUD.updateData.push(_.extend(lo_val, {event_time: moment(new Date()).format("YYYY/MM/DD HH:mm:ss")}));
-                            this.tmpCUD.oriData.push(_.extend(this.oriRateCodDtData[ln_idx], {event_time: moment(new Date()).format("YYYY/MM/DD HH:mm:ss")}));
-                        }
-                    });
+                    this.convertDataToTmpCUD();
                 },
                 deep: true
             },
@@ -398,65 +393,33 @@
                 handler(val) {
                     let lo_cloneData = JSON.parse(JSON.stringify(val));
                     let la_allData = [];
-
                     _.each(lo_cloneData, (val, key) => {
                         _.each(val, (lo_val) => {
+                            lo_val.rent_amt = go_formatDisplayClass.removeAmtFormat(lo_val.rent_amt.toString()).toString();
+                            lo_val.begin_dat = moment(lo_val.begin_dat).format("YYYY/MM/DD");
+                            lo_val.end_dat = moment(lo_val.end_dat).format("YYYY/MM/DD");
                             la_allData.push(lo_val);
                         })
                     });
 
                     _.each(this.rateCodDtData, (lo_ratecodData, idx) => {
                         let ln_existIndex = _.findIndex(la_allData, {uniKey: lo_ratecodData.uniKey});
-
                         if (ln_existIndex > -1) {
                             this.rateCodDtData[idx] = la_allData[ln_existIndex];
                             this.rateCodDtData[idx]["isEdit"] = false;
                         }
-
-                        if (_.isUndefined(this.oriRateCodDtData[idx]) || !_.isUndefined(lo_ratecodData.isCreate)) {
-                            let ln_createIndex = _.findIndex(this.tmpCUD.createData, {uniKey: lo_ratecodData.uniKey});
-                            if (ln_createIndex > -1) {
-                                this.tmpCUD.createData.splice(ln_createIndex, 1);
-                            }
-                            this.tmpCUD.createData.push(_.extend(lo_ratecodData, {event_time: moment(new Date()).format("YYYY/MM/DD HH:mm:ss")}));
-                        }
-                        else if (!_.isMatch(lo_ratecodData, this.oriRateCodDtData[idx]) && lo_ratecodData.supply_nos == this.oriRateCodDtData[idx].supply_nos) {
-                            let ln_editIndex = _.findIndex(this.tmpCUD.updateData, {uniKey: lo_ratecodData.uniKey});
-                            if (ln_editIndex > -1) {
-                                this.tmpCUD.updateData.splice(ln_editIndex, 1);
-                                this.tmpCUD.oriData.splice(ln_editIndex, 1);
-                            }
-                            this.tmpCUD.updateData.push(_.extend(lo_ratecodData, {event_time: moment(new Date()).format("YYYY/MM/DD HH:mm:ss")}));
-                            this.tmpCUD.oriData.push(_.extend(this.oriRateCodDtData[idx], {event_time: moment(new Date()).format("YYYY/MM/DD HH:mm:ss")}));
-                        }
                     });
-                }
-                ,
+                    //無法watch到ratecodDtData,所以直接在這處理tmpCUD2e
+                    this.convertDataToTmpCUD();
+                },
                 deep: true
             },
             tmpCUD: {
                 handler(val) {
-                    //轉換tmpCUD資料
-                    let lo_param = {
-                        page_id: 2,
-                        tab_page_id: 12
-                    };
-                    _.each(val, (la_val, ls_key) => {
-                        _.each(la_val, (lo_val, ln_idx) => {
-                            if (!_.isUndefined(lo_val.rent_amt)) {
-                                lo_val.rent_amt = go_formatDisplayClass.removeAmtFormat(lo_val.rent_amt.toString());
-                                lo_val.begin_dat = moment(lo_val.begin_dat).format("YYYY/MM/DD");
-                                lo_val.end_dat = moment(lo_val.end_dat).format("YYYY/MM/DD");
-                            }
-                            val[ls_key][ln_idx] = _.extend(lo_val, lo_param);
-                        });
-                    });
-
                     this.$store.dispatch("setRoomTypData", {
                         go_rtTmpCUD: val
                     });
-                }
-                ,
+                },
                 deep: true
             }
         },
@@ -483,6 +446,7 @@
             },
             //取使用期間資料
             fetchUseTime() {
+                let ld_rentCalDat = moment(this.rentCalDat).format("YYYY/MM/DD");
                 if (this.$store.state.gs_rateCod != "") {
                     BacUtils.doHttpPostAgent('/api/chkFieldRule', {
                         rule_func_name: 'qry_ratesupplydt_for_select_data',
@@ -490,7 +454,10 @@
                     }, (result) => {
                         if (result.success) {
                             //取得使用期間下拉資料
-                            this.useTimeSelectData = result.selectOptions;
+                            this.useTimeSelectData = _.filter(result.selectOptions, function (obj) {
+                                let ld_endDat = moment(obj.end_dat).format("YYYY/MM/DD");
+                                return moment(ld_endDat).diff(ld_rentCalDat) > 0;
+                            });
                             this.firstFetchRateCodDtData();
                         }
                         else {
@@ -510,7 +477,7 @@
                 };
 
                 if (lo_params.searchCond.rate_cod != "") {
-                    BacUtils.doHttpPromisePostProxy("/api/fetchDataGridFieldData", lo_params, result => {
+                    BacUtils.doHttpPromisePostProxy("/api/fetchDataGridFieldData", lo_params).then(result => {
                         if (result.success) {
                             this.rateCodDtData = [];
                             this.oriRateCodDtData = [];
@@ -520,7 +487,7 @@
                             _.each(result.dgRowData, (lo_dgRowData, idx) => {
                                 lo_dgRowData["uniKey"] =
                                     crypto.randomBytes(32).toString('base64').replace(/([\(\)\[\]\{\}\^\$\+\=\-\*\?\.\"\'\|\/\\])/g, "");
-                                lo_dgRowData["isEdit"] = false;
+                                lo_dgRowData["isEdit"] = true;
                                 lo_dgRowData["event_time"] = moment(new Date()).format("YYYY/MM/DD HH:mm:ss");
                                 lo_dgRowData["rent_amt"] = go_formatDisplayClass.amtFormat(lo_dgRowData["rent_amt"], this.rentAmtFieldData.format_func_name.rule_val);
                                 this.rateCodDtData.push(lo_dgRowData);
@@ -552,7 +519,7 @@
                 let lb_isFirstFetch = _.findIndex(this.rateCodDtData, {supply_nos: this.selectedUseTimeData}) > -1 ? false : true;
 
                 if (lo_params.searchCond.rate_cod != "" && lo_params.searchCond.supply_nos != "" && lb_isFirstFetch) {
-                    BacUtils.doHttpPromisePostProxy("/api/fetchDataGridFieldData", lo_params, result => {
+                    BacUtils.doHttpPromisePostProxy("/api/fetchDataGridFieldData", lo_params).then(result => {
                         if (result.success) {
                             this.rateCodDtData = [];
                             this.oriRateCodDtData = [];
@@ -560,15 +527,14 @@
                             this.rentAmtFieldData = _.findWhere(result.dgFieldsData, {ui_field_name: "rent_amt"});
                             //添加唯一值屬姓
                             _.each(result.dgRowData, (lo_dgRowData, idx) => {
-                                lo_dgRowData["uniKey"] =
+                                result.dgRowData[idx]["uniKey"] =
                                     crypto.randomBytes(32).toString('base64').replace(/([\(\)\[\]\{\}\^\$\+\=\-\*\?\.\"\'\|\/\\])/g, "");
-                                lo_dgRowData["isEdit"] = false;
-                                lo_dgRowData["event_time"] = moment(new Date()).format("YYYY/MM/DD HH:mm:ss");
-                                lo_dgRowData["rent_amt"] = go_formatDisplayClass.amtFormat(lo_dgRowData["rent_amt"], this.rentAmtFieldData.format_func_name.rule_val);
-                                this.rateCodDtData.push(lo_dgRowData);
-                                this.oriRateCodDtData.push(JSON.parse(JSON.stringify(lo_dgRowData)));
+                                result.dgRowData[idx]["isEdit"] = true;
+                                result.dgRowData[idx]["event_time"] = moment(new Date()).format("YYYY/MM/DD HH:mm:ss");
+                                result.dgRowData[idx]["rent_amt"] = go_formatDisplayClass.amtFormat(lo_dgRowData["rent_amt"], this.rentAmtFieldData.format_func_name.rule_val);
                             });
-
+                            this.rateCodDtData = result.dgRowData;
+                            this.oriRateCodDtData = JSON.parse(JSON.stringify(result.dgRowData));
                             //剛新增的使用期間(未入到資料庫)
                             this.getAndConvertTmpUseTimeData();
                         }
@@ -659,7 +625,6 @@
                     }
 
                 }
-
             },
             //剛新增的使用期間(未入到資料庫)
             getAndConvertTmpUseTimeData() {
@@ -696,7 +661,7 @@
                                     supply_nos: lo_useTimeData.supply_nos,
                                     use_sta: 'Y',
                                     isCreate: true,
-                                    isEdit: false,
+                                    isEdit: true,
                                     uniKey: crypto.randomBytes(32).toString('base64').replace(/([\(\)\[\]\{\}\^\$\+\=\-\*\?\.\"\'\|\/\\])/g, "")
                                 };
                                 this.rateCodDtData.push(lo_appendData);
@@ -704,15 +669,53 @@
                         })
                     });
                 }
+
+                //金額轉格式轉換
+                _.each(this.rateCodDtData, (lo_rateCodDtData, idx) => {
+                    this.rateCodDtData[idx].rent_amt = go_formatDisplayClass.amtFormat(lo_rateCodDtData.rent_amt, this.rentAmtFieldData.format_func_name.rule_val);
+                });
+
                 //依照room_cod、command_option轉換成頁面上呈現
-                let la_rateCodDtData4RoomCod = JSON.parse(JSON.stringify(this.rateCodDtData));
-                let la_rateCodDtData4DayNam = JSON.parse(JSON.stringify(this.rateCodDtData));
                 this.roomCodData4Display =
-                    _.groupBy(_.where(la_rateCodDtData4RoomCod, {supply_nos: this.selectedUseTimeData}), "room_cod");
+                    _.groupBy(_.where(this.rateCodDtData, {supply_nos: this.selectedUseTimeData}), "room_cod");
                 this.dayNamData4Display =
-                    _.groupBy(_.where(la_rateCodDtData4DayNam, {supply_nos: this.selectedUseTimeData}), "day_nam");
+                    _.groupBy(_.where(this.rateCodDtData, {supply_nos: this.selectedUseTimeData}), "day_nam");
 
                 this.tableCellWidth = 85 / _.keys(this.roomCodData4Display).length;
+            },
+            convertDataToTmpCUD() {
+                _.each(this.rateCodDtData, (lo_rateCodDtData, ln_idx) => {
+                    //原始資料找不到  && isCreate一定要存在 ==> 新增過後修改
+                    if (_.isUndefined(this.oriRateCodDtData[ln_idx]) || !_.isUndefined(lo_rateCodDtData.isCreate)) {
+                        let ln_createIndex = _.findIndex(this.tmpCUD.createData, {uniKey: lo_rateCodDtData.uniKey});
+                        if (ln_createIndex > -1) {
+                            this.tmpCUD.createData.splice(ln_createIndex, 1);
+                        }
+                        this.tmpCUD.createData.push(_.extend(lo_rateCodDtData, {event_time: moment(new Date()).format("YYYY/MM/DD HH:mm:ss")}));
+                    }
+                    // if ratecode的原始資料和 此筆資料一模一樣 ==> 表示原始資料要修改的
+                    else if (!_.isMatch(lo_rateCodDtData, this.oriRateCodDtData[ln_idx]) && lo_rateCodDtData.supply_nos == this.oriRateCodDtData[ln_idx].supply_nos) {
+                        let ln_editIndex = _.findIndex(this.tmpCUD.updateData, {uniKey: lo_rateCodDtData.uniKey});
+                        if (ln_editIndex > -1) {
+                            this.tmpCUD.updateData.splice(ln_editIndex, 1);
+                            this.tmpCUD.oriData.splice(ln_editIndex, 1);
+                        }
+                        this.tmpCUD.updateData.push(_.extend(lo_rateCodDtData, {event_time: moment(new Date()).format("YYYY/MM/DD HH:mm:ss")}));
+                        this.tmpCUD.oriData.push(_.extend(this.oriRateCodDtData[ln_idx], {event_time: moment(new Date()).format("YYYY/MM/DD HH:mm:ss")}));
+                    }
+
+                });
+            },
+            showNextColData(key, ratecodidx){
+                this.dayNamData4Display[key][ratecodidx + 1]['isEdit'] = true;
+                if (!_.isUndefined(this.dayNamData4Display[key][ratecodidx + 1])) {
+                    this.getData(this.dayNamData4Display[key][ratecodidx + 1]);
+                }
+            },
+            showNextRowData(key, ratecodidx){
+                if (!_.isUndefined(this.dayNamData4Display[key + 1][ratecodidx])) {
+                    this.getData(this.dayNamData4Display[key + 1][ratecodidx]);
+                }
             }
         }
     }
