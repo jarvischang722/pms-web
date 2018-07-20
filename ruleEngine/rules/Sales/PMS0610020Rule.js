@@ -1148,13 +1148,12 @@ module.exports = {
                 kindOfRel: 'dt'
             });
             //cust_mn_pers_dt 資料 儲存cust_idx
-            if (la_dtCreateData.length > 0) {
-                let ln_dataCount = 0;
-                _.each(la_dtCreateData, function (lo_dtCreateData, idx) {
-                    ln_dataCount++;
+            let ln_relatedPerNum = _.where(la_dtCreateData, {tab_page_id: "2"}).length;
 
-                    let ln_perCount = 0;
-                    let ln_relatedPerNum = _.where(la_dtCreateData, {tab_page_id: "2"}).length;
+            if (la_dtCreateData.length > 0 && ln_relatedPerNum > 0) {
+                let ln_perCount = 0;
+                _.each(la_dtCreateData, function (lo_dtCreateData, idx) {
+                    //如果這筆資料是相關人員資料
                     if (Number(lo_dtCreateData.tab_page_id) == 2) {
                         ln_perCount++;
                         queryAgent.query("QRY_CUST_IDX_PER_IS_EXIST", {
@@ -1193,7 +1192,8 @@ module.exports = {
                         });
                     }
                     else {
-                        if (ln_dataCount == la_dtCreateData.length) {
+                        //如果人數計算和統計出來結果一樣則結束此回合
+                        if (ln_perCount == ln_relatedPerNum) {
                             cb(lo_error, lo_result);
                         }
                     }
@@ -1505,13 +1505,10 @@ module.exports = {
                     });
                 }
             });
-            if (la_dtCreateData.length > 0) {
-                let ln_dataCount = 0;
+            let ln_relatedPerNum = _.where(la_dtCreateData, {tab_page_id: "2"}).length;
+            if (la_dtCreateData.length > 0 && ln_relatedPerNum > 0) {
+                let ln_perCount = 0;
                 _.each(la_dtCreateData, function (lo_dtCreateData) {
-                    ln_dataCount++;
-
-                    let ln_perCount = 0;
-                    let ln_relatedPerNum = _.where(la_dtCreateData, {tab_page_id: "2"}).length;
                     if (Number(lo_dtCreateData.tab_page_id) == 2) {
                         ln_perCount++;
                         queryAgent.query("QRY_CUST_IDX_PER_IS_EXIST", {
@@ -1550,7 +1547,7 @@ module.exports = {
                         });
                     }
                     else {
-                        if (ln_dataCount == la_dtCreateData.length) {
+                        if (ln_perCount == ln_relatedPerNum) {
                             cb(lo_error, lo_result);
                         }
                     }
