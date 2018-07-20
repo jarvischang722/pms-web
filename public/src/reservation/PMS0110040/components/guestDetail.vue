@@ -229,7 +229,8 @@
                                                         <thead>
                                                         <tr>
                                                             <th class="text-center ca-headerTitle height-fntThead rp-first-th">
-                                                                <i class="fa fa-plus green"></i>
+                                                                <i class="fa fa-plus green" @click="addGuestMnData"
+                                                                   :class="{'pointer': isModifiable}"></i>
                                                             </th>
                                                             <template v-for="field in guestMnFieldData">
                                                                 <th v-if="field.visiable == 'Y'" class="text-left"
@@ -464,6 +465,7 @@
             this.$eventHub.$on("getGhistMnDataToOrder", (data) => {
                 if (this.$store.state.orderMnModule.gs_openModule == "guestDetail") {
                     let lo_ghistMnData = JSON.parse(JSON.stringify(data.ghistMnData));
+                    console.log(data.ghistMnData);
                     if (this.editingGuestMnData.ikey_seq_nos == 0) {
                         let ln_editIdx = _.findIndex(this.guestMnRowsData["unspecified"], {ci_ser: this.editingGuestMnData.ci_ser});
                         if (ln_editIdx > -1) {
@@ -963,42 +965,83 @@
             },
             //新增guest mn 資料
             async addGuestMnData() {
-                let la_allGuestMnData = [];
-                _.each(this.guestMnRowsData, (la_data) => {
-                    _.each(la_data, (lo_data) => {
-                        la_allGuestMnData.push(lo_data);
-                    });
-                });
-                //新增guest mn 前要做得規則
-                let lo_chkAddRule = await BacUtils.doHttpPromisePostProxy("/api/chkPrgFuncRule", {
-                    prg_id: gs_prgId,
-                    page_id: 1,
-                    tab_page_id: 3,
-                    func_id: "0200",
-                    allRowData: la_allGuestMnData
-                }).then(result => {
-                    return result
-                }).catch(err => {
-                    return {success: false, errorMsg: err}
-                });
+                if (this.isModifiable) {
+                    // 讀取group order_dt 當前選擇的列的資料
+                    this.editingGroupData = $("#orderDtTable").datagrid('getSelected');
+                    let lo_groupParam = {
+                        rate_cod: this.editingGroupData.rate_cod,
+                        order_sta: this.editingGroupData.order_sta,
+                        days: this.editingGroupData.days,
+                        ci_dat: this.editingGroupData.ci_dat,
+                        co_dat: this.editingGroupData.co_dat,
+                        use_cod: this.editingGroupData.use_cod,
+                        room_cod: this.editingGroupData.room_cod,
+                        rent_amt: this.editingGroupData.rent_amt,
+                        serv_amt: this.editingGroupData.serv_amt,
+                        block_cod: this.editingGroupData.block_cod
+                    };
+                    // 篩選order_dt 明細
+                    let la_detailOrderDtData = _.where(this.allOrderDtRowsData, lo_groupParam);
 
-                if (lo_chkAddRule.success) {
-                    let lo_addRowData = lo_chkAddRule.defaultValues;
-                }
-                else {
-                    alert(lo_chkAddRule.errorMsg);
+                    // la_detailOrderDtData 有顧客明細才做
+                    if (la_detailOrderDtData.length > 0) {
+                        let la_lossIkeySeqNosGuest = [];
+                        // order_dt明細和group guest顧客做比對抓出目前缺少的ikey_seq_nos
+                        _.each(la_detailOrderDtData, (lo_orderDtData) => {
+                            let lo_currentGuest = _.findWhere(this.guestMnRowsData[this.editingGroupDataIndex], {
+                                ikey_seq_nos: lo_orderDtData.ikey_seq_nos
+                            });
+                            if (_.isUndefined(lo_currentGuest)) {
+                                la_lossIkeySeqNosGuest.push(lo_orderDtData);
+                            }
+                        });
+
+                        let la_allGuestMnData = [];
+                        _.each(this.guestMnRowsData, (la_data) => {
+                            _.each(la_data, (lo_data) => {
+                                la_allGuestMnData.push(lo_data);
+                            });
+                        });
+                        // 新增guest mn 前要做得規則
+                        let lo_chkAddRule = await BacUtils.doHttpPromisePostProxy("/api/chkPrgFuncRule", {
+                            prg_id: gs_prgId,
+                            page_id: 1,
+                            tab_page_id: 3,
+                            func_id: "0200",
+                            allRowData: la_allGuestMnData
+                        }).then(result => {
+                            return result
+                        }).catch(err => {
+                            return {success: false, errorMsg: err}
+                        });
+
+                        if (lo_chkAddRule.success) {
+                            let lo_addRowData = lo_chkAddRule.defaultValues;
+                            console.log(lo_addRowData);
+                            // 新增顧客資料把目前缺少的ikey_seq_nos補齊
+                            if (la_lossIkeySeqNosGuest.length > 0) {
+                                _.each(la_lossIkeySeqNosGuest, (lo_guest) => {
+                                    console.log(lo_guest.ikey_seq_nos);
+                                });
+                            } else if (la_lossIkeySeqNosGuest.length === 0) {
+
+                            }
+                        }
+                        else {
+                            alert(lo_chkAddRule.errorMsg);
+                        }
+
+                    }
                 }
             },
             //刪除guest mn 資料
             async removeGuestMnData(data) {
-                this.isLoading = true;
+                if (this.isModifiable) {
+                    this.isLoading = true;
 
-                if (lo_chkDelRule.success) {
+
+                    this.isLoading = false;
                 }
-                else {
-                    alert(lo_chkDelRule.errorMsg);
-                }
-                this.isLoading = false;
             },
             async save() {
                 try {
@@ -1071,7 +1114,6 @@
                 }
             },
             async chkOrderDtFieldRule(ui_field_name, rule_func_name) {
-                console.log(ui_field_name, rule_func_name);
                 if (_.isEmpty(this.beforeOrderDtRowsData)) {
                     this.beforeOrderDtRowsData = this.oriOrderDtRowsData;
                 }
