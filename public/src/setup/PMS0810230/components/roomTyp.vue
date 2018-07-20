@@ -32,9 +32,6 @@
                             <tr class="grayBg">
                                 <th class="ca-headerTitle grayBg defHt" style="width: 15%">
                                     {{i18nLang.program.PMS0810230.dateRule}}
-
-
-
                                 </th>
                                 <th class="defHt" v-for="(value, key, index) in roomCodData4Display">{{key}}</th>
                             </tr>
@@ -47,18 +44,17 @@
                                         style="background-color: white;"
                                         @click="getData(ratecodData)" :id="ratecodData.uniKey">
                                         <template v-if="ratecodData.isEdit && ratecodData.use_sta == 'Y'">
-                                            <input type="text"
-                                                   @keyup="formatAmt(ratecodData.rent_amt, rentAmtFieldData)"
-                                                   v-model="ratecodData.rent_amt"
-                                                   @keyup.enter="showNextColData(key,ratecodidx)">
+                                            {{ratecodData.rent_amt}}
+                                            <!--<input type="text"-->
+                                                   <!--@keyup="formatAmt(ratecodData.rent_amt, rentAmtFieldData)"-->
+                                                   <!--v-model="ratecodData.rent_amt"-->
+                                                   <!--@keyup.enter="showNextColData(key,ratecodidx)">-->
                                         </template>
                                         <template v-else-if="ratecodData.use_sta == 'N'" style="width: 100%">
                                             *
-
                                         </template>
                                         <template v-else style="width: 100%">
                                             {{ratecodData.rent_amt}}
-
                                         </template>
                                     </td>
                                 </template>
