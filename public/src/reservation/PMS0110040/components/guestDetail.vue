@@ -89,103 +89,122 @@
                                                             <td class=""></td>
                                                         </tr>
                                                         <!--1-->
-                                                        <template v-for="(rowsData, key) in orderDtRowsData">
-                                                            <template v-if="key == editingGroupDataIndex"
-                                                                      v-for="(singleData, idx) in rowsData">
+                                                        <template v-if="allMark===false">
+                                                            <template v-for="(rowsData, key) in orderDtRowsData">
+                                                                <template v-if="key == editingGroupDataIndex"
+                                                                          v-for="(singleData, idx) in rowsData">
+                                                                    <tr>
+                                                                        <td class="text-center">
+                                                                            <i class="fa fa-minus red"
+                                                                               :class="{'pointer': isModifiable}"
+                                                                               @click="removeOrderDtRow(singleData)"
+                                                                            ></i>
+                                                                        </td>
+                                                                        <template v-for="field in orderDtFieldData">
+                                                                            <td class="text-left input-noEdit"
+                                                                                :style="{width:field.width + 'px'}"
+                                                                                v-if="field.visiable == 'Y' && field.ui_type=='label'"
+                                                                                @click="editingOrderDtIdx = idx">
+                                                                                {{singleData[field.ui_field_name]}}
+                                                                            </td>
+                                                                            <td class="text-left"
+                                                                                @click="editingOrderDtIdx = idx"
+                                                                                v-if="field.visiable == 'Y' && field.ui_type=='number'">
+                                                                                <input type="number"
+                                                                                       v-model="singleData[field.ui_field_name]"
+                                                                                       :style="{width:field.width + 'px'}"
+                                                                                       :required="field.requirable == 'Y'"
+                                                                                       :maxlength="field.ui_field_length"
+                                                                                       class="selectHt"
+                                                                                       :class="{'input_sta_required' : field.requirable == 'Y'}"
+                                                                                       @change="chkOrderDtFieldRule(field.ui_field_name, field.rule_func_name)"
+                                                                                       :disabled="field.modificable == 'N'|| !isModifiable ||
+                                                                    (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)">
+                                                                            </td>
+                                                                            <td class="text-left"
+                                                                                @click="editingOrderDtIdx = idx"
+                                                                                v-if="field.visiable == 'Y' && field.ui_type=='select'">
+                                                                                <bac-select :field="field"
+                                                                                            :style="{width:field.width + 'px'}"
+                                                                                            v-model="singleData[field.ui_field_name]"
+                                                                                            :data="field.selectData"
+                                                                                            is-qry-src-before="Y"
+                                                                                            value-field="value"
+                                                                                            text-field="display"
+                                                                                            @update:v-model="val => singleData[field.ui_field_name] = val"
+                                                                                            :default-val="singleData[field.ui_field_name] || field.defaultVal"
+                                                                                            class="el-select-ht selectHt"
+                                                                                            style="height: 25px;"
+                                                                                            @change="chkOrderDtFieldRule(field.ui_field_name, field.rule_func_name)"
+                                                                                            :disabled="field.modificable == 'N'|| !isModifiable ||
+                                                                    (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)">
+                                                                                </bac-select>
+                                                                            </td>
+                                                                            <td class="text-left"
+                                                                                @click="editingOrderDtIdx = idx"
+                                                                                v-if="field.visiable == 'Y' && field.ui_type=='date'">
+                                                                                <!-- 日期時間選擇器 -->
+                                                                                <el-date-picker
+                                                                                        v-model="singleData[field.ui_field_name]"
+                                                                                        type="date"
+                                                                                        :disabled="field.modificable == 'N'|| !isModifiable ||
+                                                                    (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)"
+                                                                                        class="date-wt input_sta_required"
+                                                                                        format="yyyy/MM/dd"
+                                                                                        :style="{width:field.width + 'px'}"
+                                                                                        :editable="false" :clearable="false"
+                                                                                        @change="chkOrderDtFieldRule(field.ui_field_name, field.rule_func_name)"
+                                                                                >
+                                                                                </el-date-picker>
+                                                                            </td>
+                                                                            <td class="text-left"
+                                                                                @click="editingOrderDtIdx = idx"
+                                                                                v-if="field.visiable == 'Y' && field.ui_type=='text'">
+                                                                                <!--number 金額顯示format-->
+                                                                                <input type="text"
+                                                                                       v-model="singleData[field.ui_field_name]"
+                                                                                       :style="{width:field.width + 'px'}"
+                                                                                       class="text-right selectHt"
+                                                                                       :class="{'input_sta_required' : field.requirable == 'Y'}"
+                                                                                       @change="chkOrderDtFieldRule(field.ui_field_name, field.rule_func_name)"
+                                                                                       :disabled="field.modificable == 'N'|| !isModifiable ||
+                                                                    (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)">
+                                                                            </td>
+                                                                            <td class="text-left td-more"
+                                                                                style="height: 26px;"
+                                                                                @click="editingOrderDtIdx = idx"
+                                                                                v-if="field.visiable == 'Y' && field.ui_type=='button'">
+                                                                                <input type="text"
+                                                                                       v-model="singleData[field.ui_field_name]"
+                                                                                       :style="{width:field.width + 'px'}"
+                                                                                       :required="field.requirable == 'Y'"
+                                                                                       min="0"
+                                                                                       :maxlength="field.ui_field_length"
+                                                                                       :class="{'input_sta_required' : field.requirable == 'Y'}"
+                                                                                       class="selectHt pull-left wt-input"
+                                                                                       @change="chkOrderDtFieldRule(field.ui_field_name, field.rule_func_name)"
+                                                                                       :disabled="field.modificable == 'N'|| !isModifiable ||
+                                                                    (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)">
+                                                                                <i class="moreClick fa fa-ellipsis-h pull-left"
+                                                                                   @click="showRateCodDialog(idx)"></i>
+                                                                            </td>
+                                                                        </template>
+                                                                    </tr>
+                                                                </template>
+                                                            </template>
+                                                        </template>
+                                                        <template v-else>
+                                                            <template v-for="(rowsData, key) in orderDtRowsData">
                                                                 <tr>
                                                                     <td class="text-center">
-                                                                        <i class="fa fa-minus red"
-                                                                           :class="{'pointer': isModifiable}"
-                                                                           @click="removeOrderDtRow(singleData)"
-                                                                        ></i>
+                                                                        <i class="fa fa-minus red"></i>
                                                                     </td>
                                                                     <template v-for="field in orderDtFieldData">
                                                                         <td class="text-left input-noEdit"
                                                                             :style="{width:field.width + 'px'}"
-                                                                            v-if="field.visiable == 'Y' && field.ui_type=='label'"
-                                                                            @click="editingOrderDtIdx = idx">
-                                                                            {{singleData[field.ui_field_name]}}
-                                                                        </td>
-                                                                        <td class="text-left"
-                                                                            @click="editingOrderDtIdx = idx"
-                                                                            v-if="field.visiable == 'Y' && field.ui_type=='number'">
-                                                                            <input type="number"
-                                                                                   v-model="singleData[field.ui_field_name]"
-                                                                                   :style="{width:field.width + 'px'}"
-                                                                                   :required="field.requirable == 'Y'"
-                                                                                   :maxlength="field.ui_field_length"
-                                                                                   class="selectHt"
-                                                                                   :class="{'input_sta_required' : field.requirable == 'Y'}"
-                                                                                   @change="chkOrderDtFieldRule(field.ui_field_name, field.rule_func_name)"
-                                                                                   :disabled="field.modificable == 'N'|| !isModifiable ||
-                                                                    (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)">
-                                                                        </td>
-                                                                        <td class="text-left"
-                                                                            @click="editingOrderDtIdx = idx"
-                                                                            v-if="field.visiable == 'Y' && field.ui_type=='select'">
-                                                                            <bac-select :field="field"
-                                                                                        :style="{width:field.width + 'px'}"
-                                                                                        v-model="singleData[field.ui_field_name]"
-                                                                                        :data="field.selectData"
-                                                                                        is-qry-src-before="Y"
-                                                                                        value-field="value"
-                                                                                        text-field="display"
-                                                                                        @update:v-model="val => singleData[field.ui_field_name] = val"
-                                                                                        :default-val="singleData[field.ui_field_name] || field.defaultVal"
-                                                                                        class="el-select-ht selectHt"
-                                                                                        style="height: 25px;"
-                                                                                        @change="chkOrderDtFieldRule(field.ui_field_name, field.rule_func_name)"
-                                                                                        :disabled="field.modificable == 'N'|| !isModifiable ||
-                                                                    (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)">
-                                                                            </bac-select>
-                                                                        </td>
-                                                                        <td class="text-left"
-                                                                            @click="editingOrderDtIdx = idx"
-                                                                            v-if="field.visiable == 'Y' && field.ui_type=='date'">
-                                                                            <!-- 日期時間選擇器 -->
-                                                                            <el-date-picker
-                                                                                    v-model="singleData[field.ui_field_name]"
-                                                                                    type="date"
-                                                                                    :disabled="field.modificable == 'N'|| !isModifiable ||
-                                                                    (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)"
-                                                                                    class="date-wt input_sta_required"
-                                                                                    format="yyyy/MM/dd"
-                                                                                    :style="{width:field.width + 'px'}"
-                                                                                    :editable="false" :clearable="false"
-                                                                                    @change="chkOrderDtFieldRule(field.ui_field_name, field.rule_func_name)"
-                                                                            >
-                                                                            </el-date-picker>
-                                                                        </td>
-                                                                        <td class="text-left"
-                                                                            @click="editingOrderDtIdx = idx"
-                                                                            v-if="field.visiable == 'Y' && field.ui_type=='text'">
-                                                                            <!--number 金額顯示format-->
-                                                                            <input type="text"
-                                                                                   v-model="singleData[field.ui_field_name]"
-                                                                                   :style="{width:field.width + 'px'}"
-                                                                                   class="text-right selectHt"
-                                                                                   :class="{'input_sta_required' : field.requirable == 'Y'}"
-                                                                                   @change="chkOrderDtFieldRule(field.ui_field_name, field.rule_func_name)"
-                                                                                   :disabled="field.modificable == 'N'|| !isModifiable ||
-                                                                    (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)">
-                                                                        </td>
-                                                                        <td class="text-left td-more"
-                                                                            style="height: 26px;"
-                                                                            @click="editingOrderDtIdx = idx"
-                                                                            v-if="field.visiable == 'Y' && field.ui_type=='button'">
-                                                                            <input type="text"
-                                                                                   v-model="singleData[field.ui_field_name]"
-                                                                                   :style="{width:field.width + 'px'}"
-                                                                                   :required="field.requirable == 'Y'"
-                                                                                   min="0"
-                                                                                   :maxlength="field.ui_field_length"
-                                                                                   :class="{'input_sta_required' : field.requirable == 'Y'}"
-                                                                                   class="selectHt pull-left wt-input"
-                                                                                   @change="chkOrderDtFieldRule(field.ui_field_name, field.rule_func_name)"
-                                                                                   :disabled="field.modificable == 'N'|| !isModifiable ||
-                                                                    (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)">
-                                                                            <i class="moreClick fa fa-ellipsis-h pull-left"
-                                                                               @click="showRateCodDialog(idx)"></i>
+                                                                            :maxlength="field.ui_field_length"
+                                                                            v-if="field.visiable === 'Y' ">
+                                                                            {{rowsData[field.ui_field_name]}}
                                                                         </td>
                                                                     </template>
                                                                 </tr>
@@ -518,6 +537,7 @@
             }
         },
         watch: {
+            //一開始打開訂房明細
             async isGuestDetail(val) {
                 if (val && !_.isUndefined(this.rowData.ikey)) {
                     //是否第一次開起
