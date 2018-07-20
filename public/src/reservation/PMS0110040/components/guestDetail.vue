@@ -944,6 +944,7 @@
             },
             //新增guest mn 資料
             async addGuestMnData() {
+
                 // if (this.isModifiable) {
                 // 讀取group order_dt 當前選擇的列的資料
                 this.editingGroupData = $("#orderDtTable").datagrid('getSelected');
@@ -966,14 +967,15 @@
                 if (la_detailOrderDtData.length > 0) {
                     let la_lossIkeySeqNosGuest = [];
                     // order_dt明細和group guest顧客做比對抓出目前缺少的ikey_seq_nos
-                    _.each(la_detailOrderDtData, (lo_orderDtData) => {
+                    for (let lo_orderDtData of la_detailOrderDtData) {
                         let lo_currentGuest = _.findWhere(this.guestMnRowsData[this.editingGroupDataIndex], {
                             ikey_seq_nos: lo_orderDtData.ikey_seq_nos
                         });
                         if (_.isUndefined(lo_currentGuest)) {
                             la_lossIkeySeqNosGuest.push(lo_orderDtData);
+                            break;
                         }
-                    });
+                    }
 
                     let la_allGuestMnData = [];
                     _.each(this.guestMnRowsData, (la_data) => {
@@ -982,17 +984,18 @@
                         });
                     });
                     // 新增guest mn 前要做得規則
-                    let lo_chkAddRule = await BacUtils.doHttpPromisePostProxy("/api/chkPrgFuncRule", {
-                        prg_id: gs_prgId,
-                        page_id: 1,
-                        tab_page_id: 3,
-                        func_id: "0200",
-                        allRowData: la_allGuestMnData
-                    }).then(result => {
-                        return result
-                    }).catch(err => {
-                        return {success: false, errorMsg: err}
-                    });
+                    let lo_chkAddRule = await
+                        BacUtils.doHttpPromisePostProxy("/api/chkPrgFuncRule", {
+                            prg_id: gs_prgId,
+                            page_id: 1,
+                            tab_page_id: 3,
+                            func_id: "0200",
+                            allRowData: la_allGuestMnData
+                        }).then(result => {
+                            return result
+                        }).catch(err => {
+                            return {success: false, errorMsg: err}
+                        });
 
                     if (lo_chkAddRule.success) {
                         let lo_addRowData = lo_chkAddRule.defaultValues;
@@ -1063,7 +1066,8 @@
 
                 this.isLoading = false;
                 // }
-            },
+            }
+            ,
             async save() {
                 try {
                     // 原始資料、現在資料 排序
@@ -1119,11 +1123,12 @@
                     this.tmpCUD.oriData = la_beforeOrder;
 
                     // 儲存
-                    let lo_result = await BacUtils.doHttpPromisePostProxy('/api/execNewFormatSQL', {
-                        prg_id: gs_prgId,
-                        func_id: "0500",
-                        tmpCUD: this.tmpCUD
-                    });
+                    let lo_result = await
+                        BacUtils.doHttpPromisePostProxy('/api/execNewFormatSQL', {
+                            prg_id: gs_prgId,
+                            func_id: "0500",
+                            tmpCUD: this.tmpCUD
+                        });
 
                     if (lo_result.success) {
                         this.initPage();
@@ -1133,7 +1138,8 @@
                 } catch (err) {
                     // alert(err)
                 }
-            },
+            }
+            ,
             async chkOrderDtFieldRule(ui_field_name, rule_func_name) {
                 if (_.isEmpty(this.beforeOrderDtRowsData)) {
                     this.beforeOrderDtRowsData = this.oriOrderDtRowsData;
@@ -1175,10 +1181,11 @@
                             allRowData: la_allOrderDtRowsData
                         };
 
-                        let lo_doChkFiledRule = await BacUtils.doHttpPromisePostProxy('/api/chkFieldRule', lo_postData)
-                            .then((result) => {
-                                return result;
-                            }).catch((err) => {
+                        let lo_doChkFiledRule = await
+                            BacUtils.doHttpPromisePostProxy('/api/chkFieldRule', lo_postData)
+                                .then((result) => {
+                                    return result;
+                                }).catch((err) => {
                                 return {success: false, errorMsg}
                             });
 
@@ -1265,7 +1272,8 @@
                 catch (err) {
                     console.log(err)
                 }
-            },
+            }
+            ,
             allDetail: function () {
                 let la_allOrderdata = [];
                 _.each(this.oriOrderDtRowsData, la_orderDtRowsData => {
@@ -1274,7 +1282,8 @@
                     })
                 });
                 this.orderDtRowsData = JSON.parse(JSON.stringify(la_allOrderdata));
-            },
+            }
+            ,
         },
     }
 </script>

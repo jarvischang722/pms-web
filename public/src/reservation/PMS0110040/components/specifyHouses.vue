@@ -385,14 +385,13 @@
                         if (lo_rowsData.ikey_seq_nos === this.selectOrderDtRowsDataIkeySeqNos) {
                             _.each(this.guestMnRowDataChecked, (lo_checkedData, ln_index) => {
                                 let lo_oriCheckedData = this.findOriData(this.oriAllGuestMnRowsData, lo_checkedData);
+                                lo_rowsData.guest_list = lo_rowsData.guest_list || "";
+                                lo_rowsData.guest_list = lo_rowsData.guest_list.trim();
                                 // 處理文字顯示樣子
                                 if (lo_rowsData.guest_list === '') {
                                     lo_rowsData.guest_list += lo_checkedData.alt_nam;
-                                } else if (lo_rowsData.guest_list === null || lo_rowsData.guest_list === undefined) {
-                                    lo_rowsData.guest_list = '';
-                                    lo_rowsData.guest_list += lo_checkedData.alt_nam;
                                 } else if (lo_rowsData.guest_list.length > 0) {
-                                    lo_rowsData.guest_list += ',' + lo_checkedData.alt_nam;
+                                    lo_rowsData.guest_list += `,${lo_checkedData.alt_nam}`;
                                 }
                                 lo_checkedData.ikey_seq_nos = lo_rowsData.ikey_seq_nos;
                                 lo_checkedData.room_nos = lo_rowsData.room_nos;
@@ -407,7 +406,7 @@
                     let la_removeIndex = [];
                     _.each(this.guestMnRowsData, (lo_rowData, ln_rowDataIndex) => {
                         _.each(this.guestMnRowDataChecked, (lo_checkedData) => {
-                            if (lo_rowData.athena_id === lo_checkedData.athena_id && lo_rowData.ci_ser === lo_checkedData.ci_ser && lo_rowData.hotel_cod === lo_checkedData.hotel_cod) {
+                            if (lo_rowData.ci_ser === lo_checkedData.ci_ser) {
                                 la_removeIndex.push(ln_rowDataIndex);
                             }
                         });
