@@ -482,44 +482,63 @@
                                     <li>
                                         <button class="btn btn-primary btn-white btn-defaultWidth"
                                                 role="button" @click="doSaveGrid">{{i18nLang.program.PMS0810230.save}}
+
+
                                         </button>
                                     </li>
                                     <li>
                                         <button class="btn btn-primary btn-white btn-defaultWidth"
                                                 role="button" @click="doOpenUseTime">
                                             {{i18nLang.program.PMS0810230.useTime}}
+
+
                                         </button>
                                     </li>
                                     <li>
                                         <!--等SA-->
                                         <button class="btn btn-primary btn-white btn-defaultWidth resv_priceTrial"
                                                 role="button">{{i18nLang.program.PMS0810230.priceTrial}}(等SA)
+
+
                                         </button>
                                     </li>
                                     <li>
                                         <button class="btn btn-primary btn-white btn-defaultWidth"
                                                 role="button" @click="doOpenRateList">
                                             {{i18nLang.program.PMS0810230.rateList}}
+
+
                                         </button>
                                     </li>
-                                    <li class="depDateLi" v-if="$parent.prgEditionOptions.optionList.indexOf('PMS_RATECODE_B') > -1">
+                                    <li class="depDateLi"
+                                        v-if="$parent.prgEditionOptions.optionList.indexOf('PMS_RATECODE_B') > -1">
                                         <button class="btn btn-primary btn-white btn-defaultWidth rateCode_dependantRate"
                                                 role="button">{{i18nLang.program.PMS0810230.depRate}}
+
+
                                         </button>
                                     </li>
-                                    <li class="baseDateLi" v-if="$parent.prgEditionOptions.optionList.indexOf('PMS_RATECODE_B') > -1">
+                                    <li class="baseDateLi"
+                                        v-if="$parent.prgEditionOptions.optionList.indexOf('PMS_RATECODE_B') > -1">
                                         <button class="btn btn-primary btn-white btn-defaultWidth rateCode_baseDate"
                                                 role="button">{{i18nLang.program.PMS0810230.baseRate}}
+
+
                                         </button>
                                     </li>
                                     <li v-if="$parent.prgEditionOptions.optionList.indexOf('PMS_RATECODE_B') > -1">
                                         <button class="btn btn-primary btn-white btn-defaultWidth rateCode_addPpl"
                                                 role="button">{{i18nLang.program.PMS0810230.addPol}}
+
+
                                         </button>
                                     </li>
                                     <li>
                                         <button class="btn btn-primary btn-white btn-defaultWidth"
-                                                role="button" @click="doCloseDialog">{{i18nLang.program.PMS0810230.leave}}
+                                                role="button" @click="doCloseDialog">
+                                            {{i18nLang.program.PMS0810230.leave}}
+
+
                                         </button>
                                     </li>
                                 </ul>
@@ -702,6 +721,8 @@
                                     <li>
                                         <button class="btn btn-primary btn-white btn-defaultWidth rateCode_duplicate"
                                                 role="button">複製
+
+
                                         </button>
                                     </li>
                                 </ul>
@@ -750,6 +771,7 @@
         mounted() {
             this.isLoadingDialog = true;
             this.loadingText = "Loading...";
+            this.fetchRoomCodMaxData();
         },
         data() {
             return {
@@ -766,7 +788,8 @@
                 panelName: ["roomTypPanel", "limitSetPanel", "limitSetPanel"], //頁籤內容名稱
                 tabStatus: {isRoomTyp: false}, //現在頁籤狀況
                 isUseTime: false, //是否開啟使用期間
-                versionState: 'lite'
+                versionState: 'lite',
+                MaxDat: ''
 //                prgEditionOptions: {} //版本資料
             }
         },
@@ -807,6 +830,17 @@
             }
         },
         methods: {
+            //使用期間視窗上方顯示『日期設定最大日期』
+            async fetchRoomCodMaxData() {
+                let lo_fetchMaxDat = await BacUtils.doHttpPromisePostProxy('/api/chkFieldRule', {
+                    rule_func_name: 'r_1011'
+                }).then((result) => {
+                    return result;
+                }).catch(err => {
+                    return {success: false, errorMsg: err}
+                });
+                this.MaxDat = lo_fetchMaxDat.success ? lo_fetchMaxDat.defaultValues : "";
+            },
             //打開單欄多語編輯
             editFieldMultiLang(fieldInfo) {
                 this.$eventHub.$emit('openMultiLang', {
@@ -896,10 +930,12 @@
                     if (result.success) {
                         this.singleData = this.isCreateStatus ? result.gsDefaultData : result.gsMnData.rowData[0];
                         this.oriSingleData = this.isCreateStatus ? JSON.parse(JSON.stringify(result.gsDefaultData)) : JSON.parse(JSON.stringify(result.gsMnData.rowData[0]));
-                        this.singleData.commis_rat = this.singleData.commis_rat * 100;
-                        this.oriSingleData.commis_rat = this.singleData.commis_rat * 100;
-                        this.singleData.serv_rat = this.singleData.serv_rat * 100;
-                        this.oriSingleData.serv_rat = this.singleData.serv_rat * 100;
+                        let ln_commis_rat = this.singleData.commis_rat * 100;
+                        let ln_serv_rat = this.singleData.serv_rat * 100;
+                        this.singleData.commis_rat = ln_commis_rat;
+                        this.oriSingleData.commis_rat = ln_commis_rat;
+                        this.singleData.serv_rat = ln_serv_rat;
+                        this.oriSingleData.serv_rat = ln_serv_rat;
                         this.setGlobalRateCod();
                         this.tabName = "roomTyp";
                         this.isUseTime = true;
@@ -953,7 +989,7 @@
                                 } else {
                                     //有沒有要再打一次ajax到後端
                                     if (result.isGoPostAjax && !_.isEmpty(result.ajaxURL)) {
-                                        BacUtils.doHttpPromisePostProxy(result.ajaxURL, postData).then( (result) => {
+                                        BacUtils.doHttpPromisePostProxy(result.ajaxURL, postData).then((result) => {
                                             if (!result.success) {
                                                 alert(result.errorMsg);
                                             }
@@ -995,7 +1031,7 @@
                 lo_saveSingleData = _.extend(lo_saveSingleData, lo_params);
                 lo_saveOriSingleData = _.extend(lo_saveOriSingleData, lo_params);
                 //將主檔資料放至Vuex
-                this.$store.dispatch("custMnModule/setMnSingleData", {
+                this.$store.dispatch("setMnSingleData", {
                     go_mnSingleData: lo_saveSingleData,
                     go_mnOriSingleData: lo_saveOriSingleData
                 });
@@ -1045,7 +1081,11 @@
                             }, 200);
                             if (result.success) {
                                 alert(go_i18nLang.program.PMS0810230.save_success);
-                                $("#PMS0810230SingleGrid").dialog('close');
+                                let lo_cloneData = JSON.parse(JSON.stringify(this.rowData));
+                                this.rowData = {}
+                                this.isEditStatus = true;
+                                this.isCreateStatus = false;
+                                this.rowData = lo_cloneData;
                             }
                             else {
                                 alert(result.errorMsg);
@@ -1066,9 +1106,10 @@
             doOpenUseTime() {
                 let self = this;
                 this.isUseTime = true;
+//                chkFieldRule
                 var dialog = $("#useTimeDialog").removeClass('hide').dialog({
                     modal: true,
-                    title: go_i18nLang.program.PMS0810230.useTime,
+                    title: go_i18nLang.program.PMS0810230.useTime + this.MaxDat,
                     title_html: true,
                     width: 750,
                     maxwidth: 1920,

@@ -189,6 +189,12 @@ const actions = {
             dt_oriData: []
         };
 
+        //調整主檔sales_cod 資料
+        let lo_mnSingleData = JSON.parse(JSON.stringify(state.go_allData.go_mnSingleData));
+        lo_mnSingleData.sales_cod = state.go_allData.go_mnSingleData.sales_cod.split(":").length > 1 ?
+            state.go_allData.go_mnSingleData.sales_cod.split(":")[0] : state.go_allData.go_mnSingleData.sales_cod;
+
+
         //調整相關設定資料
         let lo_rsSingleData = JSON.parse(JSON.stringify(state.go_allData.go_rsSingleData));
         lo_rsSingleData.ins_dat = moment(new Date(lo_rsSingleData.ins_dat)).format("YYYY/MM/DD HH:mm:ss");
@@ -199,7 +205,7 @@ const actions = {
 
         if (state.gb_isCreateStatus) {
             lo_tmpCUD.createData = [
-                _.extend(state.go_allData.go_mnSingleData, state.go_allData.go_rsSingleData)
+                _.extend(lo_mnSingleData, state.go_allData.go_rsSingleData)
             ];
 
             let la_tmpName = ["go_rpTmpCUD", "go_ccTmpCUD", "go_vrTmpCUD", "go_remarkTmpCUD"];
@@ -214,7 +220,7 @@ const actions = {
         }
         else if (state.gb_isEditStatus) {
             lo_tmpCUD.updateData = [
-                _.extend(state.go_allData.go_mnSingleData, lo_rsSingleData)
+                _.extend(lo_mnSingleData, lo_rsSingleData)
             ];
             lo_tmpCUD.oriData = [
                 _.extend(state.go_allOriData.go_mnSingleData, state.go_allData.go_rsSingleData)

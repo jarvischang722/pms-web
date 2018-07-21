@@ -19,7 +19,7 @@
         <parameter type="instring" kind="3">rate_grp</parameter>
         <statement test="_v(param.rate_grp)"><![CDATA[and rate_grp in(:rate_grp)]]></statement>
         <parameter type="instring" kind="3">souce_typ</parameter>
-        <statement test="_v(param.souce_typ)"><![CDATA[and souce_typ in(:souce_typ)]]></statement>
+        <statement test="_v(param.souce_typ)"><![CDATA[and source_typ in(:souce_typ)]]></statement>
         <parameter type="instring" kind="3">guest_typ</parameter>
         <statement test="_v(param.guest_typ)"><![CDATA[and guest_typ in(:guest_typ)]]></statement>
         <parameter type="instring" kind="3">use_sta</parameter>

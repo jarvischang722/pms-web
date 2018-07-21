@@ -401,26 +401,6 @@
                         var lo_singleData = JSON.parse(JSON.stringify(val));
                         var lo_oriSingleData = JSON.parse(JSON.stringify(this.oriSingleData));
 
-                        //取得合約狀態說明
-                        if (!_.isNull(lo_singleData.contract_sta)) {
-                            if (lo_singleData.contract_sta.trim() != "") {
-                                let lo_contractStaField = _.findWhere(this.oriFieldsData, {ui_field_name: 'contract_sta'})
-                                let lo_contractSta = _.findWhere(lo_contractStaField.selectData, {value: lo_singleData.contract_sta});
-                                let ls_contractStaDesc = _.isUndefined(lo_contractSta) ? [] : lo_contractSta.display.split(":")[1];
-                                lo_singleData = _.extend(lo_singleData, {status_desc: ls_contractStaDesc});
-                                lo_oriSingleData = _.extend(lo_oriSingleData, {status_desc: ls_contractStaDesc});
-                            }
-                        }
-
-                        //自動將郵遞區號對應之地址資料帶至地址欄位
-                        lo_singleData.cust_idx_zip_cod =
-                            _.isUndefined(lo_singleData.cust_idx_zip_cod) || _.isNull(lo_singleData.cust_idx_zip_cod) ? "" : lo_singleData.cust_idx_zip_cod;
-                        if (lo_singleData.cust_idx_zip_cod != "" && (lo_singleData.cust_idx_add_rmk == "" || _.isNull(lo_singleData.cust_idx_add_rmk))) {
-                            var ln_zipCodIdx = _.findIndex(this.oriFieldsData, {ui_field_name: 'cust_idx_zip_cod'})
-                            var ln_zipNamIdx = _.findIndex(this.oriFieldsData[ln_zipCodIdx].selectData, {value: lo_singleData.cust_idx_zip_cod})
-                            this.singleData.cust_idx_add_rmk = this.oriFieldsData[ln_zipCodIdx].selectData[ln_zipNamIdx].display.split(":")[1];
-                        }
-
                         //將主檔資料放至Vuex
                         this.$store.dispatch("custMnModule/setMnSingleData", {
                             go_mnSingleData: lo_singleData,
@@ -436,6 +416,27 @@
                 const ls_uni_title = this.singleData.cust_idx_uni_titile || "";
                 if (ls_uni_title == "" && ls_newVal != "") {
                     this.singleData.cust_idx_uni_titile = ls_newVal;
+                }
+            },
+            //若地址為空，則將郵遞區號帶入
+            "singleData.cust_idx_zip_cod": function (newVal, oldVal) {
+                const ls_newVal = newVal || "";
+                const ls_addRmk = this.singleData.cust_idx_add_rmk || "";
+                if (ls_newVal != "" && ls_addRmk == "") {
+                    const ln_zipCodIdx = _.findIndex(this.oriFieldsData, {ui_field_name: 'cust_idx_zip_cod'});
+                    const ln_zipNamIdx = _.findIndex(this.oriFieldsData[ln_zipCodIdx].selectData, {value: ls_newVal});
+                    this.singleData.cust_idx_add_rmk = this.oriFieldsData[ln_zipCodIdx].selectData[ln_zipNamIdx].display.split(":")[1];
+                }
+            },
+            //取得合約狀態說明
+            "singleData.contract_sta": function (newVal, oldVal) {
+                const ls_newVal = newVal || "";
+                if (ls_newVal != "") {
+                    let lo_contractStaField = _.findWhere(this.oriFieldsData, {ui_field_name: 'contract_sta'});
+                    let lo_contractSta = _.findWhere(lo_contractStaField.selectData, {value: ls_newVal});
+                    let ls_contractStaDesc = _.isUndefined(lo_contractSta) ? "" : lo_contractSta.display.split(":")[1];
+                    this.singleData.status_desc = ls_contractStaDesc;
+                    this.oriSingleData.status_desc = ls_contractStaDesc;
                 }
             }
         },
@@ -523,44 +524,47 @@
             dataValidate() {
                 var self = this;
                 var lo_checkResult;
-                //檢查資料是否必填但未填
+
+                //檢查主檔資料是否必填但未填或有format
                 for (var i = 0; i < this.oriFieldsData.length; i++) {
                     var lo_field = this.oriFieldsData[i];
                     //必填
                     if (lo_field.requirable == "Y" && lo_field.modificable != "N" && lo_field.ui_type != "checkbox") {
-                        lo_checkResult = go_validateClass.required(self.singleData[lo_field.ui_field_name], lo_field.ui_display_name);
+                        lo_checkResult = go_validateClass.required(this.singleData[lo_field.ui_field_name], lo_field.ui_display_name);
                         if (lo_checkResult.success == false) {
                             break;
                         }
                     }
 
                     //有format
-                    if (lo_field.format_func_name.validate != "" && !_.isUndefined(go_validateClass[lo_field.format_func_name.validate]) && self.singleData[lo_field.ui_field_name] != '') {
-                        lo_checkResult = go_validateClass[lo_field.format_func_name.validate](self.singleData[lo_field.ui_field_name], lo_field.ui_display_name);
+                    if (lo_field.format_func_name.validate != "" && !_.isUndefined(go_validateClass[lo_field.format_func_name.validate]) && this.singleData[lo_field.ui_field_name] != "") {
+                        lo_checkResult = go_validateClass[lo_field.format_func_name.validate](this.singleData[lo_field.ui_field_name], lo_field.ui_display_name);
                         if (lo_checkResult.success == false) {
                             break;
                         }
                     }
-
                 }
 
-                //檢查合約資料區間是否有重疊
+                //檢查合約資料
                 let la_examData = JSON.parse(JSON.stringify(this.$store.state.custMnModule.go_allData.ga_ccDataGridRowsData));
                 for (let i = 0; i < la_examData.length; i++) {
                     for (let j = 0; j < i; j++) {
                         let lo_nowData = la_examData[i];
                         let lo_compareData = la_examData[j];
+                        //檢查起始日期是否大於結束日期
+                        lo_checkResult = go_validateClass.chkBeginDatAndEndDat(lo_compareData.begin_dat, lo_compareData.end_dat);
+                        if (lo_checkResult.success == false) {
+                            break;
+                        }
+                        //檢查日期區間是否有重疊
                         if (lo_compareData.rate_cod == lo_nowData.rate_cod && lo_compareData.hotel_cod == lo_nowData.hotel_cod) {
                             let ls_nowBeginDat = moment(lo_nowData.begin_dat).format("YYYY/MM/DD");
                             let ls_nowEndDat = moment(lo_nowData.end_dat).format("YYYY/MM/DD");
                             let ls_compareBeginDat = moment(lo_compareData.begin_dat).format("YYYY/MM/DD");
                             let ls_compareEndDat = moment(lo_compareData.end_dat).format("YYYY/MM/DD");
-                            console.log(ls_compareBeginDat, ls_compareEndDat, ls_nowBeginDat, ls_nowEndDat);
-                            let lb_chkOverLap = this.chkDateIsBetween(ls_compareBeginDat, ls_compareEndDat, ls_nowBeginDat, ls_nowEndDat);
+                            lo_checkResult = go_validateClass.chkDateIsNotBetween(ls_compareBeginDat, ls_compareEndDat, ls_nowBeginDat, ls_nowEndDat);
 
-                            if (lb_chkOverLap) {
-                                lo_checkResult.success = false;
-                                lo_checkResult.msg = go_i18nLang.ErrorMsg.pms61msg1;
+                            if (lo_checkResult.success == false) {
                                 break;
                             }
                         }
@@ -568,19 +572,6 @@
                 }
 
                 return lo_checkResult;
-            },
-            //比較日期是否重疊
-            chkDateIsBetween(compar_begin_dat, compar_end_dat, now_begin_dat, now_end_dat) {
-                compar_begin_dat = moment.isMoment(compar_begin_dat) ? compar_begin_dat : moment(new Date(compar_begin_dat));
-                compar_end_dat = moment.isMoment(compar_end_dat) ? compar_end_dat : moment(new Date(compar_end_dat));
-                now_begin_dat = moment.isMoment(now_begin_dat) ? now_begin_dat : moment(new Date(now_begin_dat));
-                now_end_dat = moment.isMoment(now_end_dat) ? now_end_dat : moment(new Date(now_end_dat));
-                if (compar_begin_dat.diff(now_end_dat, "days") <= 0 && compar_end_dat.diff(now_begin_dat, "days") >= 0) {
-                    return true;
-                }
-                else {
-                    return false;
-                }
             },
             //轉換儲存資料的格式
             doConvertData() {
@@ -592,12 +583,8 @@
                     this.singleData[key] = _.isUndefined(val) || _.isNull(val) ? "" : val;
                 });
 
-                var lo_singleData = JSON.parse(JSON.stringify(this.singleData));
-                var lo_oriSingleData = JSON.parse(JSON.stringify(this.oriSingleData));
-
-                //將sales_cod從xxx:xxx改為xxx
-                lo_singleData.sales_cod = this.singleData.sales_cod.split(":")[0];
-                lo_oriSingleData.sales_cod = this.oriSingleData.sales_cod.split(":")[0];
+                let lo_singleData = JSON.parse(JSON.stringify(this.singleData));
+                let lo_oriSingleData = JSON.parse(JSON.stringify(this.oriSingleData));
 
                 //將主檔資料放至Vuex
                 this.$store.dispatch("custMnModule/setMnSingleData", {
@@ -605,38 +592,63 @@
                     go_mnOriSingleData: lo_oriSingleData
                 });
             },
-            doSaveGrid() {
-                this.$eventHub.$emit("endRpEdit");
-                this.$eventHub.$emit("endContractEdit");
+            async doSaveGrid() {
                 this.isLoadingDialog = true;
                 this.loadingText = "saving";
-                this.doConvertData();
 
-                var lo_chkResult = this.dataValidate();
+                //檢查相關人員是否已經完成編輯
+                let lo_doRpValidate = await new Promise((resolve, reject) => {
+                    this.$eventHub.$emit("endRpEdit", {
+                        doValidate: (result) => {
+                            resolve(result);
+                        }
+                    });
+                });
+                //檢查合約內容是否已經完成編輯
+                let lo_doContractValidate = await new Promise((resolve, reject) => {
+                    this.$eventHub.$emit("endContractEdit", {
+                        doValidate: (result) => {
+                            resolve(result);
+                        }
+                    });
+                });
 
-                if (lo_chkResult.success == false) {
-                    alert(lo_chkResult.msg);
+                if (lo_doRpValidate == false) {
+                    alert(go_i18nLang.program.PMS0610020.chkRpData);
+                    this.isLoadingDialog = false;
+                }
+                else if (lo_doContractValidate == false) {
+                    alert(go_i18nLang.program.PMS0610020.chkCcData);
                     this.isLoadingDialog = false;
                 }
                 else {
-                    this.$store.dispatch("custMnModule/doSaveAllData").then(result => {
-                        if (result.success) {
-                            alert(go_i18nLang.program.PMS0610020.save_success);
-                            let lo_cloneRowData = JSON.parse(JSON.stringify(this.rowData));
-                            lo_cloneRowData = _.extend(lo_cloneRowData, {cust_mn_cust_cod: this.$store.state.custMnModule.gs_custCod});
-                            this.$store.dispatch("custMnModule/setAllDataClear");
+                    this.doConvertData();
+                    let lo_chkResult = this.dataValidate();
 
-                            this.isCreateStatus = false;
-                            this.isEditStatus = true;
-                            this.rowData = {};
-                            this.tabName = "";
-                            this.rowData = lo_cloneRowData;
-                        }
-                        else {
-                            alert(result.errorMsg);
-                        }
+                    if (lo_chkResult.success == false) {
+                        alert(lo_chkResult.msg);
                         this.isLoadingDialog = false;
-                    });
+                    }
+                    else {
+                        this.$store.dispatch("custMnModule/doSaveAllData").then(result => {
+                            if (result.success) {
+                                alert(go_i18nLang.program.PMS0610020.save_success);
+                                let lo_cloneRowData = JSON.parse(JSON.stringify(this.rowData));
+                                lo_cloneRowData = _.extend(lo_cloneRowData, {cust_mn_cust_cod: this.$store.state.custMnModule.gs_custCod});
+                                this.$store.dispatch("custMnModule/setAllDataClear");
+
+                                this.isCreateStatus = false;
+                                this.isEditStatus = true;
+                                this.rowData = {};
+                                this.tabName = "";
+                                this.rowData = lo_cloneRowData;
+                            }
+                            else {
+                                alert(result.errorMsg);
+                            }
+                            this.isLoadingDialog = false;
+                        });
+                    }
                 }
             },
             doCloseDialog() {

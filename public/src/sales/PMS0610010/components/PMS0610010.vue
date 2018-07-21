@@ -313,6 +313,7 @@
         <!--/.異動紀錄-->
     </div>
 </template>
+
 <script>
     import visitPlan from './visitPlan.vue';
     import editSalesClerk from './editSalesClerk.vue';
