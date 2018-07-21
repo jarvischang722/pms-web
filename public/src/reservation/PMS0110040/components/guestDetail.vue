@@ -152,7 +152,8 @@
                                                                                         class="date-wt input_sta_required"
                                                                                         format="yyyy/MM/dd"
                                                                                         :style="{width:field.width + 'px'}"
-                                                                                        :editable="false" :clearable="false"
+                                                                                        :editable="false"
+                                                                                        :clearable="false"
                                                                                         @change="chkOrderDtFieldRule(field.ui_field_name, field.rule_func_name)"
                                                                                 >
                                                                                 </el-date-picker>
@@ -1133,8 +1134,7 @@
 
                 this.isLoading = false;
                 // }
-            }
-            ,
+            },
             async save() {
                 try {
                     this.isLoading = true;
@@ -1194,7 +1194,7 @@
                     // 驗證
                     let la_orderDtRowsData = [];
                     Object.keys(this.tmpCUD).forEach(key => {
-                        if (this.tmpCUD[key].length > 0 && this.tmpCUD[key] !== 'oriData' ) {
+                        if (this.tmpCUD[key].length > 0 && this.tmpCUD[key] !== 'oriData') {
                             la_orderDtRowsData.push(this.dataValidate(this.tmpCUD[key], this.orderDtFieldData));
                         }
                     });
@@ -1265,7 +1265,7 @@
                             allRowData: la_allOrderDtRowsData
                         };
 
-                        let lo_doChkFiledRule = await BacUtils.doHttpPromisePostProxy('/api/chkFieldRule', lo_postData)
+                        let lo_doChkFiledRule = await BacUtils.doHttpPromisePostProxy("/api/chkFieldRule", lo_postData)
                             .then((result) => {
                                 return result;
                             }).catch((err) => {

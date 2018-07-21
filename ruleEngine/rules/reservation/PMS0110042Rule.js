@@ -43,35 +43,42 @@ module.exports = {
                 lo_error = new ErrorClass();
                 lo_error.errorMsg = 'c/i 日期要小於 c/o日期';
             }
+            else {
+                //當source_typ=DU時,days=0
+                let ls_sourceTyp = postData.singleRowData[0].source_typ || "";
+                if (ls_sourceTyp !== "") {
+                    ln_days = ls_sourceTyp === "DU" ? 0 : ln_days;
+                }
 
-            //當source_typ=DU時,days=0
-            let ls_sourceTyp = postData.singleRowData[0].source_typ || "";
-            if (ls_sourceTyp !== "") {
-                ln_days = ls_sourceTyp === "DU" ? 0 : ln_days;
+                //重算房價
+                let lo_calculationRoomPrice = {};
+                if (ln_days !== 0) {
+                    postData.singleRowData[0].days = ln_days;
+                    lo_calculationRoomPrice = await CalculationRoomPrice(postData.singleRowData[0], session);
+
+                    if (lo_calculationRoomPrice.success) {
+                        lo_result.effectValues = _.extend(lo_result.effectValues, lo_calculationRoomPrice.data);
+                    }
+                    else {
+                        lo_error = new ErrorClass();
+                        lo_result.success = false;
+                        lo_error.errorMsg = lo_calculationRoomPrice.errorMsg;
+                    }
+
+                }
+                lo_result.effectValues.days = ln_days;
+                lo_result.effectValues.ci_dat = moment(ls_ciDat).format("YYYY/MM/DD");
+                lo_result.effectValues.co_dat = moment(ls_coDat).format("YYYY/MM/DD");
+                lo_result.effectValues.ci_dat_week = moment(ls_ciDat).format("ddd");
+                lo_result.effectValues.co_dat_week = moment(ls_coDat).format("ddd");
+
+                //取得房型下拉資料
+                let lo_roomCodSelectData = await GetRoomCodSelectOption(postData.singleRowData[0], session);
+                let lo_useCodSelectData = await GetUseCodSelectOption(postData.singleRowData[0], session);
+                lo_result.selectField = ["room_cod", "use_cod"];
+                lo_result.multiSelectOptions.room_cod = lo_roomCodSelectData.data;
+                lo_result.multiSelectOptions.use_cod = lo_useCodSelectData.data;
             }
-
-            //重算房價
-            let lo_calculationRoomPrice = {};
-            if (ln_days !== 0) {
-                postData.singleRowData[0].days = ln_days;
-                lo_calculationRoomPrice = await CalculationRoomPrice(postData.singleRowData[0], session);
-            }
-
-            lo_result.effectValues.days = ln_days;
-            lo_result.effectValues.ci_dat = moment(ls_ciDat).format("YYYY/MM/DD");
-            lo_result.effectValues.co_dat = moment(ls_coDat).format("YYYY/MM/DD");
-            lo_result.effectValues.ci_dat_week = moment(ls_ciDat).format("ddd");
-            lo_result.effectValues.co_dat_week = moment(ls_coDat).format("ddd");
-            lo_result.effectValues = _.extend(lo_result.effectValues, lo_calculationRoomPrice.data);
-
-            //取得房型下拉資料
-            let lo_roomCodSelectData = await GetRoomCodSelectOption(postData.singleRowData[0], session);
-            let lo_useCodSelectData = await GetUseCodSelectOption(postData.singleRowData[0], session);
-            lo_result.selectField = ["room_cod", "use_cod"];
-            lo_result.multiSelectOptions.room_cod = lo_roomCodSelectData.data;
-            lo_result.multiSelectOptions.use_cod = lo_useCodSelectData.data;
-
-            lo_result.isEffectFromRule = false;
         }
         catch (err) {
             console.log(err);
@@ -109,36 +116,39 @@ module.exports = {
                 lo_error = new ErrorClass();
                 lo_error.errorMsg = 'c/i 日期要小於 c/o日期';
             }
+            else {
+                //當source_typ=DU時,days=0
+                let ls_sourceTyp = postData.singleRowData[0].source_typ || "";
+                if (ls_sourceTyp !== "") {
+                    ln_days = ls_sourceTyp === "DU" ? 0 : ln_days;
+                }
+                //重算房價
+                let lo_calculationRoomPrice = {};
+                if (ln_days !== 0) {
+                    postData.singleRowData[0].days = ln_days;
+                    lo_calculationRoomPrice = await CalculationRoomPrice(postData.singleRowData[0], session);
+                    if (lo_calculationRoomPrice.success) {
+                        lo_result.effectValues = _.extend(lo_result.effectValues, lo_calculationRoomPrice.data);
+                    }
+                    else {
+                        lo_error = new ErrorClass();
+                        lo_result.success = false;
+                        lo_error.errorMsg = lo_calculationRoomPrice.errorMsg;
+                    }
+                    lo_result.effectValues.days = ln_days;
+                    lo_result.effectValues.ci_dat = moment(ls_ciDat).format("YYYY/MM/DD");
+                    lo_result.effectValues.co_dat = moment(ls_coDat).format("YYYY/MM/DD");
+                    lo_result.effectValues.ci_dat_week = moment(ls_ciDat).format("ddd");
+                    lo_result.effectValues.co_dat_week = moment(ls_coDat).format("ddd");
 
-            //當source_typ=DU時,days=0
-            let ls_sourceTyp = postData.singleRowData[0].source_typ || "";
-            if (ls_sourceTyp !== "") {
-                ln_days = ls_sourceTyp === "DU" ? 0 : ln_days;
+                    //取得房型下拉資料
+                    let lo_roomCodSelectData = await GetRoomCodSelectOption(postData.singleRowData[0], session);
+                    let lo_useCodSelectData = await GetUseCodSelectOption(postData.singleRowData[0], session);
+                    lo_result.selectField = ["room_cod", "use_cod"];
+                    lo_result.multiSelectOptions.room_cod = lo_roomCodSelectData.data;
+                    lo_result.multiSelectOptions.use_cod = lo_useCodSelectData.data;
+                }
             }
-
-            //重算房價
-            let lo_calculationRoomPrice = {};
-            if (ln_days !== 0) {
-                postData.singleRowData[0].days = ln_days;
-                lo_calculationRoomPrice = await CalculationRoomPrice(postData.singleRowData[0], session);
-
-            }
-
-            lo_result.effectValues.days = ln_days;
-            lo_result.effectValues.ci_dat = moment(ls_ciDat).format("YYYY/MM/DD");
-            lo_result.effectValues.co_dat = moment(ls_coDat).format("YYYY/MM/DD");
-            lo_result.effectValues.ci_dat_week = moment(ls_ciDat).format("ddd");
-            lo_result.effectValues.co_dat_week = moment(ls_coDat).format("ddd");
-            lo_result.effectValues = _.extend(lo_result.effectValues, lo_calculationRoomPrice.data);
-
-            //取得房型下拉資料
-            let lo_roomCodSelectData = await GetRoomCodSelectOption(postData.singleRowData[0], session);
-            let lo_useCodSelectData = await GetUseCodSelectOption(postData.singleRowData[0], session);
-            lo_result.selectField = ["room_cod", "use_cod"];
-            lo_result.multiSelectOptions.room_cod = lo_roomCodSelectData.data;
-            lo_result.multiSelectOptions.use_cod = lo_useCodSelectData.data;
-
-            lo_result.isEffectFromRule = false;
         }
         catch (err) {
             console.log(err);
@@ -217,17 +227,25 @@ module.exports = {
                 //重算房價
                 let lo_calculationRoomPrice = await CalculationRoomPrice(postData.singleRowData[0], session);
 
-                lo_result.effectValues = _.extend(lo_result.effectValues, lo_fetchData);
-                lo_result.effectValues = _.extend(lo_result.effectValues, lo_calculationRoomPrice.data);
+                if (lo_calculationRoomPrice.success) {
+                    lo_result.effectValues = _.extend(lo_result.effectValues, lo_fetchData);
+                    lo_result.effectValues = _.extend(lo_result.effectValues, lo_calculationRoomPrice.data);
 
-                //取得房型下拉資料
-                let lo_roomCodSelectData = await GetRoomCodSelectOption(postData.singleRowData[0], session);
-                let lo_useCodSelectData = await GetUseCodSelectOption(postData.singleRowData[0], session);
-                lo_result.selectField = ["room_cod", "use_cod"];
-                lo_result.multiSelectOptions.room_cod = lo_roomCodSelectData.data;
-                lo_result.multiSelectOptions.use_cod = lo_useCodSelectData.data;
+                    //取得房型下拉資料
+                    let lo_roomCodSelectData = await GetRoomCodSelectOption(postData.singleRowData[0], session);
+                    let lo_useCodSelectData = await GetUseCodSelectOption(postData.singleRowData[0], session);
+                    lo_result.selectField = ["room_cod", "use_cod"];
+                    lo_result.multiSelectOptions.room_cod = lo_roomCodSelectData.data;
+                    lo_result.multiSelectOptions.use_cod = lo_useCodSelectData.data;
 
-                lo_result.isEffectFromRule = false;
+                    lo_result.isEffectFromRule = false;
+                }
+                else {
+                    lo_error = new ErrorClass();
+                    lo_result.success = false;
+                    lo_error.errorMsg = lo_calculationRoomPrice.errorMsg;
+                }
+
             }
         }
         catch (err) {
@@ -371,9 +389,17 @@ module.exports = {
 
                 //重算房價
                 let lo_calculationRoomPrice = await CalculationRoomPrice(postData.singleRowData[0], session);
-                lo_result.effectValues = _.extend(lo_result.effectValues, lo_calculationRoomPrice.data);
 
-                lo_result.isEffectFromRule = false;
+                if (lo_calculationRoomPrice.success) {
+                    lo_result.effectValues = _.extend(lo_result.effectValues, lo_calculationRoomPrice.data);
+
+                    lo_result.isEffectFromRule = false;
+                }
+                else {
+                    lo_error = new ErrorClass();
+                    lo_result.success = false;
+                    lo_error.errorMsg = lo_calculationRoomPrice.errorMsg;
+                }
             }
             else {
                 lo_error = new ErrorClass();
@@ -431,9 +457,17 @@ module.exports = {
                 if (ln_adultQnt + ln_childQnt <= ln_maxQnt) {
                     //計算房價
                     lo_calculationRoomPrice = await CalculationRoomPrice(postData.singleRowData[0], session);
-                    lo_result.effectValues = _.extend(lo_result.effectValues, lo_calculationRoomPrice.data);
 
-                    lo_result.isEffectFromRule = false;
+                    if (lo_calculationRoomPrice.success) {
+                        lo_result.effectValues = _.extend(lo_result.effectValues, lo_calculationRoomPrice.data);
+
+                        lo_result.isEffectFromRule = false;
+                    }
+                    else {
+                        lo_error = new ErrorClass();
+                        lo_result.success = false;
+                        lo_error.errorMsg = lo_calculationRoomPrice.errorMsg;
+                    }
                 }
                 else {
                     lo_error = new ErrorClass();
@@ -497,9 +531,17 @@ module.exports = {
                 if (ln_adultQnt + ln_childQnt <= ln_maxQnt) {
                     //計算房價
                     lo_calculationRoomPrice = await CalculationRoomPrice(postData.singleRowData[0], session);
-                    lo_result.effectValues = _.extend(lo_result.effectValues, lo_calculationRoomPrice.data);
 
-                    lo_result.isEffectFromRule = false;
+                    if (lo_calculationRoomPrice.success) {
+                        lo_result.effectValues = _.extend(lo_result.effectValues, lo_calculationRoomPrice.data);
+
+                        lo_result.isEffectFromRule = false;
+                    }
+                    else {
+                        lo_error = new ErrorClass();
+                        lo_result.success = false;
+                        lo_error.errorMsg = lo_calculationRoomPrice.errorMsg;
+                    }
                 }
                 else {
                     lo_error = new ErrorClass();
