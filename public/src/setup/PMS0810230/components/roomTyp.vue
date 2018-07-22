@@ -18,6 +18,7 @@
 
 
 
+
                     </button>
                 </div>
             </div>
@@ -32,6 +33,7 @@
                             <tr class="grayBg">
                                 <th class="ca-headerTitle grayBg defHt" style="width: 15%">
                                     {{i18nLang.program.PMS0810230.dateRule}}
+
                                 </th>
                                 <th class="defHt" v-for="(value, key, index) in roomCodData4Display">{{key}}</th>
                             </tr>
@@ -44,11 +46,10 @@
                                         style="background-color: white;"
                                         @click="getData(ratecodData)" :id="ratecodData.uniKey">
                                         <template v-if="ratecodData.isEdit && ratecodData.use_sta == 'Y'">
-                                            {{ratecodData.rent_amt}}
-                                            <!--<input type="text"-->
-                                                   <!--@keyup="formatAmt(ratecodData.rent_amt, rentAmtFieldData)"-->
-                                                   <!--v-model="ratecodData.rent_amt"-->
-                                                   <!--@keyup.enter="showNextColData(key,ratecodidx)">-->
+                                            <input type="text" v-focus
+                                                   @keyup="formatAmt(ratecodData.rent_amt, rentAmtFieldData)"
+                                                   v-model="ratecodData.rent_amt"
+                                                   @keyup.enter="showNextColData(key,ratecodidx)">
                                         </template>
                                         <template v-else-if="ratecodData.use_sta == 'N'" style="width: 100%">
                                             *
@@ -75,7 +76,14 @@
 <script>
     import moment from 'moment';
     import crypto from 'crypto';
-
+    // Register a global custom directive called `v-focus`
+    Vue.directive('focus', {
+        // When the bound element is inserted into the DOM...
+        inserted: function (el) {
+            // Focus the element
+            el.focus()
+        }
+    });
     export default {
         name: 'roomTyp',
         props: ["rowData", "isRoomType"],
