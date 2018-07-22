@@ -274,7 +274,6 @@
         <parameter type="number" kind="3">athena_id</parameter>
     </dao>
 
-
     <dao name="CHK_CUST_MN_IS_OTHER_HOFFICE_OR_PCUST">
         <statement><![CDATA[
             SELECT  COUNT(*) as cust_cod_count  FROM  CUST_MN
@@ -317,6 +316,16 @@
         ]]>
         </statement>
         <parameter type="number" kind="3">athena_id</parameter>
+    </dao>
+
+    <!--[PMS0110041] 訂房公司備註1-->
+    <dao name="QRY_REMARK1">
+        <statement><![CDATA[
+            select remark1 from cust_mn where athena_id = :athena_id and cust_cod = :cust_cod
+        ]]>
+        </statement>
+        <parameter type="number" kind="3">athena_id</parameter>
+        <parameter type="string" kind="3">cust_cod</parameter>
     </dao>
 
 </root>

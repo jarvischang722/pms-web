@@ -26,7 +26,7 @@
                                                             text-field="display" :field="field"
                                                             @update:v-model="val => orderMnSingleData[field.ui_field_name] = val"
                                                             :default-val="orderMnSingleData[field.ui_field_name]"
-                                                            @change="chkOrderMnFieldRule(field.ui_field_name,field.rule_func_name)"
+                                                            @change="chkOrderMnFieldRule(field)"
                                                             :disabled="field.modificable == 'N'|| !isModifiable ||
                                                     (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)">
                                                     </bac-select>
@@ -122,7 +122,7 @@
                                                                                type="checkbox"
                                                                                :required="field.requirable == 'Y'"
                                                                                :maxlength="field.ui_field_length"
-                                                                               @change="chkOrderMnFieldRule(field.ui_field_name,field.rule_func_name)"
+                                                                               @change="chkOrderMnFieldRule(field)"
                                                                                :disabled="field.modificable == 'N'|| !isModifiable ||
                                                 (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus) ">
                                                                         <label style="width:auto"
@@ -144,7 +144,7 @@
                                                                             text-field="display" :field="field"
                                                                             @update:v-model="val => orderMnSingleData[field.ui_field_name] = val"
                                                                             :default-val="orderMnSingleData[field.ui_field_name]"
-                                                                            @change="chkOrderMnFieldRule(field.ui_field_name,field.rule_func_name)"
+                                                                            @change="chkOrderMnFieldRule(field)"
                                                                             :disabled="field.modificable == 'N'|| !isModifiable ||
                                                       (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)">
                                                                     </bac-select>
@@ -158,7 +158,7 @@
                                                                             style="resize: none;"
                                                                             :required="field.requirable == 'Y'"
                                                                             :maxlength="field.ui_field_length"
-                                                                            @change="chkOrderMnFieldRule(field.ui_field_name,field.rule_func_name)"
+                                                                            @change="chkOrderMnFieldRule(field)"
                                                                             :disabled="field.modificable == 'N'|| !isModifiable ||
                                                       (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)">
                                                                     </textarea>
@@ -192,7 +192,7 @@
                                                                         text-field="display" :field="field"
                                                                         @update:v-model="val => orderMnSingleData[field.ui_field_name] = val"
                                                                         :default-val="orderMnSingleData[field.ui_field_name]"
-                                                                        @change="chkOrderMnFieldRule(field.ui_field_name,field.rule_func_name)"
+                                                                        @change="chkOrderMnFieldRule(field)"
                                                                         :disabled="field.modificable == 'N'|| !isModifiable ||
                                                    (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)">
                                                                 </bac-select>
@@ -211,7 +211,7 @@
                                                                         :text-field="field.selectData.display"
                                                                         @update:v-model="val => orderMnSingleData[field.ui_field_name] = val"
                                                                         :default-val="orderMnSingleData[field.ui_field_name]"
-                                                                        @change="chkOrderMnFieldRule(field.ui_field_name,field.rule_func_name)"
+                                                                        @change="chkOrderMnFieldRule(field)"
                                                                         :disabled="field.modificable == 'N'|| !isModifiable ||
                                                    (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)">
                                                                 </bac-select-grid>
@@ -230,7 +230,7 @@
                                                                        :class="{'input_sta_required' : field.requirable == 'Y', 'text-right' : field.ui_type == 'number'}"
                                                                        :required="field.requirable == 'Y'" min="0"
                                                                        :maxlength="field.ui_field_length"
-                                                                       @change="chkOrderMnFieldRule(field.ui_field_name,field.rule_func_name)"
+                                                                       @change="chkOrderMnFieldRule(field)"
                                                                        :disabled="field.modificable == 'N'|| !isModifiable ||
                                                                         (field.modificable == 'I') || (field.modificable == 'E')">
                                                             </div>
@@ -1120,6 +1120,7 @@
                     let la_convertData = newVal.toString().split(":");
                     if (la_convertData.length > 1) {
                         this.guestMnRowsData4Single["gcust_cod"] = la_convertData[0];
+                        this.setOrderMnAttenNam(la_convertData[1], "P");
                         BacUtils.doHttpPromisePostProxy("/api/queryDataByRule", {
                             rule_func_name: 'set_guest_mn_data',
                             rowData: this.guestMnRowsData4Single
@@ -1132,16 +1133,24 @@
                                 alert(result.errorMsg);
                             }
                         }).catch(err => {
-                            console.log(err);
+                            console.log(err.errorMsg);
                         });
                     }
                 }
             },
-            "orderMnSingleData.acust_nam"(val) {
-                if (val != "") {
-                    this.orderMnSingleData.acust_cod = val;
+            /**
+             * 訂房公司規則
+             * 1.cust_cod入到order_mn.acust_cod
+             * @param acust_cod {string} 訂房公司代號
+             */
+            "orderMnSingleData.acust_nam"(acust_cod) {
+                const ls_acust_cod = acust_cod || "";
+                if (ls_acust_cod !== "") {
+                    this.setOrderMnAttenNam(ls_acust_cod, "C");
+                    this.orderMnSingleData.acust_cod = ls_acust_cod;
                 }
             },
+
             orderDtRowsData: {
                 handler(val) {
                     //處理暫存資料
@@ -1651,13 +1660,63 @@
                     }
                 }
             },
-            chkOrderMnFieldRule(field, rule_func_name) {
+            /**
+             * 訂房公司規則
+             * 2.alt_nam入到order_mn.acust_nam
+             * 3.sales_cod入到order_mn.sales_cod
+             * 4.cust_mn.remark1入到order_mn.order_rmk【select remark1 from cust_mn where athena_id = ? and cust_cod = ?】
+             * 5.如果團號(order_mn.group_nos)未填時,將alt_nam入到order_mn.group_nos
+             * 6.聯絡人的帶法見聯絡人處理方式,看『宏興SD 4.聯絡人處理方式』
+             * 7.有固定的公帳號時,入到master_nos 且 master_sta = 'Y' 看SA『是否有固定公帳號SQL』
+             * 8.如果訂房公司與舊的不同時，訂房明細房價要重算
+             * call pg_hd1_cal_appraise2.pp_ren_dt_order_appraise()   看SA『計算房價』有傳入欄位
+             * @param field {object} 欄位資料
+             */
+            chkOrderMnFieldRule: async function (field) {
+                const lo_acust_data = _.findWhere(field.selectData.selectData, {cust_cod: this.orderMnSingleData.acust_cod});
+                if (_.isUndefined(lo_acust_data)) return;
+                this.orderMnSingleData.acust_nam = lo_acust_data.alt_nam;       // (2.
+                this.orderMnSingleData.sales_cod = lo_acust_data.sales_cod;     // (3.
+                if (this.orderMnSingleData.group_nos === "") this.orderMnSingleData.group_nos = lo_acust_data.alt_nam; // (5.
+                const lo_params = {
+                    order_mn: this.orderMnSingleData,
+                    guest_mn: this.guestMnRowsData4Single
+                };
+
+                try {
+                    const lo_ruleResult = await this.chkFieldRule(field, lo_params);
+                    console.log(lo_ruleResult);
+                    if (lo_ruleResult.success) {
+                        this.orderMnSingleData = _.extend(this.orderMnSingleData, lo_ruleResult.effectValues);
+                    }
+                    else {
+                        alert(lo_ruleResult.errorMsg);
+                    }
+                }
+                catch (error) {
+                    console.log(error.errorMsg);
+                }
 
             },
             chkGuestMnFiledRule(filed, rule_func_name) {
 
             },
 
+            /**
+             * 欄位規則檢查
+             * @param field {object} 欄位資料
+             * @param params {object} 參數條件
+             */
+            async chkFieldRule(field, params) {
+                params.rule_func_name = field.rule_func_name;
+                return await BacUtils.doHttpPromisePostProxy("/api/chkFieldRule", params)
+                    .then(result => {
+                        return result;
+                    })
+                    .catch(err => {
+                        return err;
+                    });
+            },
             /**
              * 按鈕規則檢查
              * @param params {object} 欄位資料
@@ -2351,6 +2410,17 @@
             },
             doCloseDialog() {
                 $("#PMS0110041Lite").dialog('close');
+            },
+            /**
+             * 宏興SD，4.聯絡人處理方式
+             * (1)看『旅客姓名guest_mn.alt_nam、訂房公司名稱order_mn.acust_nam』,那個先key,就由它帶入
+             * (2)看另一個欄位有沒有值,來判斷先key後key
+             * (3)聯絡人order_mn.atten_nam是空值,才帶入
+             */
+            setOrderMnAttenNam(atten_nam) {
+                if (this.orderMnSingleData.atten_nam === "" || this.orderMnSingleData.atten_nam === null) {
+                    this.orderMnSingleData.atten_nam = atten_nam;
+                }
             }
         }
     }
