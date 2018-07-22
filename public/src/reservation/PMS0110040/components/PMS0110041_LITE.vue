@@ -759,51 +759,52 @@
         },
         data() {
             return {
-                i18n_Lang: go_i18nLang,           //多語系
-                userInfo: {},                     //使用者資訊
-                isLoadingDialog: false,           //是否正在載入
-                loadingText: '',                  //載入的提示文字
-                keyNos: '',                       //tmp_order_appraise key值
-                isEffectFromRule: true,           //是否由規則改變欄位資料
+                i18n_Lang: go_i18nLang,                 //多語系
+                userInfo: {},                           //使用者資訊
+                isLoadingDialog: false,                 //是否正在載入
+                loadingText: '',                        //載入的提示文字
+                keyNos: '',                             //tmp_order_appraise key值
+                isEffectFromRule: true,                 //是否由規則改變欄位資料
 
-                oriOrderMnFieldsData: [],         //原始order mn 欄位資料
-                oriGuestMnFieldsData: [],         //原始guest mn 欄位資料
-                fieldsDataLeft: [],               //頁面顯示欄位資料
-                fieldsDataRight: [],              //頁面顯示欄位資料
-                orderDtFieldsData4table: [],      //多筆 order dt 欄位資料
-                orderDtFieldsData: [],            //單筆 order dt 欄位資料
-                oriOrderDtFieldsData: [],         //單筆 原始order dt 欄位資料
+                oriOrderMnFieldsData: [],               //原始order mn 欄位資料
+                oriGuestMnFieldsData: [],               //原始guest mn 欄位資料
+                fieldsDataLeft: [],                     //頁面顯示欄位資料
+                fieldsDataRight: [],                    //頁面顯示欄位資料
+                orderDtFieldsData4table: [],            //多筆 order dt 欄位資料
+                orderDtFieldsData: [],                  //單筆 order dt 欄位資料
+                oriOrderDtFieldsData: [],               //單筆 原始order dt 欄位資料
 
-                orderMnSingleData: {},            //單筆order mn 資料
-                oriOrderMnSingleData: {},         //單筆 原始order mn 資料
+                orderMnSingleData: {},                  //單筆order mn 資料
+                oriOrderMnSingleData: {},               //單筆 原始order mn 資料
+                beforeOrderMnSingleData: {},            //單筆 改變前order mn 資料
 
-                orderDtRowsData4Single: {},       //單筆 order dt 資料
-                orderDtRowsData: [],              //多筆 order dt 資料
-                oriOrderDtRowsData: [],           //多筆 原始order dt 資料
-                orderDtRowsData4table: [],        //多筆 order dt 資料(顯示)
-                beforeOrderDtRowsData4Table: [],  //多筆 改變前order dt 資料
-                groupOrderDtData: [],             //group 的order dt 資料
+                orderDtRowsData4Single: {},             //單筆 order dt 資料
+                orderDtRowsData: [],                    //多筆 order dt 資料
+                oriOrderDtRowsData: [],                 //多筆 原始order dt 資料
+                orderDtRowsData4table: [],              //多筆 order dt 資料(顯示)
+                beforeOrderDtRowsData4Table: [],        //多筆 改變前order dt 資料
+                groupOrderDtData: [],                   //group 的order dt 資料
 
-                guestMnRowsData: [],              //guest mn 資料
-                oriGuestMnRowsData: [],           //原始guest mn 欄位資料
-                guestMnRowsData4Single: {alt_nam: ""},       //單筆 guest mn 資料
+                guestMnRowsData: [],                    //guest mn 資料
+                oriGuestMnRowsData: [],                 //原始guest mn 資料
+                guestMnRowsData4Single: {alt_nam: ""},  //單筆 guest mn 資料
 
-                tableHeight: 34,                  //多筆table高度
-                orderStatus: 'N',                 //訂房狀態
-                orderStatusSelectData: [],        //訂房狀態選項
-                editingOrderDtIdx: undefined,     //現在正在編輯的orderDt index
+                tableHeight: 34,                        //多筆table高度
+                orderStatus: 'N',                       //訂房狀態
+                orderStatusSelectData: [],              //訂房狀態選項
+                editingOrderDtIdx: undefined,           //現在正在編輯的orderDt index
 
-                editingGuestMnData: {},           //正在編輯的 guest mn 資料
-                isCreate4GuestMn: false,          //guest mn 中的alt name 是否為新增
-                isEdit4GuestMn: false,            //guest mn 中的alt name 是否為修改
-                isModifiable4GuestMn: false,      //guest mn 中的alt name 是否可修改
+                editingGuestMnData: {},                 //正在編輯的 guest mn 資料
+                isCreate4GuestMn: false,                //guest mn 中的alt name 是否為新增
+                isEdit4GuestMn: false,                  //guest mn 中的alt name 是否為修改
+                isModifiable4GuestMn: false,            //guest mn 中的alt name 是否可修改
 
-                editingCustMnData: {},            //正在編輯資料的acust_cod
-                isCreate4CustMn: false,           //guest mn 中的alt name 是否為新增
-                isEdit4CustMn: false,             //guest mn 中的alt name 是否為修改
-                isModifiable4CustMn: false,       //guest mn 中的alt name 是否可修改
+                editingCustMnData: {},                  //正在編輯資料的acust_cod
+                isCreate4CustMn: false,                 //guest mn 中的alt name 是否為新增
+                isEdit4CustMn: false,                   //guest mn 中的alt name 是否為修改
+                isModifiable4CustMn: false,             //guest mn 中的alt name 是否可修改
 
-                editingGroupOrderDtData: {},      //正在編輯的多筆order dt 資料
+                editingGroupOrderDtData: {},            //正在編輯的多筆order dt 資料
 
                 tmpCUD: {
                     createData: [],
@@ -864,7 +865,7 @@
                     }
                     if (newVal != oldVal && !_.isUndefined(oldVal) && !_.isUndefined(newVal)) {
                         let lo_editingRow = JSON.parse(JSON.stringify(this.orderDtRowsData4table[oldVal]));
-                        let lo_beforeRow =  JSON.parse(JSON.stringify(this.beforeOrderDtRowsData4table[oldVal]));
+                        let lo_beforeRow = JSON.parse(JSON.stringify(this.beforeOrderDtRowsData4table[oldVal]));
                         //間數改變，增加或減少orderDtRowsData
                         if (lo_editingRow.order_qnt != this.lo_beforeRow.order_qnt) {
                             //間數不得小於0
@@ -1331,6 +1332,7 @@
                 this.oriOrderMnFieldsData = [];
                 this.orderMnSingleData = {};
                 this.oriOrderMnSingleData = {};
+                this.beforeOrderMnSingleData = {};
                 this.orderDtFieldsData = [];
                 this.oriOrderDtFieldsData = [];
                 this.orderDtRowsData4Single = {};
@@ -1606,10 +1608,58 @@
                     }
                 }
             },
-            chkOrderMnFieldRule(field, rule_func_name) {
+            //單筆order dt欄位規則檢查
+            async chkOrderMnFieldRule(ui_field_name, rule_func_name) {
+                if (_.isEmpty(this.beforeOrderMnSingleData)) {
+                    this.beforeOrderMnSingleData = this.oriOrderMnSingleData;
+                }
+                let la_beforeData = [this.orderMnSingleData];
+                let la_orderData = [this.beforeOrderMnSingleData];
+                let la_diff = _.difference(la_beforeData, la_orderData);
 
-            },
-            chkGuestMnFiledRule(filed, rule_func_name) {
+                if (la_diff.length == 0) {
+                    return;
+                }
+                if (rule_func_name == "") {
+                    return;
+                }
+
+                try {
+                    let lo_postData = {
+                        prg_id: gs_prgId,
+                        rule_func_name: rule_func_name,
+                        validateField: ui_field_name,
+                        singleRowData: la_orderData,
+                        oriSingleData: la_beforeData,
+                    };
+                    let lo_doChkFiledRule = await BacUtils.doHttpPromisePostProxy("/api/chkFieldRule", lo_postData)
+                        .then((result) => {
+                            return result;
+                        }).catch((err) => {
+                            return {success: false, errorMsg}
+                        });
+                    if (lo_doChkFiledRule.success) {
+                        //連動帶回的值
+                        if (!_.isUndefined(lo_doChkFiledRule.effectValues) && _.size(lo_doChkFiledRule.effectValues) > 0) {
+                            this.orderMnSingleData = _.extend(this.orderMnSingleData, lo_doChkFiledRule.effectValues);
+
+                            this.isEffectFromRule = lo_doChkFiledRule.isEffectFromRule;
+                        }
+                        //是否要show出訊息
+                        if (lo_doChkFiledRule.showAlert) {
+                            alert(lo_doChkFiledRule.alertMsg);
+                        }
+                        //改變前資料改為現在資料
+                        this.beforeOrderMnSingleData = JSON.parse(JSON.stringify(this.orderMnSingleData));
+                    }
+                    else {
+                        this.orderMnSingleData = _.extend(this.orderMnSingleData, this.beforeOrderMnSingleData);
+                        alert(lo_doChkFiledRule.errorMsg);
+                    }
+                }
+                catch (err) {
+                    console.log(err);
+                }
 
             },
 
