@@ -15,10 +15,6 @@
                 <div class="right-menu-co pull-right" style="width: 80px;">
                     <button role="button" class="btn btn-danger btn-white btn-defaultWidth" @click="setStopSell">
                         {{stopSellButton.text}}
-
-
-
-
                     </button>
                 </div>
             </div>
@@ -33,7 +29,6 @@
                             <tr class="grayBg">
                                 <th class="ca-headerTitle grayBg defHt" style="width: 15%">
                                     {{i18nLang.program.PMS0810230.dateRule}}
-
                                 </th>
                                 <th class="defHt" v-for="(value, key, index) in roomCodData4Display">{{key}}</th>
                             </tr>
@@ -399,9 +394,6 @@
                     let la_allData = [];
                     _.each(lo_cloneData, (val, key) => {
                         _.each(val, (lo_val) => {
-                            lo_val.rent_amt = go_formatDisplayClass.removeAmtFormat(lo_val.rent_amt.toString()).toString();
-                            lo_val.begin_dat = moment(lo_val.begin_dat).format("YYYY/MM/DD");
-                            lo_val.end_dat = moment(lo_val.end_dat).format("YYYY/MM/DD");
                             la_allData.push(lo_val);
                         })
                     });
@@ -688,7 +680,11 @@
                 this.tableCellWidth = 85 / _.keys(this.roomCodData4Display).length;
             },
             convertDataToTmpCUD() {
-                _.each(this.rateCodDtData, (lo_rateCodDtData, ln_idx) => {
+                _.each(this.rateCodDtData, (lo_rateCodDtDataOri, ln_idx) => {
+                    let lo_rateCodDtData = _.clone(lo_rateCodDtDataOri);
+                    lo_rateCodDtData.rent_amt = go_formatDisplayClass.removeAmtFormat(lo_rateCodDtData.rent_amt.toString()).toString();
+                    lo_rateCodDtData.begin_dat = moment(lo_rateCodDtData.begin_dat).format("YYYY/MM/DD");
+                    lo_rateCodDtData.end_dat = moment(lo_rateCodDtData.end_dat).format("YYYY/MM/DD");
                     //原始資料找不到  && isCreate一定要存在 ==> 新增過後修改
                     if (_.isUndefined(this.oriRateCodDtData[ln_idx]) || !_.isUndefined(lo_rateCodDtData.isCreate)) {
                         let ln_createIndex = _.findIndex(this.tmpCUD.createData, {uniKey: lo_rateCodDtData.uniKey});
