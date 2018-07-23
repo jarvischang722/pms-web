@@ -7,7 +7,7 @@ const _s = require("underscore.string");
 const exprjs = require('exprjs');
 const parser = new exprjs();
 const XMLUtil = require('./XMLUtil.js');
-const dbConfig = require('../configs/database');
+const dbConfig = require('../../configs/database');
 const kplugFun = {
 	_v: function (value) {
 		if (_.isUndefined(value) || _.isNull(value)) {
@@ -109,7 +109,7 @@ DB.prototype.create = function (opt) {
 						let endTime = new Date().getTime();
 						if ((endTime - startTime) / 1000 > 1) {
 							console.error(`Oracle DB 連線異常: ${(endTime - startTime) / 1000} sec`);
-							console.error(`異常SQL: ${ddObj.dao || ""}`);
+							console.error(`異常SQL: ${dbObj.dao || ""}`);
 							console.error(`異常params : ${JSON.stringify(param)}`);
 						}
 						if (connection != null) {
