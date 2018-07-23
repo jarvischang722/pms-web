@@ -17,9 +17,9 @@ jQuery(function () {
     // 前檯 selectgroup
     var selectgroup = $(".select-group").height();
 
-    // alert($('.tab-content').find('.search-content').height());
     function allHt() {
         gridTableHt = $(window).height() - navHt - menuHt;
+        gridTableHt2 = $(window).height() - navHt - menuHt - 55; // For 底下可以選擇頁數的
         frontTableHt = $(window).height() - navHt - menuHt - selectgroup - 8;
         roomAssTableHt = $(window).height() - navHt - menuHt - selectgroup - 120; // 上面備註高度
 
@@ -27,11 +27,13 @@ jQuery(function () {
         prg_dgHt_search = $(window).height() - navHt - menuHt - menuHt3 - searchGridHt - searchPaddHt;  // PMS0810020
         prg_dgHt_searchRow2 = $(window).height() - navHt - menuHt - menuHt3 - (searchGridHt * 2) - searchPaddHt;  // PMS0820020
         tabConHt = $(window).height() - navHt - menuHt;
+        iframeHt = $(window).height() - navHt - menuHt - 70;
         dtTableSetupHt = tabConHt - 70; // 設定檔table 高度 // prg_dgHt 等於
     }
 
     allHt();
     $(".gridTableHt").css("height", gridTableHt);
+    $(".gridTableHt2").css("height", gridTableHt2);
     $(".dtTableSetupHt").css("height", dtTableSetupHt);
     $(".frontTableHt").css("height", frontTableHt);
     $(".roomAssTableHt").css("height", roomAssTableHt); //roomAssign
@@ -39,7 +41,7 @@ jQuery(function () {
     $(".prg_dgHt_search").css("height", prg_dgHt_search); // PMS0810020
     $(".prg_dgHt_searchRow2").css("height", prg_dgHt_searchRow2); // PMS0820020
     $(".tabConHt").css("height", tabConHt);
-
+    $(".iframeHt").css("height", iframeHt);
 
     // 螢幕縮放時重新抓值
     $(window).resize(function () {
@@ -47,6 +49,9 @@ jQuery(function () {
 
         $('.gridTableHt').datagrid('resize', {
             height: gridTableHt
+        });
+        $('.gridTableHt2').datagrid('resize', {
+            height: gridTableHt2
         });
 
         $('.dtTableSetupHt').datagrid('resize', {
@@ -69,10 +74,23 @@ jQuery(function () {
         });
 
         $(".tabConHt").css("height", tabConHt);
+        $(".iframeHt").css("height", iframeHt);
     });
 
     //.END Resize Table Height // Date:170920
 
+    // scrollables
+    /* datagrid 無法建立 scrollables */
+    var frontTableHt = $('.frontTableHt').height();
+    var townPage = $('.townPage').height();
+    $('.scrollable').each(function () {
+        var $this = $(this);
+        $(this).ace_scroll({
+            size: frontTableHt || townPage || $this.attr('data-size') || 300
+            //size: $this.attr('data-size') || 100,  // 原本使用
+            //styleClass: 'scroll-left scroll-margin scroll-thin scroll-dark scroll-light no-track scroll-visible'
+        });
+    });
 
     // tabs setting
     $('.easyUi-custom1').tabs({
@@ -87,12 +105,13 @@ jQuery(function () {
     $('[data-rel=tooltip]').tooltip();
     //.END 提示訊息
 
+
     // 下拉選單 文字更換(樓層、棟別)
     $(document).on('click', '.dpUIList li > a', function () {
-        $(this).parents('.chgText-effect').find('.dpShowValue').text(this.innerHTML);
+        $(this).parent().toggleClass('click-act');
+//            $(this).parents('.chgText-effect').find('.dpShowValue').text(this.innerHTML);
         $(this).parents('.chgText-effect').find('.dropdown-toggle').addClass('sel-border');
     });
-
     //.END 下拉選單
 
     $('.townPage').on('click', ".townBlock", function (e) {
@@ -106,10 +125,6 @@ jQuery(function () {
     });
     //.END 排房選中active
 
-
-//        $(document).on('click', ".btn-primary", function (e) {
-//            $(this).removeClass("btn-white").css('border-width','1px');
-//        });
 
 
 });
