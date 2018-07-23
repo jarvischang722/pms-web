@@ -1203,15 +1203,14 @@
                     la_allOrderdata = _.sortBy(la_allOrderdata, 'ikey_seq_nos');
 
                     // 新增
-                    if (la_allOriOrderData.length < la_allOrderdata.length) {
-                        let la_newOrderData = la_allOrderdata.slice(la_allOriOrderData.length);
-                        _.each(la_newOrderData, x => {
-                            x.page_id = 1;
-                            x.tab_page_id = 2;
-                        });
-
-                        this.tmpCUD.createData = la_newOrderData;
-                    }
+                    _.each(la_allOrderdata, lo_data => {
+                        let lo_orderDataForikeySeqNos = _.findWhere(la_allOriOrderData, {ikey_seq_nos: lo_data.ikey_seq_nos});
+                        if (_.isUndefined(lo_orderDataForikeySeqNos)) {
+                            lo_data.page_id = 1;
+                            lo_data.tab_page_id = 2;
+                            this.tmpCUD.createData.push(lo_data);
+                        }
+                    });
 
                     // 修改
                     let la_beforeOrder = [];
