@@ -3,13 +3,14 @@
     <!-- [PMS0110041] 查詢此訂房明細的已排房號 -->
     <dao name="QRY_IS_ASSIGN_ORDER_ROOM">
         <statement><![CDATA[
-            select unique room_nos from order_room t
+            select  room_nos from order_dt t
             where t.assign_sta in ('Y','I')
-            and ikey = :ikey and ikey_seq_nos = :ikey_seq_nos and athena_id = :athena_id and hotel_cod = :hotel_cod and room_nos is not null
+            and ikey = :ikey and  athena_id = :athena_id and hotel_cod = :hotel_cod and room_nos is not null
+            and ikey_seq_nos in (:ikey_seq_nos)
         ]]></statement>
         <parameter type="number" kind="3">athena_id</parameter>
         <parameter type="string" kind="3">hotel_cod</parameter>
         <parameter type="string" kind="3">ikey</parameter>
-        <parameter type="string" kind="3">ikey_seq_nos</parameter>
+        <parameter type="instring" kind="3">ikey_seq_nos</parameter>
     </dao>
 </root>
