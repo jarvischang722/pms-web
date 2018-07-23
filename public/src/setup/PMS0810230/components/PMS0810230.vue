@@ -70,6 +70,7 @@
 
     Vue.prototype.$eventHub = new Vue();
 
+
     /** DataGridRmSingleGridClass **/
     function DatagridSingleGridClass() {
     }
@@ -89,6 +90,14 @@
             BacchusMainVM.doGetVersionData("PMS0810230");
             this.prgEditionOptions = BacchusMainVM.prgEditionOptions;
 
+            g_socket.on("checkTableLock", (result) => {
+                if (result.success) {
+                    // this.editingRow = $('#PMS0810230_dg').datagrid('getSelected');
+                    // this.showSingleGridDialog();
+                }
+            });
+
+            //取得使用期間下拉資料
             this.$eventHub.$on('getTimeRuleData', (timeRuleData) => {
                 this.isOpenTimeRule = timeRuleData.openTimeRule;
                 this.commandOptionSelectOption = JSON.parse(JSON.stringify(timeRuleData.commandOptionSelectOption));
@@ -124,6 +133,7 @@
                     }
                 }
             });
+            //開啟內容多語頁面
             this.$eventHub.$on('openMultiLang', (data) => {
                 this.singleData = data.singleData;
                 this.fieldInfo = data.fieldInfo;
@@ -267,7 +277,8 @@
                     alert(go_i18nLang["SystemCommon"].SelectOneData);
                 }
                 else {
-                    this.editingRow = lo_editRow;
+                    // this.doRowLock(gs_prgId, lo_editRow.rate_cod);
+                    this.editingRow = $('#PMS0810230_dg').datagrid('getSelected');
                     this.showSingleGridDialog();
                 }
                 this.isLoading = false;
@@ -333,7 +344,8 @@
                         self.$eventHub.$emit('setTabName', {tabName: ""});
                         self.$eventHub.$emit('setClearData');
                         self.$store.dispatch('setAllDataClear');
-                        self.loadDataGridByPrgID()
+                        self.loadDataGridByPrgID();
+                        self.doRowUnLock();
                     }
                 }).dialog('open');
             },
@@ -374,6 +386,24 @@
             },
             doCloseTimeRuleDialog() {
                 this.isOpenTimeRule = false;
+            },
+            //TODO 再去問洪興大哥lock的流程
+            doRowLock: function (prg_id, rate_cod) {
+                let ls_keyCod = this.userInfo.athena_id + this.userInfo.hotel_cod + rate_cod.trim();
+                let lo_param = {
+                    prg_id: prg_id,
+                    table_name: "ratecod_mn",
+                    lock_type: "R",
+                    key_cod: ls_keyCod.trim()
+                };
+                // console.log(g_socket);
+                g_socket.emit('handleTableLock', lo_param);
+            },
+            doRowUnLock() {
+                let lo_param = {
+                    prg_id: ""
+                };
+                g_socket.emit('handleTableUnlock', lo_param);
             }
         }
     }

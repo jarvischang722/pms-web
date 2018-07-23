@@ -89,9 +89,12 @@
         name: 'contract-content',
         props: ["rowData", "isContractContent", "isModifiable"],
         created() {
-            this.$eventHub.$on("endContractEdit", () => {
+            this.$eventHub.$on("endContractEdit", (data) => {
                 if (!_.isEmpty(this.dgIns)) {
-                    this.dgIns.endEditing();
+                    data.doValidate(this.dgIns.endEditing());
+                }
+                else {
+                    data.doValidate(true);
                 }
             });
         },
@@ -154,8 +157,8 @@
                             let ln_editIndex = _.findIndex(this.dataGridRowsData, {uniKey: lo_val.uniKey});
                             if (ln_editIndex > -1) {
                                 this.dataGridRowsData.splice(ln_editIndex, 1);
-                                this.dataGridRowsData.push(lo_val);
                             }
+                            this.dataGridRowsData.push(lo_val);
                         });
                     }
                 },
@@ -182,7 +185,7 @@
         methods: {
             insertCustCodIntoTmpCUD(rowData) {
                 let lo_extendData = {
-                    cust_cod: this.$store.state.gs_custCod,
+                    cust_cod: this.$store.state.custMnModule.gs_custCod,
                     tab_page_id: 4
                 };
                 //將cust_cod放置tmpCUD中
@@ -192,7 +195,6 @@
                     })
                 });
 
-                // return;
                 //將合約內容資料放至Vuex
                 this.$store.dispatch("custMnModule/setCcDataGridRowsData", {
                     ga_ccDataGridRowsData: this.dataGridRowsData,
@@ -214,6 +216,7 @@
             initData() {
                 this.dataGridRowsData = [];
                 this.oriDataGridRowsData = [];
+                this.dataGridRowsDataOfRateCode = [];
                 this.fieldsData = [];
                 this.oriFieldsData = [];
                 this.searchCondOfRate = "";
@@ -226,9 +229,8 @@
                     tab_page_id: 4,
                     searchCond: {cust_cod: this.$store.state.custMnModule.gs_custCod}
                 }, result => {
-                    this.searchFields = result.searchFields;
                     //TODO 欄位排序 => 改資料庫的 col_seq
-                    this.fieldsData = result.dgFieldsData;
+                    this.fieldsData = _.sortBy(result.dgFieldsData, "col_seq");
                     //第一次載入合約內容
                     if (_.isEmpty(this.$store.state.custMnModule.go_allData.ga_ccDataGridRowsData)) {
                         _.each(result.dgRowData, (lo_dgRowData) => {
@@ -249,18 +251,12 @@
                         this.dataGridRowsDataOfRateCode = alasql("select * from ? where rate_cod like '" + this.searchCondOfRate + "%' or ratecod_nam like '" + this.searchCondOfRate + "%'", [_.filter(this.dataGridRowsData, lo_dgRowData => {
                             return moment(new Date(lo_dgRowData.end_dat)).diff(moment(new Date(this.rentDatHq)), "days") >= 0
                         })]);
-                        this.oriDataGridRowsData = this.$store.state.custMnModule.go_allOriData.ga_ccDataGridRowsData;
-                        if (this.isHideExpire) {
-                            this.dgIns.loadDgData(this.dataGridRowsDataOfExpire);
-                        }
-                        else {
-                            this.dgIns.loadDgData(this.dataGridRowsDataOfStaff);
-                        }
+                        this.dgIns.loadDgData(this.dataGridRowsDataOfRateCode);
                         this.isLoading = false;
                     }
                 });
             },
-            showDataGrid(dataGridRowsData) {
+            showDataGrid() {
                 this.dgIns = this.isModifiable ? new DatagridBaseClass() : new DatagridSingleGridClass();
                 this.dgIns.init("PMS0610020", "contractContent_dg", DatagridFieldAdapter.combineFieldOption(this.fieldsData, 'contractContent_dg'), this.fieldsData);
                 this.dgIns.loadDgData(this.dataGridRowsDataOfRateCode);
