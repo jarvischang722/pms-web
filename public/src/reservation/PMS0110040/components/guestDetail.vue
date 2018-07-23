@@ -1217,25 +1217,34 @@
                     let la_beforeOrder = [];
                     let la_afterOrder = [];
                     la_allOriOrderData.forEach((val, idx) => {
-                        if (val.ikey_seq_nos === la_allOrderdata[idx].ikey_seq_nos) {
+                        let lo_orderDataForikeySeqNos = _.findWhere(la_allOrderdata, {ikey_seq_nos: val.ikey_seq_nos});
+
+                        if (!_.isUndefined(lo_orderDataForikeySeqNos)) {
                             let la_keys = _.keys(val);
+                            let ln_idx = _.findIndex(la_allOrderdata, {ikey_seq_nos: val.ikey_seq_nos});
 
                             let lb_diffMark = true;
                             la_keys.forEach(x => {
-                                if (val[x] !== la_allOrderdata[idx][x] && lb_diffMark) {
+                                if (val[x] !== la_allOrderdata[ln_idx][x] && lb_diffMark) {
                                     lb_diffMark = false;
                                     val.page_id = 1;
                                     val.tab_page_id = 2;
-                                    la_allOrderdata[idx].page_id = 1;
-                                    la_allOrderdata[idx].tab_page_id = 2;
+                                    la_allOrderdata[ln_idx].page_id = 1;
+                                    la_allOrderdata[ln_idx].tab_page_id = 2;
                                     la_beforeOrder.push(val);
-                                    la_afterOrder.push(la_allOrderdata[idx]);
+                                    la_afterOrder.push(la_allOrderdata[ln_idx]);
                                 }
                             });
                         }
                     });
-                    this.tmpCUD.updateData = la_afterOrder;
-                    this.tmpCUD.oriData = la_beforeOrder;
+                    if (la_afterOrder.length !== 0 && la_beforeOrder.length !== 0) {
+                        _.each(la_afterOrder, lo_data => {
+                            this.tmpCUD.updateData.push(lo_data)
+                        });
+                        _.each(la_beforeOrder, lo_data=> {
+                            this.tmpCUD.oriData.push(lo_data)
+                        });
+                    }
 
                     // 驗證
                     let la_orderDtRowsData = [];
@@ -1270,7 +1279,6 @@
                 }
             },
             async chkOrderDtFieldRule(ui_field_name, rule_func_name) {
-                console.log('aaa')
                 if (_.isEmpty(this.beforeOrderDtRowsData)) {
                     this.beforeOrderDtRowsData = this.oriOrderDtRowsData;
                 }
