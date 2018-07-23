@@ -152,7 +152,8 @@
                                                                                         class="date-wt input_sta_required"
                                                                                         format="yyyy/MM/dd"
                                                                                         :style="{width:field.width + 'px'}"
-                                                                                        :editable="false" :clearable="false"
+                                                                                        :editable="false"
+                                                                                        :clearable="false"
                                                                                         @change="chkOrderDtFieldRule(field.ui_field_name, field.rule_func_name)"
                                                                                 >
                                                                                 </el-date-picker>
@@ -562,7 +563,7 @@
                             $("#orderDtTable").datagrid('selectRow', this.editingGroupDataIndex);
                         }
                         //將所有order dt 資料依據group order dt 做分組
-                        this.groupOrderDtData(this.allOrderDtRowsData);
+                        this.groupOrderDtData();
                         //將所有guest mn 資料依據group order dt 做分組
                         this.groupGuestMnData();
                         this.activeName = 'orderDetail';
@@ -598,7 +599,7 @@
                             $("#orderDtTable").datagrid('selectRow', this.editingGroupDataIndex);
                         }
                         //將所有order dt 資料依據group order dt 做分組
-                        this.groupOrderDtData(this.allOrderDtRowsData);
+                        this.groupOrderDtData();
                         //將所有guest mn 資料依據group order dt 做分組
                         this.groupGuestMnData();
                         this.activeName = 'orderDetail';
@@ -632,8 +633,24 @@
                 if (newVal) {
                     this.allDetail();
                 } else {
-                    // this.orderDtRowsData.length = 0;
-                    this.groupOrderDtData(this.orderDtRowsData);
+                    let la_orderDtRowsData = [];
+                    //組分組後的order dt 資料
+                    _.each(this.orderDtGroupRowsData, (lo_groupData, idx) => {
+                        let lo_groupParam = {
+                            rate_cod: lo_groupData.rate_cod,
+                            order_sta: lo_groupData.order_sta,
+                            days: lo_groupData.days,
+                            ci_dat: lo_groupData.ci_dat,
+                            co_dat: lo_groupData.co_dat,
+                            use_cod: lo_groupData.use_cod,
+                            room_cod: lo_groupData.room_cod,
+                            rent_amt: lo_groupData.rent_amt,
+                            serv_amt: lo_groupData.serv_amt,
+                            block_cod: lo_groupData.block_cod
+                        };
+                        la_orderDtRowsData[idx] = _.where(this.orderDtRowsData, lo_groupParam);
+                    });
+                    this.orderDtRowsData = la_orderDtRowsData;
                 }
             }
         },
@@ -746,7 +763,7 @@
              *
              * @param currentOrderDtRowsData 當前的頁面資料
              */
-            groupOrderDtData(currentOrderDtRowsData) {
+            groupOrderDtData() {
                 //組分組後的order dt 資料
                 _.each(this.orderDtGroupRowsData, (lo_groupData, idx) => {
                     let lo_groupParam = {
@@ -761,7 +778,7 @@
                         serv_amt: lo_groupData.serv_amt,
                         block_cod: lo_groupData.block_cod
                     };
-                    this.orderDtRowsData[idx] = _.where(currentOrderDtRowsData, lo_groupParam);
+                    this.orderDtRowsData[idx] = _.where(this.allOrderDtRowsData, lo_groupParam);
                 });
 
                 this.oriOrderDtRowsData = JSON.parse(JSON.stringify(this.orderDtRowsData));
@@ -1133,8 +1150,7 @@
 
                 this.isLoading = false;
                 // }
-            }
-            ,
+            },
             async save() {
                 try {
                     this.isLoading = true;
@@ -1194,7 +1210,7 @@
                     // 驗證
                     let la_orderDtRowsData = [];
                     Object.keys(this.tmpCUD).forEach(key => {
-                        if (this.tmpCUD[key].length > 0 && this.tmpCUD[key] !== 'oriData' ) {
+                        if (this.tmpCUD[key].length > 0 && this.tmpCUD[key] !== 'oriData') {
                             la_orderDtRowsData.push(this.dataValidate(this.tmpCUD[key], this.orderDtFieldData));
                         }
                     });
@@ -1265,7 +1281,7 @@
                             allRowData: la_allOrderDtRowsData
                         };
 
-                        let lo_doChkFiledRule = await BacUtils.doHttpPromisePostProxy('/api/chkFieldRule', lo_postData)
+                        let lo_doChkFiledRule = await BacUtils.doHttpPromisePostProxy("/api/chkFieldRule", lo_postData)
                             .then((result) => {
                                 return result;
                             }).catch((err) => {
@@ -1314,38 +1330,6 @@
                             }
                             //改變前資料改為現在資料
                             this.beforeOrderDtRowsData = JSON.parse(JSON.stringify(this.orderDtRowsData));
-
-                            // 儲存
-                            let lo_orderData = this.orderDtRowsData[this.editingGroupDataIndex][this.editingOrderDtIdx];
-                            let ls_ikeyseqnos = lo_orderData.ikey_seq_nos;
-                            let lo_oriOrderData = _.findWhere(this.oriOrderDtRowsData[this.editingGroupDataIndex], {
-                                ikey_seq_nos: ls_ikeyseqnos
-                            });
-
-                            if (lo_orderData !== undefined && lo_oriOrderData === undefined) {
-                                // 此次新增的資料 並且要修改
-                                let ln_createIndex = _.findIndex(this.tmpCUD.createData, {
-                                    ikey_seq_nos: ls_ikeyseqnos
-                                });
-
-                                this.tmpCUD.createData[ln_createIndex] = lo_orderData; //
-
-                            }
-                            else if (!_.isUndefined(lo_orderData) && !_.isUndefined(lo_oriOrderData)) {
-                                //既有的資料 並且要修改
-                                let ln_modifyIndex = _.findIndex(this.tmpCUD.updateData, {
-                                    ikey_seq_nos: ls_ikeyseqnos
-                                });
-
-                                if (ln_modifyIndex > -1) {
-                                    //tmp已經有值
-                                    this.tmpCUD.updateData[ln_modifyIndex] = lo_orderData;
-                                } else {
-                                    //tmp沒有
-                                    this.tmpCUD.updateData.push(lo_orderData);
-                                    this.tmpCUD.oriData.push(lo_oriOrderData);
-                                }
-                            }
                         }
                         else {
                             alert(lo_doChkFiledRule.errorMsg);
