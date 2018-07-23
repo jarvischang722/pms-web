@@ -39,7 +39,7 @@ exports.chkPrgFuncRule = async (req, res) => {
     catch (errorMsg) {
         lo_error = new ErrorClass();
         lo_result.success = false;
-        lo_error.errorMsg = errorMsg;
+        lo_error.errorMsg = error.message || errorMsg;
     }
     res.json(commonTools.mergeRtnErrResultJson(lo_error, lo_result));
 };

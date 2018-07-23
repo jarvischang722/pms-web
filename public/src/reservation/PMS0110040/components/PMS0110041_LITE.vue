@@ -1132,6 +1132,12 @@
 
                 }
             },
+
+            /**
+             * 住客姓名
+             * @param newVal {string} 新住客姓名
+             * @param oldVal {string} 舊住客姓名
+             */
             "guestMnRowsData4Single.alt_nam"(newVal, oldVal) {
                 if (!_.isUndefined(newVal)) {
                     let la_convertData = newVal.toString().split(":");
@@ -1141,20 +1147,23 @@
                         BacUtils.doHttpPromisePostProxy("/api/queryDataByRule", {
                             rule_func_name: 'set_guest_mn_data',
                             rowData: this.guestMnRowsData4Single
-                        }).then((result) => {
-                            if (result.success) {
-                                let lo_cloneGuestMnData = JSON.parse(JSON.stringify(this.guestMnRowsData4Single));
-                                this.guestMnRowsData4Single = _.extend(lo_cloneGuestMnData, result.defaultValues);
-                            }
-                            else {
-                                alert(result.errorMsg);
-                            }
-                        }).catch(err => {
-                            console.log(err.errorMsg);
-                        });
+                        })
+                            .then((result) => {
+                                if (result.success) {
+                                    let lo_cloneGuestMnData = JSON.parse(JSON.stringify(this.guestMnRowsData4Single));
+                                    this.guestMnRowsData4Single = _.extend(lo_cloneGuestMnData, result.defaultValues);
+                                }
+                                else {
+                                    alert(result.errorMsg);
+                                }
+                            })
+                            .catch(err => {
+                                console.log(err.errorMsg);
+                            });
                     }
                 }
             },
+
             /**
              * 訂房公司規則
              * 1.cust_cod入到order_mn.acust_cod
@@ -1653,7 +1662,8 @@
                 if (this.orderMnSingleData.group_nos === "") this.orderMnSingleData.group_nos = lo_acust_data.alt_nam; // (5.
                 const lo_params = {
                     order_mn: this.orderMnSingleData,
-                    guest_mn: this.guestMnRowsData4Single
+                    guest_mn: this.guestMnRowsData4Single,
+                    allRowsData: this.allRowsData
                 };
 
                 try {
@@ -2526,9 +2536,10 @@
              * (2)看另一個欄位有沒有值,來判斷先key後key
              * (3)聯絡人order_mn.atten_nam是空值,才帶入
              */
-            setOrderMnAttenNam(atten_nam) {
+            setOrderMnAttenNam(atten_nam, atten_by) {
                 if (this.orderMnSingleData.atten_nam === "" || this.orderMnSingleData.atten_nam === null) {
                     this.orderMnSingleData.atten_nam = atten_nam;
+                    this.orderMnSingleData.atten_by = atten_by;
                 }
             }
         }
