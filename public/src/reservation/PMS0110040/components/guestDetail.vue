@@ -633,8 +633,24 @@
                 if (newVal) {
                     this.allDetail();
                 } else {
-                    // this.orderDtRowsData.length = 0;
-                    this.groupOrderDtData(this.orderDtRowsData);
+                    let la_orderDtRowsData = [];
+                    //組分組後的order dt 資料
+                    _.each(this.orderDtGroupRowsData, (lo_groupData, idx) => {
+                        let lo_groupParam = {
+                            rate_cod: lo_groupData.rate_cod,
+                            order_sta: lo_groupData.order_sta,
+                            days: lo_groupData.days,
+                            ci_dat: lo_groupData.ci_dat,
+                            co_dat: lo_groupData.co_dat,
+                            use_cod: lo_groupData.use_cod,
+                            room_cod: lo_groupData.room_cod,
+                            rent_amt: lo_groupData.rent_amt,
+                            serv_amt: lo_groupData.serv_amt,
+                            block_cod: lo_groupData.block_cod
+                        };
+                        la_orderDtRowsData[idx] = _.where(this.orderDtRowsData, lo_groupParam);
+                    });
+                    this.orderDtRowsData = la_orderDtRowsData;
                 }
             }
         },
