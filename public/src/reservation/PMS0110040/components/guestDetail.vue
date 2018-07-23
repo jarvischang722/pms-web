@@ -499,6 +499,12 @@
                     }
                 }
             });
+
+            this.$eventHub.$on('saveGuestDetail', async (data)=>{
+                if (data.save) {
+                    this.save();
+                }
+            });
         },
         mounted() {
             this.fetchRentCalDat();
@@ -633,11 +639,6 @@
                 }
             },
             editingGroupDataIndex(val) {
-                console.log(1)
-                if (val === -1) {
-                    console.log(2)
-                    this.editingGroupDataIndex = 0;
-                }
                 this.editingOrderDtIdx = undefined;
                 $("#orderDtTable").datagrid('selectRow', this.editingGroupDataIndex);
                 this.editingGroupData = $("#orderDtTable").datagrid('getSelected');

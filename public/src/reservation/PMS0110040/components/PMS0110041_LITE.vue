@@ -2508,6 +2508,7 @@
                 return go_validateClass.chkDataChang(lo_nowData, lo_oriData);
             },
             doShowGuestDetail() {
+                let self = this;
                 let lo_isModify = this.doChkDataIsChange();
                 if (!lo_isModify.success) {
                     alert("請先儲存訂房卡資料")
@@ -2523,7 +2524,26 @@
 //                height: $(window).height(),
 //                autoOpen: true,
                         dialogClass: "test",
-                        resizable: true
+                        resizable: true,
+                        onBeforeClose: function () {
+                            let lo_this = $(this);
+                            $.messager.confirm('提示','是否要儲存資料？', (lb_resAns) => {
+                                if (lb_resAns) {
+                                    self.$eventHub.$emit("saveGuestDetail", {
+                                        save: lb_resAns
+                                    });
+                                } else {
+                                    self.isOpenGuestDetail = false;
+                                }
+
+                                let opts = lo_this.panel('options');
+                                let onBeforeClose = opts.onBeforeClose;
+                                opts.onBeforeClose = function () {};
+                                lo_this.panel('close');
+                                opts.onBeforeClose = onBeforeClose;
+                            });
+                            return false;
+                        }
                     });
                 }
             },
