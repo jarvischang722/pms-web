@@ -1252,22 +1252,21 @@
                     let ln_chkIndex = _.findIndex(la_chkData, {success: false});
                     if (ln_chkIndex > -1) {
                         alert(la_chkData[ln_chkIndex].msg);
-                        return;
-                    }
-
-                    // 儲存
-                    let lo_result = await BacUtils.doHttpPromisePostProxy('/api/execNewFormatSQL', {
-                        prg_id: gs_prgId,
-                        func_id: "0500",
-                        tmpCUD: this.tmpCUD
-                    });
-
-                    if (lo_result.success) {
-                        this.isLoading = false;
-                        this.reload = true;
                     } else {
-                        alert(lo_result.errorMsg)
+                        // 儲存
+                        let lo_result = await BacUtils.doHttpPromisePostProxy('/api/execNewFormatSQL', {
+                            prg_id: gs_prgId,
+                            func_id: "0500",
+                            tmpCUD: this.tmpCUD
+                        });
+                        if (lo_result.success) {
+                            this.reload = true;
+                        } else {
+                            alert(lo_result.errorMsg)
+                        }
                     }
+                    this.isLoading = false;
+
                 } catch (err) {
                     console.log(err)
                     // alert(err)
@@ -1391,6 +1390,7 @@
                         la_allGuestData.push(lo_guestMnRowsData);
                     });
                 });
+                la_allGuestData = _.sortBy(la_allGuestData, 'ikey_seq_nos');
                 this.guestMnRowsData = JSON.parse(JSON.stringify(la_allGuestData));
             },
             // 驗證
