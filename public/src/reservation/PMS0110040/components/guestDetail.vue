@@ -633,6 +633,11 @@
                 }
             },
             editingGroupDataIndex(val) {
+                console.log(1)
+                if (val === -1) {
+                    console.log(2)
+                    this.editingGroupDataIndex = 0;
+                }
                 this.editingOrderDtIdx = undefined;
                 $("#orderDtTable").datagrid('selectRow', this.editingGroupDataIndex);
                 this.editingGroupData = $("#orderDtTable").datagrid('getSelected');
@@ -946,6 +951,8 @@
                         lo_orderDtData[this.editingGroupDataIndex].push(lo_cloneOrderData);
 
                         this.orderDtRowsData = lo_orderDtData;
+                        this.editingOrderDtIdx = this.orderDtRowsData[this.editingGroupDataIndex].length -1;
+                        this.chkOrderDtFieldRule('ci_dat ','chkOrderdtCidat');
                     }
                     else {
                         alert(lo_chkAddRule.errorMsg);
@@ -1278,6 +1285,7 @@
                 }
             },
             async chkOrderDtFieldRule(ui_field_name, rule_func_name) {
+                console.log(ui_field_name, rule_func_name, this.editingOrderDtIdx)
                 if (_.isEmpty(this.beforeOrderDtRowsData)) {
                     this.beforeOrderDtRowsData = this.oriOrderDtRowsData;
                 }
