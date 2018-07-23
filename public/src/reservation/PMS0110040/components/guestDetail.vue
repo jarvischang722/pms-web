@@ -941,9 +941,6 @@
 
                         let lo_cloneOrderData = JSON.parse(JSON.stringify(this.editingGroupData));
                         lo_cloneOrderData.ikey_seq_nos = lo_chkAddRule.defaultValues.ikey_seq_nos;
-                        lo_cloneOrderData.page_id = 1;
-                        lo_cloneOrderData.tab_page_id = 2;
-                        this.tmpCUD.createData.push(lo_cloneOrderData);
 
                         let lo_orderDtData = JSON.parse(JSON.stringify(this.orderDtRowsData));
                         lo_orderDtData[this.editingGroupDataIndex].push(lo_cloneOrderData);
@@ -1273,6 +1270,7 @@
                 }
             },
             async chkOrderDtFieldRule(ui_field_name, rule_func_name) {
+                console.log('aaa')
                 if (_.isEmpty(this.beforeOrderDtRowsData)) {
                     this.beforeOrderDtRowsData = this.oriOrderDtRowsData;
                 }
