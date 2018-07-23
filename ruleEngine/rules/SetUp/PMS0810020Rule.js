@@ -817,7 +817,6 @@ module.exports = {
                 console.error(err);
                 chkError = new ErrorClass();
                 chkError.errorMsg = err;
-                chkError.errorCod = "1111";
                 return callback(chkError, ruleResult);
             }
 

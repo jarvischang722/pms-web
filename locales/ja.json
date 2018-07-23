@@ -270,7 +270,9 @@
       "1130": "修改備註",
       "1140": "刪除備註",
       "saveMainAndRelatedDataFirst": "請先儲存主檔資料及相關資料",
-      "salesCodIsNull": "請選擇指定業務員"
+      "salesCodIsNull": "請選擇指定業務員",
+      "chkRpData": "請完成相關人員資料設定",
+      "chkCcData": "請完成合約內容資料設定"
     },
     "PMS0620020": {
       "sales_cod": "業務員代號",
@@ -472,7 +474,9 @@
       "FmtYYYYMM": "%s 日期格式YYYY/MM(01-12)",
       "ChkEmail": "%s 格式不正確",
       "ChkUniCod": "%s 格式不正確",
-      "chkDataChang": "資料異動，是否要修改?"
+      "chkDataChang": "資料異動，是否要修改?",
+      "chkDateIsBetween": "日期區間重疊",
+      "chkBeginDatAndEndDat": "起始日大於結束日"
     }
   },
   "ErrorMsg": {

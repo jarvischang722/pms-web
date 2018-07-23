@@ -1092,7 +1092,7 @@ ul.newVisitOther-btn
   .counterPage
     //position: relative
     max-height: 600px
-    overflow: auto
+    //overflow: auto
     .counterRow
       //margin: 0 auto
       .counterBlock
@@ -1158,8 +1158,8 @@ ul.newVisitOther-btn
           position: absolute
           top: 91px
           .foCnt_icon
-            width: 15px
-            height: 15px
+            width: 20px
+            height: 20px
             margin: 2px 3px auto 2px
         .content-remark
           position: relative
@@ -1195,7 +1195,20 @@ ul.newVisitOther-btn
       margin-right: 1%
     .r-table
       margin-left: 1%
-
+    .roomNum
+      box-sizing: border-box
+      font-size: 2em
+      font-style: italic
+      font-weight: bold
+      color: #DD5A43
+      border: 2px solid #DD5A43
+      height: 60px
+      position: relative
+      .num
+        position: absolute
+        transform: translate(-50%, -50%)
+        top: 50%
+        left: 50%
     table
       border: 1px solid #a0a8b4
       width: 100%
@@ -2000,59 +2013,55 @@ td
   height: 620px
   &.town-grap
     overflow: auto
-  .townRow
-    //margin: 3px auto auto 3px
-    .townBlock
-      float: left
-      margin: 0 1px 1px 0
-      //border: 1px solid #555
-      //position: absolute
+  .townBlock
+    float: left
+    margin: 0 1px 1px 0
+    //border: 1px solid #555
+    //position: absolute
+    position: relative
+    padding: 5px
+    //min-width: 100%
+    //min-height: 100%
+    width: 85px
+    height: 65px
+    box-sizing: border-box
+    background: #bfbfbf
+    color: #000
+    font-size: 10px
+    cursor: pointer
+    border: 2px solid #fff
+    &.no-show
+      background: #ae8dc3
+    &:hover
+      opacity: 0.6
+    .content-sub
+      height: 18px
+    .head, .content-sub, .foot
+      .left
+        float: left
+      //top: 0
+      //left: 5px
+      //color: #0000A1
+      .right
+        float: right
+      //top: 0
+      //right: 5px
+      .txt-lg
+        font-weight: bold
+        font-size: 16px
+        line-height: 16px
+      .fa
+        font-size: 16px
+        margin-top: 8px
+    //排房active
+    &.active
+      border: 2px solid red
+    @include color-bk
 
-      position: relative
-      padding: 5px
-      //min-width: 100%
-      //min-height: 100%
-      width: 85px
-      height: 65px
-      box-sizing: border-box
-      background: #bfbfbf
-      color: #000
-      font-size: 10px
-      cursor: pointer
-      border: 2px solid #fff
-      &.no-show
-        background: #ae8dc3
-      &:hover
-        opacity: 0.6
-      .content-sub
-        height: 18px
-      .head, .content-sub, .foot
-        .left
-          float: left
-        //top: 0
-        //left: 5px
-        //color: #0000A1
-        .right
-          float: right
-        //top: 0
-        //right: 5px
-        .txt-lg
-          font-weight: bold
-          font-size: 16px
-          line-height: 16px
-        .fa
-          font-size: 16px
-          margin-top: 8px
-      //排房active
-      &.active
-        border: 2px solid red
-      //padding: 2px !important
-      //margin: 0 3px 3px 0
-
-      .foCnt_icon
-        width: 15px
-        height: 15px
-        margin: 2px 1px auto 1px
+    .foCnt_icon
+      width: 20px
+      height: 20px
+      margin: 2px 1px auto 1px
 
 .roomAssign
   .select-group, .btn-group
