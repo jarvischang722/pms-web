@@ -466,7 +466,6 @@
             this.$eventHub.$on("getGhistMnDataToOrder", (data) => {
                 if (this.$store.state.orderMnModule.gs_openModule == "guestDetail") {
                     let lo_ghistMnData = JSON.parse(JSON.stringify(data.ghistMnData));
-                    console.log(data.ghistMnData);
                     if (this.editingGuestMnData.ikey_seq_nos == 0) {
                         let ln_editIdx = _.findIndex(this.guestMnRowsData["unspecified"], {ci_ser: this.editingGuestMnData.ci_ser});
                         if (ln_editIdx > -1) {
@@ -476,7 +475,7 @@
                     }
                     else {
                         this.guestMnRowsData[this.editingGroupDataIndex][this.editingGuestMnIdx] =
-                            _.extend(lo_ghistMnData, this.guestMnRowsData[this.editingGroupDataIndex][this.editingGuestMnIdx]);
+                            _.extend(this.guestMnRowsData[this.editingGroupDataIndex][this.editingGuestMnIdx], lo_ghistMnData);
                     }
                 }
             });
@@ -859,6 +858,7 @@
             searchGuestMnAltName(guestMnData, index) {
                 this.$store.dispatch("orderMnModule/setOpenModule", {openModule: "guestDetail"});
                 this.editingGuestMnIdx = index;
+                guestMnData.gcust_cod = guestMnData.alt_nam.split(':')[0];
                 this.editingGuestMnData = _.extend(this.rowData, guestMnData);
                 this.$eventHub.$emit("setSelectGuestMnAltData", {
                     rowData: this.editingGuestMnData
@@ -941,7 +941,6 @@
                     });
 
                     if (lo_chkDelRule.success) {
-                        console.log(lo_chkDelRule);
                         if (lo_chkDelRule.showConfirm) {
                             if (confirm(lo_chkDelRule.confirmMsg)) {
                                 let lo_DataRow = _.findWhere(this.oriOrderDtRowsData[this.editingGroupDataIndex], {ikey_seq_nos: data.ikey_seq_nos});
@@ -1083,7 +1082,6 @@
 
                     if (lo_chkAddRule.success) {
                         let lo_addRowData = lo_chkAddRule.defaultValues;
-                        // console.log(lo_addRowData);
                         // 新增顧客資料把目前缺少的ikey_seq_nos補齊
                         if (la_lossIkeySeqNosGuest.length > 0) {
                             _.each(la_lossIkeySeqNosGuest, (lo_guest) => {
@@ -1104,6 +1102,8 @@
                                     system_typ: lo_addRowData.system_typ,
                                     status: "new"
                                 };
+
+
                                 //新加入的object，vue前端畫面無法做出反應，解決方法深層複製新的物件
                                 let lo_cloneGuestMnRowsData = JSON.parse(JSON.stringify(this.guestMnRowsData));
                                 lo_cloneGuestMnRowsData[this.editingGroupDataIndex].push(lo_newGuest);
@@ -1111,7 +1111,8 @@
 
 
                             });
-                        } else if (la_lossIkeySeqNosGuest.length === 0) {
+                        }
+                        else if (la_lossIkeySeqNosGuest.length === 0) {
                             let lo_newGuest = {
                                 ikey: la_detailOrderDtData[0].ikey,
                                 athena_id: lo_addRowData.athena_id,
@@ -1134,6 +1135,8 @@
                             lo_cloneGuestMnRowsData[this.editingGroupDataIndex].push(lo_newGuest);
                             this.guestMnRowsData = lo_cloneGuestMnRowsData;
                         }
+
+
                     }
                     else {
                         alert(lo_chkAddRule.errorMsg);
