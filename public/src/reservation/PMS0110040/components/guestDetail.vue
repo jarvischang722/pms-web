@@ -525,10 +525,8 @@
                     deleteData: [],
                     oriData: []
                 },
-
                 isEffectFromRule: true,
                 isFirstFetch: true,
-
                 tmpCUD: {
                     createData: [],
                     updateData: [],
@@ -684,6 +682,14 @@
                 Object.keys(this.tmpCUD).forEach(key => {
                     this.tmpCUD[key] = [];
                 })
+            },
+            initGuestMnTmpCUD() {
+                this.guestMnTmpCUD = {
+                    createData: [],
+                    updateData: [],
+                    deleteData: [],
+                    oriData: []
+                }
             },
             async fetchFieldsData(param) {
                 return await BacUtils.doHttpPromisePostProxy("/api/fetchOnlyDataGridFieldData", param).then((result) => {
@@ -1101,6 +1107,17 @@
                                         guest_sta: lo_addRowData.guest_sta,
                                         master_sta: lo_addRowData.master_sta,
                                         system_typ: lo_addRowData.system_typ,
+                                        rent_amt: 0,
+                                        serv_amt: 0,
+                                        precredit_amt: 0,
+                                        gcust_cod: "",
+                                        alt_nam: "",
+                                        first_nam: "",
+                                        last_nam: "",
+                                        ccust_nam: "",
+                                        car_nos: "",
+                                        airline_cod: "",
+                                        airmb_nos: "",
                                         status: "new"
                                     };
                                     //新加入的object，vue前端畫面無法做出反應，解決方法深層複製新的物件
@@ -1128,6 +1145,14 @@
                                     rent_amt: 0,
                                     serv_amt: 0,
                                     precredit_amt: 0,
+                                    gcust_cod: "",
+                                    alt_nam: "",
+                                    first_nam: "",
+                                    last_nam: "",
+                                    ccust_nam: "",
+                                    car_nos: "",
+                                    airline_cod: "",
+                                    airmb_nos: "",
                                     status: "new"
                                 };
                                 //新加入的object，vue前端畫面無法做出反應，解決方法深層複製新的物件
@@ -1237,6 +1262,11 @@
                     } else {
                         alert(lo_result.errorMsg)
                     }
+
+
+                    // 住客名單儲存
+                    this.saveGuestList();
+
                 } catch (err) {
                     console.log(err)
                     // alert(err)
@@ -1380,6 +1410,52 @@
                     resolve(lo_checkResult)
                 });
             },
+            saveGuestList() {
+
+                //新增 guestMnTmpCUD.createData 資料
+                if (this.guestMnRowsData[this.editingGroupDataIndex] !== undefined) {
+                    _.each(this.guestMnRowsData[this.editingGroupDataIndex], (lo_guestMnRowsData) => {
+                        // lo_guestMnRowsData物件有status的key 代表是剛新增出來的住客資料
+                        if (lo_guestMnRowsData.status !== undefined) {
+                            lo_guestMnRowsData.alt_nam = lo_guestMnRowsData.alt_nam.split(':')[1];
+
+                            this.guestMnTmpCUD.createData.push(_.extend(lo_guestMnRowsData, {page_id: 1, tab_page_id: 3}));
+                        }
+                    });
+                }
+                // 更新 guestMnTmpCUD.updateData 資料
+                if (this.oriGuestMnRowsData[this.editingGroupDataIndex] !== undefined) {
+                    _.each(this.oriGuestMnRowsData[this.editingGroupDataIndex], (lo_oriGuestMnRowsData) => {
+                        let lo_presentGuest = _.findWhere(this.orderDtRowsData, {ci_ser: lo_oriGuestMnRowsData.ci_ser});
+                        if (lo_presentGuest === undefined) {
+                            let cloneGuest = JSON.parse(JSON.stringify(lo_oriGuestMnRowsData));
+                            cloneGuest.guest_sta = 'X';
+
+                            cloneGuest.alt_nam = cloneGuest.alt_nam.split(':')[1];
+
+                            this.guestMnTmpCUD.oriData.push(_.extend(lo_oriGuestMnRowsData, {page_id: 1, tab_page_id: 3}));
+                            this.guestMnTmpCUD.updateData.push(_.extend(cloneGuest, {page_id: 1, tab_page_id: 3}));
+                        }
+                    });
+                }
+
+
+
+                // 發送資料儲存api
+                BacUtils.doHttpPromisePostProxy('/api/execNewFormatSQL', {
+                    prg_id: 'PMS0110042',
+                    func_id: "0500",
+                    tmpCUD: this.guestMnTmpCUD
+                }).then(lo_result => {
+                    if (lo_result.success) {
+                        alert('成功');
+                        this.initGuestMnTmpCUD();
+                    }
+                }).catch(lo_err => {
+                    alert(lo_err.errorMsg);
+                });
+
+            }
         },
     }
 </script>
