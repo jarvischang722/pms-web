@@ -1224,14 +1224,14 @@
                     let la_allOriOrderData = [];
                     let la_allOrderdata = [];
                     _.each(this.oriOrderDtRowsData, lo_oriOrderData => {
-                        _.each(lo_oriOrderData, x => {
-                            la_allOriOrderData.push(x);
+                        _.each(lo_oriOrderData, lo_data => {
+                            la_allOriOrderData.push(lo_data);
                         })
                     });
 
-                    _.each(this.orderDtRowsData, data => {
-                        _.each(data, x => {
-                            la_allOrderdata.push(x);
+                    _.each(this.orderDtRowsData, lo_orderData => {
+                        _.each(lo_orderData, lo_data => {
+                            la_allOrderdata.push(lo_data);
                         })
                     });
                     la_allOriOrderData = _.sortBy(la_allOriOrderData, 'ikey_seq_nos');
@@ -1318,7 +1318,6 @@
                 }
             },
             async chkOrderDtFieldRule(ui_field_name, rule_func_name) {
-                console.log(ui_field_name, rule_func_name, this.editingOrderDtIdx)
                 if (_.isEmpty(this.beforeOrderDtRowsData)) {
                     this.beforeOrderDtRowsData = this.oriOrderDtRowsData;
                 }
