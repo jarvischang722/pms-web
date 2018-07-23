@@ -476,6 +476,7 @@
                     else {
                         this.guestMnRowsData[this.editingGroupDataIndex][this.editingGuestMnIdx] =
                             _.extend(this.guestMnRowsData[this.editingGroupDataIndex][this.editingGuestMnIdx], lo_ghistMnData);
+                        // console.log(this.guestMnRowsData[this.editingGroupDataIndex][this.editingGuestMnIdx]);
                     }
                 }
             });
@@ -1028,69 +1029,93 @@
             //新增guest mn 資料
             async addGuestMnData() {
 
-                // if (this.isModifiable) {
-                // 讀取group order_dt 當前選擇的列的資料
-                this.editingGroupData = $("#orderDtTable").datagrid('getSelected');
-                let lo_groupParam = {
-                    rate_cod: this.editingGroupData.rate_cod,
-                    order_sta: this.editingGroupData.order_sta,
-                    days: this.editingGroupData.days,
-                    ci_dat: this.editingGroupData.ci_dat,
-                    co_dat: this.editingGroupData.co_dat,
-                    use_cod: this.editingGroupData.use_cod,
-                    room_cod: this.editingGroupData.room_cod,
-                    rent_amt: this.editingGroupData.rent_amt,
-                    serv_amt: this.editingGroupData.serv_amt,
-                    block_cod: this.editingGroupData.block_cod
-                };
-                // 篩選order_dt 明細
-                let la_detailOrderDtData = _.where(this.allOrderDtRowsData, lo_groupParam);
+                if (this.isModifiable) {
+                    // 讀取group order_dt 當前選擇的列的資料
+                    this.editingGroupData = $("#orderDtTable").datagrid('getSelected');
+                    let lo_groupParam = {
+                        rate_cod: this.editingGroupData.rate_cod,
+                        order_sta: this.editingGroupData.order_sta,
+                        days: this.editingGroupData.days,
+                        ci_dat: this.editingGroupData.ci_dat,
+                        co_dat: this.editingGroupData.co_dat,
+                        use_cod: this.editingGroupData.use_cod,
+                        room_cod: this.editingGroupData.room_cod,
+                        rent_amt: this.editingGroupData.rent_amt,
+                        serv_amt: this.editingGroupData.serv_amt,
+                        block_cod: this.editingGroupData.block_cod
+                    };
+                    // 篩選order_dt 明細
+                    let la_detailOrderDtData = _.where(this.allOrderDtRowsData, lo_groupParam);
 
-                // la_detailOrderDtData 有顧客明細才做
-                if (la_detailOrderDtData.length > 0) {
-                    let la_lossIkeySeqNosGuest = [];
-                    // order_dt明細和group guest顧客做比對抓出目前缺少的ikey_seq_nos
-                    for (let lo_orderDtData of la_detailOrderDtData) {
-                        let lo_currentGuest = _.findWhere(this.guestMnRowsData[this.editingGroupDataIndex], {
-                            ikey_seq_nos: lo_orderDtData.ikey_seq_nos
-                        });
-                        if (_.isUndefined(lo_currentGuest)) {
-                            la_lossIkeySeqNosGuest.push(lo_orderDtData);
-                            break;
+                    // la_detailOrderDtData 有顧客明細才做
+                    if (la_detailOrderDtData.length > 0) {
+                        let la_lossIkeySeqNosGuest = [];
+                        // order_dt明細和group guest顧客做比對抓出目前缺少的ikey_seq_nos
+                        for (let lo_orderDtData of la_detailOrderDtData) {
+                            let lo_currentGuest = _.findWhere(this.guestMnRowsData[this.editingGroupDataIndex], {
+                                ikey_seq_nos: lo_orderDtData.ikey_seq_nos
+                            });
+                            if (_.isUndefined(lo_currentGuest)) {
+                                la_lossIkeySeqNosGuest.push(lo_orderDtData);
+                                break;
+                            }
                         }
-                    }
 
-                    let la_allGuestMnData = [];
-                    _.each(this.guestMnRowsData, (la_data) => {
-                        _.each(la_data, (lo_data) => {
-                            la_allGuestMnData.push(lo_data);
+                        let la_allGuestMnData = [];
+                        _.each(this.guestMnRowsData, (la_data) => {
+                            _.each(la_data, (lo_data) => {
+                                la_allGuestMnData.push(lo_data);
+                            });
                         });
-                    });
-                    // 新增guest mn 前要做得規則
-                    let lo_chkAddRule = await
-                        BacUtils.doHttpPromisePostProxy("/api/chkPrgFuncRule", {
-                            prg_id: gs_prgId,
-                            page_id: 1,
-                            tab_page_id: 3,
-                            func_id: "0200",
-                            allRowData: la_allGuestMnData
-                        }).then(result => {
-                            return result
-                        }).catch(err => {
-                            return {success: false, errorMsg: err}
-                        });
+                        // 新增guest mn 前要做得規則
+                        let lo_chkAddRule = await
+                            BacUtils.doHttpPromisePostProxy("/api/chkPrgFuncRule", {
+                                prg_id: gs_prgId,
+                                page_id: 1,
+                                tab_page_id: 3,
+                                func_id: "0200",
+                                allRowData: la_allGuestMnData
+                            }).then(result => {
+                                return result
+                            }).catch(err => {
+                                return {success: false, errorMsg: err}
+                            });
 
-                    if (lo_chkAddRule.success) {
-                        let lo_addRowData = lo_chkAddRule.defaultValues;
-                        // 新增顧客資料把目前缺少的ikey_seq_nos補齊
-                        if (la_lossIkeySeqNosGuest.length > 0) {
-                            _.each(la_lossIkeySeqNosGuest, (lo_guest) => {
+                        if (lo_chkAddRule.success) {
+                            let lo_addRowData = lo_chkAddRule.defaultValues;
+                            // 新增顧客資料把目前缺少的ikey_seq_nos補齊
+                            if (la_lossIkeySeqNosGuest.length > 0) {
+                                _.each(la_lossIkeySeqNosGuest, (lo_guest) => {
+                                    let lo_newGuest = {
+                                        ikey: lo_guest.ikey,
+                                        athena_id: lo_addRowData.athena_id,
+                                        hotel_cod: lo_addRowData.hotel_cod,
+                                        ci_ser: lo_addRowData.ci_ser,
+                                        ikey_seq_nos: lo_guest.ikey_seq_nos,
+                                        alt_nam: "",
+                                        assign_sta: lo_addRowData.assign_sta,
+                                        room_nos: "",
+                                        contry_cod: "",
+                                        pref_room: "",
+                                        car_nos: "",
+                                        guest_sta: lo_addRowData.guest_sta,
+                                        master_sta: lo_addRowData.master_sta,
+                                        system_typ: lo_addRowData.system_typ,
+                                        status: "new"
+                                    };
+                                    //新加入的object，vue前端畫面無法做出反應，解決方法深層複製新的物件
+                                    let lo_cloneGuestMnRowsData = JSON.parse(JSON.stringify(this.guestMnRowsData));
+                                    lo_cloneGuestMnRowsData[this.editingGroupDataIndex].push(lo_newGuest);
+                                    this.guestMnRowsData = lo_cloneGuestMnRowsData;
+                                });
+                            }
+                            else if (la_lossIkeySeqNosGuest.length === 0) {
                                 let lo_newGuest = {
-                                    ikey: lo_guest.ikey,
+                                    ikey: la_detailOrderDtData[0].ikey,
                                     athena_id: lo_addRowData.athena_id,
                                     hotel_cod: lo_addRowData.hotel_cod,
-                                    ci_ser: "",
-                                    ikey_seq_nos: lo_guest.ikey_seq_nos,
+                                    ci_ser: lo_addRowData.ci_ser,
+                                    ikey_seq_nos: 0,
                                     alt_nam: "",
                                     assign_sta: lo_addRowData.assign_sta,
                                     room_nos: "",
@@ -1100,59 +1125,33 @@
                                     guest_sta: lo_addRowData.guest_sta,
                                     master_sta: lo_addRowData.master_sta,
                                     system_typ: lo_addRowData.system_typ,
+                                    rent_amt: 0,
+                                    serv_amt: 0,
+                                    precredit_amt: 0,
                                     status: "new"
                                 };
-
-
                                 //新加入的object，vue前端畫面無法做出反應，解決方法深層複製新的物件
                                 let lo_cloneGuestMnRowsData = JSON.parse(JSON.stringify(this.guestMnRowsData));
                                 lo_cloneGuestMnRowsData[this.editingGroupDataIndex].push(lo_newGuest);
                                 this.guestMnRowsData = lo_cloneGuestMnRowsData;
-
-
-                            });
+                            }
                         }
-                        else if (la_lossIkeySeqNosGuest.length === 0) {
-                            let lo_newGuest = {
-                                ikey: la_detailOrderDtData[0].ikey,
-                                athena_id: lo_addRowData.athena_id,
-                                hotel_cod: lo_addRowData.hotel_cod,
-                                ci_ser: "",
-                                ikey_seq_nos: 0,
-                                alt_nam: "",
-                                assign_sta: lo_addRowData.assign_sta,
-                                room_nos: "",
-                                contry_cod: "",
-                                pref_room: "",
-                                car_nos: "",
-                                guest_sta: lo_addRowData.guest_sta,
-                                master_sta: lo_addRowData.master_sta,
-                                system_typ: lo_addRowData.system_typ,
-                                status: "new"
-                            };
-                            //新加入的object，vue前端畫面無法做出反應，解決方法深層複製新的物件
-                            let lo_cloneGuestMnRowsData = JSON.parse(JSON.stringify(this.guestMnRowsData));
-                            lo_cloneGuestMnRowsData[this.editingGroupDataIndex].push(lo_newGuest);
-                            this.guestMnRowsData = lo_cloneGuestMnRowsData;
+                        else {
+                            alert(lo_chkAddRule.errorMsg);
                         }
-
-
                     }
-                    else {
-                        alert(lo_chkAddRule.errorMsg);
-                    }
-
                 }
-                // }
             },
             //刪除guest mn 資料
             async removeGuestMnData(data) {
-                // if (this.isModifiable) {
-                this.isLoading = true;
-
-
-                this.isLoading = false;
-                // }
+                if (this.isModifiable) {
+                    this.isLoading = true;
+                    let ls_currentGuestDataIndex = _.findIndex(this.guestMnRowsData[this.editingGroupDataIndex], {ci_ser: data.ci_ser});
+                    if (ls_currentGuestDataIndex > -1) {
+                        this.guestMnRowsData[this.editingGroupDataIndex].splice(ls_currentGuestDataIndex, 1);
+                    }
+                    this.isLoading = false;
+                }
             },
             async save() {
                 try {
