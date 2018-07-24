@@ -1769,6 +1769,12 @@
                 this.setTmpCUD(this.orderDtRowsData, this.oriOrderDtRowsData, {page_id: 1, tab_page_id: 13});
 
                 //guest mn 資料傳至tmpCUD
+                _.each(this.guestMnRowsData, (lo_data, ln_idx) => {
+                    this.guestMnRowsData[ln_idx].alt_nam = lo_data.alt_nam.split(":")[1];
+                });
+                _.each(this.oriGuestMnRowsData, (lo_data, ln_idx) => {
+                    this.oriGuestMnRowsData[ln_idx].alt_nam = lo_data.alt_nam.split(":")[1];
+                });
                 this.setTmpCUD(this.guestMnRowsData, this.oriGuestMnRowsData, {page_id: 1, tab_page_id: 11});
             },
             //驗證要儲存的資料
