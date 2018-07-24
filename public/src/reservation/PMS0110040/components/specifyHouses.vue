@@ -385,14 +385,9 @@
                         if (lo_rowsData.ikey_seq_nos === this.selectOrderDtRowsDataIkeySeqNos) {
                             _.each(this.guestMnRowDataChecked, (lo_checkedData, ln_index) => {
                                 let lo_oriCheckedData = this.findOriData(this.oriAllGuestMnRowsData, lo_checkedData);
-                                lo_rowsData.guest_list = lo_rowsData.guest_list || "";
-                                lo_rowsData.guest_list = lo_rowsData.guest_list.trim();
                                 // 處理文字顯示樣子
-                                if (lo_rowsData.guest_list === '') {
-                                    lo_rowsData.guest_list += lo_checkedData.alt_nam;
-                                } else if (lo_rowsData.guest_list.length > 0) {
-                                    lo_rowsData.guest_list += `,${lo_checkedData.alt_nam}`;
-                                }
+                                this.textFormat(lo_rowsData, lo_checkedData);
+                                // 變更資料
                                 lo_checkedData.ikey_seq_nos = lo_rowsData.ikey_seq_nos;
                                 lo_checkedData.room_nos = lo_rowsData.room_nos;
                                 lo_checkedData.assign_sta = lo_rowsData.assign_sta;
@@ -435,14 +430,8 @@
                         if (ln_index < this.guestMnRowsData.length) {
                             let lo_oriCheckedData = this.findOriData(this.oriAllGuestMnRowsData, this.guestMnRowsData[ln_index]);
                             // 處理文字顯示樣子
-                            if (lo_rowsData.guest_list === '') {
-                                lo_rowsData.guest_list += this.guestMnRowsData[ln_index].alt_nam;
-                            } else if (lo_rowsData.guest_list === null || lo_rowsData.guest_list === undefined) {
-                                lo_rowsData.guest_list = '';
-                                lo_rowsData.guest_list += this.guestMnRowsData[ln_index].alt_nam;
-                            } else if (lo_rowsData.guest_list.length > 0) {
-                                lo_rowsData.guest_list += ',' + this.guestMnRowsData[ln_index].alt_nam;
-                            }
+                            this.textFormat(lo_rowsData, this.guestMnRowsData[ln_index]);
+                            // 變更資料
                             this.guestMnRowsData[ln_index].ikey_seq_nos = lo_rowsData.ikey_seq_nos;
                             this.guestMnRowsData[ln_index].room_nos = lo_rowsData.room_nos;
                             this.guestMnRowsData[ln_index].assign_sta = lo_rowsData.assign_sta;
@@ -543,10 +532,6 @@
                 });
 
                 if (ln_oriDataIndex > -1) {
-                    let lo_oriData = this.tmpCUD.oriData[ln_oriDataIndex];
-                    let ln_oriDataIndex = _.findIndex(this.tmpCUD.oriData, {
-                        ikey: lo_oriData.ikey, alt_nam: lo_oriData.alt_nam, ci_ser: lo_oriData.ci_ser
-                    });
                     if (oriData.ikey_seq_nos !== changeData.ikey_seq_nos) {
                         this.tmpCUD.oriData.splice(ln_oriDataIndex, 1);
                         this.tmpCUD.oriData.push(oriData);
@@ -610,6 +595,21 @@
                     }
                 });
                 return lo_result;
+            },
+            /**
+             * 處理文字order_dt顧客資料文字顯示
+             * @param orderDtRowsData {object} 傳入orderDtRowsData 一筆資料
+             * @param guestMnRowData {object} 傳入guestMnRowData 一筆資料
+             */
+            textFormat(orderDtRowsData, guestMnRowData) {
+                // 處理文字顯示樣子
+                orderDtRowsData.guest_list = orderDtRowsData.guest_list || "";
+                orderDtRowsData.guest_list = orderDtRowsData.guest_list.trim();
+                if (orderDtRowsData.guest_list === '') {
+                    orderDtRowsData.guest_list += guestMnRowData.alt_nam;
+                } else if (orderDtRowsData.guest_list.length > 0) {
+                    orderDtRowsData.guest_list += `,${guestMnRowData.alt_nam}`;
+                }
             }
         }
     }

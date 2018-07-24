@@ -252,105 +252,124 @@
                                                             <td class=""></td>
                                                             <td class=""></td>
                                                         </tr>
-                                                        <template v-for="(rowsData, key) in guestMnRowsData">
-                                                            <template v-if="key == editingGroupDataIndex"
-                                                                      v-for="(singleData, idx) in rowsData.concat(guestMnRowsData['unspecified'])">
+                                                        <template v-if="!allMark">
+                                                            <template v-for="(rowsData, key) in guestMnRowsData">
+                                                                <template v-if="key == editingGroupDataIndex"
+                                                                          v-for="(singleData, idx) in rowsData.concat(guestMnRowsData['unspecified'])">
+                                                                    <tr>
+                                                                        <td class="text-center">
+                                                                            <i class="fa fa-minus red"
+                                                                               @click="removeGuestMnData(singleData)"
+                                                                               :class="{'pointer': isModifiable}"></i>
+                                                                        </td>
+                                                                        <template v-for="field in guestMnFieldData">
+                                                                            <td class="text-left input-noEdit"
+                                                                                :style="{width:field.width + 'px'}"
+                                                                                v-if="field.visiable == 'Y' && field.ui_type=='label'"
+                                                                                @click="editingGuestMnIdx = idx">
+                                                                                {{singleData[field.ui_field_name]}}
+                                                                            </td>
+                                                                            <td class="text-left"
+                                                                                @click="editingGuestMnIdx = idx"
+                                                                                v-if="field.visiable == 'Y' && field.ui_type=='text'">
+                                                                                <input type="text"
+                                                                                       v-model="singleData[field.ui_field_name]"
+                                                                                       :style="{width:field.width + 'px'}"
+                                                                                       :required="field.requirable == 'Y'"
+                                                                                       :maxlength="field.ui_field_length"
+                                                                                       class="selectHt"
+                                                                                       :class="{'input_sta_required' : field.requirable == 'Y'}"
+                                                                                       :disabled="field.modificable == 'N'|| !isModifiable ||
+                                                                    (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)">
+                                                                            </td>
+                                                                            <td class="text-left"
+                                                                                @click="editingGuestMnIdx = idx"
+                                                                                v-if="field.visiable == 'Y' && field.ui_type=='select'">
+                                                                                <bac-select :field="field"
+                                                                                            :style="{width:field.width + 'px'}"
+                                                                                            v-model="singleData[field.ui_field_name]"
+                                                                                            :data="field.selectData"
+                                                                                            is-qry-src-before="Y"
+                                                                                            value-field="value"
+                                                                                            text-field="display"
+                                                                                            @update:v-model="val => singleData[field.ui_field_name] = val"
+                                                                                            :default-val="singleData[field.ui_field_name] || field.defaultVal"
+                                                                                            class="el-select-ht selectHt"
+                                                                                            style="height: 25px;"
+                                                                                            :disabled="field.modificable == 'N'|| !isModifiable ||
+                                                                    (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)">
+                                                                                </bac-select>
+                                                                            </td>
+                                                                            <td class="text-left"
+                                                                                @click="editingGuestMnIdx = idx"
+                                                                                v-if="field.visiable == 'Y' && field.ui_type=='date'">
+                                                                                <!-- 日期時間選擇器 -->
+                                                                                <el-date-picker
+                                                                                        v-model="singleData[field.ui_field_name]"
+                                                                                        type="date"
+                                                                                        :disabled="field.modificable == 'N'|| !isModifiable ||
+                                                                    (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)"
+                                                                                        class="date-wt input_sta_required"
+                                                                                        format="yyyy/MM/dd"
+                                                                                        :style="{width:field.width + 'px'}"
+                                                                                        :editable="false" :clearable="false"
+                                                                                >
+                                                                                </el-date-picker>
+                                                                            </td>
+                                                                            <td class="text-left"
+                                                                                @click="editingGuestMnIdx = idx"
+                                                                                v-if="field.visiable == 'Y' && field.ui_type=='number'">
+                                                                                <!--number 金額顯示format-->
+                                                                                <input type="text"
+                                                                                       v-model="singleData[field.ui_field_name]"
+                                                                                       :style="{width:field.width + 'px'}"
+                                                                                       class="text-right selectHt"
+                                                                                       :class="{'input_sta_required' : field.requirable == 'Y'}"
+                                                                                       :disabled="field.modificable == 'N'|| !isModifiable ||
+                                                                    (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)">
+                                                                            </td>
+                                                                            <td class="text-left td-more"
+                                                                                style="height: 26px;"
+                                                                                @click="editingGuestMnIdx = idx"
+                                                                                v-if="field.visiable == 'Y' && field.ui_type=='selectgrid'">
+                                                                                <bac-select-grid
+                                                                                        v-if="field.visiable == 'Y' && field.ui_type == 'selectgrid'"
+                                                                                        :style="{width:field.width + 'px' , height:field.height + 'px'}"
+                                                                                        :class="{'input_sta_required' : field.requirable == 'Y'}"
+                                                                                        v-model="singleData[field.ui_field_name]"
+                                                                                        :columns="field.selectData.columns"
+                                                                                        :data="field.selectData.selectData"
+                                                                                        :field="field"
+                                                                                        :is-qry-src-before="field.selectData.isQrySrcBefore"
+                                                                                        :id-field="field.selectData.value"
+                                                                                        :text-field="field.selectData.display"
+                                                                                        @update:v-model="val => singleData[field.ui_field_name] = val"
+                                                                                        :default-val="singleData[field.ui_field_name]"
+                                                                                        :disabled="field.modificable == 'N'|| !isModifiable ||
+                                                   (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)">
+                                                                                </bac-select-grid>
+                                                                                <button @click="searchGuestMnAltName(singleData, idx)"
+                                                                                        class="btn btn-sm btn-primary btn-white btn-sm-font2 moreAbso">
+                                                                                    Profile
+                                                                                </button>
+                                                                            </td>
+                                                                        </template>
+                                                                    </tr>
+                                                                </template>
+                                                            </template>
+                                                        </template>
+                                                        <template v-else>
+                                                            <template v-for="(rowsData, key) in guestMnRowsData">
                                                                 <tr>
                                                                     <td class="text-center">
-                                                                        <i class="fa fa-minus red"
-                                                                           @click="removeGuestMnData(singleData)"
-                                                                           :class="{'pointer': isModifiable}"></i>
+                                                                        <i class="fa fa-minus red"></i>
                                                                     </td>
                                                                     <template v-for="field in guestMnFieldData">
                                                                         <td class="text-left input-noEdit"
                                                                             :style="{width:field.width + 'px'}"
-                                                                            v-if="field.visiable == 'Y' && field.ui_type=='label'"
-                                                                            @click="editingGuestMnIdx = idx">
-                                                                            {{singleData[field.ui_field_name]}}
-                                                                        </td>
-                                                                        <td class="text-left"
-                                                                            @click="editingGuestMnIdx = idx"
-                                                                            v-if="field.visiable == 'Y' && field.ui_type=='text'">
-                                                                            <input type="text"
-                                                                                   v-model="singleData[field.ui_field_name]"
-                                                                                   :style="{width:field.width + 'px'}"
-                                                                                   :required="field.requirable == 'Y'"
-                                                                                   :maxlength="field.ui_field_length"
-                                                                                   class="selectHt"
-                                                                                   :class="{'input_sta_required' : field.requirable == 'Y'}"
-                                                                                   :disabled="field.modificable == 'N'|| !isModifiable ||
-                                                                    (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)">
-                                                                        </td>
-                                                                        <td class="text-left"
-                                                                            @click="editingGuestMnIdx = idx"
-                                                                            v-if="field.visiable == 'Y' && field.ui_type=='select'">
-                                                                            <bac-select :field="field"
-                                                                                        :style="{width:field.width + 'px'}"
-                                                                                        v-model="singleData[field.ui_field_name]"
-                                                                                        :data="field.selectData"
-                                                                                        is-qry-src-before="Y"
-                                                                                        value-field="value"
-                                                                                        text-field="display"
-                                                                                        @update:v-model="val => singleData[field.ui_field_name] = val"
-                                                                                        :default-val="singleData[field.ui_field_name] || field.defaultVal"
-                                                                                        class="el-select-ht selectHt"
-                                                                                        style="height: 25px;"
-                                                                                        :disabled="field.modificable == 'N'|| !isModifiable ||
-                                                                    (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)">
-                                                                            </bac-select>
-                                                                        </td>
-                                                                        <td class="text-left"
-                                                                            @click="editingGuestMnIdx = idx"
-                                                                            v-if="field.visiable == 'Y' && field.ui_type=='date'">
-                                                                            <!-- 日期時間選擇器 -->
-                                                                            <el-date-picker
-                                                                                    v-model="singleData[field.ui_field_name]"
-                                                                                    type="date"
-                                                                                    :disabled="field.modificable == 'N'|| !isModifiable ||
-                                                                    (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)"
-                                                                                    class="date-wt input_sta_required"
-                                                                                    format="yyyy/MM/dd"
-                                                                                    :style="{width:field.width + 'px'}"
-                                                                                    :editable="false" :clearable="false"
-                                                                            >
-                                                                            </el-date-picker>
-                                                                        </td>
-                                                                        <td class="text-left"
-                                                                            @click="editingGuestMnIdx = idx"
-                                                                            v-if="field.visiable == 'Y' && field.ui_type=='number'">
-                                                                            <!--number 金額顯示format-->
-                                                                            <input type="text"
-                                                                                   v-model="singleData[field.ui_field_name]"
-                                                                                   :style="{width:field.width + 'px'}"
-                                                                                   class="text-right selectHt"
-                                                                                   :class="{'input_sta_required' : field.requirable == 'Y'}"
-                                                                                   :disabled="field.modificable == 'N'|| !isModifiable ||
-                                                                    (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)">
-                                                                        </td>
-                                                                        <td class="text-left td-more"
-                                                                            style="height: 26px;"
-                                                                            @click="editingGuestMnIdx = idx"
-                                                                            v-if="field.visiable == 'Y' && field.ui_type=='selectgrid'">
-                                                                            <bac-select-grid
-                                                                                    v-if="field.visiable == 'Y' && field.ui_type == 'selectgrid'"
-                                                                                    :style="{width:field.width + 'px' , height:field.height + 'px'}"
-                                                                                    :class="{'input_sta_required' : field.requirable == 'Y'}"
-                                                                                    v-model="singleData[field.ui_field_name]"
-                                                                                    :columns="field.selectData.columns"
-                                                                                    :data="field.selectData.selectData"
-                                                                                    :field="field"
-                                                                                    :is-qry-src-before="field.selectData.isQrySrcBefore"
-                                                                                    :id-field="field.selectData.value"
-                                                                                    :text-field="field.selectData.display"
-                                                                                    @update:v-model="val => singleData[field.ui_field_name] = val"
-                                                                                    :default-val="singleData[field.ui_field_name]"
-                                                                                    :disabled="field.modificable == 'N'|| !isModifiable ||
-                                                   (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)">
-                                                                            </bac-select-grid>
-                                                                            <button @click="searchGuestMnAltName(singleData, idx)"
-                                                                                    class="btn btn-sm btn-primary btn-white btn-sm-font2 moreAbso">
-                                                                                Profile
-                                                                            </button>
+                                                                            :maxlength="field.ui_field_length"
+                                                                            v-if="field.visiable === 'Y' ">
+                                                                            {{rowsData[field.ui_field_name]}}
                                                                         </td>
                                                                     </template>
                                                                 </tr>
@@ -466,7 +485,6 @@
             this.$eventHub.$on("getGhistMnDataToOrder", (data) => {
                 if (this.$store.state.orderMnModule.gs_openModule == "guestDetail") {
                     let lo_ghistMnData = JSON.parse(JSON.stringify(data.ghistMnData));
-                    console.log(data.ghistMnData);
                     if (this.editingGuestMnData.ikey_seq_nos == 0) {
                         let ln_editIdx = _.findIndex(this.guestMnRowsData["unspecified"], {ci_ser: this.editingGuestMnData.ci_ser});
                         if (ln_editIdx > -1) {
@@ -476,8 +494,15 @@
                     }
                     else {
                         this.guestMnRowsData[this.editingGroupDataIndex][this.editingGuestMnIdx] =
-                            _.extend(lo_ghistMnData, this.guestMnRowsData[this.editingGroupDataIndex][this.editingGuestMnIdx]);
+                            _.extend(this.guestMnRowsData[this.editingGroupDataIndex][this.editingGuestMnIdx], lo_ghistMnData);
+                        // console.log(this.guestMnRowsData[this.editingGroupDataIndex][this.editingGuestMnIdx]);
                     }
+                }
+            });
+            // 點擊右上方的關閉按鈕時，提示是否要存取資料。
+            this.$eventHub.$on('saveGuestDetail', async (data)=>{
+                if (data.save) {
+                    await this.save();
                 }
             });
         },
@@ -525,10 +550,8 @@
                     deleteData: [],
                     oriData: []
                 },
-
                 isEffectFromRule: true,
                 isFirstFetch: true,
-
                 tmpCUD: {
                     createData: [],
                     updateData: [],
@@ -622,7 +645,7 @@
                     let ls_ciDat = this.editingGroupData.ci_dat;
 
                     /**
-                     * 看文件應該是'I,O,S,D'不能修改的，能修改的只有 order_sta: N 以及 C/I日期小於滾房租日期
+                     * 看文件應該是 'I,O,S,D' 以及 C/I日期小於滾房租日期不能修改的，能修改的只有 order_sta: N
                      */
                     // let la_checkField = ["I", "O", "S", "D"];
                     // this.isModifiable = (la_checkField.indexOf(ls_orderSta) > -1 && moment(ls_ciDat).diff(moment(this.rentCalDat), "days") >= 0)
@@ -633,8 +656,8 @@
                 if (newVal) {
                     this.allDetail();
                 } else {
+                    // 訂房名單 再度分組
                     let la_orderDtRowsData = [];
-                    //組分組後的order dt 資料
                     _.each(this.orderDtGroupRowsData, (lo_groupData, idx) => {
                         let lo_groupParam = {
                             rate_cod: lo_groupData.rate_cod,
@@ -651,6 +674,23 @@
                         la_orderDtRowsData[idx] = _.where(this.orderDtRowsData, lo_groupParam);
                     });
                     this.orderDtRowsData = la_orderDtRowsData;
+
+                    // 住客名單 再度分組
+                    let la_guestMnRowsData = {};
+                    _.each(this.orderDtRowsData, (la_ikey_seq_nos, idx) => {
+                        la_guestMnRowsData[idx] = [];
+                        _.each(la_ikey_seq_nos, lo_data => {
+                            let lo_guestMnRowData = _.findWhere(this.guestMnRowsData, {ikey_seq_nos: lo_data.ikey_seq_nos});
+                            if (!_.isUndefined(lo_guestMnRowData)) {
+
+
+                                la_guestMnRowsData[idx].push(lo_guestMnRowData);
+                            }
+                        });
+                    });
+
+                    la_guestMnRowsData["unspecified"] = _.where(this.guestMnRowsData, {ikey_seq_nos: 0});
+                    this.guestMnRowsData = la_guestMnRowsData;
                 }
             }
         },
@@ -684,6 +724,14 @@
                 Object.keys(this.tmpCUD).forEach(key => {
                     this.tmpCUD[key] = [];
                 })
+            },
+            initGuestMnTmpCUD() {
+                this.guestMnTmpCUD = {
+                    createData: [],
+                    updateData: [],
+                    deleteData: [],
+                    oriData: []
+                }
             },
             async fetchFieldsData(param) {
                 return await BacUtils.doHttpPromisePostProxy("/api/fetchOnlyDataGridFieldData", param).then((result) => {
@@ -729,6 +777,7 @@
                     });
 
                     this.allOrderDtRowsData = lo_fetchOrderDtData.dgRowData;
+
                     let ls_groupStatement = "select *, count(*) as order_qnt from ? where order_sta <> 'X' group by rate_cod,order_sta,days,ci_dat,co_dat,use_cod,room_cod,rent_amt,serv_amt,block_cod";
                     this.orderDtGroupRowsData = alasql(ls_groupStatement, [this.allOrderDtRowsData]);
                 }
@@ -790,10 +839,12 @@
                     _.each(la_ikey_seq_nos, (lo_data) => {
                         let lo_guestMnRowData = _.findWhere(this.allGuestMnRowsData, {ikey_seq_nos: lo_data.ikey_seq_nos});
                         if (!_.isUndefined(lo_guestMnRowData)) {
-                            this.guestMnRowsData[idx].push(lo_guestMnRowData);
+
+                            this.guestMnRowsData[idx].push(_.extend(lo_guestMnRowData, {key_nos: lo_data.key_nos}));
                         }
                     });
                 });
+                // console.log(this.guestMnRowsData);
                 //未指定的guest mn 資料
                 this.guestMnRowsData["unspecified"] = _.where(this.allGuestMnRowsData, {ikey_seq_nos: 0});
 
@@ -859,6 +910,7 @@
             searchGuestMnAltName(guestMnData, index) {
                 this.$store.dispatch("orderMnModule/setOpenModule", {openModule: "guestDetail"});
                 this.editingGuestMnIdx = index;
+                guestMnData.gcust_cod = guestMnData.alt_nam.split(':')[0];
                 this.editingGuestMnData = _.extend(this.rowData, guestMnData);
                 this.$eventHub.$emit("setSelectGuestMnAltData", {
                     rowData: this.editingGuestMnData
@@ -908,14 +960,13 @@
 
                         let lo_cloneOrderData = JSON.parse(JSON.stringify(this.editingGroupData));
                         lo_cloneOrderData.ikey_seq_nos = lo_chkAddRule.defaultValues.ikey_seq_nos;
-                        lo_cloneOrderData.page_id = 1;
-                        lo_cloneOrderData.tab_page_id = 2;
-                        this.tmpCUD.createData.push(lo_cloneOrderData);
 
                         let lo_orderDtData = JSON.parse(JSON.stringify(this.orderDtRowsData));
                         lo_orderDtData[this.editingGroupDataIndex].push(lo_cloneOrderData);
 
                         this.orderDtRowsData = lo_orderDtData;
+                        this.editingOrderDtIdx = this.orderDtRowsData[this.editingGroupDataIndex].length -1;
+                        this.chkOrderDtFieldRule('ci_dat ','chkOrderdtCidat');
                     }
                     else {
                         alert(lo_chkAddRule.errorMsg);
@@ -941,7 +992,6 @@
                     });
 
                     if (lo_chkDelRule.success) {
-                        console.log(lo_chkDelRule);
                         if (lo_chkDelRule.showConfirm) {
                             if (confirm(lo_chkDelRule.confirmMsg)) {
                                 let lo_DataRow = _.findWhere(this.oriOrderDtRowsData[this.editingGroupDataIndex], {ikey_seq_nos: data.ikey_seq_nos});
@@ -1028,71 +1078,104 @@
             },
             //新增guest mn 資料
             async addGuestMnData() {
+                if (this.isModifiable) {
+                    // 讀取group order_dt 當前選擇的列的資料
+                    this.editingGroupData = $("#orderDtTable").datagrid('getSelected');
+                    let lo_groupParam = {
+                        rate_cod: this.editingGroupData.rate_cod,
+                        order_sta: this.editingGroupData.order_sta,
+                        days: this.editingGroupData.days,
+                        ci_dat: this.editingGroupData.ci_dat,
+                        co_dat: this.editingGroupData.co_dat,
+                        use_cod: this.editingGroupData.use_cod,
+                        room_cod: this.editingGroupData.room_cod,
+                        rent_amt: this.editingGroupData.rent_amt,
+                        serv_amt: this.editingGroupData.serv_amt,
+                        block_cod: this.editingGroupData.block_cod
+                    };
+                    // 篩選order_dt 明細
+                    let la_detailOrderDtData = _.where(this.allOrderDtRowsData, lo_groupParam);
 
-                // if (this.isModifiable) {
-                // 讀取group order_dt 當前選擇的列的資料
-                this.editingGroupData = $("#orderDtTable").datagrid('getSelected');
-                let lo_groupParam = {
-                    rate_cod: this.editingGroupData.rate_cod,
-                    order_sta: this.editingGroupData.order_sta,
-                    days: this.editingGroupData.days,
-                    ci_dat: this.editingGroupData.ci_dat,
-                    co_dat: this.editingGroupData.co_dat,
-                    use_cod: this.editingGroupData.use_cod,
-                    room_cod: this.editingGroupData.room_cod,
-                    rent_amt: this.editingGroupData.rent_amt,
-                    serv_amt: this.editingGroupData.serv_amt,
-                    block_cod: this.editingGroupData.block_cod
-                };
-                // 篩選order_dt 明細
-                let la_detailOrderDtData = _.where(this.allOrderDtRowsData, lo_groupParam);
-
-                // la_detailOrderDtData 有顧客明細才做
-                if (la_detailOrderDtData.length > 0) {
-                    let la_lossIkeySeqNosGuest = [];
-                    // order_dt明細和group guest顧客做比對抓出目前缺少的ikey_seq_nos
-                    for (let lo_orderDtData of la_detailOrderDtData) {
-                        let lo_currentGuest = _.findWhere(this.guestMnRowsData[this.editingGroupDataIndex], {
-                            ikey_seq_nos: lo_orderDtData.ikey_seq_nos
-                        });
-                        if (_.isUndefined(lo_currentGuest)) {
-                            la_lossIkeySeqNosGuest.push(lo_orderDtData);
-                            break;
+                    // la_detailOrderDtData 有顧客明細才做
+                    if (la_detailOrderDtData.length > 0) {
+                        let la_lossIkeySeqNosGuest = [];
+                        // order_dt明細和group guest顧客做比對抓出目前缺少的ikey_seq_nos
+                        for (let lo_orderDtData of la_detailOrderDtData) {
+                            let lo_currentGuest = _.findWhere(this.guestMnRowsData[this.editingGroupDataIndex], {
+                                ikey_seq_nos: lo_orderDtData.ikey_seq_nos
+                            });
+                            if (_.isUndefined(lo_currentGuest)) {
+                                la_lossIkeySeqNosGuest.push(lo_orderDtData);
+                                break;
+                            }
                         }
-                    }
 
-                    let la_allGuestMnData = [];
-                    _.each(this.guestMnRowsData, (la_data) => {
-                        _.each(la_data, (lo_data) => {
-                            la_allGuestMnData.push(lo_data);
+                        let la_allGuestMnData = [];
+                        _.each(this.guestMnRowsData, (la_data) => {
+                            _.each(la_data, (lo_data) => {
+                                la_allGuestMnData.push(lo_data);
+                            });
                         });
-                    });
-                    // 新增guest mn 前要做得規則
-                    let lo_chkAddRule = await
-                        BacUtils.doHttpPromisePostProxy("/api/chkPrgFuncRule", {
-                            prg_id: gs_prgId,
-                            page_id: 1,
-                            tab_page_id: 3,
-                            func_id: "0200",
-                            allRowData: la_allGuestMnData
-                        }).then(result => {
-                            return result
-                        }).catch(err => {
-                            return {success: false, errorMsg: err}
-                        });
+                        // 新增guest mn 前要做得規則
+                        let lo_chkAddRule = await
+                            BacUtils.doHttpPromisePostProxy("/api/chkPrgFuncRule", {
+                                prg_id: gs_prgId,
+                                page_id: 1,
+                                tab_page_id: 3,
+                                func_id: "0200",
+                                allRowData: la_allGuestMnData
+                            }).then(result => {
+                                return result
+                            }).catch(err => {
+                                return {success: false, errorMsg: err}
+                            });
 
-                    if (lo_chkAddRule.success) {
-                        let lo_addRowData = lo_chkAddRule.defaultValues;
-                        // console.log(lo_addRowData);
-                        // 新增顧客資料把目前缺少的ikey_seq_nos補齊
-                        if (la_lossIkeySeqNosGuest.length > 0) {
-                            _.each(la_lossIkeySeqNosGuest, (lo_guest) => {
+                        if (lo_chkAddRule.success) {
+                            let lo_addRowData = lo_chkAddRule.defaultValues;
+                            // 新增顧客資料把目前缺少的ikey_seq_nos補齊
+                            if (la_lossIkeySeqNosGuest.length > 0) {
+                                _.each(la_lossIkeySeqNosGuest, (lo_guest) => {
+                                    let lo_newGuest = {
+                                        ikey: lo_guest.ikey,
+                                        athena_id: lo_addRowData.athena_id,
+                                        hotel_cod: lo_addRowData.hotel_cod,
+                                        ci_ser: lo_addRowData.ci_ser,
+                                        ikey_seq_nos: lo_guest.ikey_seq_nos,
+                                        alt_nam: "",
+                                        assign_sta: lo_addRowData.assign_sta,
+                                        room_nos: "",
+                                        contry_cod: "",
+                                        pref_room: "",
+                                        car_nos: "",
+                                        guest_sta: lo_addRowData.guest_sta,
+                                        master_sta: lo_addRowData.master_sta,
+                                        system_typ: lo_addRowData.system_typ,
+                                        rent_amt: 0,
+                                        serv_amt: 0,
+                                        precredit_amt: 0,
+                                        gcust_cod: "",
+                                        alt_nam: "",
+                                        first_nam: "",
+                                        last_nam: "",
+                                        ccust_nam: "",
+                                        car_nos: "",
+                                        airline_cod: "",
+                                        airmb_nos: "",
+                                        status: "new"
+                                    };
+                                    //新加入的object，vue前端畫面無法做出反應，解決方法深層複製新的物件
+                                    let lo_cloneGuestMnRowsData = JSON.parse(JSON.stringify(this.guestMnRowsData));
+                                    lo_cloneGuestMnRowsData[this.editingGroupDataIndex].push(lo_newGuest);
+                                    this.guestMnRowsData = lo_cloneGuestMnRowsData;
+                                });
+                            }
+                            else if (la_lossIkeySeqNosGuest.length === 0) {
                                 let lo_newGuest = {
-                                    ikey: lo_guest.ikey,
+                                    ikey: la_detailOrderDtData[0].ikey,
                                     athena_id: lo_addRowData.athena_id,
                                     hotel_cod: lo_addRowData.hotel_cod,
-                                    ci_ser: "",
-                                    ikey_seq_nos: lo_guest.ikey_seq_nos,
+                                    ci_ser: lo_addRowData.ci_ser,
+                                    ikey_seq_nos: 0,
                                     alt_nam: "",
                                     assign_sta: lo_addRowData.assign_sta,
                                     room_nos: "",
@@ -1102,54 +1185,41 @@
                                     guest_sta: lo_addRowData.guest_sta,
                                     master_sta: lo_addRowData.master_sta,
                                     system_typ: lo_addRowData.system_typ,
+                                    rent_amt: 0,
+                                    serv_amt: 0,
+                                    precredit_amt: 0,
+                                    gcust_cod: "",
+                                    alt_nam: "",
+                                    first_nam: "",
+                                    last_nam: "",
+                                    ccust_nam: "",
+                                    car_nos: "",
+                                    airline_cod: "",
+                                    airmb_nos: "",
                                     status: "new"
                                 };
                                 //新加入的object，vue前端畫面無法做出反應，解決方法深層複製新的物件
                                 let lo_cloneGuestMnRowsData = JSON.parse(JSON.stringify(this.guestMnRowsData));
                                 lo_cloneGuestMnRowsData[this.editingGroupDataIndex].push(lo_newGuest);
                                 this.guestMnRowsData = lo_cloneGuestMnRowsData;
-
-
-                            });
-                        } else if (la_lossIkeySeqNosGuest.length === 0) {
-                            let lo_newGuest = {
-                                ikey: la_detailOrderDtData[0].ikey,
-                                athena_id: lo_addRowData.athena_id,
-                                hotel_cod: lo_addRowData.hotel_cod,
-                                ci_ser: "",
-                                ikey_seq_nos: 0,
-                                alt_nam: "",
-                                assign_sta: lo_addRowData.assign_sta,
-                                room_nos: "",
-                                contry_cod: "",
-                                pref_room: "",
-                                car_nos: "",
-                                guest_sta: lo_addRowData.guest_sta,
-                                master_sta: lo_addRowData.master_sta,
-                                system_typ: lo_addRowData.system_typ,
-                                status: "new"
-                            };
-                            //新加入的object，vue前端畫面無法做出反應，解決方法深層複製新的物件
-                            let lo_cloneGuestMnRowsData = JSON.parse(JSON.stringify(this.guestMnRowsData));
-                            lo_cloneGuestMnRowsData[this.editingGroupDataIndex].push(lo_newGuest);
-                            this.guestMnRowsData = lo_cloneGuestMnRowsData;
+                            }
+                        }
+                        else {
+                            alert(lo_chkAddRule.errorMsg);
                         }
                     }
-                    else {
-                        alert(lo_chkAddRule.errorMsg);
-                    }
-
                 }
-                // }
             },
             //刪除guest mn 資料
             async removeGuestMnData(data) {
-                // if (this.isModifiable) {
-                this.isLoading = true;
-
-
-                this.isLoading = false;
-                // }
+                if (this.isModifiable) {
+                    this.isLoading = true;
+                    let ls_currentGuestDataIndex = _.findIndex(this.guestMnRowsData[this.editingGroupDataIndex], {ci_ser: data.ci_ser});
+                    if (ls_currentGuestDataIndex > -1) {
+                        this.guestMnRowsData[this.editingGroupDataIndex].splice(ls_currentGuestDataIndex, 1);
+                    }
+                    this.isLoading = false;
+                }
             },
             async save() {
                 try {
@@ -1159,53 +1229,61 @@
                     let la_allOriOrderData = [];
                     let la_allOrderdata = [];
                     _.each(this.oriOrderDtRowsData, lo_oriOrderData => {
-                        _.each(lo_oriOrderData, x => {
-                            la_allOriOrderData.push(x);
+                        _.each(lo_oriOrderData, lo_data => {
+                            la_allOriOrderData.push(lo_data);
                         })
                     });
 
-                    _.each(this.orderDtRowsData, data => {
-                        _.each(data, x => {
-                            la_allOrderdata.push(x);
+                    _.each(this.orderDtRowsData, lo_orderData => {
+                        _.each(lo_orderData, lo_data => {
+                            la_allOrderdata.push(lo_data);
                         })
                     });
                     la_allOriOrderData = _.sortBy(la_allOriOrderData, 'ikey_seq_nos');
                     la_allOrderdata = _.sortBy(la_allOrderdata, 'ikey_seq_nos');
 
                     // 新增
-                    if (la_allOriOrderData.length < la_allOrderdata.length) {
-                        let la_newOrderData = la_allOrderdata.slice(la_allOriOrderData.length);
-                        _.each(la_newOrderData, x => {
-                            x.page_id = 1;
-                            x.tab_page_id = 2;
-                        });
-
-                        this.tmpCUD.createData = la_newOrderData;
-                    }
+                    _.each(la_allOrderdata, lo_data => {
+                        let lo_orderDataForikeySeqNos = _.findWhere(la_allOriOrderData, {ikey_seq_nos: lo_data.ikey_seq_nos});
+                        if (_.isUndefined(lo_orderDataForikeySeqNos)) {
+                            lo_data.page_id = 1;
+                            lo_data.tab_page_id = 2;
+                            this.tmpCUD.createData.push(lo_data);
+                        }
+                    });
 
                     // 修改
                     let la_beforeOrder = [];
                     let la_afterOrder = [];
                     la_allOriOrderData.forEach((val, idx) => {
-                        if (val.ikey_seq_nos === la_allOrderdata[idx].ikey_seq_nos) {
+                        let lo_orderDataForikeySeqNos = _.findWhere(la_allOrderdata, {ikey_seq_nos: val.ikey_seq_nos});
+
+                        if (!_.isUndefined(lo_orderDataForikeySeqNos)) {
                             let la_keys = _.keys(val);
+                            let ln_idx = _.findIndex(la_allOrderdata, {ikey_seq_nos: val.ikey_seq_nos});
 
                             let lb_diffMark = true;
-                            la_keys.forEach(x => {
-                                if (val[x] !== la_allOrderdata[idx][x] && lb_diffMark) {
+                            la_keys.forEach(ls_key => {
+                                if (val[ls_key] !== la_allOrderdata[ln_idx][ls_key] && lb_diffMark) {
                                     lb_diffMark = false;
                                     val.page_id = 1;
                                     val.tab_page_id = 2;
-                                    la_allOrderdata[idx].page_id = 1;
-                                    la_allOrderdata[idx].tab_page_id = 2;
+                                    la_allOrderdata[ln_idx].page_id = 1;
+                                    la_allOrderdata[ln_idx].tab_page_id = 2;
                                     la_beforeOrder.push(val);
-                                    la_afterOrder.push(la_allOrderdata[idx]);
+                                    la_afterOrder.push(la_allOrderdata[ln_idx]);
                                 }
                             });
                         }
                     });
-                    this.tmpCUD.updateData = la_afterOrder;
-                    this.tmpCUD.oriData = la_beforeOrder;
+                    if (la_afterOrder.length !== 0 && la_beforeOrder.length !== 0) {
+                        _.each(la_afterOrder, lo_data => {
+                            this.tmpCUD.updateData.push(lo_data)
+                        });
+                        _.each(la_beforeOrder, lo_data=> {
+                            this.tmpCUD.oriData.push(lo_data)
+                        });
+                    }
 
                     // 驗證
                     let la_orderDtRowsData = [];
@@ -1219,22 +1297,27 @@
                     let ln_chkIndex = _.findIndex(la_chkData, {success: false});
                     if (ln_chkIndex > -1) {
                         alert(la_chkData[ln_chkIndex].msg);
-                        return;
-                    }
-
-                    // 儲存
-                    let lo_result = await BacUtils.doHttpPromisePostProxy('/api/execNewFormatSQL', {
-                        prg_id: gs_prgId,
-                        func_id: "0500",
-                        tmpCUD: this.tmpCUD
-                    });
-
-                    if (lo_result.success) {
-                        this.isLoading = false;
-                        this.reload = true;
                     } else {
-                        alert(lo_result.errorMsg)
+                        // 儲存
+                        let lo_result = await BacUtils.doHttpPromisePostProxy('/api/execNewFormatSQL', {
+                            prg_id: gs_prgId,
+                            func_id: "0500",
+                            tmpCUD: this.tmpCUD
+                        });
+                        if (lo_result.success) {
+                            this.reload = true;
+                        } else {
+                            alert(lo_result.errorMsg)
+                        }
                     }
+
+
+                    // 住客名單儲存
+
+                    this.saveGuestList();
+
+                    this.isLoading = false;
+
                 } catch (err) {
                     console.log(err)
                     // alert(err)
@@ -1341,6 +1424,7 @@
                 }
             },
             allDetail: function () {
+                // 訂房
                 let la_allOrderdata = [];
                 _.each(this.orderDtRowsData, la_orderDtRowsData => {
                     _.each(la_orderDtRowsData, lo_orderDtRowsData => {
@@ -1349,6 +1433,16 @@
                 });
                 la_allOrderdata = _.sortBy(la_allOrderdata, 'ikey_seq_nos');
                 this.orderDtRowsData = JSON.parse(JSON.stringify(la_allOrderdata));
+
+                // 住客
+                let la_allGuestData = [];
+                _.each(this.guestMnRowsData, la_guestMnRowsData => {
+                    _.each(la_guestMnRowsData, lo_guestMnRowsData => {
+                        la_allGuestData.push(lo_guestMnRowsData);
+                    });
+                });
+                la_allGuestData = _.sortBy(la_allGuestData, 'ikey_seq_nos');
+                this.guestMnRowsData = JSON.parse(JSON.stringify(la_allGuestData));
             },
             // 驗證
             dataValidate(chkData, chkFields) {
@@ -1378,6 +1472,52 @@
                     resolve(lo_checkResult)
                 });
             },
+            saveGuestList() {
+
+                //新增 guestMnTmpCUD.createData 資料
+                if (this.guestMnRowsData[this.editingGroupDataIndex] !== undefined) {
+                    _.each(this.guestMnRowsData[this.editingGroupDataIndex], (lo_guestMnRowsData) => {
+                        // lo_guestMnRowsData物件有status的key 代表是剛新增出來的住客資料
+                        if (lo_guestMnRowsData.status !== undefined) {
+                            lo_guestMnRowsData.alt_nam = lo_guestMnRowsData.alt_nam.split(':')[1];
+
+                            this.guestMnTmpCUD.createData.push(_.extend(lo_guestMnRowsData, {page_id: 1, tab_page_id: 3}));
+                        }
+                    });
+                }
+                // 更新 guestMnTmpCUD.updateData 資料
+                if (this.oriGuestMnRowsData[this.editingGroupDataIndex] !== undefined) {
+                    _.each(this.oriGuestMnRowsData[this.editingGroupDataIndex], (lo_oriGuestMnRowsData) => {
+                        let lo_presentGuest = _.findWhere(this.orderDtRowsData, {ci_ser: lo_oriGuestMnRowsData.ci_ser});
+                        if (lo_presentGuest === undefined) {
+                            let cloneGuest = JSON.parse(JSON.stringify(lo_oriGuestMnRowsData));
+                            cloneGuest.guest_sta = 'X';
+
+                            cloneGuest.alt_nam = cloneGuest.alt_nam.split(':')[1];
+
+                            this.guestMnTmpCUD.oriData.push(_.extend(lo_oriGuestMnRowsData, {page_id: 1, tab_page_id: 3}));
+                            this.guestMnTmpCUD.updateData.push(_.extend(cloneGuest, {page_id: 1, tab_page_id: 3}));
+                        }
+                    });
+                }
+
+
+
+                // 發送資料儲存api
+                BacUtils.doHttpPromisePostProxy('/api/execNewFormatSQL', {
+                    prg_id: 'PMS0110042',
+                    func_id: "0500",
+                    tmpCUD: this.guestMnTmpCUD
+                }).then(lo_result => {
+                    if (lo_result.success) {
+                        alert('成功');
+                        this.initGuestMnTmpCUD();
+                    }
+                }).catch(lo_err => {
+                    alert(lo_err.errorMsg);
+                });
+
+            }
         },
     }
 </script>

@@ -1528,6 +1528,19 @@
                 }
             },
             //單筆order mn欄位規則檢查
+            /**
+             * 單筆order dt欄位規則檢查
+             * 訂房公司規則
+             * 2.alt_nam入到order_mn.acust_nam
+             * 3.sales_cod入到order_mn.sales_cod
+             * 4.cust_mn.remark1入到order_mn.order_rmk【select remark1 from cust_mn where athena_id = ? and cust_cod = ?】
+             * 5.如果團號(order_mn.group_nos)未填時,將alt_nam入到order_mn.group_nos
+             * 6.聯絡人的帶法見聯絡人處理方式,看『宏興SD 4.聯絡人處理方式』
+             * 7.有固定的公帳號時,入到master_nos 且 master_sta = 'Y' 看SA『是否有固定公帳號SQL』
+             * 8.如果訂房公司與舊的不同時，訂房明細房價要重算
+             * call pg_hd1_cal_appraise2.pp_ren_dt_order_appraise()   看SA『計算房價』有傳入欄位
+             * @param field {object} 欄位資料
+             */
             async chkOrderMnFieldRule(ui_field_name, rule_func_name) {
                 if (_.isEmpty(this.beforeOrderMnSingleData)) {
                     this.beforeOrderMnSingleData = this.oriOrderMnSingleData;
@@ -1541,6 +1554,32 @@
                 }
                 if (rule_func_name == "") {
                     return;
+                }
+
+                //楷岳
+                const lo_acust_data = _.findWhere(field.selectData.selectData, {cust_cod: this.orderMnSingleData.acust_cod});
+                if (_.isUndefined(lo_acust_data)) return;
+                this.orderMnSingleData.acust_nam = lo_acust_data.alt_nam;       // (2.
+                this.orderMnSingleData.sales_cod = lo_acust_data.sales_cod;     // (3.
+                if (this.orderMnSingleData.group_nos === "") this.orderMnSingleData.group_nos = lo_acust_data.alt_nam; // (5.
+                const lo_params = {
+                    order_mn: this.orderMnSingleData,
+                    guest_mn: this.guestMnRowsData4Single,
+                    allRowsData: this.allRowsData
+                };
+
+                try {
+                    const lo_ruleResult = await this.chkFieldRule(field, lo_params);
+                    console.log(lo_ruleResult);
+                    if (lo_ruleResult.success) {
+                        this.orderMnSingleData = _.extend(this.orderMnSingleData, lo_ruleResult.effectValues);
+                    }
+                    else {
+                        alert(lo_ruleResult.errorMsg);
+                    }
+                }
+                catch (error) {
+                    console.log(error.errorMsg);
                 }
 
                 try {
@@ -1580,6 +1619,40 @@
                     console.log(err);
                 }
 
+            },
+
+            /**
+             * 欄位規則檢查
+             * @param field {object} 欄位資料
+             * @param params {object} 參數條件
+             */
+            async chkFieldRule(field, params) {
+                params.rule_func_name = field.rule_func_name;
+                return await BacUtils.doHttpPromisePostProxy("/api/chkFieldRule", params)
+                    .then(result => {
+                        return result;
+                    })
+                    .catch(err => {
+                        return err;
+                    });
+            },
+            /**
+             * 按鈕規則檢查
+             * @param params {object} 欄位資料
+             **/
+            async chkPrgFuncRule(params) {
+                return await BacUtils.doHttpPromisePostProxy("/api/chkPrgFuncRule", params)
+                    .then(result => {
+                        if (result.success) {
+                            return result;
+                        }
+                        else {
+                            throw result;
+                        }
+                    })
+                    .catch(err => {
+                        throw err;
+                    });
             },
 
             /**
@@ -2115,7 +2188,6 @@
                     this.isLoadingDialog = false;
                 }
                 else {
-                    console.log(this.tmpCUD);
                     let lo_saveData = await
 //                        new Promise((resolve, reject) => {
 //                            setTimeout(() => {
@@ -2165,6 +2237,7 @@
                 return go_validateClass.chkDataChang(lo_nowData, lo_oriData);
             },
             doShowGuestDetail() {
+                let self = this;
                 let lo_isModify = this.doChkDataIsChange();
                 if (!lo_isModify.success) {
                     alert("請先儲存訂房卡資料")
@@ -2180,12 +2253,47 @@
 //                height: $(window).height(),
 //                autoOpen: true,
                         dialogClass: "test",
-                        resizable: true
+                        resizable: true,
+                        onBeforeClose: function () {
+                            let lo_this = $(this);
+                            $.messager.confirm({
+                                title: '提示',
+                                msg: '是否要儲存資料？',
+                                fn: function (lb_resAns) {
+                                    if (lb_resAns) {
+                                        self.$eventHub.$emit("saveGuestDetail", {
+                                            save: lb_resAns
+                                        });
+                                    } else {
+                                        self.isOpenGuestDetail = false;
+                                    }
+
+                                    let opts = lo_this.panel('options');
+                                    let onBeforeClose = opts.onBeforeClose;
+                                    opts.onBeforeClose = function () {};
+                                    lo_this.panel('close');
+                                    opts.onBeforeClose = onBeforeClose;
+                                }
+                            });
+                            return false;
+                        }
                     });
                 }
             },
             doCloseDialog() {
                 $("#PMS0110041Lite").dialog('close');
+            },
+            /**
+             * 宏興SD，4.聯絡人處理方式
+             * (1)看『旅客姓名guest_mn.alt_nam、訂房公司名稱order_mn.acust_nam』,那個先key,就由它帶入
+             * (2)看另一個欄位有沒有值,來判斷先key後key
+             * (3)聯絡人order_mn.atten_nam是空值,才帶入
+             */
+            setOrderMnAttenNam(atten_nam, atten_by) {
+                if (this.orderMnSingleData.atten_nam === "" || this.orderMnSingleData.atten_nam === null) {
+                    this.orderMnSingleData.atten_nam = atten_nam;
+                    this.orderMnSingleData.atten_by = atten_by;
+                }
             }
             //endregion
         }

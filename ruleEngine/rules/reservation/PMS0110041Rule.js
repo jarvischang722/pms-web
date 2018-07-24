@@ -1025,5 +1025,87 @@ module.exports = {
 
     },
 
+    /**
+     * 選完訂房公司Agent
+     * 4.cust_mn.remark1入到order_mn.order_rmk【select remark1 from cust_mn where athena_id = ? and cust_cod = ?】
+     * 6.聯絡人的帶法見聯絡人處理方式,看『宏興SD 4.聯絡人處理方式』
+     * 7.有固定的公帳號時,入到master_nos 且 master_sta = 'Y' 看SA『是否有固定公帳號SQL』
+     * 8.如果訂房公司與舊的不同時，訂房明細房價要重算
+     * call pg_hd1_cal_appraise2.pp_ren_dt_order_appraise()   看SA『計算房價』有傳入欄位
+     * @param postData {object} post資料
+     * @param session {object}
+     * @returns {Promise<void>}
+     */
+    chkOrdermnAcustnam: async (postData, session, callback) => {
+        const lo_return = new ReturnClass();
+        let lo_error = null;
+        const lo_daoParams = commandRules.ConvertToQueryParams(session.athena_id, "QRY_REMARK1");
+        const lo_params = {
+            athena_id: session.athena_id,
+            cust_cod: postData.order_mn.acust_cod,
+            allRowsData: postData.allRowsData
+        };
+
+        try {
+            //4.
+            const ls_remark1 = await new Promise((resolve, reject) => {
+                clusterQueryAgent.query(lo_daoParams, lo_params, (err, result) => {
+                    if (err) {
+                        reject(err);
+                    }
+                    else {
+                        resolve(result.remark1);
+                    }
+                });
+            });
+
+            //6.
+
+        }
+        catch (errorMsg) {
+            lo_error = new ErrorClass();
+            lo_return.success = false;
+            lo_error.errorMsg = errorMsg.message || errorMsg;
+        }
+        callback(lo_error, lo_return);
+    },
+
+    /**
+     * 『宏興SD 4.聯絡人處理方式』
+     * (1)看『旅客姓名guest_mn.alt_nam、訂房公司名稱order_mn.acust_nam』,那個先key,就由它帶入
+     * (2)看另一個欄位有沒有值,來判斷先key後key
+     * (3)聯絡人order_mn.atten_nam是空值,才帶入
+     * (4)改變聯絡人來源order_mn.atten_by時,任一”聯絡資料” 有值時,要詢問：”是否蓋掉現有連絡資料?”
+     * P.S. 全部”聯絡資料” 沒值則直接蓋掉
+     * (5)入到”聯絡資料”order_mn的attnd_nam、mobile_nos、office_tel、home_tel、fax_nos、e_mail
+     * (6)取得聯絡資料兩者sql一樣,只差在紅色字
+     * select alt_nam , mobile_nos, office_tel, home_tel, fax_nos, e_mail
+     * from cust_idx where cust_cod = 訂房公司cust_mn.atten_cod
+     * and athena_id = ?;
+     * @param params {object} 參數條件
+     * @param callback
+     * @returns {Promise<void>}
+     */
+
+    async chkAttenNamRule(params, callback) {
+        const lo_return = new ReturnClass();
+        const lo_guest_mn = params.guest_mn;
+        const lo_order_mn = params.order_mn;
+        lo_guest_mn.alt_nam = lo_guest_mn.alt_nam || "";        //旅客姓名
+        lo_order_mn.acust_nam = lo_order_mn.acust_nam || "";    //訂房公司名稱
+        lo_order_mn.atten_nam = lo_order_mn.atten_nam || "";    //聯絡人
+
+        if (lo_order_mn.atten_nam.trim() === "") {
+            //旅客姓名先key
+            if (lo_guest_mn.alt_nam.trim() !== "" && lo_order_mn.acust_nam.trim() === "") {
+                const ls_atten_by = "P";
+            }
+            //訂房公司名稱先key
+            else if (lo_guest_mn.alt_nam.trim() === "" && lo_order_mn.acust_nam.trim() !== "") {
+
+            }
+        }
+
+    }
 
 };

@@ -89,7 +89,7 @@ exports.mongoDocToObject = function (mongoDataRows) {
  * @return returnJson {Object}
  */
 exports.mergeRtnErrResultJson = function (err, result) {
-    var returnJson = {errorMsg: err ? err.errorMsg || "" : ""};
+    let returnJson = {errorMsg: err ? err.errorMsg || "" : ""};
     if (err) {
         returnJson = _.extend(err, result);
     } else {
