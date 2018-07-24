@@ -110,7 +110,7 @@ DB.prototype.create = function (opt) {
 						if ((endTime - startTime) / 1000 > 1) {
 							console.error(`Oracle DB 連線異常: ${(endTime - startTime) / 1000} sec`);
 							console.error(`異常SQL: ${dbObj.dao || ""}`);
-							console.error(`異常params : ${JSON.stringify(param)}`);
+							console.error(`異常params : ${JSON.stringify(dbObj.param)}`);
 						}
 						if (connection != null) {
 							let result = await dbObj.doSearch(connection, "select 1 from dual", {}, 0, 0, 1);

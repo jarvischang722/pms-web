@@ -10,7 +10,6 @@ exports.createDocument = function (path) {
 	var data = fs.readFileSync(path, 'utf-8');
 	var doc = new dom().parseFromString(data);
 	var nodes = xpath.select("//dao/statement", doc);
-	console.log(nodes.length);
 	return doc;
 };
 
