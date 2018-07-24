@@ -9,7 +9,6 @@ var serializer = xmldom.XMLSerializer;
 exports.createDocument = function (path) {
 	var data = fs.readFileSync(path, 'utf-8');
 	var doc = new dom().parseFromString(data);
-	var nodes = xpath.select("//dao/statement", doc);
 	return doc;
 };
 

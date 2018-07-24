@@ -39,7 +39,7 @@ function queryData(agent, mode, cb, ddObj, param, start, size) {
 			if ((end - startTime) / 1000 > 1) {
 				console.error(`Oracle DB 連線異常: ${(end - startTime) / 1000} sec`);
 				console.error(`異常SQL: ${ddObj.dao || ""}`);
-				console.error(`異常params : ${JSON.stringify(param)}`);
+				console.error(`異常params : ${JSON.stringify(daoDD.param)}`);
 			}
 			if (err) {
 				cb(err, {}, agent);
@@ -109,7 +109,7 @@ function searchData(agent, mode, ddObj, param, start, size) {
 				if ((endTime - startTime) / 1000 > 1) {
 					console.error(`Oracle DB 連線異常: ${(endTime - startTime) / 1000} sec`);
 					console.error(`異常SQL: ${ddObj.dao || ""}`);
-					console.error(`異常params : ${JSON.stringify(param)}`);
+					console.error(`異常params : ${JSON.stringify(daoDD.param)}`);
 				}
 				if (connection == null) {
 					reject({err: 'no connection'});
