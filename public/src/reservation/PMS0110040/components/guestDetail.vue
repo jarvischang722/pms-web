@@ -448,6 +448,7 @@
 <script>
 
     import alasql from 'alasql';
+    import _s from "underscore.string";
     import specifyHouses from './specifyHouses';
     import selectRateCod from './selectRateCod';
 
@@ -500,10 +501,30 @@
                 }
             });
             // 點擊右上方的關閉按鈕時，提示是否要存取資料。
-            this.$eventHub.$on('saveGuestDetail', async (data)=>{
-                if (data.save) {
-                    await this.save();
-                }
+            this.$eventHub.$on("guestDetailIsChange", (data) => {
+                let lo_oriData = {};
+                let lo_nowData = {};
+                let la_chkKey = ["orderDt", "guestMn"];
+
+                _.each(la_chkKey, (ls_key) => {
+                    lo_nowData[ls_key] = [];
+                    lo_oriData[ls_key] = [];
+                    _.each(this[`${ls_key}RowsData`], (la_data) => {
+                        _.each(la_data, (lo_data) => {
+                            lo_nowData[ls_key].push(lo_data);
+                        })
+                    });
+                    _.each(this[`ori${_s.capitalize(ls_key)}RowsData`], (la_data) => {
+                        _.each(la_data, (lo_data) => {
+                            lo_oriData[ls_key].push(lo_data);
+                        })
+                    })
+                });
+
+                data.doSave(go_validateClass.chkDataChang(lo_nowData, lo_oriData));
+            });
+            this.$eventHub.$on("saveGuestDetail", async () => {
+                await this.save();
             });
         },
         mounted() {
@@ -910,7 +931,7 @@
             searchGuestMnAltName(guestMnData, index) {
                 this.$store.dispatch("orderMnModule/setOpenModule", {openModule: "guestDetail"});
                 this.editingGuestMnIdx = index;
-                guestMnData.gcust_cod = guestMnData.alt_nam.split(':')[0];
+                guestMnData.gcust_cod = guestMnData.alt_nam.split(':').length > 1 ? guestMnData.alt_nam.split(':')[0] : "";
                 this.editingGuestMnData = _.extend(this.rowData, guestMnData);
                 this.$eventHub.$emit("setSelectGuestMnAltData", {
                     rowData: this.editingGuestMnData
@@ -965,8 +986,8 @@
                         lo_orderDtData[this.editingGroupDataIndex].push(lo_cloneOrderData);
 
                         this.orderDtRowsData = lo_orderDtData;
-                        this.editingOrderDtIdx = this.orderDtRowsData[this.editingGroupDataIndex].length -1;
-                        this.chkOrderDtFieldRule('ci_dat ','chkOrderdtCidat');
+                        this.editingOrderDtIdx = this.orderDtRowsData[this.editingGroupDataIndex].length - 1;
+                        this.chkOrderDtFieldRule('ci_dat ', 'chkOrderdtCidat');
                     }
                     else {
                         alert(lo_chkAddRule.errorMsg);
@@ -1136,13 +1157,13 @@
                             if (la_lossIkeySeqNosGuest.length > 0) {
                                 _.each(la_lossIkeySeqNosGuest, (lo_guest) => {
                                     let lo_newGuest = {
-                                        ikey: lo_guest.ikey,
+                                        alt_nam: "",
                                         athena_id: lo_addRowData.athena_id,
+                                        assign_sta: lo_addRowData.assign_sta,
+                                        ikey: lo_guest.ikey,
                                         hotel_cod: lo_addRowData.hotel_cod,
                                         ci_ser: lo_addRowData.ci_ser,
                                         ikey_seq_nos: lo_guest.ikey_seq_nos,
-                                        alt_nam: "",
-                                        assign_sta: lo_addRowData.assign_sta,
                                         room_nos: "",
                                         contry_cod: "",
                                         pref_room: "",
@@ -1154,11 +1175,9 @@
                                         serv_amt: 0,
                                         precredit_amt: 0,
                                         gcust_cod: "",
-                                        alt_nam: "",
                                         first_nam: "",
                                         last_nam: "",
                                         ccust_nam: "",
-                                        car_nos: "",
                                         airline_cod: "",
                                         airmb_nos: "",
                                         status: "new"
@@ -1280,7 +1299,7 @@
                         _.each(la_afterOrder, lo_data => {
                             this.tmpCUD.updateData.push(lo_data)
                         });
-                        _.each(la_beforeOrder, lo_data=> {
+                        _.each(la_beforeOrder, lo_data => {
                             this.tmpCUD.oriData.push(lo_data)
                         });
                     }
@@ -1297,7 +1316,8 @@
                     let ln_chkIndex = _.findIndex(la_chkData, {success: false});
                     if (ln_chkIndex > -1) {
                         alert(la_chkData[ln_chkIndex].msg);
-                    } else {
+                    }
+                    else {
                         // 儲存
                         let lo_result = await BacUtils.doHttpPromisePostProxy('/api/execNewFormatSQL', {
                             prg_id: gs_prgId,
@@ -1310,15 +1330,13 @@
                             alert(lo_result.errorMsg)
                         }
                     }
-
-
                     // 住客名單儲存
-
                     this.saveGuestList();
 
                     this.isLoading = false;
 
-                } catch (err) {
+                }
+                catch (err) {
                     console.log(err)
                     // alert(err)
                 }
@@ -1473,6 +1491,11 @@
                 });
             },
             saveGuestList() {
+                let lo_extendData = {
+                    page_id: 1,
+                    tab_page_id: 3,
+                    key_nos: this.rowData.key_nos
+                };
 
                 //新增 guestMnTmpCUD.createData 資料
                 if (this.guestMnRowsData[this.editingGroupDataIndex] !== undefined) {
@@ -1481,7 +1504,7 @@
                         if (lo_guestMnRowsData.status !== undefined) {
                             lo_guestMnRowsData.alt_nam = lo_guestMnRowsData.alt_nam.split(':')[1];
 
-                            this.guestMnTmpCUD.createData.push(_.extend(lo_guestMnRowsData, {page_id: 1, tab_page_id: 3}));
+                            this.guestMnTmpCUD.createData.push(_.extend(lo_guestMnRowsData, lo_extendData));
                         }
                     });
                 }
@@ -1495,12 +1518,11 @@
 
                             cloneGuest.alt_nam = cloneGuest.alt_nam.split(':')[1];
 
-                            this.guestMnTmpCUD.oriData.push(_.extend(lo_oriGuestMnRowsData, {page_id: 1, tab_page_id: 3}));
-                            this.guestMnTmpCUD.updateData.push(_.extend(cloneGuest, {page_id: 1, tab_page_id: 3}));
+                            this.guestMnTmpCUD.oriData.push(_.extend(lo_oriGuestMnRowsData, lo_extendData));
+                            this.guestMnTmpCUD.updateData.push(_.extend(cloneGuest, lo_extendData));
                         }
                     });
                 }
-
 
 
                 // 發送資料儲存api

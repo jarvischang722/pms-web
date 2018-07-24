@@ -187,9 +187,9 @@ module.exports = {
             else {
                 lo_result.defaultValues = {
                     athena_id: session.user.athena_id,
-                    hotel_cod: session.user.hotel_cod,
-                    ci_ser: lo_fetchCiSer["SERIES_NOS"],
                     assign_sta: 'N',
+                    ci_ser: lo_fetchCiSer["SERIES_NOS"],
+                    hotel_cod: session.user.hotel_cod,
                     guest_sta: 'E',
                     master_sta: 'G',
                     system_typ: 'HFD'
