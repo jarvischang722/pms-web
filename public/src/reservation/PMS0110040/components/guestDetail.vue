@@ -1240,70 +1240,107 @@
                     this.isLoading = false;
                 }
             },
+            convertOrderDtDataToTmpCUD() {
+                //原始資料、現在資料 排序
+                let la_allOriOrderData = [];
+                let la_allOrderdata = [];
+                _.each(this.oriOrderDtRowsData, lo_oriOrderData => {
+                    _.each(lo_oriOrderData, lo_data => {
+                        la_allOriOrderData.push(lo_data);
+                    })
+                });
+
+                _.each(this.orderDtRowsData, lo_orderData => {
+                    _.each(lo_orderData, lo_data => {
+                        la_allOrderdata.push(lo_data);
+                    })
+                });
+                la_allOriOrderData = _.sortBy(la_allOriOrderData, 'ikey_seq_nos');
+                la_allOrderdata = _.sortBy(la_allOrderdata, 'ikey_seq_nos');
+
+                // 新增
+                _.each(la_allOrderdata, lo_data => {
+                    let lo_orderDataForikeySeqNos = _.findWhere(la_allOriOrderData, {ikey_seq_nos: lo_data.ikey_seq_nos});
+                    if (_.isUndefined(lo_orderDataForikeySeqNos)) {
+                        lo_data.page_id = 1;
+                        lo_data.tab_page_id = 2;
+                        this.tmpCUD.createData.push(lo_data);
+                    }
+                });
+
+                // 修改
+                let la_beforeOrder = [];
+                let la_afterOrder = [];
+                la_allOriOrderData.forEach((val, idx) => {
+                    let lo_orderDataForikeySeqNos = _.findWhere(la_allOrderdata, {ikey_seq_nos: val.ikey_seq_nos});
+
+                    if (!_.isUndefined(lo_orderDataForikeySeqNos)) {
+                        let la_keys = _.keys(val);
+                        let ln_idx = _.findIndex(la_allOrderdata, {ikey_seq_nos: val.ikey_seq_nos});
+
+                        let lb_diffMark = true;
+                        la_keys.forEach(ls_key => {
+                            if (val[ls_key] !== la_allOrderdata[ln_idx][ls_key] && lb_diffMark) {
+                                lb_diffMark = false;
+                                val.page_id = 1;
+                                val.tab_page_id = 2;
+                                la_allOrderdata[ln_idx].page_id = 1;
+                                la_allOrderdata[ln_idx].tab_page_id = 2;
+                                la_beforeOrder.push(val);
+                                la_afterOrder.push(la_allOrderdata[ln_idx]);
+                            }
+                        });
+                    }
+                });
+                if (la_afterOrder.length !== 0 && la_beforeOrder.length !== 0) {
+                    _.each(la_afterOrder, lo_data => {
+                        this.tmpCUD.updateData.push(lo_data)
+                    });
+                    _.each(la_beforeOrder, lo_data => {
+                        this.tmpCUD.oriData.push(lo_data)
+                    });
+                }
+            },
+            convertGuestMnDataToTmpCUD() {
+                let lo_extendData = {
+                    page_id: 1,
+                    tab_page_id: 3,
+                    key_nos: this.rowData.key_nos
+                };
+
+                //新增 guestMnTmpCUD.createData 資料
+                if (this.guestMnRowsData[this.editingGroupDataIndex] !== undefined) {
+                    _.each(this.guestMnRowsData[this.editingGroupDataIndex], (lo_guestMnRowsData) => {
+                        // lo_guestMnRowsData物件有status的key 代表是剛新增出來的住客資料
+                        if (lo_guestMnRowsData.status !== undefined) {
+                            lo_guestMnRowsData.alt_nam = lo_guestMnRowsData.alt_nam.split(':')[1];
+
+                            this.tmpCUD.createData.push(_.extend(lo_guestMnRowsData, lo_extendData));
+                        }
+                    });
+                }
+                // 更新 guestMnTmpCUD.updateData 資料
+                if (this.oriGuestMnRowsData[this.editingGroupDataIndex] !== undefined) {
+                    _.each(this.oriGuestMnRowsData[this.editingGroupDataIndex], (lo_oriGuestMnRowsData) => {
+                        let lo_presentGuest = _.findWhere(this.orderDtRowsData, {ci_ser: lo_oriGuestMnRowsData.ci_ser});
+                        if (lo_presentGuest === undefined) {
+                            let cloneGuest = JSON.parse(JSON.stringify(lo_oriGuestMnRowsData));
+                            cloneGuest.guest_sta = 'X';
+
+                            cloneGuest.alt_nam = cloneGuest.alt_nam.split(':')[1];
+
+                            this.tmpCUD.oriData.push(_.extend(lo_oriGuestMnRowsData, lo_extendData));
+                            this.tmpCUD.updateData.push(_.extend(cloneGuest, lo_extendData));
+                        }
+                    });
+                }
+            },
             async save() {
                 try {
                     this.isLoading = true;
 
-                    // 原始資料、現在資料 排序
-                    let la_allOriOrderData = [];
-                    let la_allOrderdata = [];
-                    _.each(this.oriOrderDtRowsData, lo_oriOrderData => {
-                        _.each(lo_oriOrderData, lo_data => {
-                            la_allOriOrderData.push(lo_data);
-                        })
-                    });
-
-                    _.each(this.orderDtRowsData, lo_orderData => {
-                        _.each(lo_orderData, lo_data => {
-                            la_allOrderdata.push(lo_data);
-                        })
-                    });
-                    la_allOriOrderData = _.sortBy(la_allOriOrderData, 'ikey_seq_nos');
-                    la_allOrderdata = _.sortBy(la_allOrderdata, 'ikey_seq_nos');
-
-                    // 新增
-                    _.each(la_allOrderdata, lo_data => {
-                        let lo_orderDataForikeySeqNos = _.findWhere(la_allOriOrderData, {ikey_seq_nos: lo_data.ikey_seq_nos});
-                        if (_.isUndefined(lo_orderDataForikeySeqNos)) {
-                            lo_data.page_id = 1;
-                            lo_data.tab_page_id = 2;
-                            this.tmpCUD.createData.push(lo_data);
-                        }
-                    });
-
-                    // 修改
-                    let la_beforeOrder = [];
-                    let la_afterOrder = [];
-                    la_allOriOrderData.forEach((val, idx) => {
-                        let lo_orderDataForikeySeqNos = _.findWhere(la_allOrderdata, {ikey_seq_nos: val.ikey_seq_nos});
-
-                        if (!_.isUndefined(lo_orderDataForikeySeqNos)) {
-                            let la_keys = _.keys(val);
-                            let ln_idx = _.findIndex(la_allOrderdata, {ikey_seq_nos: val.ikey_seq_nos});
-
-                            let lb_diffMark = true;
-                            la_keys.forEach(ls_key => {
-                                if (val[ls_key] !== la_allOrderdata[ln_idx][ls_key] && lb_diffMark) {
-                                    lb_diffMark = false;
-                                    val.page_id = 1;
-                                    val.tab_page_id = 2;
-                                    la_allOrderdata[ln_idx].page_id = 1;
-                                    la_allOrderdata[ln_idx].tab_page_id = 2;
-                                    la_beforeOrder.push(val);
-                                    la_afterOrder.push(la_allOrderdata[ln_idx]);
-                                }
-                            });
-                        }
-                    });
-                    if (la_afterOrder.length !== 0 && la_beforeOrder.length !== 0) {
-                        _.each(la_afterOrder, lo_data => {
-                            this.tmpCUD.updateData.push(lo_data)
-                        });
-                        _.each(la_beforeOrder, lo_data => {
-                            this.tmpCUD.oriData.push(lo_data)
-                        });
-                    }
-
+                    //order dt 轉換成tmpCUD
+                    this.convertOrderDtDataToTmpCUD();
                     // 驗證
                     let la_orderDtRowsData = [];
                     Object.keys(this.tmpCUD).forEach(key => {
@@ -1314,6 +1351,10 @@
 
                     let la_chkData = await Promise.all(la_orderDtRowsData);
                     let ln_chkIndex = _.findIndex(la_chkData, {success: false});
+
+                    //guest mn 轉換成tmpCUD
+                    this.convertGuestMnDataToTmpCUD();
+
                     if (ln_chkIndex > -1) {
                         alert(la_chkData[ln_chkIndex].msg);
                     }
@@ -1330,8 +1371,6 @@
                             alert(lo_result.errorMsg)
                         }
                     }
-                    // 住客名單儲存
-                    this.saveGuestList();
 
                     this.isLoading = false;
 
@@ -1490,56 +1529,6 @@
                     resolve(lo_checkResult)
                 });
             },
-            saveGuestList() {
-                let lo_extendData = {
-                    page_id: 1,
-                    tab_page_id: 3,
-                    key_nos: this.rowData.key_nos
-                };
-
-                //新增 guestMnTmpCUD.createData 資料
-                if (this.guestMnRowsData[this.editingGroupDataIndex] !== undefined) {
-                    _.each(this.guestMnRowsData[this.editingGroupDataIndex], (lo_guestMnRowsData) => {
-                        // lo_guestMnRowsData物件有status的key 代表是剛新增出來的住客資料
-                        if (lo_guestMnRowsData.status !== undefined) {
-                            lo_guestMnRowsData.alt_nam = lo_guestMnRowsData.alt_nam.split(':')[1];
-
-                            this.guestMnTmpCUD.createData.push(_.extend(lo_guestMnRowsData, lo_extendData));
-                        }
-                    });
-                }
-                // 更新 guestMnTmpCUD.updateData 資料
-                if (this.oriGuestMnRowsData[this.editingGroupDataIndex] !== undefined) {
-                    _.each(this.oriGuestMnRowsData[this.editingGroupDataIndex], (lo_oriGuestMnRowsData) => {
-                        let lo_presentGuest = _.findWhere(this.orderDtRowsData, {ci_ser: lo_oriGuestMnRowsData.ci_ser});
-                        if (lo_presentGuest === undefined) {
-                            let cloneGuest = JSON.parse(JSON.stringify(lo_oriGuestMnRowsData));
-                            cloneGuest.guest_sta = 'X';
-
-                            cloneGuest.alt_nam = cloneGuest.alt_nam.split(':')[1];
-
-                            this.guestMnTmpCUD.oriData.push(_.extend(lo_oriGuestMnRowsData, lo_extendData));
-                            this.guestMnTmpCUD.updateData.push(_.extend(cloneGuest, lo_extendData));
-                        }
-                    });
-                }
-
-
-                // 發送資料儲存api
-                BacUtils.doHttpPromisePostProxy('/api/execNewFormatSQL', {
-                    prg_id: 'PMS0110042',
-                    func_id: "0500",
-                    tmpCUD: this.guestMnTmpCUD
-                }).then(lo_result => {
-                    if (lo_result.success) {
-                        alert('成功');
-                        this.initGuestMnTmpCUD();
-                    }
-                }).catch(lo_err => {
-                    alert(lo_err.errorMsg);
-                });
-
-            }
         },
     }
 </script>
