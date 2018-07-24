@@ -324,6 +324,9 @@
       "contact_method": "連絡方式",
       "address": "地址"
     },
+    "PMS0210060": {
+
+    },
     "PMS0110010": {
       "useRm": "用房數",
       "notWrsRm": "非鎖控剩餘數",
