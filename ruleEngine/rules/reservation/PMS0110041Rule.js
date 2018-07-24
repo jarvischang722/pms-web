@@ -893,7 +893,7 @@ module.exports = {
                         }
                     }
                     else {
-                        let lo_addParams = {};
+                        let lo_addParams = {createRow: 'Y'};
                         lo_addParams = _.extend(lo_addParams, lo_editingRow);
                         lo_addParams.order_qnt = 1;
                         lo_addParams.ikey_seq_nos = Number(ln_ikeySeqNos) + i;
@@ -929,7 +929,7 @@ module.exports = {
                     let ln_delOrderIndex = _.findLastIndex(la_oriOrderDtRowsData, {ikey_seq_nos: lo_delData.ikey_seq_nos});
                     //order dt 原本就在資料庫裡的資料
                     if (ln_delOrderIndex > -1) {
-                        let ln_delIndex = _ > findIndex(postData.allRowData, {ikey_seq_nos: la_oriOrderDtRowsData[ln_delOrderIndex].ikey_seq_nos});
+                        let ln_delIndex = _.findIndex(postData.allRowData, {ikey_seq_nos: la_oriOrderDtRowsData[ln_delOrderIndex].ikey_seq_nos});
                         if (ln_delIndex > -1) {
                             postData.allRowData[ln_delIndex].order_sta = 'X';
                         }
@@ -949,10 +949,12 @@ module.exports = {
                 }
             }
 
-            lo_return.effectValues
+            lo_return.effectValues = {
+                allRowData: postData.allRowData
+            };
         }
         else {
-            lo_return.effectValues = ln_beforeOrderQnt;
+            lo_return.effectValues = {order_qnt: ln_beforeOrderQnt};
         }
 
         callback(lo_error, lo_return);

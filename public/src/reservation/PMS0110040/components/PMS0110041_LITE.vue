@@ -683,6 +683,7 @@
                             ccust_nam: lo_ghistMnData.ccust_nam,
                             ci_ser: 0,//todo  資料檔取得系統編號程式=>get_ci_ser
                             contry_cod: lo_ghistMnData.contry_cod,
+                            createRow: 'Y',
                             first_nam: lo_ghistMnData.first_nam,
                             gcust_cod: lo_ghistMnData.gcust_cod,
                             guest_sta: 'E',
@@ -698,7 +699,7 @@
                             role_cod: lo_ghistMnData.role_cod,
                             salute_cod: lo_ghistMnData.salute_cod,
                             serv_amt: 0,
-                            system_typ: 'HFD'
+                            system_typ: "HFD"
                         };
                     }
                     else {
@@ -813,12 +814,6 @@
                     deleteData: [],
                     oriData: []
                 },
-                guestMnTmpCUD: {
-                    createData: [],
-                    updateData: [],
-                    deleteData: [],
-                    oriData: []
-                },
                 openModule: "",                   //rate cod開啟選擇
                 isOpenGuestDetail: false          //是否開啟訂房明細
             }
@@ -854,188 +849,12 @@
                     }
                     if (newVal != oldVal && !_.isUndefined(oldVal) && !_.isUndefined(newVal)) {
                         let lo_editingRow = JSON.parse(JSON.stringify(this.orderDtRowsData4table[oldVal]));
-                        let lo_beforeRow = JSON.parse(JSON.stringify(this.beforeOrderDtRowsData4Table[oldVal]));
-                        //間數改變，增加或減少orderDtRowsData
-                        if (lo_editingRow.order_qnt != lo_beforeRow.order_qnt) {
-                            //間數不得小於0
-                            if (lo_editingRow.order_qnt != "" && lo_editingRow.order_qnt > 0) {
-                                let ln_orderQnt = Number(lo_editingRow.order_qnt) - Number(lo_beforeRow.order_qnt);
-                                if (ln_orderQnt > 0) {
-                                    //增加orderDtRowsData
-                                    const lo_params = {
-                                        prg_id: gs_prgId,
-                                        page_id: 1,
-                                        tab_page_id: 1,
-                                        func_id: 1100,
-                                        allRowData: this.orderDtRowsData
-                                    };
-                                    let lo_ikeySeqNos = await this.chkPrgFuncRule(lo_params);
-
-                                    let ln_ikeySeqNos = lo_ikeySeqNos.success ?
-                                        lo_ikeySeqNos.defaultValues.ikey_seq_nos : _.max(this.orderDtRowsData, (lo_orderDtRowsData) => {
-                                        return lo_orderDtRowsData.ikey_seq_nos;
-                                    }).ikey_seq_nos + 1;
-
-                                    for (let i = 0; i < ln_orderQnt; i++) {
-                                        let lo_editParam = {
-                                            rate_cod: lo_editingRow.rate_cod,
-                                            days: lo_editingRow.days,
-                                            ci_dat: lo_editingRow.ci_dat,
-                                            co_dat: lo_editingRow.co_dat,
-                                            use_cod: lo_editingRow.use_cod,
-                                            room_cod: lo_editingRow.room_cod,
-                                            block_cod: lo_editingRow.block_cod,
-                                            rent_amt: lo_editingRow.rent_amt,
-                                            serv_amt: lo_editingRow.serv_amt
-                                        };
-
-                                        //order_sta 為'x'的改為現在的訂房狀況
-                                        let la_editData = _.where(this.orderDtRowsData, lo_editParam);
-                                        let ln_editIndex = _.findIndex(la_editData, {order_sta: 'X'});
-                                        if (ln_editIndex > -1) {
-                                            let ln_orderDtIndex = _.findIndex(this.orderDtRowsData, la_editData[ln_editIndex]);
-                                            if (ln_orderDtIndex > -1) {
-                                                this.orderDtRowsData[ln_orderDtIndex].order_sta = this.orderStatus;
-                                            }
-
-                                            let ln_guestMnIndex = _.findIndex(this.guestMnRowsData, {ikey_seq_nos: la_editData[ln_editIndex].ikey_seq_nos});
-                                            if (ln_guestMnIndex > -1) {
-                                                this.guestMnRowsData[ln_guestMnIndex].guest_sta = 'E';
-                                            }
-                                        }
-                                        else {
-                                            let lo_addParams = {};
-                                            lo_addParams = _.extend(lo_addParams, lo_editingRow);
-                                            lo_addParams.order_qnt = 1;
-                                            lo_addParams.ikey_seq_nos = Number(ln_ikeySeqNos) + i;
-
-                                            this.orderDtRowsData.push(lo_addParams);
-                                        }
-                                    }
-                                }
-                                else {
-                                    //減少orderDtRowsData和guestMnRowsData
-                                    for (let i = 0; i < Math.abs(ln_orderQnt); i++) {
-                                        let lo_delData = this.groupOrderDtData[this.groupOrderDtData.length - 1 - i];
-                                        //order dt 原本就在資料庫裡的資料
-                                        let ln_delOrderIndex = _.findLastIndex(this.oriOrderDtRowsData, {ikey_seq_nos: lo_delData.ikey_seq_nos});
-                                        if (ln_delOrderIndex > -1) {
-                                            this.orderDtRowsData[ln_delOrderIndex].order_sta = 'X';
-                                        }
-                                        else {
-                                            //此次新增的
-                                            let ln_delTmpIndex = _.findLastIndex(this.tmpCUD.createData, lo_delData);
-                                            if (ln_delTmpIndex > -1) {
-                                                this.tmpCUD.createData.splice(ln_delTmpIndex, 1);
-                                                let ln_delOrderDtIndex = _.findLastIndex(this.orderDtRowsData, lo_delData);
-                                                if (ln_delOrderDtIndex > -1) {
-                                                    this.orderDtRowsData.splice(ln_delOrderDtIndex, 1);
-                                                }
-                                            }
-                                        }
-
-                                        let ln_delGuestIndex = _.findIndex(this.oriGuestMnRowsData, {ikey_seq_nos: lo_delData.ikey_seq_nos});
-                                        if (ln_delGuestIndex > -1) {
-                                            this.guestMnRowsData[ln_delGuestIndex].guest_sta = 'X';
-                                        }
-                                        else {
-                                            //此次新增的
-                                            let ln_delTmpIndex = _.findLastIndex(this.guestMnTmpCUD.createData, {ikey_seq_nos: lo_delData.ikey_seq_nos});
-                                            if (ln_delTmpIndex > -1) {
-                                                this.guestMnTmpCUD.createData.splice(ln_delTmpIndex, 1);
-                                                let ln_delGuestMnIndex = _.findIndex(this.guestMnRowsData, {ikey_seq_nos: lo_delData.ikey_seq_nos});
-                                                if (ln_delGuestMnIndex > -1) {
-                                                    this.guestMnRowsData.splice(ln_delGuestMnIndex, 1);
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                            else {
-                                this.orderDtRowsData4table[oldVal].order_qnt = lo_beforeRow.order_qnt;
-                            }
-                        }
 
                         //改變orderDtRowsData資料，除了間數以外的屬性，並重新group資料
-                        let lo_orderParams = {
-                            block_cod: lo_editingRow.block_cod,
-                            ci_dat: lo_editingRow.ci_dat,
-                            co_dat: lo_editingRow.co_dat,
-                            days: lo_editingRow.days,
-                            order_sta: lo_editingRow.order_sta,
-                            rate_cod: lo_editingRow.rate_cod,
-                            rent_amt: lo_editingRow.rent_amt,
-                            room_cod: lo_editingRow.room_cod,
-                            serv_amt: lo_editingRow.serv_amt,
-                            use_cod: lo_editingRow.use_cod
-                        };
-                        let lo_groupingData = this.groupOrderDtData[0];
-                        let lo_groupParams = {
-                            block_cod: lo_groupingData.block_cod,
-                            ci_dat: lo_groupingData.ci_dat,
-                            co_dat: lo_groupingData.co_dat,
-                            days: lo_groupingData.days,
-                            order_sta: lo_groupingData.order_sta,
-                            rate_cod: lo_groupingData.rate_cod,
-                            rent_amt: lo_groupingData.rent_amt,
-                            room_cod: lo_groupingData.room_cod,
-                            serv_amt: lo_groupingData.serv_amt,
-                            use_cod: lo_groupingData.use_cod
-                        };
-                        _.each(this.orderDtRowsData, () => {
-                            let ln_editIdx = _.findIndex(this.orderDtRowsData, lo_groupParams);
-                            if (ln_editIdx > -1) {
-                                this.orderDtRowsData[ln_editIdx] = _.extend(this.orderDtRowsData[ln_editIdx], lo_orderParams);
-                            }
-                        });
-                        this.groupOrderDtData = _.where(this.orderDtRowsData, lo_orderParams);
+                        this.setOrderDtRowData(lo_editingRow);
 
-                        //計算所有group data的房價
-                        if (this.groupOrderDtData.length > 0) {
-                            if (this.groupOrderDtData[0].rate_cod != "") {
-                                let lo_params = {
-                                    rule_func_name: 'compute_oder_dt_price',
-                                    allRowData: this.groupOrderDtData,
-                                    key_nos: this.keyNos,
-                                    acust_cod: this.orderMnSingleData.acust_cod
-                                };
-//
-                                let lo_doComputePrice = await $.post("/api/queryDataByRule", lo_params).then(result => {
-                                    return result;
-                                }, err => {
-                                    throw Error(err);
-                                });
-//
-                                if (lo_doComputePrice.success) {
-                                    _.each(this.groupOrderDtData, () => {
-                                        let lo_param = {
-                                            rate_cod: lo_editingRow.rate_cod,
-                                            days: lo_editingRow.days,
-                                            ci_dat: lo_editingRow.ci_dat,
-                                            co_dat: lo_editingRow.co_dat,
-                                            use_cod: lo_editingRow.use_cod,
-                                            room_cod: lo_editingRow.room_cod,
-                                            rent_amt: lo_editingRow.rent_amt,
-                                            serv_amt: lo_editingRow.serv_amt
-                                        };
-                                        let ln_editIndex = _.findIndex(this.orderDtRowsData, lo_param);
-                                        if (ln_editIndex > -1) {
-                                            this.orderDtRowsData[ln_editIndex] = _.extend(this.orderDtRowsData[ln_editIndex], lo_doComputePrice.effectValues);
-                                            let lo_editParam = {
-                                                other_tot: lo_doComputePrice.effectValues.other_amt * this.orderDtRowsData[ln_editIndex].order_qnt,
-                                                rent_tot: lo_doComputePrice.effectValues.rent_amt * this.orderDtRowsData[ln_editIndex].order_qnt,
-                                                serv_tot: lo_doComputePrice.effectValues.serv_amt * this.orderDtRowsData[ln_editIndex].order_qnt,
-                                            };
-                                            this.orderDtRowsData[ln_editIndex] = _.extend(this.orderDtRowsData[ln_editIndex], lo_editParam);
-                                        }
-                                    });
-                                }
-                                else {
-                                    alert(lo_doComputePrice.errorMsg);
-                                }
-                            }
-                        }
+                        //計算group data所有的房價
+                        await this.computeGroupOrderDtPrice(lo_editingRow);
                     }
                 }
                 catch (err) {
@@ -1080,87 +899,21 @@
             },
             orderDtRowsData: {
                 handler(val) {
-                    //處理暫存資料
-                    _.each(val, (lo_orderDtRowData) => {
-                        lo_orderDtRowData = _.extend(lo_orderDtRowData, {
-                            page_id: 1,
-                            tab_page_id: 13,
-                            athena_id: this.userInfo.athena_id,
-                            hotel_cod: this.userInfo.hotel_cod
-                        });
-                        let lo_param = {ikey_seq_nos: lo_orderDtRowData.ikey_seq_nos};
-                        let ln_index = _.findIndex(this.oriOrderDtRowsData, lo_param);
-                        //新增狀態
-                        if (ln_index == -1) {
-                            //是否已在暫存中
-                            let ln_addIndex = _.findIndex(this.tmpCUD.createData, lo_param);
-                            if (ln_addIndex > -1) {
-                                this.tmpCUD.createData.splice(ln_addIndex, 1);
+                    let la_allRowData = JSON.parse(JSON.stringify(val));
+                    _.each(la_allRowData, (lo_data) => {
+                        if (lo_data.order === 'X') {
+                            let ln_editIdx = _.findIndex(this.guestMnRowsData, {ikey_seq_nos: lo_data.ikey_seq_nos});
+                            if (ln_editIdx > -1) {
+                                this.guestMnRowsData[ln_editIdx].guest_sta = 'X';
                             }
-                            this.tmpCUD.createData.push(lo_orderDtRowData);
                         }
-                        //修改狀態
                         else {
-                            if (!_.isMatch(lo_orderDtRowData, this.oriOrderDtRowsData[ln_index])) {
-                                //是否已在暫存中
-                                let ln_editIndex = _.findIndex(this.tmpCUD.updateData, lo_param);
-                                if (ln_editIndex > -1) {
-                                    this.tmpCUD.updateData.splice(ln_editIndex, 1);
-                                    this.tmpCUD.oriData.splice(ln_editIndex, 1);
-                                }
-                                this.tmpCUD.updateData.push(lo_orderDtRowData);
-                                this.tmpCUD.oriData.push(this.oriOrderDtRowsData[ln_index]);
-                            }
-                            else {
-                                //是否已在暫存中
-                                let ln_editIndex = _.findIndex(this.tmpCUD.updateData, lo_param);
-                                if (ln_editIndex > -1) {
-                                    this.tmpCUD.updateData.splice(ln_editIndex, 1);
-                                    this.tmpCUD.oriData.splice(ln_editIndex, 1);
-                                }
+                            let ln_editIdx = _.findIndex(this.guestMnRowsData, {ikey_seq_nos: lo_data.ikey_seq_nos});
+                            if (ln_editIdx > -1) {
+                                this.guestMnRowsData[ln_editIdx].guest_sta = 'E';
                             }
                         }
                     });
-                },
-                deep: true
-            },
-            guestMnRowsData: {
-                handler(val) {
-                    //處理暫存資料
-                    let la_guestMnRowsData = JSON.parse(JSON.stringify(val));
-                    _.each(la_guestMnRowsData, (lo_guestMnData) => {
-                        if (lo_guestMnData.gcust_cod != "" && !_.isUndefined(lo_guestMnData.gcust_cod)) {
-                            lo_guestMnData = _.extend(lo_guestMnData, {page_id: 1, tab_page_id: 11});
-                            let lo_params = {
-                                ikey_seq_nos: lo_guestMnData.ikey_seq_nos
-                            };
-                            let ln_Index = _.findIndex(this.oriGuestMnRowsData, lo_params);
-                            //新增狀況
-                            if (ln_Index == -1) {
-                                let ln_addIndex = _.findIndex(this.guestMnTmpCUD.createData, lo_params);
-                                if (ln_addIndex > -1) {
-                                    this.guestMnTmpCUD.createData.splice(ln_addIndex, 1);
-                                }
-                                this.guestMnTmpCUD.createData.push(lo_guestMnData);
-                            }
-                            //修改狀況
-                            else {
-                                let ln_editIndex = _.findIndex(this.guestMnTmpCUD.updateData, lo_params);
-                                if (ln_editIndex > -1) {
-                                    this.guestMnTmpCUD.updateData.splice(ln_editIndex, 1);
-                                    this.guestMnTmpCUD.oriData.splice(ln_editIndex, 1);
-                                }
-                                this.guestMnTmpCUD.updateData.push(lo_guestMnData);
-                                this.guestMnTmpCUD.oriData.push(lo_guestMnData);
-                            }
-                        }
-                    });
-                },
-                deep: true
-            },
-            guestMnTmpCUD: {
-                handler(val) {
-                    console.log(val);
                 },
                 deep: true
             }
@@ -1197,12 +950,6 @@
             },
             initTmpCUD() {
                 this.tmpCUD = {
-                    createData: [],
-                    updateData: [],
-                    deleteData: [],
-                    oriData: []
-                };
-                this.guestMnTmpCUD = {
                     createData: [],
                     updateData: [],
                     deleteData: [],
@@ -1539,10 +1286,11 @@
                 //此筆order dt 還沒有guest mn， 新增此筆order dt 的 guest mn 資料
                 else {
                     let lo_params = {
-                        ikey_seq_nos: ikey_seq_nos,
                         alt_nam: "",
+                        createRow: 'Y',
                         gcust_cod: "",
-                        ikey: this.orderMnSingleData.ikey
+                        ikey: this.orderMnSingleData.ikey,
+                        ikey_seq_nos: ikey_seq_nos
                     };
                     this.guestMnRowsData4Single = _.extend(this.guestMnRowsData4Single, lo_params);
                     let lo_fetchDefault = await  BacUtils.doHttpPromisePostProxy('/api/queryDataByRule', {
@@ -1632,6 +1380,95 @@
                 }
                 else {
                     this.guestMnRowsData.push(singleData);
+                }
+            },
+            //設定多筆order dt 資料
+            setOrderDtRowData(singleData) {
+                _.each(this.orderDtRowsData, (lo_data, idx) => {
+                    this.orderDtRowsData[idx].days = lo_data.days.toString();
+                    this.orderDtRowsData[idx].rent_amt = lo_data.rent_amt.toString();
+                    this.orderDtRowsData[idx].serv_amt = lo_data.serv_amt.toString();
+                });
+                let lo_orderParams = {
+                    block_cod: singleData.block_cod,
+                    ci_dat: singleData.ci_dat,
+                    co_dat: singleData.co_dat,
+                    days: singleData.days.toString(),
+                    order_sta: singleData.order_sta,
+                    rate_cod: singleData.rate_cod,
+                    rent_amt: singleData.rent_amt.toString(),
+                    room_cod: singleData.room_cod,
+                    serv_amt: singleData.serv_amt.toString(),
+                    use_cod: singleData.use_cod
+                };
+                let lo_groupingData = this.groupOrderDtData[0];
+                let lo_groupParams = {
+                    block_cod: lo_groupingData.block_cod,
+                    ci_dat: lo_groupingData.ci_dat,
+                    co_dat: lo_groupingData.co_dat,
+                    days: lo_groupingData.days.toString(),
+                    order_sta: lo_groupingData.order_sta,
+                    rate_cod: lo_groupingData.rate_cod,
+                    rent_amt: lo_groupingData.rent_amt.toString(),
+                    room_cod: lo_groupingData.room_cod,
+                    serv_amt: lo_groupingData.serv_amt.toString(),
+                    use_cod: lo_groupingData.use_cod
+                };
+                _.each(this.orderDtRowsData, () => {
+                    let ln_editIdx = _.findIndex(this.orderDtRowsData, lo_groupParams);
+                    if (ln_editIdx > -1) {
+                        this.orderDtRowsData[ln_editIdx] = _.extend(this.orderDtRowsData[ln_editIdx], lo_orderParams);
+                    }
+                });
+                console.log(this.orderDtRowsData);
+                this.groupOrderDtData = _.where(this.orderDtRowsData, lo_orderParams);
+                console.log(this.groupOrderDtData);
+            },
+            //計算此群組order dt的房價
+            async computeGroupOrderDtPrice(singleData) {
+                if (this.groupOrderDtData.length > 0) {
+                    if (this.groupOrderDtData[0].rate_cod != "") {
+                        let lo_params = {
+                            rule_func_name: 'compute_oder_dt_price',
+                            allRowData: this.groupOrderDtData,
+                            key_nos: this.keyNos,
+                            acust_cod: this.orderMnSingleData.acust_cod
+                        };
+
+                        let lo_doComputePrice = await BacUtils.doHttpPromisePostProxy("/api/queryDataByRule", lo_params).then(result => {
+                            return result;
+                        }).catch(err => {
+                            return {success: false, errorMsg: err};
+                        });
+
+                        if (lo_doComputePrice.success) {
+                            _.each(this.groupOrderDtData, () => {
+                                let lo_param = {
+                                    rate_cod: singleData.rate_cod,
+                                    days: singleData.days,
+                                    ci_dat: singleData.ci_dat,
+                                    co_dat: singleData.co_dat,
+                                    use_cod: singleData.use_cod,
+                                    room_cod: singleData.room_cod,
+                                    rent_amt: singleData.rent_amt,
+                                    serv_amt: singleData.serv_amt
+                                };
+                                let ln_editIndex = _.findIndex(this.orderDtRowsData, lo_param);
+                                if (ln_editIndex > -1) {
+                                    this.orderDtRowsData[ln_editIndex] = _.extend(this.orderDtRowsData[ln_editIndex], lo_doComputePrice.effectValues);
+                                    let lo_editParam = {
+                                        other_tot: lo_doComputePrice.effectValues.other_amt * this.orderDtRowsData[ln_editIndex].order_qnt,
+                                        rent_tot: lo_doComputePrice.effectValues.rent_amt * this.orderDtRowsData[ln_editIndex].order_qnt,
+                                        serv_tot: lo_doComputePrice.effectValues.serv_amt * this.orderDtRowsData[ln_editIndex].order_qnt,
+                                    };
+                                    this.orderDtRowsData[ln_editIndex] = _.extend(this.orderDtRowsData[ln_editIndex], lo_editParam);
+                                }
+                            });
+                        }
+                        else {
+                            alert(lo_doComputePrice.errorMsg);
+                        }
+                    }
                 }
             },
             //單筆guest mn欄位規則檢查
@@ -1755,25 +1592,6 @@
                     }
                 }
             },
-            //搜尋住客歷史資料
-            searchGuestMnAltName() {
-                this.$store.dispatch("orderMnModule/setOpenModule", {openModule: "pms0110041_lite"});
-                if (!_.isEmpty(this.guestMnRowsData4Single) && this.isModifiable) {
-                    let ls_gcustCod = this.guestMnRowsData4Single.gcust_cod || "";
-                    if (ls_gcustCod != "") {
-                        this.editingGuestMnData = JSON.parse(JSON.stringify(this.guestMnRowsData4Single));
-                        this.isCreate4GuestMn = false;
-                        this.isEdit4GuestMn = true;
-                    }
-                    else {
-                        this.editingGuestMnData = JSON.parse(JSON.stringify(this.guestMnRowsData4Single));
-                        this.editingGuestMnData.gcust_cod = "";
-                        this.isCreate4GuestMn = true;
-                        this.isEdit4GuestMn = false;
-                    }
-                    this.showGhistMnDialog();
-                }
-            },
             //多筆order dt欄位規則檢查
             async chkDgFieldRule(ui_field_name, rule_func_name) {
                 if (_.isUndefined(this.editingOrderDtIdx)) {
@@ -1795,6 +1613,7 @@
                 }
 
                 try {
+                    this.isLoading = true;
                     let lo_postData = {
                         prg_id: gs_prgId,
                         rule_func_name: rule_func_name,
@@ -1811,9 +1630,15 @@
                     if (lo_doChkFiledRule.success) {
                         //連動帶回的值
                         if (!_.isUndefined(lo_doChkFiledRule.effectValues) && _.size(lo_doChkFiledRule.effectValues) > 0) {
-                            this.orderDtRowsData4table[this.editingOrderDtIdx] =
-                                _.extend(this.orderDtRowsData4table[this.editingOrderDtIdx], lo_doChkFiledRule.effectValues);
-
+                            let la_effectValuesKey = Object.keys(lo_doChkFiledRule.effectValues);
+                            if (la_effectValuesKey.indexOf("allRowData") > -1) {
+                                let la_allRowData = JSON.parse(JSON.stringify(lo_doChkFiledRule.effectValues["allRowData"]));
+                                this.orderDtRowsData = la_allRowData;
+                            }
+                            else {
+                                this.orderDtRowsData4table[this.editingOrderDtIdx] =
+                                    _.extend(this.orderDtRowsData4table[this.editingOrderDtIdx], lo_doChkFiledRule.effectValues);
+                            }
                             this.isEffectFromRule = lo_doChkFiledRule.isEffectFromRule;
                         }
                         //是否要show出訊息
@@ -1869,14 +1694,198 @@
                         // this.isEffectFromRule = false;
                         alert(lo_doChkFiledRule.errorMsg);
                     }
+                    this.isLoading = false;
                 }
                 catch (err) {
                     alert(err)
                 }
 
             },
+            //將多筆資料轉換至tmpCUD中
+            setTmpCUD(allRowData, oriAllRowData, extendParam) {
+                _.each(allRowData, (lo_data) => {
+                    //新增狀態
+                    if (!_.isUndefined(lo_data.createRow)) {
+                        this.tmpCUD.createData.push(_.extend(lo_data, extendParam));
+                    }
+                    //修改狀態
+                    else {
+                        let ln_oriIdx = _.findIndex(oriAllRowData, {ikey_seq_nos: lo_data.ikey_seq_nos});
+                        if (ln_oriIdx > -1) {
+                            let la_orderDtDataKey = Object.keys(lo_data);
+                            for (let ls_key of la_orderDtDataKey) {
+                                if (lo_data[ls_key] != oriAllRowData[ln_oriIdx][ls_key]) {
+                                    console.log(ls_key, lo_data[ls_key], oriAllRowData[ln_oriIdx][ls_key]);
+                                    this.tmpCUD.updateData.push(_.extend(lo_data, extendParam));
+                                    this.tmpCUD.oriData.push(_.extend(oriAllRowData[ln_oriIdx], extendParam));
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                });
+            },
+            //將頁面上資料轉換成儲存格式
+            async doConvertData() {
+                //主檔資料轉換
+                if (!_.isUndefined(this.orderMnSingleData)) {
+                    let lo_saveSingleData = JSON.parse(JSON.stringify(this.orderMnSingleData));
+                    lo_saveSingleData = _.extend(lo_saveSingleData, {
+                        page_id: 1,
+                        tab_page_id: 12,
+                        key_nos: this.keyNos
+                    });
+                    //旅客登記卡印房租
+                    lo_saveSingleData.prtconfirm_sta = lo_saveSingleData.prtconfirm_sta ? 'Y' : 'N';
 
+                    //訂房公司
+                    let lo_acustField = _.findWhere(this.oriOrderMnFieldsData, {ui_field_name: 'acust_nam'});
+                    if (!_.isUndefined(lo_acustField)) {
+                        let la_acustSelectData = _.isUndefined(lo_acustField.selectData) ? [] : lo_acustField.selectData.selectData;
+                        let lo_selectedData = _.findWhere(la_acustSelectData, {cust_cod: lo_saveSingleData.acust_cod});
+                        lo_saveSingleData.acust_nam = _.isUndefined(lo_selectedData) ? lo_saveSingleData.acust_nam : lo_selectedData.alt_nam;
+                    }
+                    if (this.isCreateStatus) {
+                        this.tmpCUD.createData.splice(0, 0, lo_saveSingleData);
+                    }
+                    else {
+                        this.tmpCUD.updateData.splice(0, 0, lo_saveSingleData);
+                        this.tmpCUD.oriData.splice(0, 0, this.oriOrderMnSingleData);
+                    }
+                }
+
+                //order dt 資料
+                if (!_.isEmpty(this.orderDtRowsData4table[this.editingOrderDtIdx])) {
+                    let lo_editingRow = JSON.parse(JSON.stringify(this.orderDtRowsData4table[this.editingOrderDtIdx]));
+
+                    //改變orderDtRowsData資料，除了間數以外的屬性，並重新group資料
+                    this.setOrderDtRowData(lo_editingRow);
+
+                    //計算所有group data的房價
+                    await this.computeGroupOrderDtPrice(lo_editingRow);
+                }
+
+                //order dt資料傳至tmpCUD
+                this.setTmpCUD(this.orderDtRowsData, this.oriOrderDtRowsData, {page_id: 1, tab_page_id: 13});
+
+                //guest mn 資料傳至tmpCUD
+                this.setTmpCUD(this.guestMnRowsData, this.oriGuestMnRowsData, {page_id: 1, tab_page_id: 11});
+            },
+            //驗證要儲存的資料
+            async dataValidate(chkData, chkFields) {
+                return await new Promise((resolve, reject) => {
+                    let lo_checkResult = {success: true, msg: ""};
+                    let la_chkData = Array.isArray(chkData) ? chkData : [chkData];
+                    //檢查資料
+                    for (let lo_chkData of la_chkData) {
+                        for (let lo_field of chkFields) {
+                            //必填
+                            if (lo_field.requirable == "Y" && lo_field.modificable != "N" && lo_field.ui_type != "checkbox") {
+                                lo_checkResult = go_validateClass.required(lo_chkData[lo_field.ui_field_name], lo_field.ui_display_name);
+                                if (lo_checkResult.success == false) {
+                                    break;
+                                }
+                            }
+                            //有format
+                            if (lo_field.format_func_name.validate != "" && !_.isUndefined(go_validateClass[lo_field.format_func_name.validate]) && lo_chkData[lo_field.ui_field_name] != '') {
+                                lo_checkResult = go_validateClass[lo_field.format_func_name.validate](lo_chkData[lo_field.ui_field_name], lo_field.ui_display_name);
+                                if (lo_checkResult.success == false) {
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                    resolve(lo_checkResult)
+                });
+            },
             //region 按鈕的function
+            //搜尋住客歷史資料
+            searchGuestMnAltName() {
+                this.$store.dispatch("orderMnModule/setOpenModule", {openModule: "pms0110041_lite"});
+                if (!_.isEmpty(this.guestMnRowsData4Single) && this.isModifiable) {
+                    let ls_gcustCod = this.guestMnRowsData4Single.gcust_cod || "";
+                    if (ls_gcustCod != "") {
+                        this.editingGuestMnData = JSON.parse(JSON.stringify(this.guestMnRowsData4Single));
+                        this.isCreate4GuestMn = false;
+                        this.isEdit4GuestMn = true;
+                    }
+                    else {
+                        this.editingGuestMnData = JSON.parse(JSON.stringify(this.guestMnRowsData4Single));
+                        this.editingGuestMnData.gcust_cod = "";
+                        this.isCreate4GuestMn = true;
+                        this.isEdit4GuestMn = false;
+                    }
+                    this.showGhistMnDialog();
+                }
+            },
+            //開啟住客歷史資料
+            showGhistMnDialog() {
+                this.$store.dispatch("ghistMnModule/setAllDataClear");
+                let self = this;
+                let dialog = $('#PMS0210011').removeClass('hide').dialog({
+                    autoOpen: false,
+                    modal: true,
+                    title: "住客歷史",
+                    width: 1000,
+                    maxwidth: 1920,
+                    minheight: 800,
+                    dialogClass: "test",
+                    resizable: true,
+                    onBeforeClose() {
+                        self.editingGuestMnData = {};
+                        self.isEdit4GuestMn = false;
+                        self.isCreate4GuestMn = false;
+                        self.$store.dispatch("orderMnModule/setOpenModule", {openModule: ""});
+                        self.$eventHub.$emit("doSaveModifyData");
+                    }
+                }).dialog('open');
+            },
+            //開啟訂房公司資料
+            showCustMnDialog() {
+                if (this.orderMnSingleData.acust_cod != "") {
+                    this.editingCustMnData = {};
+                    this.editingCustMnData.cust_mn_cust_cod = JSON.parse(JSON.stringify(this.orderMnSingleData)).acust_cod;
+                    this.isModifiable4CustMn = false;
+                    this.isEdit4CustMn = true;
+
+                    let self = this;
+                    var dialog = $('#PMS0610020').removeClass('hide').dialog({
+                        autoOpen: false,
+                        modal: true,
+                        title: go_i18nLang["program"]["PMS0610020"].company_maintain,
+                        width: 1000,
+                        maxHeight: 1920,
+                        resizable: true,
+                        onBeforeClose() {
+                            self.editingCustMnData = {};
+                        }
+                    }).dialog('open');
+                }
+            },
+            //開啟公帳號資料
+            showMasterStaDialog() {
+                var dialog = $("#publicAccount_dialog").removeClass('hide').dialog({
+                    modal: true,
+                    title: "公帳號",
+                    title_html: true,
+                    width: 400,
+                    maxwidth: 1920,
+                    dialogClass: "test",
+                    resizable: true
+                });
+            },
+            //開啟聯絡細項資料
+            showTelDetailDialog() {
+                var dialog = $("#telDetail_dialog").removeClass('hide').dialog({
+                    modal: true,
+                    title: "其他聯絡方式",
+                    title_html: true,
+                    width: 400,
+                    maxwidth: 1920,
+                    dialogClass: "test",
+                    resizable: true
+                });
+            },
             /**
              * 設定搜尋 rate cod 資料
              */
@@ -1887,8 +1896,8 @@
             },
             /**
              * 開啟rate cod資料
-             * /
-             showRateCodDialog() {
+             */
+            showRateCodDialog() {
                 if (this.isModifiable) {
                     var dialog = $("#selectRateCod_dialog").removeClass('hide').dialog({
                         modal: true,
@@ -1901,7 +1910,7 @@
                     });
                 }
             },
-             /**
+            /**
              * 新增訂房明細
              */
             async appendRow() {
@@ -2050,115 +2059,11 @@
                         serv_amt: lo_deletingData.serv_amt,
                         block_cod: lo_deletingData.block_cod
                     };
-                    let la_groupOrderDtData = _.where(this.orderDtRowsData, lo_groupParam);
-                    _.each(la_groupOrderDtData, (lo_groupData) => {
-                        //刪除order dt資料
-                        let ln_delOrderIndex = _.findIndex(this.oriOrderDtRowsData, {ikey_seq_nos: lo_groupData.ikey_seq_nos});
-                        if (ln_delOrderIndex > -1) {
-                            this.orderDtRowsData[ln_delOrderIndex].order_sta = 'X';
-                        }
-                        else {
-                            //此次新增的
-                            let ln_delTmpIndex = _.findLastIndex(this.tmpCUD.createData, {ikey_seq_nos: lo_groupData.ikey_seq_nos});
-                            if (ln_delTmpIndex > -1) {
-                                this.tmpCUD.createData.splice(ln_delTmpIndex, 1);
-                                let ln_delOrderDtIndex = _.findLastIndex(this.orderDtRowsData, {ikey_seq_nos: lo_groupData.ikey_seq_nos});
-                                if (ln_delOrderDtIndex > -1) {
-                                    this.orderDtRowsData.splice(ln_delOrderDtIndex, 1);
-                                }
-                            }
-                        }
-
-                        //刪除guest mn 資料
-                        let ln_delGuestMnIndex = _.findIndex(this.oriGuestMnRowsData, {ikey_seq_nos: lo_groupData.ikey_seq_nos});
-                        if (ln_delGuestMnIndex > -1) {
-                            this.guestMnRowsData[ln_delGuestMnIndex].guest_sta = 'X';
-                        }
-                        else {
-                            //此次新增的
-                            let ln_delTmpIndex = _.findLastIndex(this.guestMnTmpCUD.createData, {ikey_seq_nos: lo_groupData.ikey_seq_nos});
-                            if (ln_delTmpIndex > -1) {
-                                this.guestMnTmpCUD.createData.splice(ln_delTmpIndex, 1);
-                                let ln_delGuestMnIndex = _.findIndex(this.guestMnRowsData, {ikey_seq_nos: lo_groupData.ikey_seq_nos});
-                                if (ln_delGuestMnIndex > -1) {
-                                    this.guestMnRowsData.splice(ln_delGuestMnIndex, 1);
-                                }
-                            }
-                        }
-                    });
                     this.groupOrderDtData = [];
                     this.orderDtRowsData4table.splice(index, 1);
                     this.orderDtRowsData4Single = {};
                     this.editingOrderDtIdx = undefined;
                 }
-            },
-            //開啟住客歷史資料
-            showGhistMnDialog() {
-                this.$store.dispatch("ghistMnModule/setAllDataClear");
-                let self = this;
-                let dialog = $('#PMS0210011').removeClass('hide').dialog({
-                    autoOpen: false,
-                    modal: true,
-                    title: "住客歷史",
-                    width: 1000,
-                    maxwidth: 1920,
-                    minheight: 800,
-                    dialogClass: "test",
-                    resizable: true,
-                    onBeforeClose() {
-                        self.editingGuestMnData = {};
-                        self.isEdit4GuestMn = false;
-                        self.isCreate4GuestMn = false;
-                        self.$store.dispatch("orderMnModule/setOpenModule", {openModule: ""});
-                        self.$eventHub.$emit("doSaveModifyData");
-                    }
-                }).dialog('open');
-            },
-            //開啟訂房公司資料
-            showCustMnDialog() {
-                if (this.orderMnSingleData.acust_cod != "") {
-                    this.editingCustMnData = {};
-                    this.editingCustMnData.cust_mn_cust_cod = JSON.parse(JSON.stringify(this.orderMnSingleData)).acust_cod;
-                    this.isModifiable4CustMn = false;
-                    this.isEdit4CustMn = true;
-
-                    let self = this;
-                    var dialog = $('#PMS0610020').removeClass('hide').dialog({
-                        autoOpen: false,
-                        modal: true,
-                        title: go_i18nLang["program"]["PMS0610020"].company_maintain,
-                        width: 1000,
-                        maxHeight: 1920,
-                        resizable: true,
-                        onBeforeClose() {
-                            self.editingCustMnData = {};
-                        }
-                    }).dialog('open');
-                }
-            },
-            //開啟公帳號資料
-            showMasterStaDialog() {
-                var dialog = $("#publicAccount_dialog").removeClass('hide').dialog({
-                    modal: true,
-                    title: "公帳號",
-                    title_html: true,
-                    width: 400,
-                    maxwidth: 1920,
-                    dialogClass: "test",
-                    resizable: true
-                });
-            },
-            //開啟聯絡細項資料
-            showTelDetailDialog() {
-                var dialog = $("#telDetail_dialog").removeClass('hide').dialog({
-                    modal: true,
-                    title: "其他聯絡方式",
-                    title_html: true,
-                    width: 400,
-                    maxwidth: 1920,
-                    dialogClass: "test",
-                    resizable: true
-                });
             },
             changeOrderSta(orderStaSelectData) {
                 this.orderStatus = orderStaSelectData.value;
@@ -2177,258 +2082,6 @@
                     this.orderDtRowsData[ln_idx].order_sta = this.orderStatus;
                 });
                 this.convertDtDataToSingleAndTable();
-            },
-            async doConvertData() {
-
-                //主檔資料轉換
-                if (!_.isUndefined(this.orderMnSingleData)) {
-                    let lo_saveSingleData = JSON.parse(JSON.stringify(this.orderMnSingleData));
-                    lo_saveSingleData = _.extend(lo_saveSingleData, {
-                        page_id: 1,
-                        tab_page_id: 12,
-                        key_nos: this.keyNos
-                    });
-                    //旅客登記卡印房租
-                    lo_saveSingleData.prtconfirm_sta = lo_saveSingleData.prtconfirm_sta ? 'Y' : 'N';
-
-                    //訂房公司
-                    let lo_acustField = _.findWhere(this.oriOrderMnFieldsData, {ui_field_name: 'acust_nam'});
-                    if (!_.isUndefined(lo_acustField)) {
-                        let la_acustSelectData = _.isUndefined(lo_acustField.selectData) ? [] : lo_acustField.selectData.selectData;
-                        let lo_selectedData = _.findWhere(la_acustSelectData, {cust_cod: lo_saveSingleData.acust_cod});
-                        lo_saveSingleData.acust_nam = _.isUndefined(lo_selectedData) ? lo_saveSingleData.acust_nam : lo_selectedData.alt_nam;
-                    }
-                    if (this.isCreateStatus) {
-                        this.tmpCUD.createData.splice(0, 0, lo_saveSingleData);
-                    }
-                    else {
-                        this.tmpCUD.updateData.splice(0, 0, lo_saveSingleData);
-                        this.tmpCUD.oriData.splice(0, 0, this.oriOrderMnSingleData);
-                    }
-                }
-
-                //order dt 資料
-                if (!_.isEmpty(this.orderDtRowsData4table[this.editingOrderDtIdx])) {
-                    let lo_editingRow = JSON.parse(JSON.stringify(this.orderDtRowsData4table[this.editingOrderDtIdx]));
-                    //間數改變，增加或減少orderDtRowsData
-                    if (lo_editingRow.order_qnt != this.orderDtRowsData4Single.order_qnt) {
-                        //間數不得小於0
-                        if (lo_editingRow.order_qnt != "" && lo_editingRow.order_qnt > 0) {
-                            let ln_orderQnt = Number(lo_editingRow.order_qnt) - Number(this.orderDtRowsData4Single.order_qnt);
-                            if (ln_orderQnt > 0) {
-                                //增加orderDtRowsData
-                                let lo_ikeySeqNos = await BacUtils.doHttpPromisePostProxy("/api/chkFieldRule", {
-                                    rule_func_name: 'get_order_dt_default_data',
-                                    allRowData: this.orderDtRowsData
-                                }).then((result) => {
-                                    return result;
-                                }).catch(err => {
-                                    return {success: false, errorMsg: err}
-                                });
-
-                                let ln_ikeySeqNos = lo_ikeySeqNos.success ?
-                                    lo_ikeySeqNos.defaultValues.ikey_seq_nos : _.max(this.orderDtRowsData, (lo_orderDtRowsData) => {
-                                    return lo_orderDtRowsData.ikey_seq_nos;
-                                }).ikey_seq_nos + 1;
-
-                                for (let i = 0; i < ln_orderQnt; i++) {
-                                    let lo_editParam = {
-                                        rate_cod: lo_editingRow.rate_cod,
-                                        days: lo_editingRow.days,
-                                        ci_dat: lo_editingRow.ci_dat,
-                                        co_dat: lo_editingRow.co_dat,
-                                        use_cod: lo_editingRow.use_cod,
-                                        room_cod: lo_editingRow.room_cod,
-                                        block_cod: lo_editingRow.block_cod,
-                                        rent_amt: lo_editingRow.rent_amt,
-                                        serv_amt: lo_editingRow.serv_amt
-                                    };
-
-                                    //order_sta 為'x'的改為現在的訂房狀況
-                                    let la_editData = _.where(this.orderDtRowsData, lo_editParam);
-                                    let ln_editIndex = _.findIndex(la_editData, {order_sta: 'X'});
-                                    if (ln_editIndex > -1) {
-                                        let ln_orderDtIndex = _.findIndex(this.orderDtRowsData, la_editData[ln_editIndex]);
-                                        if (ln_orderDtIndex > -1) {
-                                            this.orderDtRowsData[ln_orderDtIndex].order_sta = this.orderStatus;
-                                        }
-
-                                        let ln_guestMnIndex = _.findIndex(this.guestMnRowsData, {ikey_seq_nos: la_editData[ln_editIndex].ikey_seq_nos});
-                                        if (ln_guestMnIndex > -1) {
-                                            this.guestMnRowsData[ln_guestMnIndex].guest_sta = 'E';
-                                        }
-                                    }
-                                    else {
-                                        let lo_addParams = {};
-                                        lo_addParams = _.extend(lo_addParams, lo_editingRow);
-                                        lo_addParams.order_qnt = 1;
-                                        lo_addParams.ikey_seq_nos = Number(ln_ikeySeqNos) + i;
-
-                                        this.orderDtRowsData.push(lo_addParams);
-                                    }
-                                }
-                            }
-                            else {
-                                //減少orderDtRowsData和guestMnRowsData
-                                for (let i = 0; i < Math.abs(ln_orderQnt); i++) {
-                                    let lo_delData = this.groupOrderDtData[this.groupOrderDtData.length - 1 - i];
-                                    //order dt 原本就在資料庫裡的資料
-                                    let ln_delOrderIndex = _.findLastIndex(this.oriOrderDtRowsData, {ikey_seq_nos: lo_delData.ikey_seq_nos});
-                                    if (ln_delOrderIndex > -1) {
-                                        this.orderDtRowsData[ln_delOrderIndex].order_sta = 'X';
-                                    }
-                                    else {
-                                        //此次新增的
-                                        let ln_delTmpIndex = _.findLastIndex(this.tmpCUD.createData, lo_delData);
-                                        if (ln_delTmpIndex > -1) {
-                                            this.tmpCUD.createData.splice(ln_delTmpIndex, 1);
-                                            let ln_delOrderDtIndex = _.findLastIndex(this.orderDtRowsData, lo_delData);
-                                            if (ln_delOrderDtIndex > -1) {
-                                                this.orderDtRowsData.splice(ln_delOrderDtIndex, 1);
-                                            }
-                                        }
-                                    }
-
-                                    let ln_delGuestIndex = _.findIndex(this.oriGuestMnRowsData, {ikey_seq_nos: lo_delData.ikey_seq_nos});
-                                    if (ln_delGuestIndex > -1) {
-                                        this.guestMnRowsData[ln_delGuestIndex].guest_sta = 'X';
-                                    }
-                                    else {
-                                        //此次新增的
-                                        let ln_delTmpIndex = _.findLastIndex(this.guestMnTmpCUD.createData, {ikey_seq_nos: lo_delData.ikey_seq_nos});
-                                        if (ln_delTmpIndex > -1) {
-                                            this.guestMnTmpCUD.createData.splice(ln_delTmpIndex, 1);
-                                            let ln_delGuestMnIndex = _.findIndex(this.guestMnRowsData, {ikey_seq_nos: lo_delData.ikey_seq_nos});
-                                            if (ln_delGuestMnIndex > -1) {
-                                                this.guestMnRowsData.splice(ln_delGuestMnIndex, 1);
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                        else {
-                            this.orderDtRowsData4table[this.editingOrderDtIdx].order_qnt = this.orderDtRowsData4Single.order_qnt;
-                        }
-                    }
-
-                    //改變orderDtRowsData資料，除了間數以外的屬性，並重新group資料
-                    let lo_orderParams = {
-                        block_cod: lo_editingRow.block_cod,
-                        ci_dat: lo_editingRow.ci_dat,
-                        co_dat: lo_editingRow.co_dat,
-                        days: lo_editingRow.days,
-                        order_sta: lo_editingRow.order_sta,
-                        rate_cod: lo_editingRow.rate_cod,
-                        rent_amt: lo_editingRow.rent_amt,
-                        room_cod: lo_editingRow.room_cod,
-                        serv_amt: lo_editingRow.serv_amt,
-                        use_cod: lo_editingRow.use_cod
-                    };
-                    let lo_groupingData = this.groupOrderDtData[0];
-                    let lo_groupParams = {
-                        block_cod: lo_groupingData.block_cod,
-                        ci_dat: lo_groupingData.ci_dat,
-                        co_dat: lo_groupingData.co_dat,
-                        days: lo_groupingData.days,
-                        order_sta: lo_groupingData.order_sta,
-                        rate_cod: lo_groupingData.rate_cod,
-                        rent_amt: lo_groupingData.rent_amt,
-                        room_cod: lo_groupingData.room_cod,
-                        serv_amt: lo_groupingData.serv_amt,
-                        use_cod: lo_groupingData.use_cod
-                    };
-                    _.each(this.orderDtRowsData, () => {
-                        let ln_editIdx = _.findIndex(this.orderDtRowsData, lo_groupParams);
-                        if (ln_editIdx > -1) {
-                            this.orderDtRowsData[ln_editIdx] = _.extend(this.orderDtRowsData[ln_editIdx], lo_orderParams);
-                        }
-                    });
-                    this.groupOrderDtData = _.where(this.orderDtRowsData, lo_orderParams);
-
-                    //計算所有group data的房價
-                    if (this.groupOrderDtData.length > 0) {
-                        if (this.groupOrderDtData[0].rate_cod != "") {
-                            let lo_params = {
-                                rule_func_name: 'compute_oder_dt_price',
-                                allRowData: this.groupOrderDtData,
-                                key_nos: this.keyNos,
-                                acust_cod: this.orderMnSingleData.acust_cod
-                            };
-                            let lo_doComputePrice = await $.post("/api/chkFieldRule", lo_params).then(result => {
-                                return result;
-                            }, err => {
-                                throw Error(err);
-                            });
-                            if (lo_doComputePrice.success) {
-                                _.each(this.groupOrderDtData, () => {
-                                    let lo_param = {
-                                        rate_cod: lo_editingRow.rate_cod,
-                                        days: lo_editingRow.days,
-                                        ci_dat: lo_editingRow.ci_dat,
-                                        co_dat: lo_editingRow.co_dat,
-                                        use_cod: lo_editingRow.use_cod,
-                                        room_cod: lo_editingRow.room_cod,
-                                        rent_amt: lo_editingRow.rent_amt,
-                                        serv_amt: lo_editingRow.serv_amt
-                                    };
-                                    let ln_editIndex = _.findIndex(this.orderDtRowsData, lo_param);
-                                    if (ln_editIndex > -1) {
-                                        this.orderDtRowsData[ln_editIndex] = _.extend(this.orderDtRowsData[ln_editIndex], lo_doComputePrice.effectValues);
-                                        let lo_editParam = {
-                                            other_tot: lo_doComputePrice.effectValues.other_amt * this.orderDtRowsData[ln_editIndex].order_qnt,
-                                            rent_tot: lo_doComputePrice.effectValues.rent_amt * this.orderDtRowsData[ln_editIndex].order_qnt,
-                                            serv_tot: lo_doComputePrice.effectValues.serv_amt * this.orderDtRowsData[ln_editIndex].order_qnt,
-                                        };
-                                        this.orderDtRowsData[ln_editIndex] = _.extend(this.orderDtRowsData[ln_editIndex], lo_editParam);
-                                    }
-                                });
-                            }
-                            else {
-                                alert(lo_doComputePrice.errorMsg);
-                            }
-                        }
-                    }
-                }
-
-                //住客姓名轉換
-                _.each(this.guestMnTmpCUD, (la_tmpCUD, ls_dataType) => {
-                    _.each(la_tmpCUD, (lo_tmpData, ln_idx) => {
-                        let ls_altName = JSON.parse(JSON.stringify(lo_tmpData.alt_nam));
-                        if (ls_altName.split(":").length > 1) {
-                            lo_tmpData.alt_nam = ls_altName.split(":")[1];
-                        }
-                        lo_tmpData = _.extend(lo_tmpData, {page_id: 1, tab_page_id: 11});
-                        this.tmpCUD[ls_dataType].push(lo_tmpData);
-                    });
-                });
-            },
-            async dataValidate(chkData, chkFields) {
-
-                return await new Promise((resolve, reject) => {
-                    let lo_checkResult = {success: true, msg: ""};
-                    let la_chkData = Array.isArray(chkData) ? chkData : [chkData];
-                    //檢查資料
-                    for (let lo_chkData of la_chkData) {
-                        for (let lo_field of chkFields) {
-                            //必填
-                            if (lo_field.requirable == "Y" && lo_field.modificable != "N" && lo_field.ui_type != "checkbox") {
-                                lo_checkResult = go_validateClass.required(lo_chkData[lo_field.ui_field_name], lo_field.ui_display_name);
-                                if (lo_checkResult.success == false) {
-                                    break;
-                                }
-                            }
-                            //有format
-                            if (lo_field.format_func_name.validate != "" && !_.isUndefined(go_validateClass[lo_field.format_func_name.validate]) && lo_chkData[lo_field.ui_field_name] != '') {
-                                lo_checkResult = go_validateClass[lo_field.format_func_name.validate](lo_chkData[lo_field.ui_field_name], lo_field.ui_display_name);
-                                if (lo_checkResult.success == false) {
-                                    break;
-                                }
-                            }
-                        }
-                    }
-                    resolve(lo_checkResult)
-                });
             },
             async doSave() {
                 this.isLoadingDialog = true;
@@ -2455,6 +2108,7 @@
                     this.isLoadingDialog = false;
                 }
                 else {
+                    console.log(this.tmpCUD);
                     let lo_saveData = await
 //                        new Promise((resolve, reject) => {
 //                            setTimeout(() => {
@@ -2527,7 +2181,6 @@
                 $("#PMS0110041Lite").dialog('close');
             }
             //endregion
-
         }
     }
 </script>
