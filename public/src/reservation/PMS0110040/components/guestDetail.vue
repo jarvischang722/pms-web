@@ -682,10 +682,13 @@
                         _.each(la_ikey_seq_nos, lo_data => {
                             let lo_guestMnRowData = _.findWhere(this.guestMnRowsData, {ikey_seq_nos: lo_data.ikey_seq_nos});
                             if (!_.isUndefined(lo_guestMnRowData)) {
+
+
                                 la_guestMnRowsData[idx].push(lo_guestMnRowData);
                             }
                         });
                     });
+
                     la_guestMnRowsData["unspecified"] = _.where(this.guestMnRowsData, {ikey_seq_nos: 0});
                     this.guestMnRowsData = la_guestMnRowsData;
                 }
@@ -774,6 +777,7 @@
                     });
 
                     this.allOrderDtRowsData = lo_fetchOrderDtData.dgRowData;
+
                     let ls_groupStatement = "select *, count(*) as order_qnt from ? where order_sta <> 'X' group by rate_cod,order_sta,days,ci_dat,co_dat,use_cod,room_cod,rent_amt,serv_amt,block_cod";
                     this.orderDtGroupRowsData = alasql(ls_groupStatement, [this.allOrderDtRowsData]);
                 }
@@ -835,10 +839,12 @@
                     _.each(la_ikey_seq_nos, (lo_data) => {
                         let lo_guestMnRowData = _.findWhere(this.allGuestMnRowsData, {ikey_seq_nos: lo_data.ikey_seq_nos});
                         if (!_.isUndefined(lo_guestMnRowData)) {
-                            this.guestMnRowsData[idx].push(lo_guestMnRowData);
+
+                            this.guestMnRowsData[idx].push(_.extend(lo_guestMnRowData, {key_nos: lo_data.key_nos}));
                         }
                     });
                 });
+                // console.log(this.guestMnRowsData);
                 //未指定的guest mn 資料
                 this.guestMnRowsData["unspecified"] = _.where(this.allGuestMnRowsData, {ikey_seq_nos: 0});
 
@@ -1072,7 +1078,6 @@
             },
             //新增guest mn 資料
             async addGuestMnData() {
-
                 if (this.isModifiable) {
                     // 讀取group order_dt 當前選擇的列的資料
                     this.editingGroupData = $("#orderDtTable").datagrid('getSelected');
@@ -1308,6 +1313,7 @@
 
 
                     // 住客名單儲存
+
                     this.saveGuestList();
 
                     this.isLoading = false;
