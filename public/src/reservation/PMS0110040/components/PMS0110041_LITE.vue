@@ -1613,7 +1613,7 @@
                 }
 
                 try {
-                    this.isLoading = true;
+                    this.isLoadingDialog = true;
                     let lo_postData = {
                         prg_id: gs_prgId,
                         rule_func_name: rule_func_name,
@@ -1634,6 +1634,7 @@
                             if (la_effectValuesKey.indexOf("allRowData") > -1) {
                                 let la_allRowData = JSON.parse(JSON.stringify(lo_doChkFiledRule.effectValues["allRowData"]));
                                 this.orderDtRowsData = la_allRowData;
+                                console.log(this.orderDtRowsData);
                             }
                             else {
                                 this.orderDtRowsData4table[this.editingOrderDtIdx] =
@@ -1694,7 +1695,7 @@
                         // this.isEffectFromRule = false;
                         alert(lo_doChkFiledRule.errorMsg);
                     }
-                    this.isLoading = false;
+                    this.isLoadingDialog = false;
                 }
                 catch (err) {
                     alert(err)
@@ -1710,12 +1711,12 @@
                     }
                     //修改狀態
                     else {
-                        let ln_oriIdx = _.findIndex(oriAllRowData, {ikey_seq_nos: lo_data.ikey_seq_nos});
+                        let ln_oriIdx = _.findIndex(oriAllRowData, {ikey_seq_nos: Number(lo_data.ikey_seq_nos)});
                         if (ln_oriIdx > -1) {
+                            console.log(this.oriOrderDtRowsData[ln_oriIdx].order_sta, lo_data.order_sta);
                             let la_orderDtDataKey = Object.keys(lo_data);
                             for (let ls_key of la_orderDtDataKey) {
                                 if (lo_data[ls_key] != oriAllRowData[ln_oriIdx][ls_key]) {
-                                    console.log(ls_key, lo_data[ls_key], oriAllRowData[ln_oriIdx][ls_key]);
                                     this.tmpCUD.updateData.push(_.extend(lo_data, extendParam));
                                     this.tmpCUD.oriData.push(_.extend(oriAllRowData[ln_oriIdx], extendParam));
                                     break;
