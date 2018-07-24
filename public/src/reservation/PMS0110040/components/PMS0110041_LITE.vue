@@ -2527,20 +2527,24 @@
                         resizable: true,
                         onBeforeClose: function () {
                             let lo_this = $(this);
-                            $.messager.confirm('提示','是否要儲存資料？', (lb_resAns) => {
-                                if (lb_resAns) {
-                                    self.$eventHub.$emit("saveGuestDetail", {
-                                        save: lb_resAns
-                                    });
-                                } else {
-                                    self.isOpenGuestDetail = false;
-                                }
+                            $.messager.confirm({
+                                title: '提示',
+                                msg: '是否要儲存資料？',
+                                fn: function (lb_resAns) {
+                                    if (lb_resAns) {
+                                        self.$eventHub.$emit("saveGuestDetail", {
+                                            save: lb_resAns
+                                        });
+                                    } else {
+                                        self.isOpenGuestDetail = false;
+                                    }
 
-                                let opts = lo_this.panel('options');
-                                let onBeforeClose = opts.onBeforeClose;
-                                opts.onBeforeClose = function () {};
-                                lo_this.panel('close');
-                                opts.onBeforeClose = onBeforeClose;
+                                    let opts = lo_this.panel('options');
+                                    let onBeforeClose = opts.onBeforeClose;
+                                    opts.onBeforeClose = function () {};
+                                    lo_this.panel('close');
+                                    opts.onBeforeClose = onBeforeClose;
+                                }
                             });
                             return false;
                         }

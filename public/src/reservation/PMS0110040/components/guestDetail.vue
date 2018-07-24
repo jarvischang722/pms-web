@@ -499,10 +499,10 @@
                     }
                 }
             });
-
+            // 點擊右上方的關閉按鈕時，提示是否要存取資料。
             this.$eventHub.$on('saveGuestDetail', async (data)=>{
                 if (data.save) {
-                    this.save();
+                    await this.save();
                 }
             });
         },
@@ -645,7 +645,7 @@
                     let ls_ciDat = this.editingGroupData.ci_dat;
 
                     /**
-                     * 看文件應該是'I,O,S,D'不能修改的，能修改的只有 order_sta: N 以及 C/I日期小於滾房租日期
+                     * 看文件應該是 'I,O,S,D' 以及 C/I日期小於滾房租日期不能修改的，能修改的只有 order_sta: N
                      */
                     // let la_checkField = ["I", "O", "S", "D"];
                     // this.isModifiable = (la_checkField.indexOf(ls_orderSta) > -1 && moment(ls_ciDat).diff(moment(this.rentCalDat), "days") >= 0)
@@ -1258,8 +1258,8 @@
                             let ln_idx = _.findIndex(la_allOrderdata, {ikey_seq_nos: val.ikey_seq_nos});
 
                             let lb_diffMark = true;
-                            la_keys.forEach(x => {
-                                if (val[x] !== la_allOrderdata[ln_idx][x] && lb_diffMark) {
+                            la_keys.forEach(ls_key => {
+                                if (val[ls_key] !== la_allOrderdata[ln_idx][ls_key] && lb_diffMark) {
                                     lb_diffMark = false;
                                     val.page_id = 1;
                                     val.tab_page_id = 2;
