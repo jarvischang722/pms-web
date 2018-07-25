@@ -296,7 +296,6 @@ module.exports = {
                 }
                 else {
 
-
                     let lo_ghistMnData = await new Promise((resolve, reject) => {
                         let lo_daoParam = {
                             id: "IDC_BACCHUS_1",
@@ -324,7 +323,6 @@ module.exports = {
                         contry_cod: lo_ghistMnData.contry_cod,
                         first_nam: lo_ghistMnData.first_nam,
                         gcust_cod: ls_gcustCod,
-                        psngr_nos: 0,//todo 訂房時依訂房卡+psngr_nos捉最大值，由1開始
                         last_nam: lo_ghistMnData.last_nam,
                         precredit_amt: 0,
                         rent_amt: 0,
