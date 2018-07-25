@@ -15,9 +15,6 @@
                 <div class="right-menu-co pull-right" style="width: 80px;">
                     <button role="button" class="btn btn-danger btn-white btn-defaultWidth" @click="setStopSell">
                         {{stopSellButton.text}}
-
-
-
                     </button>
                 </div>
             </div>
@@ -32,9 +29,6 @@
                             <tr class="grayBg">
                                 <th class="ca-headerTitle grayBg defHt" style="width: 15%">
                                     {{i18nLang.program.PMS0810230.dateRule}}
-
-
-
                                 </th>
                                 <th class="defHt" v-for="(value, key, index) in roomCodData4Display">{{key}}</th>
                             </tr>
@@ -47,18 +41,16 @@
                                         style="background-color: white;"
                                         @click="getData(ratecodData)" :id="ratecodData.uniKey">
                                         <template v-if="ratecodData.isEdit && ratecodData.use_sta == 'Y'">
-                                            <input type="text"
+                                            <input type="text" v-focus
                                                    @keyup="formatAmt(ratecodData.rent_amt, rentAmtFieldData)"
                                                    v-model="ratecodData.rent_amt"
                                                    @keyup.enter="showNextColData(key,ratecodidx)">
                                         </template>
                                         <template v-else-if="ratecodData.use_sta == 'N'" style="width: 100%">
                                             *
-
                                         </template>
                                         <template v-else style="width: 100%">
                                             {{ratecodData.rent_amt}}
-
                                         </template>
                                     </td>
                                 </template>
@@ -79,7 +71,14 @@
 <script>
     import moment from 'moment';
     import crypto from 'crypto';
-
+    // Register a global custom directive called `v-focus`
+    Vue.directive('focus', {
+        // When the bound element is inserted into the DOM...
+        inserted: function (el) {
+            // Focus the element
+            el.focus()
+        }
+    });
     export default {
         name: 'roomTyp',
         props: ["rowData", "isRoomType"],
@@ -395,9 +394,6 @@
                     let la_allData = [];
                     _.each(lo_cloneData, (val, key) => {
                         _.each(val, (lo_val) => {
-                            lo_val.rent_amt = go_formatDisplayClass.removeAmtFormat(lo_val.rent_amt.toString()).toString();
-                            lo_val.begin_dat = moment(lo_val.begin_dat).format("YYYY/MM/DD");
-                            lo_val.end_dat = moment(lo_val.end_dat).format("YYYY/MM/DD");
                             la_allData.push(lo_val);
                         })
                     });
@@ -684,7 +680,11 @@
                 this.tableCellWidth = 85 / _.keys(this.roomCodData4Display).length;
             },
             convertDataToTmpCUD() {
-                _.each(this.rateCodDtData, (lo_rateCodDtData, ln_idx) => {
+                _.each(this.rateCodDtData, (lo_rateCodDtDataOri, ln_idx) => {
+                    let lo_rateCodDtData = _.clone(lo_rateCodDtDataOri);
+                    lo_rateCodDtData.rent_amt = go_formatDisplayClass.removeAmtFormat(lo_rateCodDtData.rent_amt.toString()).toString();
+                    lo_rateCodDtData.begin_dat = moment(lo_rateCodDtData.begin_dat).format("YYYY/MM/DD");
+                    lo_rateCodDtData.end_dat = moment(lo_rateCodDtData.end_dat).format("YYYY/MM/DD");
                     //原始資料找不到  && isCreate一定要存在 ==> 新增過後修改
                     if (_.isUndefined(this.oriRateCodDtData[ln_idx]) || !_.isUndefined(lo_rateCodDtData.isCreate)) {
                         let ln_createIndex = _.findIndex(this.tmpCUD.createData, {uniKey: lo_rateCodDtData.uniKey});

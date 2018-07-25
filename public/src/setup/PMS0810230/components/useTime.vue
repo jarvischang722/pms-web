@@ -845,14 +845,10 @@
             },
             convertSelectData(data) {
                 let la_returnData = [];
-                if (data.split(",").length > 0) {
-                    _.each(data.split(","), (ls_data) => {
-                        la_returnData.push(ls_data);
-                    })
-                }
-                else {
-                    la_returnData.push(data);
-                }
+                let la_origin = _.isArray(data) ? data : data.split(",");
+                _.each(la_origin, function (ls_data) {
+                    la_returnData.push(ls_data);
+                });
                 return la_returnData;
             }
         }

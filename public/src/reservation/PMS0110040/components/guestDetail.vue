@@ -279,6 +279,7 @@
                                                                                        :maxlength="field.ui_field_length"
                                                                                        class="selectHt"
                                                                                        :class="{'input_sta_required' : field.requirable == 'Y'}"
+                                                                                       @change="chkGuestMnFieldRule(field, singleData)"
                                                                                        :disabled="field.modificable == 'N'|| !isModifiable ||
                                                                     (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)">
                                                                             </td>
@@ -296,6 +297,7 @@
                                                                                             :default-val="singleData[field.ui_field_name] || field.defaultVal"
                                                                                             class="el-select-ht selectHt"
                                                                                             style="height: 25px;"
+                                                                                            @change="chkGuestMnFieldRule(field, singleData)"
                                                                                             :disabled="field.modificable == 'N'|| !isModifiable ||
                                                                     (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)">
                                                                                 </bac-select>
@@ -313,6 +315,7 @@
                                                                                         format="yyyy/MM/dd"
                                                                                         :style="{width:field.width + 'px'}"
                                                                                         :editable="false" :clearable="false"
+                                                                                        @change="chkGuestMnFieldRule(field, singleData)"
                                                                                 >
                                                                                 </el-date-picker>
                                                                             </td>
@@ -325,6 +328,7 @@
                                                                                        :style="{width:field.width + 'px'}"
                                                                                        class="text-right selectHt"
                                                                                        :class="{'input_sta_required' : field.requirable == 'Y'}"
+                                                                                       @change="chkGuestMnFieldRule(field, singleData)"
                                                                                        :disabled="field.modificable == 'N'|| !isModifiable ||
                                                                     (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)">
                                                                             </td>
@@ -345,6 +349,7 @@
                                                                                         :text-field="field.selectData.display"
                                                                                         @update:v-model="val => singleData[field.ui_field_name] = val"
                                                                                         :default-val="singleData[field.ui_field_name]"
+                                                                                        @change="chkGuestMnFieldRule(field, singleData)"
                                                                                         :disabled="field.modificable == 'N'|| !isModifiable ||
                                                    (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)">
                                                                                 </bac-select-grid>
@@ -448,6 +453,7 @@
 <script>
 
     import alasql from 'alasql';
+    import _s from "underscore.string";
     import specifyHouses from './specifyHouses';
     import selectRateCod from './selectRateCod';
 
@@ -500,10 +506,30 @@
                 }
             });
             // 點擊右上方的關閉按鈕時，提示是否要存取資料。
-            this.$eventHub.$on('saveGuestDetail', async (data)=>{
-                if (data.save) {
-                    await this.save();
-                }
+            this.$eventHub.$on("guestDetailIsChange", (data) => {
+                let lo_oriData = {};
+                let lo_nowData = {};
+                let la_chkKey = ["orderDt", "guestMn"];
+
+                _.each(la_chkKey, (ls_key) => {
+                    lo_nowData[ls_key] = [];
+                    lo_oriData[ls_key] = [];
+                    _.each(this[`${ls_key}RowsData`], (la_data) => {
+                        _.each(la_data, (lo_data) => {
+                            lo_nowData[ls_key].push(lo_data);
+                        })
+                    });
+                    _.each(this[`ori${_s.capitalize(ls_key)}RowsData`], (la_data) => {
+                        _.each(la_data, (lo_data) => {
+                            lo_oriData[ls_key].push(lo_data);
+                        })
+                    })
+                });
+
+                data.doSave(go_validateClass.chkDataChang(lo_nowData, lo_oriData));
+            });
+            this.$eventHub.$on("saveGuestDetail", async () => {
+                await this.save();
             });
         },
         mounted() {
@@ -533,8 +559,9 @@
                 beforeOrderDtRowsData: {},          //所group 到的所有 order dt 修改前資料
 
                 guestMnFieldData: [],               //所group 到的所有 guest mn 欄位資料
-                guestMnRowsData: {},                //所group 到的所有 guest mn 原始資料
-                oriGuestMnRowsData: {},             //所group 到的所有 guest mn 資料
+                guestMnRowsData: {},                //所group 到的所有 guest mn 資料
+                oriGuestMnRowsData: {},             //所group 到的所有 guest mn 原始資料
+                beforeGuestMnRowsData: {},          //所group 到的所有 guest mn 改變前資料
 
                 editingGroupDataIndex: undefined,   //現在所選group order dt 的index
                 editingGroupData: {},               //現在所選group order dt 的資料
@@ -834,17 +861,16 @@
             },
             groupGuestMnData() {
                 //利用分組後的order dt 資料將guest mn 資料做分組
-                _.each(this.orderDtRowsData, (la_ikey_seq_nos, idx) => {
+                _.each(this.orderDtRowsData, (la_data, idx) => {
                     this.guestMnRowsData[idx] = [];
-                    _.each(la_ikey_seq_nos, (lo_data) => {
-                        let lo_guestMnRowData = _.findWhere(this.allGuestMnRowsData, {ikey_seq_nos: lo_data.ikey_seq_nos});
-                        if (!_.isUndefined(lo_guestMnRowData)) {
-
-                            this.guestMnRowsData[idx].push(_.extend(lo_guestMnRowData, {key_nos: lo_data.key_nos}));
-                        }
+                    _.each(la_data, (lo_data) => {
+                        let la_guestMnRowData = _.where(this.allGuestMnRowsData, {ikey_seq_nos: lo_data.ikey_seq_nos});
+                        _.each(la_guestMnRowData, (lo_guestData) => {
+                            this.guestMnRowsData[idx].push(_.extend(lo_guestData, {key_nos: lo_data.key_nos}));
+                        });
                     });
                 });
-                // console.log(this.guestMnRowsData);
+
                 //未指定的guest mn 資料
                 this.guestMnRowsData["unspecified"] = _.where(this.allGuestMnRowsData, {ikey_seq_nos: 0});
 
@@ -910,7 +936,7 @@
             searchGuestMnAltName(guestMnData, index) {
                 this.$store.dispatch("orderMnModule/setOpenModule", {openModule: "guestDetail"});
                 this.editingGuestMnIdx = index;
-                guestMnData.gcust_cod = guestMnData.alt_nam.split(':')[0];
+                guestMnData.gcust_cod = guestMnData.alt_nam.split(':').length > 1 ? guestMnData.alt_nam.split(':')[0] : "";
                 this.editingGuestMnData = _.extend(this.rowData, guestMnData);
                 this.$eventHub.$emit("setSelectGuestMnAltData", {
                     rowData: this.editingGuestMnData
@@ -965,8 +991,8 @@
                         lo_orderDtData[this.editingGroupDataIndex].push(lo_cloneOrderData);
 
                         this.orderDtRowsData = lo_orderDtData;
-                        this.editingOrderDtIdx = this.orderDtRowsData[this.editingGroupDataIndex].length -1;
-                        this.chkOrderDtFieldRule('ci_dat ','chkOrderdtCidat');
+                        this.editingOrderDtIdx = this.orderDtRowsData[this.editingGroupDataIndex].length - 1;
+                        this.chkOrderDtFieldRule('ci_dat ', 'chkOrderdtCidat');
                     }
                     else {
                         alert(lo_chkAddRule.errorMsg);
@@ -1136,32 +1162,30 @@
                             if (la_lossIkeySeqNosGuest.length > 0) {
                                 _.each(la_lossIkeySeqNosGuest, (lo_guest) => {
                                     let lo_newGuest = {
-                                        ikey: lo_guest.ikey,
-                                        athena_id: lo_addRowData.athena_id,
-                                        hotel_cod: lo_addRowData.hotel_cod,
-                                        ci_ser: lo_addRowData.ci_ser,
-                                        ikey_seq_nos: lo_guest.ikey_seq_nos,
-                                        alt_nam: "",
-                                        assign_sta: lo_addRowData.assign_sta,
-                                        room_nos: "",
-                                        contry_cod: "",
-                                        pref_room: "",
-                                        car_nos: "",
-                                        guest_sta: lo_addRowData.guest_sta,
-                                        master_sta: lo_addRowData.master_sta,
-                                        system_typ: lo_addRowData.system_typ,
-                                        rent_amt: 0,
-                                        serv_amt: 0,
-                                        precredit_amt: 0,
-                                        gcust_cod: "",
-                                        alt_nam: "",
-                                        first_nam: "",
-                                        last_nam: "",
-                                        ccust_nam: "",
-                                        car_nos: "",
                                         airline_cod: "",
                                         airmb_nos: "",
-                                        status: "new"
+                                        alt_nam: "",
+                                        athena_id: lo_addRowData.athena_id,
+                                        assign_sta: lo_addRowData.assign_sta,
+                                        car_nos: "",
+                                        ccust_nam: "",
+                                        ci_ser: lo_addRowData.ci_ser,
+                                        contry_cod: "",
+                                        first_nam: "",
+                                        gcust_cod: "",
+                                        guest_sta: lo_addRowData.guest_sta,
+                                        hotel_cod: lo_addRowData.hotel_cod,
+                                        ikey: lo_guest.ikey,
+                                        ikey_seq_nos: lo_guest.ikey_seq_nos,
+                                        last_nam: "",
+                                        master_sta: lo_addRowData.master_sta,
+                                        precredit_amt: 0,
+                                        pref_room: "",
+                                        rent_amt: 0,
+                                        room_nos: "",
+                                        serv_amt: 0,
+                                        status: "new",
+                                        system_typ: lo_addRowData.system_typ
                                     };
                                     //新加入的object，vue前端畫面無法做出反應，解決方法深層複製新的物件
                                     let lo_cloneGuestMnRowsData = JSON.parse(JSON.stringify(this.guestMnRowsData));
@@ -1171,36 +1195,34 @@
                             }
                             else if (la_lossIkeySeqNosGuest.length === 0) {
                                 let lo_newGuest = {
-                                    ikey: la_detailOrderDtData[0].ikey,
-                                    athena_id: lo_addRowData.athena_id,
-                                    hotel_cod: lo_addRowData.hotel_cod,
-                                    ci_ser: lo_addRowData.ci_ser,
-                                    ikey_seq_nos: 0,
-                                    alt_nam: "",
-                                    assign_sta: lo_addRowData.assign_sta,
-                                    room_nos: "",
-                                    contry_cod: "",
-                                    pref_room: "",
-                                    car_nos: "",
-                                    guest_sta: lo_addRowData.guest_sta,
-                                    master_sta: lo_addRowData.master_sta,
-                                    system_typ: lo_addRowData.system_typ,
-                                    rent_amt: 0,
-                                    serv_amt: 0,
-                                    precredit_amt: 0,
-                                    gcust_cod: "",
-                                    alt_nam: "",
-                                    first_nam: "",
-                                    last_nam: "",
-                                    ccust_nam: "",
-                                    car_nos: "",
                                     airline_cod: "",
                                     airmb_nos: "",
-                                    status: "new"
+                                    alt_nam: "",
+                                    athena_id: lo_addRowData.athena_id,
+                                    assign_sta: lo_addRowData.assign_sta,
+                                    ccust_nam: "",
+                                    car_nos: "",
+                                    ci_ser: lo_addRowData.ci_ser,
+                                    contry_cod: "",
+                                    first_nam: "",
+                                    gcust_cod: "",
+                                    guest_sta: lo_addRowData.guest_sta,
+                                    hotel_cod: lo_addRowData.hotel_cod,
+                                    ikey: la_detailOrderDtData[0].ikey,
+                                    ikey_seq_nos: 0,
+                                    last_nam: "",
+                                    master_sta: lo_addRowData.master_sta,
+                                    precredit_amt: 0,
+                                    pref_room: "",
+                                    rent_amt: 0,
+                                    room_nos: "",
+                                    serv_amt: 0,
+                                    status: "new",
+                                    system_typ: lo_addRowData.system_typ
                                 };
                                 //新加入的object，vue前端畫面無法做出反應，解決方法深層複製新的物件
                                 let lo_cloneGuestMnRowsData = JSON.parse(JSON.stringify(this.guestMnRowsData));
-                                lo_cloneGuestMnRowsData[this.editingGroupDataIndex].push(lo_newGuest);
+                                lo_cloneGuestMnRowsData["unspecified"].push(lo_newGuest);
                                 this.guestMnRowsData = lo_cloneGuestMnRowsData;
                             }
                         }
@@ -1211,6 +1233,7 @@
                 }
             },
             //刪除guest mn 資料
+            //TODO 還有問題要再改
             async removeGuestMnData(data) {
                 if (this.isModifiable) {
                     this.isLoading = true;
@@ -1221,70 +1244,120 @@
                     this.isLoading = false;
                 }
             },
+            convertOrderDtDataToTmpCUD() {
+                //原始資料、現在資料 排序
+                let la_allOriOrderData = [];
+                let la_allOrderdata = [];
+                _.each(this.oriOrderDtRowsData, lo_oriOrderData => {
+                    _.each(lo_oriOrderData, lo_data => {
+                        la_allOriOrderData.push(lo_data);
+                    })
+                });
+
+                _.each(this.orderDtRowsData, lo_orderData => {
+                    _.each(lo_orderData, lo_data => {
+                        la_allOrderdata.push(lo_data);
+                    })
+                });
+                la_allOriOrderData = _.sortBy(la_allOriOrderData, 'ikey_seq_nos');
+                la_allOrderdata = _.sortBy(la_allOrderdata, 'ikey_seq_nos');
+
+                // 新增
+                _.each(la_allOrderdata, lo_data => {
+                    let lo_orderDataForikeySeqNos = _.findWhere(la_allOriOrderData, {ikey_seq_nos: lo_data.ikey_seq_nos});
+                    if (_.isUndefined(lo_orderDataForikeySeqNos)) {
+                        lo_data.page_id = 1;
+                        lo_data.tab_page_id = 2;
+                        this.tmpCUD.createData.push(lo_data);
+                    }
+                });
+
+                // 修改
+                let la_beforeOrder = [];
+                let la_afterOrder = [];
+                la_allOriOrderData.forEach((val, idx) => {
+                    let lo_orderDataForikeySeqNos = _.findWhere(la_allOrderdata, {ikey_seq_nos: val.ikey_seq_nos});
+
+                    if (!_.isUndefined(lo_orderDataForikeySeqNos)) {
+                        let la_keys = _.keys(val);
+                        let ln_idx = _.findIndex(la_allOrderdata, {ikey_seq_nos: val.ikey_seq_nos});
+
+                        let lb_diffMark = true;
+                        la_keys.forEach(ls_key => {
+                            if (val[ls_key] !== la_allOrderdata[ln_idx][ls_key] && lb_diffMark) {
+                                lb_diffMark = false;
+                                val.page_id = 1;
+                                val.tab_page_id = 2;
+                                la_allOrderdata[ln_idx].page_id = 1;
+                                la_allOrderdata[ln_idx].tab_page_id = 2;
+                                la_beforeOrder.push(val);
+                                la_afterOrder.push(la_allOrderdata[ln_idx]);
+                            }
+                        });
+                    }
+                });
+                if (la_afterOrder.length !== 0 && la_beforeOrder.length !== 0) {
+                    _.each(la_afterOrder, lo_data => {
+                        this.tmpCUD.updateData.push(lo_data)
+                    });
+                    _.each(la_beforeOrder, lo_data => {
+                        this.tmpCUD.oriData.push(lo_data)
+                    });
+                }
+            },
+            convertGuestMnDataToTmpCUD() {
+                let lo_extendData = {
+                    page_id: 1,
+                    tab_page_id: 3,
+                    ikey: this.rowData.ikey,
+                    key_nos: this.rowData.key_nos
+                };
+
+                //新增 guestMnTmpCUD.createData 資料
+                let la_guestMnData = [];
+                let la_oriGuestMnData = [];
+                _.each(this.guestMnRowsData, (la_data) => {
+                    _.each(la_data, (lo_data) => {
+                        la_guestMnData.push(lo_data);
+                    });
+                });
+                _.each(this.oriGuestMnRowsData, (la_data) => {
+                    _.each(la_data, (lo_data) => {
+                        la_oriGuestMnData.push(lo_data);
+                    });
+                });
+                if (la_guestMnData !== undefined) {
+                    _.each(la_guestMnData, (lo_guestMnRowsData) => {
+                        // lo_guestMnRowsData物件有status的key 代表是剛新增出來的住客資料
+                        if (lo_guestMnRowsData.status !== undefined) {
+                            lo_guestMnRowsData.alt_nam = lo_guestMnRowsData.alt_nam.split.length > 1 ? lo_guestMnRowsData.alt_nam.split(':')[1] : "";
+
+                            this.tmpCUD.createData.push(_.extend(lo_guestMnRowsData, lo_extendData));
+                        }
+                    });
+                }
+                // 更新 guestMnTmpCUD.updateData 資料
+                if (la_oriGuestMnData !== undefined) {
+                    _.each(la_oriGuestMnData, (lo_oriGuestMnRowsData) => {
+                        let lo_presentGuest = _.findWhere(la_oriGuestMnData, {ci_ser: lo_oriGuestMnRowsData.ci_ser});
+                        if (lo_presentGuest === undefined) {
+                            let cloneGuest = JSON.parse(JSON.stringify(lo_oriGuestMnRowsData));
+                            cloneGuest.guest_sta = 'X';
+
+                            cloneGuest.alt_nam = cloneGuest.alt_nam.split.length > 1 ? cloneGuest.alt_nam.split(':')[1] : "";
+
+                            this.tmpCUD.oriData.push(_.extend(lo_oriGuestMnRowsData, lo_extendData));
+                            this.tmpCUD.updateData.push(_.extend(cloneGuest, lo_extendData));
+                        }
+                    });
+                }
+            },
             async save() {
                 try {
                     this.isLoading = true;
 
-                    // 原始資料、現在資料 排序
-                    let la_allOriOrderData = [];
-                    let la_allOrderdata = [];
-                    _.each(this.oriOrderDtRowsData, lo_oriOrderData => {
-                        _.each(lo_oriOrderData, lo_data => {
-                            la_allOriOrderData.push(lo_data);
-                        })
-                    });
-
-                    _.each(this.orderDtRowsData, lo_orderData => {
-                        _.each(lo_orderData, lo_data => {
-                            la_allOrderdata.push(lo_data);
-                        })
-                    });
-                    la_allOriOrderData = _.sortBy(la_allOriOrderData, 'ikey_seq_nos');
-                    la_allOrderdata = _.sortBy(la_allOrderdata, 'ikey_seq_nos');
-
-                    // 新增
-                    _.each(la_allOrderdata, lo_data => {
-                        let lo_orderDataForikeySeqNos = _.findWhere(la_allOriOrderData, {ikey_seq_nos: lo_data.ikey_seq_nos});
-                        if (_.isUndefined(lo_orderDataForikeySeqNos)) {
-                            lo_data.page_id = 1;
-                            lo_data.tab_page_id = 2;
-                            this.tmpCUD.createData.push(lo_data);
-                        }
-                    });
-
-                    // 修改
-                    let la_beforeOrder = [];
-                    let la_afterOrder = [];
-                    la_allOriOrderData.forEach((val, idx) => {
-                        let lo_orderDataForikeySeqNos = _.findWhere(la_allOrderdata, {ikey_seq_nos: val.ikey_seq_nos});
-
-                        if (!_.isUndefined(lo_orderDataForikeySeqNos)) {
-                            let la_keys = _.keys(val);
-                            let ln_idx = _.findIndex(la_allOrderdata, {ikey_seq_nos: val.ikey_seq_nos});
-
-                            let lb_diffMark = true;
-                            la_keys.forEach(ls_key => {
-                                if (val[ls_key] !== la_allOrderdata[ln_idx][ls_key] && lb_diffMark) {
-                                    lb_diffMark = false;
-                                    val.page_id = 1;
-                                    val.tab_page_id = 2;
-                                    la_allOrderdata[ln_idx].page_id = 1;
-                                    la_allOrderdata[ln_idx].tab_page_id = 2;
-                                    la_beforeOrder.push(val);
-                                    la_afterOrder.push(la_allOrderdata[ln_idx]);
-                                }
-                            });
-                        }
-                    });
-                    if (la_afterOrder.length !== 0 && la_beforeOrder.length !== 0) {
-                        _.each(la_afterOrder, lo_data => {
-                            this.tmpCUD.updateData.push(lo_data)
-                        });
-                        _.each(la_beforeOrder, lo_data=> {
-                            this.tmpCUD.oriData.push(lo_data)
-                        });
-                    }
-
+                    //order dt 轉換成tmpCUD
+                    this.convertOrderDtDataToTmpCUD();
                     // 驗證
                     let la_orderDtRowsData = [];
                     Object.keys(this.tmpCUD).forEach(key => {
@@ -1295,30 +1368,40 @@
 
                     let la_chkData = await Promise.all(la_orderDtRowsData);
                     let ln_chkIndex = _.findIndex(la_chkData, {success: false});
+
+                    //guest mn 轉換成tmpCUD
+                    this.convertGuestMnDataToTmpCUD();
+//
                     if (ln_chkIndex > -1) {
                         alert(la_chkData[ln_chkIndex].msg);
-                    } else {
+                    }
+                    else {
                         // 儲存
-                        let lo_result = await BacUtils.doHttpPromisePostProxy('/api/execNewFormatSQL', {
-                            prg_id: gs_prgId,
-                            func_id: "0500",
-                            tmpCUD: this.tmpCUD
-                        });
+                        let lo_result = await
+//                            new Promise((resolve, reject) => {
+//                            setTimeout(() => {
+//                                resolve({success: true});
+//                            }, 500);
+//                        });
+                            BacUtils.doHttpPromisePostProxy('/api/execNewFormatSQL', {
+                                prg_id: gs_prgId,
+                                func_id: "0500",
+                                tmpCUD: this.tmpCUD
+                            });
                         if (lo_result.success) {
-                            this.reload = true;
+                            this.isGuestDetail = false;
+                            setTimeout(() => {
+                                this.isGuestDetail = true;
+                            }, 100)
                         } else {
                             alert(lo_result.errorMsg)
                         }
                     }
 
-
-                    // 住客名單儲存
-
-                    this.saveGuestList();
-
                     this.isLoading = false;
 
-                } catch (err) {
+                }
+                catch (err) {
                     console.log(err)
                     // alert(err)
                 }
@@ -1423,6 +1506,96 @@
                     console.log(err)
                 }
             },
+            async chkGuestMnFieldRule(field, rowsData) {
+                if (_.isEmpty(this.beforeGuestMnRowsData)) {
+                    this.beforeGuestMnRowsData = this.oriGuestMnRowsData;
+                }
+
+                if (_.isUndefined(this.editingGuestMnIdx)) {
+                    return;
+                }
+
+                let la_beforeData = [];
+                let la_nowData = [];
+                if (rowsData.ikey_seq_nos.toString() === '0') {
+                    let ln_editIdx = _.findIndex(this.guestMnRowsData["unspecified"], {ci_ser: rowsData.ci_ser});
+                    if (ln_editIdx > -1) {
+                        la_nowData = [this.guestMnRowsData["unspecified"][ln_editIdx]];
+                    }
+                    let ln_oriEditIdx = _.findIndex(this.beforeGuestMnRowsData["unspecified"], {ci_ser: rowsData.ci_ser});
+                    if (ln_oriEditIdx > -1) {
+                        la_beforeData = [this.beforeGuestMnRowsData["unspecified"][ln_editIdx]];
+                    }
+                }
+                else {
+                    la_nowData = [this.guestMnRowsData[this.editingGroupDataIndex][this.editingGuestMnIdx]];
+                    la_beforeData = [this.beforeGuestMnRowsData[this.editingGroupDataIndex][this.editingGuestMnIdx]];
+                }
+                if (la_nowData.length == 0 && la_beforeData.length == 0) {
+                    return;
+                }
+
+                let la_diff = _.difference(la_beforeData, la_nowData);
+
+                let la_guestMnRowsData = [];
+                _.each(this.guestMnRowsData, (la_data) => {
+                    _.each(la_data, (lo_data) => {
+                        la_guestMnRowsData.push(lo_data);
+                    });
+                });
+
+                if (la_diff.length === 0 && !this.isFirstFetch) {
+                    return;
+                }
+
+                if (field.rule_func_name === '' || !this.isEffectFromRule) {
+                    this.isEffectFromRule = true;
+                    return;
+                }
+
+                try {
+                    let lo_postData = {
+                        prg_id: gs_prgId,
+                        rule_func_name: field.rule_func_name,
+                        validateField: field.ui_field_name,
+                        singleRowData: la_nowData,
+                        oriSingleData: la_beforeData,
+                        allRowData: la_guestMnRowsData
+                    };
+
+                    let lo_doChkFiledRule = await BacUtils.doHttpPromisePostProxy("/api/chkFieldRule", lo_postData)
+                        .then((result) => {
+                            return result;
+                        }).catch((err) => {
+                            return {success: false, errorMsg}
+                        });
+
+                    if (lo_doChkFiledRule.success) {
+                        if (!_.isEmpty(lo_doChkFiledRule.defaultValues)) {
+                            if (rowsData.ikey_seq_nos.toString() === '0') {
+                                let ln_editIdx = _.findIndex(this.guestMnRowsData["unspecified"], {ci_ser: rowsData.ci_ser});
+                                if (ln_editIdx > -1) {
+                                    this.guestMnRowsData["unspecified"][ln_editIdx] =
+                                        _.extend(this.guestMnRowsData["unspecified"][ln_editIdx], lo_doChkFiledRule.defaultValues);
+                                }
+                            }
+                            else {
+                                this.guestMnRowsData[this.editingGroupDataIndex][this.editingGuestMnIdx] =
+                                    _.extend(this.guestMnRowsData[this.editingGroupDataIndex][this.editingGuestMnIdx], lo_doChkFiledRule.defaultValues);
+                            }
+                        }
+                        this.beforeGuestMnRowsData = JSON.parse(JSON.stringify(this.guestMnRowsData));
+                    }
+                    else {
+                        this.guestMnRowsData = JSON.parse(JSON.stringify(this.beforeGuestMnRowsData));
+                        alert(lo_doChkFiledRule.errorMsg);
+                    }
+                }
+                catch (err) {
+                    console.log(err);
+                    alert(err);
+                }
+            },
             allDetail: function () {
                 // 訂房
                 let la_allOrderdata = [];
@@ -1472,52 +1645,6 @@
                     resolve(lo_checkResult)
                 });
             },
-            saveGuestList() {
-
-                //新增 guestMnTmpCUD.createData 資料
-                if (this.guestMnRowsData[this.editingGroupDataIndex] !== undefined) {
-                    _.each(this.guestMnRowsData[this.editingGroupDataIndex], (lo_guestMnRowsData) => {
-                        // lo_guestMnRowsData物件有status的key 代表是剛新增出來的住客資料
-                        if (lo_guestMnRowsData.status !== undefined) {
-                            lo_guestMnRowsData.alt_nam = lo_guestMnRowsData.alt_nam.split(':')[1];
-
-                            this.guestMnTmpCUD.createData.push(_.extend(lo_guestMnRowsData, {page_id: 1, tab_page_id: 3}));
-                        }
-                    });
-                }
-                // 更新 guestMnTmpCUD.updateData 資料
-                if (this.oriGuestMnRowsData[this.editingGroupDataIndex] !== undefined) {
-                    _.each(this.oriGuestMnRowsData[this.editingGroupDataIndex], (lo_oriGuestMnRowsData) => {
-                        let lo_presentGuest = _.findWhere(this.orderDtRowsData, {ci_ser: lo_oriGuestMnRowsData.ci_ser});
-                        if (lo_presentGuest === undefined) {
-                            let cloneGuest = JSON.parse(JSON.stringify(lo_oriGuestMnRowsData));
-                            cloneGuest.guest_sta = 'X';
-
-                            cloneGuest.alt_nam = cloneGuest.alt_nam.split(':')[1];
-
-                            this.guestMnTmpCUD.oriData.push(_.extend(lo_oriGuestMnRowsData, {page_id: 1, tab_page_id: 3}));
-                            this.guestMnTmpCUD.updateData.push(_.extend(cloneGuest, {page_id: 1, tab_page_id: 3}));
-                        }
-                    });
-                }
-
-
-
-                // 發送資料儲存api
-                BacUtils.doHttpPromisePostProxy('/api/execNewFormatSQL', {
-                    prg_id: 'PMS0110042',
-                    func_id: "0500",
-                    tmpCUD: this.guestMnTmpCUD
-                }).then(lo_result => {
-                    if (lo_result.success) {
-                        alert('成功');
-                        this.initGuestMnTmpCUD();
-                    }
-                }).catch(lo_err => {
-                    alert(lo_err.errorMsg);
-                });
-
-            }
         },
     }
 </script>
