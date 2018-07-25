@@ -8,7 +8,7 @@ const appRootDir = path.dirname(require.main.filename);
 const ruleRootPath = appRootDir + "/ruleEngine/";
 const clusterQueryAgent = require("../../../plugins/kplug-oracle/ClusterQueryAgent");
 const commandRules = require("./../CommonRule");
-const ReturnClass = require(ruleRootPath + "/returnClass");
+const ReturnClass = require("../../returnClass");
 const ErrorClass = require(ruleRootPath + "/errorClass");
 const tools = require(appRootDir + "/utils/CommonTools");
 const sysConf = require("../../../configs/systemConfig");
@@ -968,13 +968,34 @@ module.exports = {
         lo_order_mn.acust_nam = lo_order_mn.acust_nam || "";    //訂房公司名稱
         lo_order_mn.atten_nam = lo_order_mn.atten_nam || "";    //聯絡人
 
+        //(3)聯絡人order_mn.atten_nam是空值,才帶入
         if (lo_order_mn.atten_nam.trim() === "") {
+            let ls_atten_by;
+            //(1)看『旅客姓名guest_mn.alt_nam、訂房公司名稱order_mn.acust_nam』,那個先key,就由它帶入
+            //(2)看另一個欄位有沒有值,來判斷先key後key
             //旅客姓名先key
             if (lo_guest_mn.alt_nam.trim() !== "" && lo_order_mn.acust_nam.trim() === "") {
-                const ls_atten_by = "P";
+                ls_atten_by = "P";
+                lo_order_mn.atten_nam = lo_order_mn.alt_nam;
             }
             //訂房公司名稱先key
             else if (lo_guest_mn.alt_nam.trim() === "" && lo_order_mn.acust_nam.trim() !== "") {
+                ls_atten_by = "C";
+                lo_order_mn.atten_nam = lo_order_mn.acust_nam;
+            }
+
+            if (lo_order_mn.atten_by !== ls_atten_by) {
+                //(4)改變聯絡人來源order_mn.atten_by時,任一”聯絡資料” 有值時,要詢問：”是否蓋掉現有連絡資料?”
+                const la_contactData = ["alt_nam", "mobile_nos", "office_tel", "home_tel", "fax_nos", "e_mail"];
+                for (let lo_contactData of la_contactData) {
+                    const lo_data = lo_order_mn[lo_contactData] || "";
+                    if (lo_data.trim() !== "") {
+                        lo_return.showConfirm = true;
+                        lo_return.confirmMsg = "是否蓋掉現有連絡資料?";
+                        break;
+                    }
+                }
+                //(6)取得聯絡資料兩者sql一樣,只差在紅色字
 
             }
         }
