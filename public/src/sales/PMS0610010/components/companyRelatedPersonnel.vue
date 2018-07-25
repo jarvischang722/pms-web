@@ -168,6 +168,7 @@
             },
             fetchFieldData() {
                 this.isLoading = true;
+                this.isHideLeavingStaff = false;
                 BacUtils.doHttpPostAgent("/api/fetchDataGridFieldData", {
                     prg_id: "PMS0610020",
                     tab_page_id: 2,
@@ -203,6 +204,7 @@
                         this.oriDataGridRowsData = this.$store.state.custMnModule.go_allOriData.ga_rpDataGridRowsData;
                         this.dgIns.loadDgData(this.dataGridRowsData);
                         this.isLoading = false;
+                        this.isHideLeavingStaff = false;
                     }
                 });
             },
@@ -213,6 +215,7 @@
                 this.dgIns.updateMnRowData(this.$store.state.custMnModule.go_allData.go_mnSingleData);
                 this.dgIns.getOriDtRowData(this.oriDataGridRowsData);
                 this.isLoading = false;
+                this.isHideLeavingStaff = false;
             },
             appendRow() {
                 var self = this;

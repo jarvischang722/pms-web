@@ -22,31 +22,34 @@ let _ = require("underscore");
 let compression = require('compression');
 let i18nHook = require("./utils/i18nHook");
 
+if (dbConfig.mongo.username == "") {
+	dbconn = ["mongodb://", dbConfig.mongo.host, ":", dbConfig.mongo.port, "/", dbConfig.mongo.dbname].join("");
+}
 i18n = i18nHook.hookTranslate(i18n);
 
 
 if (dbConfig.oracle == undefined) {
-    let net = require('net');
-    let client = new net.Socket();
-    client.connect(sysConfig.socket_server.port, sysConfig.socket_server.ip, function () {
-        console.log("到socket server取連線資訊...");
-        client.write(require("base-64").encode(JSON.stringify({"REVE_CODE": "0800"})));
-    });
-    client.on('data', function (res) {
-        let oracleConnInfo = JSON.parse(require("base-64").decode(res)).dbconInfo.map(conn => {
-            conn["connectString"] = `${conn.ip}/${conn.service_name}`;
-            conn["user"] = `${conn.username}`;
-            return conn;
-        });
-        //Oracle initial
-        require('./plugins/kplug-oracle/DB').create(oracleConnInfo);
-        client.destroy();
-    });
-    client.on('close', function () {
-        console.log('Connection closed');
-    });
+	let net = require('net');
+	let client = new net.Socket();
+	client.connect(sysConfig.socket_server.port, sysConfig.socket_server.ip, function () {
+		console.log("到socket server取連線資訊...");
+		client.write(require("base-64").encode(JSON.stringify({"REVE_CODE": "0800"})));
+	});
+	client.on('data', function (res) {
+		let oracleConnInfo = JSON.parse(require("base-64").decode(res)).dbconInfo.map(conn => {
+			conn["connectString"] = `${conn.ip}/${conn.service_name}`;
+			conn["user"] = `${conn.username}`;
+			return conn;
+		});
+		//Oracle initial
+		require('./plugins/kplug-oracle/DB').create(oracleConnInfo);
+		client.destroy();
+	});
+	client.on('close', function () {
+		console.log('Connection closed');
+	});
 } else {
-    require('./plugins/kplug-oracle/DB').create(dbConfig.oracle);
+	require('./plugins/kplug-oracle/DB').create(dbConfig.oracle);
 }
 // compress all responses
 app.use(compression());
@@ -56,22 +59,22 @@ require("console-stamp")(console, {pattern: "yyyy/mm/dd ddd HH:MM:ss"});
 
 // i18n setting
 i18n.configure({
-    // watch for changes in json files to reload locale on updates - defaults to false
-    autoReload: true,
-    // setup some locales - other locales default to en silently
-    locales: ['zh_tw', 'zh_cn', 'en', 'ja'],
-    // you may alter a site wide default locale
-    defaultLocale: 'en',
-    // sets a custom cookie name to parse locale settings from - defaults to NULL
-    cookie: sysConfig.secret + 'i18n',
-    // where to store json files - defaults to './locales' relative to modules directory
-    directory: __dirname + '/locales',
-    // enable object notation
-    objectNotation: true,
-    // object or [obj1, obj2] to bind the i18n api and current locale to - defaults to null
-    register: global,
-    // query parameter to switch locale (ie. /home?lang=ch) - defaults to NULL
-    queryParameter: 'locale'
+	// watch for changes in json files to reload locale on updates - defaults to false
+	autoReload: true,
+	// setup some locales - other locales default to en silently
+	locales: ['zh_tw', 'zh_cn', 'en', 'ja'],
+	// you may alter a site wide default locale
+	defaultLocale: 'en',
+	// sets a custom cookie name to parse locale settings from - defaults to NULL
+	cookie: sysConfig.secret + 'i18n',
+	// where to store json files - defaults to './locales' relative to modules directory
+	directory: __dirname + '/locales',
+	// enable object notation
+	objectNotation: true,
+	// object or [obj1, obj2] to bind the i18n api and current locale to - defaults to null
+	register: global,
+	// query parameter to switch locale (ie. /home?lang=ch) - defaults to NULL
+	queryParameter: 'locale'
 });
 
 // view engine setup
@@ -96,26 +99,26 @@ app.use(flash());
 //session setting
 const maxAgeSec = sysConfig.sessionExpiredMS || 1000 * 60 * 60 * 3; //session 設定過期時間（秒）
 let sessionMiddleware = session({
-    secret: sysConfig.secret, // 防止cookie竊取
-    proxy: true, //安全cookie的反向代理，通过x-forwarded-proto實現
-    resave: false, //即使 session 没有被修改，也保存 session 值，預設為 true。
-    saveUninitialized: false, //是指無論有没有session cookie，每次请求都設置個session cookie ，預設為 connect.sid,
-    cookie: {
-        maxAge: maxAgeSec //單位 毫秒
-    },
-    store: new MongoStore({
-        url: dbconn,
-        ttl: maxAgeSec / 1000 //單位 秒
-    })
+	secret: sysConfig.secret, // 防止cookie竊取
+	proxy: true, //安全cookie的反向代理，通过x-forwarded-proto實現
+	resave: false, //即使 session 没有被修改，也保存 session 值，預設為 true。
+	saveUninitialized: false, //是指無論有没有session cookie，每次请求都設置個session cookie ，預設為 connect.sid,
+	cookie: {
+		maxAge: maxAgeSec //單位 毫秒
+	},
+	store: new MongoStore({
+		url: dbconn,
+		ttl: maxAgeSec / 1000 //單位 秒
+	})
 });
 
 //設定socket.io 可以取得session
 io.use(function (socket, next) {
-    sessionMiddleware(socket.request, socket.request.res, function () {
-        socket.session = socket.request.session;
-        socket.session.id = socket.request.sessionID;
-        next();
-    });
+	sessionMiddleware(socket.request, socket.request.res, function () {
+		socket.session = socket.request.session;
+		socket.session.id = socket.request.sessionID;
+		next();
+	});
 });
 
 app.use(sessionMiddleware);
@@ -125,52 +128,52 @@ require("./plugins/socket.io/socketEvent")(io);
 
 
 app.use(function (req, res, next) {
-    res.locals.session = req.session;
-    res.locals.locale = req.session.locale;
-    res.locals._ = require("underscore");
-    next();
+	res.locals.session = req.session;
+	res.locals.locale = req.session.locale;
+	res.locals._ = require("underscore");
+	next();
 });
 
 routing(app, passport);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
-    let err = new Error('Not Found');
-    err.status = 404;
-    next(err);
+	let err = new Error('Not Found');
+	err.status = 404;
+	next(err);
 });
 
 // error handler
 app.use(function (err, req, res, next) {
-    // set locals, only providing error in development
-    res.locals.message = err.message;
-    res.locals.error = req.app.get('env') === 'development' ? err : {};
+	// set locals, only providing error in development
+	res.locals.message = err.message;
+	res.locals.error = req.app.get('env') === 'development' ? err : {};
 
-    // render the error page
-    res.status(err.status || 500);
-    res.render('error');
+	// render the error page
+	res.status(err.status || 500);
+	res.render('error');
 });
 
 
 server.listen(port, function () {
-    // debug('Listening on ' + app.get('port'));
-    tableUnlockforAllPrg();
-    fetchPrivateKey();
-    console.log('Express server listening on port ' + app.get('port'));
+	// debug('Listening on ' + app.get('port'));
+	tableUnlockforAllPrg();
+	fetchPrivateKey();
+	console.log('Express server listening on port ' + app.get('port'));
 });
 
 /**
  * table unlock
  */
 function tableUnlockforAllPrg() {
-    dbSvc.doTableAllUnLock(function (err, success) {
-        if (err) {
-            console.error(err);
-        }
-        else {
-            console.log("Table unlock all program ID.");
-        }
-    });
+	dbSvc.doTableAllUnLock(function (err, success) {
+		if (err) {
+			console.error(err);
+		}
+		else {
+			console.log("Table unlock all program ID.");
+		}
+	});
 }
 
 /**
