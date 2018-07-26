@@ -369,4 +369,18 @@
         <parameter type="string" kind="3">ikey</parameter>
         <orderby>ORDER BY ikey_seq_nos</orderby>
     </dao>
+
+    <!-- [PMS0210060] CI清單 取得order_mn資料 -->
+    <dao name="QRY_CI_ORDER_MN">
+        <statement><![CDATA[
+            SELECT ACUST_NAM, IKEY, CUST_NAM, MASTER_STA, MASTER_NOS, GROUP_NOS, ORDER_RMK FROM ORDER_MN
+            WHERE ATHENA_ID = :athena_id
+            AND HOTEL_COD = :hotel_cod
+            AND IKEY = :ikey
+        ]]>
+        </statement>
+        <parameter type="number" kind="3">athena_id</parameter>
+        <parameter type="string" kind="3">hotel_cod</parameter>
+        <parameter type="string" kind="3">ikey</parameter>
+    </dao>
 </root>

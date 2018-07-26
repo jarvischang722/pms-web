@@ -31,13 +31,13 @@
                     <div class="right-menu-co">
                         <ul>
                             <li>
-                                <button class="btn btn-primary btn-white btn-defaultWidth fdCheckIn"
-                                        role="button">入住
+                                <button class="btn btn-primary btn-white btn-defaultWidth"
+                                        role="button" @click="checkIn">入住
                                 </button>
                             </li>
                             <li>
-                                <button class="btn btn-primary btn-white btn-defaultWidth clFdCheckIn"
-                                        role="button">取消入住
+                                <button class="btn btn-primary btn-white btn-defaultWidth"
+                                        role="button" @click="clFdCheckIn">取消入住
                                 </button>
                             </li>
                         </ul>
@@ -47,10 +47,17 @@
         </div>
         <!--/.table-->
         <div class="clearfix"></div>
+
+        <pms0210060-dialog
+                :row-data="editingRow"
+                :is-check-in="isCheckIn"
+        ></pms0210060-dialog>
     </div>
 </template>
 
 <script>
+    import pms0210060Dialog from './PMS0210060_dialog';
+
     const gs_prgId = "PMS0210060";
     const vmHub = new Vue();
 
@@ -70,6 +77,7 @@
 
     export default {
         name: "PMS0210060",
+        components: {pms0210060Dialog},
         created() {
             vmHub.$on("getGuestMnData", async (data) => {
                 this.editingRow = data.orderDtRows;
@@ -112,7 +120,7 @@
                 guestMnDgIns: {},              //guest mn dataGrid 實體
 
                 editingRow: {},         //正在點擊的order dt
-
+                isCheckIn: undefined
             }
         },
         watch: {},
@@ -244,6 +252,40 @@
                 this.guestMnDgIns = new DatagridSingleGridClass();
                 this.guestMnDgIns.init(gs_prgId, "guestMnTable", DatagridFieldAdapter.combineFieldOption(this.guestMnFieldData, "guestMnTable"), this.guestMnFieldData);
                 this.guestMnDgIns.loadDgData(this.guestMnValueData);
+            },
+            checkIn() {
+                this.isCheckIn = true;
+                this.showSingleGridDialog();
+            },
+            clFdCheckIn() {
+                this.isCheckIn = false;
+                this.showSingleGridDialog();
+            },
+            showSingleGridDialog() {
+                let self = this;
+                this.editingRow = {};
+                let lo_editingRow = $('#orderDtTable').datagrid('getSelected');
+                if (!lo_editingRow) {
+                    alert(go_i18nLang["SystemCommon"].SelectOneData);
+                }
+                else {
+                    this.editingRow = lo_editingRow;
+                    let dialog = $('#PMS0210060_dialog').removeClass('hide').dialog({
+                        autoOpen: false,
+                        modal: true,
+                        title: this.isCheckIn ? "Check In" : "取消入住",
+                        width: 1000,
+                        maxwidth: 1920,
+                        minheight: 800,
+                        dialogClass: "test",
+                        resizable: true,
+                        onBeforeClose() {
+                            self.editingRow = {};
+                            self.isCheckIn = undefined;
+                            self.fetchGuestMnFieldData();
+                        }
+                    }).dialog('open');
+                }
             }
         }
     }
