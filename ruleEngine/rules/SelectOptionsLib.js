@@ -524,6 +524,10 @@ exports.getStatus = function () {
     return lo_optionList;
 };
 
+/**
+ * [PMS0210060_C/I清單]
+ * 入住狀態 下拉資料
+ */
 exports.getGuestmnGuest_sta = function () {
     let lo_optionList = [
         {
@@ -541,6 +545,23 @@ exports.getGuestmnGuest_sta = function () {
         {
             display: "結帳",
             value: "C"
+        }
+    ];
+    return lo_optionList;
+};
+
+/**
+ *清掃狀態 下拉資料
+ */
+exports.get_RoommnClean_sta = function () {
+    let lo_optionList = [
+        {
+            display: "Clean",
+            value: "C"
+        },
+        {
+            display: "Dirty",
+            value: "D"
         }
     ];
     return lo_optionList;
@@ -1981,6 +2002,17 @@ exports.langStatus = function (params, callback) {
 exports.langGuestmnGuest_sta = function (params, callback) {
     let lo_result = new ReturnClass();
     lo_result.selectOptions = optionsLib.getGuestmnGuest_sta();
+    callback(null, lo_result);
+};
+
+/**
+ *  取得 room_mn  清掃狀態下拉資料
+ * @param params
+ * @param callback
+ */
+exports.lang_RoommnClean_sta = function (params, callback) {
+    let lo_result = new ReturnClass();
+    lo_result.selectOptions = optionsLib.get_RoommnClean_sta();
     callback(null, lo_result);
 };
 

@@ -43,7 +43,7 @@
                                             <!--  textarea -->
                                             <template v-if="field.visiable == 'Y' && field.ui_type == 'textarea'">
                                                 <textarea v-model="orderMnValueData[field.ui_field_name]"
-                                                          class="numStyle-none btn-gray" rows="1"
+                                                          class="numStyle-none btn-gray" rows="4"
                                                           style="resize: none; display: inline-block;"
                                                           :style="{width:field.width + 'px'}"
                                                           :required="field.requirable == 'Y'"
@@ -63,58 +63,58 @@
                                         </div>
                                     </div>
                                 </div>
-
-                                <div class="grid">
-                                    <div class="grid-item">
-                                        <label>訂房公司</label>
-                                        <input class="input-medium rateCode-s1" placeholder="" type="text">
-                                    </div>
-                                    <div class="grid-item">
-                                        <label>訂房卡號</label>
-                                        <input class="input-medium rateCode-s1" type="text" placeholder="">
-                                    </div>
-                                </div>
-                                <div class="grid">
-                                    <div class="grid-item">
-                                        <label>公司名稱</label>
-                                        <input class="input-medium rateCode-s1" type="text" placeholder="">
-                                    </div>
-                                    <div class="grid-item">
-                                        <label class="pull-left">公帳號</label>
-                                        <input type="text"
-                                               class="input-medium resvCard-s1Half2 pull-left"
-                                               placeholder="Y" disabled>
-                                        <input type="text"
-                                               class="input-medium resvCard-s1Half2 pull-left ml-3"
-                                               placeholder="G01" disabled/>
-                                        <div class="clearfix"></div>
-                                    </div>
-                                </div>
-                                <div class="grid">
-                                    <div class="grid-item">
-                                        <label>團號</label>
-                                        <input class="input-medium rateCode-s1" placeholder="" type="text">
-                                    </div>
-                                    <!--lite 版不顯示-->
-                                    <!--<div class="grid-item">-->
-                                    <!--<label>訂金編號</label>-->
-                                    <!--<input class="input-medium rateCode-s1" type="text" placeholder="">-->
-                                    <!--<i class="moreClick fa fa-ellipsis-h"></i>-->
-                                    <!--</div>-->
-                                </div>
-                                <div class="grid">
-                                    <div class="grid-item">
-                                        <label class="pull-left">訂房備註</label>
-                                        <textarea class="input-medium pull-left rateCode-s1-col2 height-auto rzNone"
-                                                  placeholder="" rows="4"></textarea>
-                                        <i class="moreClick fa fa-ellipsis-h pull-left resvMoreRmks"></i>
-                                    </div>
-                                </div>
                             </div>
                             <!--/.單筆 order mn -->
                             <div class="space-4"></div>
                             <!--多筆 guest mn -->
                             <div class="main-content-data">
+                                <div class="horizTable-outer pull-left ml-5">
+                                    <table class="css_table horizTable">
+                                        <thead class="css_thead">
+                                        <tr class="css_tr">
+                                            <th class="css_th" style="min-width:40px;">選擇</th>
+                                            <th class="css_th" v-for="field in guestMnFieldData"
+                                                v-if="field.visiable === 'Y'"
+                                                :style="{'min-width': field.width + 'px'}">
+                                                {{ field.ui_display_name }}
+                                            </th>
+                                        </tr>
+                                        </thead>
+                                        <tbody class="css_tbody">
+                                        <tr class="css_tr" v-for="data in guestMnValueData">
+                                            <td class="css_td">
+                                                <div class="popCheckbox rmAssignCk">
+                                                    <span class="checkbox">
+                                                        <label class="checkbox-width">
+                                                            <input name="form-field-checkbox"
+                                                                   type="checkbox" :value="data"
+                                                                   class="ace"
+                                                                   v-model="guestMnRowDataChecked">
+                                                            <span class="lbl"></span>
+                                                        </label>
+                                                    </span>
+                                                </div>
+                                            </td>
+                                            <template v-for="field in guestMnFieldData">
+                                                <td class="css_td" v-if="field.visiable == 'Y'">
+                                                    <template v-if="field.ui_field_name == 'room_mn.clean_sta'">
+                                                        <template v-if="data[field.ui_field_name] == 'D'">
+                                                           <span class='red'>{{field.selectData.find((item)=>item.value === data[field.ui_field_name]).display}}</span>
+                                                        </template>
+                                                        <template v-else-if="data[field.ui_field_name] !== null">
+                                                            <span>{{field.selectData.find((item)=>item.value === data[field.ui_field_name]).display}}</span>
+                                                        </template>
+                                                        <template v-else>
+                                                            <span>{{data[field.ui_field_name]}}</span>
+                                                        </template>
+                                                    </template>
+                                                    <template v-else><span>{{data[field.ui_field_name]}}</span></template>
+                                                </td>
+                                            </template>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
                                 <table id="fd-checkIn-table" style="height: 200px;"></table>
                             </div>
                             <!--/.多筆 guest mn -->
@@ -197,7 +197,9 @@
                 orderMnFieldsData: [],
                 orderMnValueData: {},
                 guestMnFieldData: [],
-                guestMnValueData: []
+                guestMnValueData: [],
+
+                guestMnRowDataChecked: []           //勾選guest mn資料
             }
         },
         watch: {
@@ -245,9 +247,26 @@
                 }).catch(err => {
                     return {success: false, errorMsg: err}
                 });
-
                 if (lo_guestMnData.success) {
                     this.guestMnFieldData = _.sortBy(lo_guestMnData.dgFieldsData, "col_seq");
+
+                    if (this.isCheckIn) {
+                        _.each(lo_guestMnData.dgRowData, (lo_data, ln_idx) => {
+                            let lo_formatGuestMnData = {
+                                "room_mn.clean_sta": lo_data.clean_sta,
+                                "order_dt.ikey_seq_nos": lo_data.ikey_seq_nos,
+                                "order_dt.room_nos": lo_data.room_nos,
+                                "ghist_mn.vip_sta": lo_data.vip_sta,
+                                "order_dt.ci_dat": moment(lo_data.ci_dat).format("YYYY/MM/DD"),
+                                "order_dt.co_dat": moment(lo_data.co_dat).format("YYYY/MM/DD"),
+                                "order_dt.use_cod": lo_data.use_cod,
+                                "order_dt.room_cod": lo_data.room_cod,
+                                "order_dt.rent_amt": lo_data.rent_amt,
+                                "order_dt.serv_amt": lo_data.serv_amt,
+                            };
+                            lo_guestMnData.dgRowData[ln_idx] = _.extend(lo_data, lo_formatGuestMnData)
+                        });
+                    }
                     this.guestMnValueData = lo_guestMnData.dgRowData;
                 }
                 else {
