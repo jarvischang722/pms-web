@@ -244,7 +244,9 @@ var DatagridFieldAdapter = {
                 };
                 tmpFieldObj.editor.options.onShowPanel = function () {
                     var ls_dgName = $(this).closest(".datagrid-view").children("table").attr("id");
-                    onSelectClickAction(fieldAttrObj, ls_dgName);
+                    if (!_.isUndefined(ls_dgName)) {
+                        onSelectClickAction(fieldAttrObj, ls_dgName);
+                    }
                 };
             }
         }

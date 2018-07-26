@@ -62,7 +62,8 @@ function queryData(agent, mode, cb, ddObj, param, start, size) {
 				}
 			});
 		});
-	} else {
+	}
+	else {
 		DB.doQuery(agent.connection, daoDD.sql, daoDD.param, mode, start, size, function (err, result) {
 			if (err) {
 				console.error(err);

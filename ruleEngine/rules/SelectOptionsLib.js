@@ -505,6 +505,47 @@ exports.getCustIdxBirthDat = function () {
     return lo_optionList;
 };
 
+/**
+ * [PMS0210060_C/I清單]
+ * 入住狀態 下拉資料
+ * @returns {*[]}
+ */
+exports.getStatus = function () {
+    let lo_optionList = [
+        {
+            display: "未入住",
+            value: "N"
+        },
+        {
+            display: "已入住",
+            value: "Y"
+        }
+    ];
+    return lo_optionList;
+};
+
+exports.getGuestmnGuest_sta = function () {
+    let lo_optionList = [
+        {
+            display: "未入住",
+            value: "E"
+        },
+        {
+            display: "關帳",
+            value: "K"
+        },
+        {
+            display: "開帳",
+            value: "O"
+        },
+        {
+            display: "結帳",
+            value: "C"
+        }
+    ];
+    return lo_optionList;
+};
+
 exports.getVIPSta = function () {
     let lo_optionList = [
         {
@@ -1918,6 +1959,28 @@ exports.lang_CustIdxBirthDat = function (params, callback) {
 exports.lang_vip_sta = function (params, callback) {
     let lo_result = new ReturnClass();
     lo_result.selectOptions = optionsLib.getVIPSta();
+    callback(null, lo_result);
+};
+
+/**
+ * 取得入住狀態下拉資料
+ * @param params
+ * @param callback
+ */
+exports.langStatus = function (params, callback) {
+    let lo_result = new ReturnClass();
+    lo_result.selectOptions = optionsLib.getStatus();
+    callback(null, lo_result);
+};
+
+/**
+ *  取得 guest mn 狀態下拉資料
+ * @param params
+ * @param callback
+ */
+exports.langGuestmnGuest_sta = function (params, callback) {
+    let lo_result = new ReturnClass();
+    lo_result.selectOptions = optionsLib.getGuestmnGuest_sta();
     callback(null, lo_result);
 };
 

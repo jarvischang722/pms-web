@@ -119,7 +119,7 @@
         <orderby>order by alt_nam</orderby>
     </dao>
 
-
+    <!--['PMS0110042'] 訂房明細多筆-->
     <dao name="QRY_DETAIL_GUEST_MN">
         <statement><![CDATA[
            select A.GCUST_COD, a.ikey_seq_nos,a.alt_nam,a.assign_sta,a.room_nos,b.contry_cod,
@@ -142,5 +142,45 @@
         <statement test="_v(param.ikey_seq_nos)">
             <![CDATA[and a.ikey_seq_nos in(:ikey_seq_nos)]]></statement>
         <orderby>order by decode(a.ikey_seq_nos,0,9999)</orderby>
+    </dao>
+
+    <dao name="QRY_GUEST_MN_CI">
+        <statement><![CDATA[
+            SELECT ORDER_DT.IKEY_SEQ_NOS,ORDER_DT.ROOM_NOS,GUEST_MN.ALT_NAM,GUEST_MN.GUEST_STA
+            FROM GUEST_MN, ORDER_DT
+            WHERE ORDER_DT.ATHENA_ID = GUEST_MN.ATHENA_ID
+            AND ORDER_DT.HOTEL_COD = GUEST_MN.HOTEL_COD
+            AND ORDER_DT.IKEY = GUEST_MN.IKEY
+            AND ORDER_DT.IKEY_SEQ_NOS = GUEST_MN.IKEY_SEQ_NOS
+            AND ORDER_DT.ORDER_STA IN ( 'N', 'I' )
+            AND GUEST_MN.MASTER_STA = 'G'
+            AND GUEST_MN.GUEST_STA <> 'X'
+            AND GUEST_MN.SYSTEM_TYP = 'HFD'
+            AND ORDER_DT.ATHENA_ID = :athena_id
+            AND ORDER_DT.HOTEL_COD = :hotel_cod
+            AND ORDER_DT.IKEY = :ikey
+            AND ORDER_DT.ORDER_STA = :order_sta
+            AND ORDER_DT.CI_DAT = to_date(:ci_dat, 'YYYY/MM/DD')
+            AND ORDER_DT.CO_DAT = to_date(:co_dat, 'YYYY/MM/DD')
+            AND ORDER_DT.RATE_COD = :rate_cod
+            AND ORDER_DT.USE_COD = :use_cod
+            AND ORDER_DT.ROOM_COD = :room_cod
+            AND ORDER_DT.RENT_AMT = :rent_amt
+            AND ORDER_DT.SERV_AMT = :serv_amt
+            ORDER BY ORDER_DT.IKEY_SEQ_NOS,
+            GUEST_MN.CI_SER
+        ]]>
+        </statement>
+        <parameter type="number" kind="3">athena_id</parameter>
+        <parameter type="string" kind="3">hotel_cod</parameter>
+        <parameter type="string" kind="3">ikey</parameter>
+        <parameter type="string" kind="3">order_sta</parameter>
+        <parameter type="string" kind="3">ci_dat</parameter>
+        <parameter type="string" kind="3">co_dat</parameter>
+        <parameter type="string" kind="3">rate_cod</parameter>
+        <parameter type="string" kind="3">use_cod</parameter>
+        <parameter type="string" kind="3">room_cod</parameter>
+        <parameter type="string" kind="3">rent_amt</parameter>
+        <parameter type="string" kind="3">serv_amt</parameter>
     </dao>
 </root>

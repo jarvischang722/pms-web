@@ -282,21 +282,9 @@
     <!-- [prg_id: PMS0210060 ] -->
     <dao name="QRY_ORDER_DT_CI">
         <statement><![CDATA[
-           SELECT ORDER_DT.IKEY,
-           ORDER_DT.ORDER_STA,
-           SUM( ORDER_DT.ORDER_QNT ) ORDER_QNT,
-           SUM( ORDER_DT.ASSIGN_QNT ) ASSIGN_QNT,
-           SUM( ORDER_DT.CI_QNT ) CI_QNT,
-           ORDER_MN.GROUP_NOS,
-           ORDER_DT.CI_DAT,
-           ORDER_DT.CO_DAT,
-           TRIM(ORDER_DT.RATE_COD) || TRIM( DECODE( TRIM(RATECOD_MN.RATECOD_NAM), NULL, ' ', ':' || TRIM(RATECOD_MN.RATECOD_NAM) ) ) RATECOD_NAM,
-           ORDER_DT.USE_COD,
-           ORDER_DT.ROOM_COD,
-           ORDER_DT.RENT_AMT,
-           ORDER_DT.SERV_AMT,
-           ORDER_MN.ACUST_NAM,
-           ORDER_MN.ATTEN_NAM
+           SELECT ORDER_DT.IKEY, ORDER_DT.ORDER_STA, SUM( ORDER_DT.ORDER_QNT ) ORDER_QNT, SUM( ORDER_DT.ASSIGN_QNT ) ASSIGN_QNT,SUM( ORDER_DT.CI_QNT ) CI_QNT,
+           ORDER_MN.GROUP_NOS, ORDER_DT.CI_DAT, ORDER_DT.CO_DAT, TRIM(ORDER_DT.RATE_COD) || TRIM( DECODE( TRIM(RATECOD_MN.RATECOD_NAM), NULL, ' ', ':' || TRIM(RATECOD_MN.RATECOD_NAM) ) ) RATECOD_NAM,
+           ORDER_DT.USE_COD, ORDER_DT.ROOM_COD, ORDER_DT.RENT_AMT, ORDER_DT.SERV_AMT, ORDER_MN.ACUST_NAM, ORDER_MN.ATTEN_NAM, ORDER_DT.RATE_COD
            FROM ORDER_DT, ORDER_MN, RATECOD_MN
            WHERE ORDER_MN.ATHENA_ID = ORDER_DT.ATHENA_ID
            AND ORDER_MN.HOTEL_COD = ORDER_DT.HOTEL_COD
@@ -307,32 +295,45 @@
            AND ORDER_DT.ORDER_STA IN ( 'N', 'I' )
            AND ORDER_MN.ATHENA_ID = :athena_id
            AND ORDER_MN.HOTEL_COD = :hotel_cod
-           GROUP BY ORDER_DT.IKEY,
-           ORDER_DT.ORDER_STA,
-           ORDER_MN.GROUP_NOS,
-           ORDER_DT.CI_DAT,
-           ORDER_DT.CO_DAT,
-           ORDER_DT.RATE_COD,
-           RATECOD_MN.RATECOD_NAM,
-           ORDER_DT.USE_COD,
-           ORDER_DT.ROOM_COD,
-           ORDER_DT.RENT_AMT,
-           ORDER_DT.SERV_AMT,
-           ORDER_MN.ACUST_NAM,
-           ORDER_MN.ATTEN_NAM
-           ORDER BY ORDER_DT.IKEY,
-           DECODE( ORDER_DT.ORDER_STA, 'N', 1, 2 ),
-           ORDER_DT.CI_DAT,
-           ORDER_DT.CO_DAT,
-           ORDER_DT.RATE_COD,
-           ORDER_DT.USE_COD,
-           ORDER_DT.ROOM_COD,
-           ORDER_DT.RENT_AMT,
-           ORDER_DT.SERV_AMT
+
         ]]>
         </statement>
+
         <parameter type="number" kind="3">athena_id</parameter>
         <parameter type="string" kind="3">hotel_cod</parameter>
+        <parameter type="instring" kind="3">status</parameter>
+        <statement test="_v(param.status)"><![CDATA[and status in(:status)]]></statement>
+        <parameter type="instring" kind="3">acust_cod</parameter>
+        <statement test="_v(param.acust_cod)"><![CDATA[
+        and ORDER_MN.acust_cod in(:acust_cod)]]></statement>
+        <parameter type="instring" kind="3">source_typ</parameter>
+        <statement test="_v(param.source_typ)"><![CDATA[
+        and ORDER_DT.source_typ in(:source_typ)]]></statement>
+        <parameter type="instring" kind="3">guest_typ</parameter>
+        <statement test="_v(param.guest_typ)"><![CDATA[
+        and ORDER_DT.guest_typ in(:guest_typ)]]></statement>
+        <parameter type="likestring" kind="2" condition="ORDER_MN.ikey like ?">ikey</parameter>
+        <parameter type="likestring" kind="2" condition="ORDER_MN.rvreserve_nos like ?">rvreserve_nos</parameter>
+        <parameter type="likestring" kind="2" condition="ORDER_MN.cust_nam like ?">cust_nam</parameter>
+        <parameter type="likestring" kind="2" condition="ORDER_MN.tel_nos like ?">tel_nos</parameter>
+        <parameter type="likestring" kind="2" condition="alt_nam like ?">alt_nam</parameter>
+        <parameter type="likestring" kind="2" condition="ORDER_MN.group_nos like ?">group_nos</parameter>
+        <parameter type="string" kind="3">ci_dat</parameter>
+        <statement test="_v(param.ci_dat)"><![CDATA[
+        and ORDER_DT.ci_dat = to_date(:ci_dat, 'YYYY/MM/DD')]]></statement>
+        <parameter type="string" kind="3">co_dat</parameter>
+        <statement test="_v(param.co_dat)"><![CDATA[
+        and ORDER_DT.co_dat = to_date(:co_dat, 'YYYY/MM/DD')]]></statement>
+        <groupby>
+            GROUP BY ORDER_DT.IKEY, ORDER_DT.ORDER_STA, ORDER_MN.GROUP_NOS, ORDER_DT.CI_DAT, ORDER_DT.CO_DAT,
+            ORDER_DT.RATE_COD, RATECOD_MN.RATECOD_NAM,
+            ORDER_DT.USE_COD, ORDER_DT.ROOM_COD, ORDER_DT.RENT_AMT, ORDER_DT.SERV_AMT, ORDER_MN.ACUST_NAM,
+            ORDER_MN.ATTEN_NAM
+        </groupby>
+        <orderby>
+            ORDER BY ORDER_DT.IKEY, DECODE( ORDER_DT.ORDER_STA, 'N', 1, 2 ), ORDER_DT.CI_DAT, ORDER_DT.CO_DAT,
+            ORDER_DT.RATE_COD, ORDER_DT.USE_COD, ORDER_DT.ROOM_COD, ORDER_DT.RENT_AMT, ORDER_DT.SERV_AMT
+        </orderby>
     </dao>
 
 
