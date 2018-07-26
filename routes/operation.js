@@ -30,6 +30,11 @@ module.exports = function (app) {
     app.post("/api/fetchDgRowData", apiMiddles, operCtrl.fetchDgRowData);
 
     /**
+     * (作業)查詢(只有)多筆欄位
+     */
+    app.post("/api/fetchOnlyDataGridFieldData", apiMiddles, operCtrl.fetchOnlyDgFieldData);
+
+    /**
      * (作業)查詢單筆欄位
      */
     app.post("/api/fetchSinglePageFieldData", apiMiddles, operCtrl.fetchGsFieldData);
@@ -38,10 +43,6 @@ module.exports = function (app) {
      * 取作業(只有)搜尋欄位資料
      */
     app.post("/api/fetchOnlySearchFieldsData", apiMiddles, operCtrl.fetchOnlySearchFieldsData);
-    /**
-     * (作業)查詢(只有)多筆欄位
-     */
-    app.post("/api/fetchOnlyDataGridFieldData", apiMiddles, operCtrl.fetchOnlyDgFieldData);
 
     /**
      * (作業)查詢(只有)單筆欄位

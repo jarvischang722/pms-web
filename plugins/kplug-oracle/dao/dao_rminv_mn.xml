@@ -47,7 +47,6 @@
         <parameter type="string" kind="3">ci_dat</parameter>
         <parameter type="string" kind="3">co_dat</parameter>
         <parameter type="number" kind="3">days</parameter>
-        <parameter type="string" kind="3">rate_cod</parameter>
         <parameter type="number" kind="3">athena_id</parameter>
         <parameter type="string" kind="3">hotel_cod</parameter>
     </dao>

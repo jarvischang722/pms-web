@@ -277,4 +277,45 @@
         <parameter type="string" kind="1">hotel_cod</parameter>
         <parameter type="string" kind="1">guest_typ</parameter>
     </dao>
+
+    <!-- [PMS0210030] 訂房多筆資料-->
+    <dao name="QRY_GROUP_ORDER_DT">
+        <statement><![CDATA[
+            SELECT ORDER_DT.IKEY, ORDER_DT.ORDER_STA, SUM( ORDER_DT.ORDER_QNT ) ORDER_QNT, SUM( ORDER_DT.ASSIGN_QNT ) ASSIGN_QNT,
+            ORDER_MN.GROUP_NOS, ORDER_DT.CI_DAT, ORDER_DT.CO_DAT, NVL( RATECOD_MN.RATECOD_NAM, ORDER_DT.RATE_COD ) RATECOD_NAM,
+            ORDER_DT.USE_COD, ORDER_DT.ROOM_COD, ORDER_DT.RENT_AMT, ORDER_DT.SERV_AMT, ORDER_MN.ACUST_NAM,
+            SUM( ORDER_DT.ADULT_QNT ) ADULT_QNT, SUM( ORDER_DT.CHILD_QNT ) CHILD_QNT, SUM( ORDER_DT.BABY_QNT ) BABY_QNT, SUM( ORDER_DT.CI_QNT ) CI_QNT
+            FROM ORDER_DT, ORDER_MN, RATECOD_MN WHERE ORDER_MN.ATHENA_ID = ORDER_DT.ATHENA_ID AND ORDER_MN.HOTEL_COD = ORDER_DT.HOTEL_COD
+            AND ORDER_MN.IKEY = ORDER_DT.IKEY AND ORDER_DT.ATHENA_ID = RATECOD_MN.ATHENA_ID(+) AND ORDER_DT.HOTEL_COD = RATECOD_MN.HOTEL_COD(+)
+            AND ORDER_DT.RATE_COD = RATECOD_MN.RATE_COD(+) AND ORDER_DT.ORDER_STA IN ( 'N', 'I' )
+            AND ORDER_MN.ATHENA_ID = :athena_id
+            AND ORDER_MN.HOTEL_COD = :hotel_cod
+            GROUP BY ORDER_DT.IKEY,
+            ORDER_DT.ORDER_STA,
+            ORDER_MN.GROUP_NOS,
+            ORDER_DT.CI_DAT,
+            ORDER_DT.CO_DAT,
+            ORDER_DT.RATE_COD,
+            RATECOD_MN.RATECOD_NAM,
+            ORDER_DT.USE_COD,
+            ORDER_DT.ROOM_COD,
+            ORDER_DT.RENT_AMT,
+            ORDER_DT.SERV_AMT,
+            ORDER_MN.ACUST_NAM
+            ORDER BY ORDER_DT.IKEY,
+            DECODE( ORDER_DT.ORDER_STA, 'N', 1, 2 ),
+            ORDER_DT.CI_DAT,
+            ORDER_DT.CO_DAT,
+            ORDER_DT.RATE_COD,
+            ORDER_DT.USE_COD,
+            ORDER_DT.ROOM_COD,
+            ORDER_DT.RENT_AMT,
+            ORDER_DT.SERV_AMT
+        ]]>
+        </statement>
+        <parameter type="number" kind="3">athena_id</parameter>
+        <parameter type="string" kind="3">hotel_cod</parameter>
+    </dao>
+
+
 </root>
