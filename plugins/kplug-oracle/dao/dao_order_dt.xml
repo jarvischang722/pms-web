@@ -336,5 +336,20 @@
         </orderby>
     </dao>
 
+    <!--CI公帳號讀取有效訂房卡明細最大退房日期-->
+    <dao name="QRY_ODER_DT_MAX_CO_DAT">
+        <statement><![CDATA[
+        SELECT MAX(CO_DAT)
+        FROM ORDER_DT
+        WHERE ATHENA_ID = :athena_id
+        AND HOTEL_COD = :hotel_cod
+        AND IKEY = :ikey
+        AND ORDER_STA IN ( 'N', 'I', 'O' )
+        ]]>
+        </statement>
+        <parameter type="number" kind="3">athena_id</parameter>
+        <parameter type="string" kind="3">hotel_cod</parameter>
+        <parameter type="string" kind="3">ikey</parameter>
+    </dao>
 
 </root>

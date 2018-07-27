@@ -363,9 +363,13 @@
             },
             /**
              * 驗證儲存資料
+             * 1.檢查有勾選資料
+             * 2.自動產生住客資料
+             * 3.檢查公帳號
              */
             async doValidate() {
                 let lo_return = {success: true, errorMsg: ""};
+                let la_ciSerBlankData = [];
 
                 for (let lo_guestData of this.guestMnRowDataChecked) {
                     //檢查所選定的guest mn資料房號'
@@ -378,14 +382,81 @@
                     //檢查是否有尚未指定住客資料之訂房資料
                     let ls_ciSer = lo_guestData.ci_ser || "";
                     if (ls_ciSer === "") {
-                        let lb_confirm = confirm(go_i18nLang.program.PMS0210060.isCiSerBlank);
-                        if (lb_confirm) {
+                        if (la_ciSerBlankData.length === 0) {
+                            let lb_confirm = confirm(go_i18nLang.program.PMS0210060.isCiSerBlank);
+                            if (lb_confirm) {
+                                la_ciSerBlankData.push(lo_guestData);
+                            }
+                            else {
+                                lo_return.success = false;
+                                lo_return.errorMsg = _s.sprintf(go_i18nLang.ErrorMsg.pms21msg5, lo_guestData.ikey_seq_nos);
+                                break;
+                            }
+                        }
+                        else {
+                            la_ciSerBlankData.push(lo_guestData);
+                        }
 
+                    }
+                }
+                if (lo_return.success) {
+                    if (la_ciSerBlankData.length > 0) {
+                        //自動生成guest mn 資料
+                        let lo_doRule = await BacUtils.doHttpPromisePostProxy("/api/queryDataByRule", {
+                            rule_func_name: "r_2010",
+                            orderMnData: this.orderMnValueData,
+                            guestMnData: la_ciSerBlankData
+                        }).then(result => {
+                            return result
+                        }).catch(err => {
+                            return {success: false, errorMsg: err}
+                        });
+
+                        if (!lo_doRule.success) {
+                            lo_return.success = false;
+                            lo_return.errorMsg = lo_doRule.errorMsg;
+                        }
+                    }
+                }
+
+                //檢查order mn 公帳號
+                if (lo_return.success && this.guestMnRowDataChecked.length > 0) {
+
+                    let lo_doMasterRule = await BacUtils.doHttpPromisePostProxy("/api/queryDataByRule", {
+                        rule_func_name: "r_1021",
+                        isFirst: true,
+                        orderMnData: this.orderMnValueData
+                    }).then(result => {
+                        return result
+                    }).catch(err => {
+                        return {success: false, errorMsg: err}
+                    });
+
+                    // lo_return.success = false;
+                    // lo_return.errorMsg = "false";
+
+                    if (lo_doMasterRule.showConfirm) {
+                        let lb_confirm = confirm(go_i18nLang.program.PMS0210060.chkMaster);
+
+                        if (lb_confirm) {
+                            let lo_doMasterRuleAgain = await BacUtils.doHttpPromisePostProxy("/api/queryDataByRule", {
+                                rule_func_name: "r_1021",
+                                isFirst: false,
+                                orderMnData: this.orderMnValueData
+                            }).then(result => {
+                                console.log(result);
+                                return result
+                            }).catch(err => {
+                                return {success: false, errorMsg: err}
+                            });
+                            if (!lo_doMasterRuleAgain.success) {
+                                lo_return.success = false;
+                                lo_return.errorMsg = lo_doMasterRuleAgain.errorMsg;
+                            }
                         }
                         else {
                             lo_return.success = false;
-                            lo_return.errorMsg = _s.sprintf(go_i18nLang.ErrorMsg.pms21msg5, lo_guestData.ikey_seq_nos);
-                            break;
+                            lo_return.errorMsg = "error";
                         }
                     }
                 }
@@ -417,6 +488,7 @@
                 else {
                     alert(lo_validate.errorMsg);
                 }
+
                 this.isLoading = false;
                 this.loadingText = "loading...";
             },
