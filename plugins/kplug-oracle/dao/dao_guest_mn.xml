@@ -184,7 +184,6 @@
         <parameter type="string" kind="3">serv_amt</parameter>
     </dao>
 
-
     <!-- [PMS0210060] CI清單入住，取得guest_mn資料 -->
     <dao name="QRY_CI_GUEST_MN">
         <statement><![CDATA[
@@ -217,17 +216,39 @@
         <parameter type="string" kind="3">ci_dat</parameter>
     </dao>
 
-
     <!-- [PMS0210060] CI清單 取消入住，guest_mn資料 -->
     <dao name="QRY_CICANCEL_GUEST_MN">
         <statement><![CDATA[
-
+        SELECT 'N' CHOOSE,GUEST_MN.ROOM_NOS,GUEST_MN.ALT_NAM,GUEST_MN.CI_DAT,GUEST_MN.ECO_DAT,GUEST_MN.CI_SER,
+        ( SELECT SUM(ITEM_TOT)
+        FROM GUEST_DT
+        WHERE GUEST_DT.ATHENA_ID = GUEST_MN.ATHENA_ID
+        AND GUEST_DT.HOTEL_COD = GUEST_MN.HOTEL_COD
+        AND GUEST_DT.CI_SER = GUEST_MN.CI_SER
+        AND GUEST_DT.ACCT_NOS = GUEST_DT.PARENT_ACCT_NOS
+        AND GUEST_DT.VALID_STA = 'Y'
+        AND GUEST_DT.CO_STA = 'N'
+        AND GUEST_DT.SYSTEM_TYP = 'HFD' ) ITEM_TOT
+        FROM GUEST_MN, ORDER_DT
+        WHERE ORDER_DT.ATHENA_ID = GUEST_MN.ATHENA_ID
+        AND ORDER_DT.HOTEL_COD = GUEST_MN.HOTEL_COD
+        AND ORDER_DT.IKEY = GUEST_MN.IKEY
+        AND ORDER_DT.IKEY_SEQ_NOS = GUEST_MN.IKEY_SEQ_NOS
+        AND ORDER_DT.ATHENA_ID = :athena_id
+        AND ORDER_DT.HOTEL_COD = :hotel_cod
+        AND ORDER_DT.IKEY = :ikey
+        AND ORDER_DT.CI_DAT = to_date(:rent_cal_dat, 'YYYY/MM/DD')
+        AND ORDER_DT.ORDER_STA = 'I'
+        AND GUEST_MN.GUEST_STA IN ( 'K', 'O' )
+        AND GUEST_MN.MASTER_STA = 'G'
+        AND GUEST_MN.SYSTEM_TYP = 'HFD'
+        ORDER BY GUEST_MN.ROOM_NOS,
+        GUEST_MN.ROOM_SER
         ]]>
         </statement>
         <parameter type="number" kind="3">athena_id</parameter>
         <parameter type="string" kind="3">hotel_cod</parameter>
         <parameter type="string" kind="3">ikey</parameter>
+        <parameter type="string" kind="3">rent_cal_dat</parameter>
     </dao>
-
-
 </root>

@@ -65,49 +65,49 @@ class saveTemplate {
     async callApi() {
         // await this.chkApiFormater();
         return new Promise((resolve, reject) => {
-            tools.requestApi(go_sysConf.api_url.common, this.lo_apiFormater, (apiErr, apiRes, data) => {
-                let log_id = moment().format("YYYYMMDDHHmmss");
-                let ls_msg = null;
-                let lb_success = true;
-                if (apiErr || !data) {
-                    lb_success = false;
-                    ls_msg = apiErr;
-
-                }
-                else if (data["RETN-CODE"] != "0000") { //回傳有誤
-                    lb_success = false;
-                    console.error(data["RETN-CODE-DESC"]);
-                    ls_msg = data["RETN-CODE-DESC"] || "error!!";
-                }
-                else { //成功
-                    lb_success = true;
-                    console.info(data["RETN-CODE-DESC"]);
-                    ls_msg = data["RETN-CODE-DESC"] || "";
-                }
-
-                //log 紀錄
-                logSvc.recordLogAPI({
-                    log_id: log_id,
-                    success: lb_success,
-                    prg_id: this.lo_postData.prg_id,
-                    api_prg_code: this.lo_postData.trans_cod,
-                    req_content: this.lo_apiFormater,
-                    res_content: data
-                });
-
-                //寄出exceptionMail
-                if (lb_success == false) {
-                    mailSvc.sendExceptionMail({
-                        log_id: log_id,
-                        exceptionType: "execSQL",
-                        errorMsg: ls_msg
-                    });
-                    reject(new Error(ls_msg));
-                }
-                else {
-                    resolve(data["RETN-DATA"] || {});
-                }
-            });
+            // tools.requestApi(go_sysConf.api_url.common, this.lo_apiFormater, (apiErr, apiRes, data) => {
+            //     let log_id = moment().format("YYYYMMDDHHmmss");
+            //     let ls_msg = null;
+            //     let lb_success = true;
+            //     if (apiErr || !data) {
+            //         lb_success = false;
+            //         ls_msg = apiErr;
+            //
+            //     }
+            //     else if (data["RETN-CODE"] != "0000") { //回傳有誤
+            //         lb_success = false;
+            //         console.error(data["RETN-CODE-DESC"]);
+            //         ls_msg = data["RETN-CODE-DESC"] || "error!!";
+            //     }
+            //     else { //成功
+            //         lb_success = true;
+            //         console.info(data["RETN-CODE-DESC"]);
+            //         ls_msg = data["RETN-CODE-DESC"] || "";
+            //     }
+            //
+            //     //log 紀錄
+            //     logSvc.recordLogAPI({
+            //         log_id: log_id,
+            //         success: lb_success,
+            //         prg_id: this.lo_postData.prg_id,
+            //         api_prg_code: this.lo_postData.trans_cod,
+            //         req_content: this.lo_apiFormater,
+            //         res_content: data
+            //     });
+            //
+            //     //寄出exceptionMail
+            //     if (lb_success == false) {
+            //         mailSvc.sendExceptionMail({
+            //             log_id: log_id,
+            //             exceptionType: "execSQL",
+            //             errorMsg: ls_msg
+            //         });
+            //         reject(new Error(ls_msg));
+            //     }
+            //     else {
+            //         resolve(data["RETN-DATA"] || {});
+            //     }
+            // });
         });
     }
 

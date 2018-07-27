@@ -10,8 +10,9 @@
         </div>
         <!--/.搜尋-->
         <div class="clearfix"></div>
-        <!--table-->
+
         <div class="col-xs-12">
+            <!--table-->
             <div class="col-sm-11 col-xs-11">
                 <div class="row no-margin-right">
                     <!--order dt-->
@@ -26,17 +27,19 @@
                     <!--guest mn-->
                 </div>
             </div>
+            <!--/.table-->
+            <!--按鈕-->
             <div class="col-xs-1 col-sm-1">
                 <div class="row">
                     <div class="right-menu-co">
                         <ul>
                             <li>
-                                <button class="btn btn-primary btn-white btn-defaultWidth"
+                                <button class="btn btn-primary btn-white btn-defaultWidth "
                                         role="button" @click="checkIn">入住
                                 </button>
                             </li>
                             <li>
-                                <button class="btn btn-primary btn-white btn-defaultWidth"
+                                <button class="btn btn-primary btn-white btn-defaultWidth "
                                         role="button" @click="clFdCheckIn">取消入住
                                 </button>
                             </li>
@@ -44,8 +47,9 @@
                     </div>
                 </div>
             </div>
+            <!--/.按鈕-->
         </div>
-        <!--/.table-->
+
         <div class="clearfix"></div>
 
         <pms0210060-dialog
@@ -259,6 +263,8 @@
             },
             clFdCheckIn() {
                 this.isCheckIn = false;
+                //取消入住的SQL中, CI_DAT要帶滾房租日
+                this.editingRow.rent_cal_dat = moment(this.rentCalDat).format("YYYY/MM/DD");
                 this.showSingleGridDialog();
             },
             showSingleGridDialog() {
