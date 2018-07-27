@@ -9,6 +9,7 @@
  */
 module.exports = {
     //oracle 設定檔{Array}
+	oracle_pool: false,
     oracle: [
         {
             id: "default",
