@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+    <dao name="QRY_DETAIL_ORDER_DT">
+        <statement><![CDATA[
+            SELECT DISTINCT ROOM_COD,
+            PG_HFD_OTHER2.PF_GET_ROOM_COD_ORDER( ATHENA_ID, HOTEL_COD, ROOM_COD ) VIEW_SEQ
+            FROM RVRMCOD_RF
+            WHERE ATHENA_ID = :athena_id
+            AND HOTEL_COD = :hotel_cod
+            AND :ci_dat BETWEEN BEGIN_DAT AND END_DAT
+        ]]>
+        </statement>
+        <parameter type="number" kind="3">athena_id</parameter>
+        <parameter type="string" kind="3">hotel_cod</parameter>
+        <parameter type="date" kind="3">ci_dat</parameter>
+        <orderby>ORDER BY VIEW_SEQ, ROOM_COD</orderby>
+    </dao>
+</root>

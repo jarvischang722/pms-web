@@ -282,14 +282,26 @@
     <dao name="QRY_GROUP_ORDER_DT">
         <statement><![CDATA[
             SELECT ORDER_DT.IKEY, ORDER_DT.ORDER_STA, SUM( ORDER_DT.ORDER_QNT ) ORDER_QNT, SUM( ORDER_DT.ASSIGN_QNT ) ASSIGN_QNT,
-            ORDER_MN.GROUP_NOS, ORDER_DT.CI_DAT, ORDER_DT.CO_DAT, NVL( RATECOD_MN.RATECOD_NAM, ORDER_DT.RATE_COD ) RATECOD_NAM,
+            ORDER_MN.GROUP_NOS, ORDER_DT.CI_DAT, ORDER_DT.CO_DAT, NVL( RATECOD_MN.RATECOD_NAM, ORDER_DT.RATE_COD ) "ratecod_mn.ratecod_nam",
             ORDER_DT.USE_COD, ORDER_DT.ROOM_COD, ORDER_DT.RENT_AMT, ORDER_DT.SERV_AMT, ORDER_MN.ACUST_NAM,
             SUM( ORDER_DT.ADULT_QNT ) ADULT_QNT, SUM( ORDER_DT.CHILD_QNT ) CHILD_QNT, SUM( ORDER_DT.BABY_QNT ) BABY_QNT, SUM( ORDER_DT.CI_QNT ) CI_QNT
+            , ORDER_DT.RATE_COD
             FROM ORDER_DT, ORDER_MN, RATECOD_MN WHERE ORDER_MN.ATHENA_ID = ORDER_DT.ATHENA_ID AND ORDER_MN.HOTEL_COD = ORDER_DT.HOTEL_COD
             AND ORDER_MN.IKEY = ORDER_DT.IKEY AND ORDER_DT.ATHENA_ID = RATECOD_MN.ATHENA_ID(+) AND ORDER_DT.HOTEL_COD = RATECOD_MN.HOTEL_COD(+)
             AND ORDER_DT.RATE_COD = RATECOD_MN.RATE_COD(+) AND ORDER_DT.ORDER_STA IN ( 'N', 'I' )
             AND ORDER_MN.ATHENA_ID = :athena_id
             AND ORDER_MN.HOTEL_COD = :hotel_cod
+            AND ORDER_DT.CI_DAT = :ci_dat
+            AND ORDER_DT.CO_DAT = :co_dat
+        ]]>
+        </statement>
+        <parameter type="number" kind="3">athena_id</parameter>
+        <parameter type="string" kind="3">hotel_cod</parameter>
+        <parameter type="string" kind="3">ikey</parameter>
+        <statement test="_v(param.ikey)"><![CDATA[ AND ORDER_DT.IKEY = :ikey]]></statement>
+        <parameter type="date" kind="3">ci_dat</parameter>
+        <parameter type="date" kind="3">co_dat</parameter>
+        <groupby>
             GROUP BY ORDER_DT.IKEY,
             ORDER_DT.ORDER_STA,
             ORDER_MN.GROUP_NOS,
@@ -311,10 +323,42 @@
             ORDER_DT.ROOM_COD,
             ORDER_DT.RENT_AMT,
             ORDER_DT.SERV_AMT
+        </groupby>
+    </dao>
+
+    <dao name="QRY_ORDER_DT_LIST">
+        <statement><![CDATA[
+          SELECT ORDER_DT.IKEY_SEQ_NOS,
+            PG_HFD_GET_NAM2.SF_HFD_GET_GUEST_LIST( ORDER_DT.ATHENA_ID, ORDER_DT.HOTEL_COD, ORDER_DT.IKEY, ORDER_DT.IKEY_SEQ_NOS, '#1####' ) FULL_NAM,
+            ORDER_DT.ASSIGN_STA, ORDER_DT.ROOM_NOS, ORDER_DT.ROOM_COD, ORDER_DT.ASI_LOCK, ORDER_DT.ADULT_QNT, ORDER_DT.CHILD_QNT, ORDER_DT.BABY_QNT
+
+            FROM ORDER_DT
+            WHERE ORDER_DT.ORDER_STA IN ( 'N', 'I' )
+            AND ORDER_DT.ATHENA_ID = :athena_id
+            AND ORDER_DT.HOTEL_COD = :hotel_cod
+            AND ORDER_DT.IKEY = :ikey
+            AND ORDER_DT.ORDER_STA = :order_sta
+            AND ORDER_DT.CI_DAT = :ci_dat
+            AND ORDER_DT.CO_DAT = :co_dat
+            AND ORDER_DT.RATE_COD = :rate_cod
+            AND ORDER_DT.USE_COD = :use_cod
+            AND ORDER_DT.ROOM_COD = :room_cod
+            AND ORDER_DT.RENT_AMT = :rent_amt
+            AND ORDER_DT.SERV_AMT = :serv_amt
+            ORDER BY ORDER_DT.IKEY_SEQ_NOS
         ]]>
         </statement>
         <parameter type="number" kind="3">athena_id</parameter>
         <parameter type="string" kind="3">hotel_cod</parameter>
+        <parameter type="string" kind="3">ikey</parameter>
+        <parameter type="string" kind="3">order_sta</parameter>
+        <parameter type="date" kind="3">ci_dat</parameter>
+        <parameter type="date" kind="3">co_dat</parameter>
+        <parameter type="string" kind="3">rate_cod</parameter>
+        <parameter type="string" kind="3">use_cod</parameter>
+        <parameter type="string" kind="3">room_cod</parameter>
+        <parameter type="number" kind="3">rent_amt</parameter>
+        <parameter type="number" kind="3">serv_amt</parameter>
     </dao>
 
 

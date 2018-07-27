@@ -1,4 +1,4 @@
-`<template>
+<template>
     <div>
         <div class="page-header"></div><!-- /.page-header -->
         <!-- 排房作業 Page-->
@@ -19,7 +19,8 @@
             <div class="col-xs-12">
                 <div class="roomAssign">
                     <!--  接待 roomAssign 內容-->
-                    <div id="roomDetail-all-container" class="col-xs-11">
+                    <!--<div id="roomDetail-all-container" class="col-xs-11">-->
+                    <div class="col-xs-11">
                         <div class="row no-margin-right">
                             <!--訂房多筆&定房明細-->
                             <div class="col-xs-5 no-padding-left">
@@ -34,7 +35,7 @@
                                 <!--定房明細-->
                                 <div class="jqGridEdit-table roomDetail-table2 cardDetail_margin easyui-panel dataGrid-s1">
                                     <!--class="roomAssTableHt" 控制高度隨著螢幕預設變化-->
-                                    <table id="roomDetail-table2" style="height: 400px;"></table>
+                                    <table id="OrderDtList_dg" style="height: 400px;"></table>
                                 </div>
                                 <br>
 
@@ -191,54 +192,50 @@
                                     </div>
                                     <div class="clearfix"></div>
                                     <div class="space-2"></div>
+                                    <!--排房房間資料-->
                                     <div class="tabbable tabs-left">
+                                        <!--房型過濾條件-->
                                         <div class="horizTable-outer pull-left chooseCount"
                                              style="min-width: 49px; max-width:5%;">
                                             <table class="css_table horizTable center table-lg width-100 rm-table-s ">
                                                 <tbody class="css_tbody">
-                                                <tr class="css_tr" v-for="(room,idx) in roomType">
-                                                    <td class="css_td" :class="{active:idx ==0}"
-                                                        @click="chooseRoomType(idx)"> {{room}}
-
-
-
-                                                    </td>
+                                                <tr class="css_tr" v-for="(room,idx) in roomType"
+                                                    @click="chooseRoomType">
+                                                    <td class="css_td" :class="{active:idx ==1}"> {{room}}</td>
                                                 </tr>
                                                 </tbody>
                                             </table>
                                         </div>
+                                        <!--/房型過濾條件-->
                                         <div class="tab-content roomAssign-p" style="overflow: hidden;">
                                             <div id="All" class="tab-pane in active"
-                                                 style="position: relative; ">
-                                                <div class="town-table">
+                                                 style="position: relative;">
+                                                <div class="town-table" v-show="btnList">
                                                     <div class="townRow easyui-panel">
                                                         <!--高度: townPage 的高度-->
-                                                        <table id="townList-table"
-                                                               style="height: 500px; display: none;"></table>
+                                                        <table id="townList-table" style="height: 500px;"></table>
                                                     </div>
                                                 </div>
-                                                <div class="town-grap scrollable">
+                                                <div class="town-grap scrollable" v-show="!btnList">
                                                     <div class="townPage">
-                                                        <div class="townBlock roomAss_detail">
+                                                        <div class="townBlock roomAss_detail"
+                                                             v-for="(roomDt, index) in roomDtListRowData">
                                                             <div class="head">
-                                                                <span class="left txt-lg">0301</span>
-                                                                <span class="right">DDT</span>
+                                                                <span class="left txt-lg">{{roomDt.room_nos}}</span>
+                                                                <span class="right">{{roomDt.room_cod}}</span>
                                                             </div>
                                                             <div class="clearfix"></div>
                                                             <div class="content">
-                                                                <span>陳先生</span>
+                                                                <span>{{roomDt.alt_namALT_NAM}}</span>
                                                             </div>
                                                             <div class="content">
-                                                                <span>04/29-04/30</span>
+                                                                <span>{{roomDt.CI_DAT}}-{{roomDt.CO_DAT}}</span>
                                                             </div>
                                                             <div class="content">
-                                                                <span>拆床</span>
+                                                                <span>{{roomDt.BED_STA}}</span>
                                                             </div>
                                                             <div class="clearfix"></div>
-                                                            <!--<div class="content-sub">-->
-                                                            <!--<span class="left">拆床</span>-->
-                                                            <!--</div>-->
-                                                            <!--<div class="clearfix"></div>-->
+
                                                             <div class="foot">
                                                                 <img src="/images/intCounter/clean.png"
                                                                      class="float-left foCnt_icon"/>
@@ -253,1781 +250,9 @@
                                                             </div>
                                                             <div class="clearfix"></div>
                                                         </div>
-                                                        <div class="townBlock no-show roomAss_detail">
-                                                            <div class="head">
-                                                                <span class="left txt-lg">0301</span>
-                                                                <span class="right">DDT</span>
-                                                            </div>
-                                                            <div class="clearfix"></div>
-                                                            <div class="content">
-                                                                <span>陳先生</span>
-                                                            </div>
-                                                            <div class="content">
-                                                                <span>04/29-04/30</span>
-                                                            </div>
-                                                            <div class="content">
-                                                                <span>拆床</span>
-                                                            </div>
-                                                            <div class="clearfix"></div>
-                                                            <div class="foot">
-                                                                <img src="/images/intCounter/clean.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/wrench.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/assign.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/do-not-disturb.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/bed.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                            </div>
-                                                            <div class="clearfix"></div>
-                                                        </div>
-                                                        <div class="townBlock cb-ob roomAss_detail">
-                                                            <div class="head">
-                                                                <span class="left txt-lg">0301</span>
-                                                                <span class="right">DDT</span>
-                                                            </div>
-                                                            <div class="clearfix"></div>
-                                                            <div class="content">
-                                                                <span>陳先生</span>
-                                                            </div>
-                                                            <div class="content">
-                                                                <span>04/29-04/30</span>
-                                                            </div>
-                                                            <div class="content">
-                                                                <span>拆床</span>
-                                                            </div>
-                                                            <div class="clearfix"></div>
-                                                            <div class="foot">
-                                                                <img src="/images/intCounter/clean.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/wrench.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/assign.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/do-not-disturb.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/bed.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                            </div>
-                                                            <div class="clearfix"></div>
-                                                        </div>
-                                                        <div class="townBlock cb-oc-od roomAss_detail">
-                                                            <div class="head">
-                                                                <span class="left txt-lg">0301</span>
-                                                                <span class="right">DDT</span>
-                                                            </div>
-                                                            <div class="clearfix"></div>
-                                                            <div class="content">
-                                                                <span>陳先生</span>
-                                                            </div>
-                                                            <div class="content">
-                                                                <span>04/29-04/30</span>
-                                                            </div>
-                                                            <div class="content">
-                                                                <span>拆床</span>
-                                                            </div>
-                                                            <div class="clearfix"></div>
-                                                            <div class="foot">
-                                                                <img src="/images/intCounter/clean.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/wrench.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/assign.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/do-not-disturb.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/bed.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                            </div>
-                                                            <div class="clearfix"></div>
-                                                        </div>
-                                                        <div class="townBlock cb-vc-vd roomAss_detail">
-                                                            <div class="head">
-                                                                <span class="left txt-lg">0301</span>
-                                                                <span class="right">DDT</span>
-                                                            </div>
-                                                            <div class="clearfix"></div>
-                                                            <div class="content">
-                                                                <span>陳先生</span>
-                                                            </div>
-                                                            <div class="content">
-                                                                <span>04/29-04/30</span>
-                                                            </div>
-                                                            <div class="content">
-                                                                <span>拆床</span>
-                                                            </div>
-                                                            <div class="clearfix"></div>
-                                                            <div class="foot">
-                                                                <img src="/images/intCounter/clean.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/wrench.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/assign.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/do-not-disturb.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/bed.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                            </div>
-                                                            <div class="clearfix"></div>
-                                                        </div>
-                                                        <div class="townBlock cb-all roomAss_detail">
-                                                            <div class="head">
-                                                                <span class="left txt-lg">0301</span>
-                                                                <span class="right">DDT</span>
-                                                            </div>
-                                                            <div class="clearfix"></div>
-                                                            <div class="content">
-                                                                <span>陳先生</span>
-                                                            </div>
-                                                            <div class="content">
-                                                                <span>04/29-04/30</span>
-                                                            </div>
-                                                            <div class="content">
-                                                                <span>拆床</span>
-                                                            </div>
-                                                            <div class="clearfix"></div>
-                                                            <div class="foot">
-                                                                <img src="/images/intCounter/clean.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/wrench.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/assign.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/do-not-disturb.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/bed.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                            </div>
-                                                            <div class="clearfix"></div>
-                                                        </div>
-                                                        <div class="townBlock cb-oc-od roomAss_detail">
-                                                            <div class="head">
-                                                                <span class="left txt-lg">0301</span>
-                                                                <span class="right">DDT</span>
-                                                            </div>
-                                                            <div class="clearfix"></div>
-                                                            <div class="content">
-                                                                <span>陳先生</span>
-                                                            </div>
-                                                            <div class="content">
-                                                                <span>04/29-04/30</span>
-                                                            </div>
-                                                            <div class="content">
-                                                                <span>拆床</span>
-                                                            </div>
-                                                            <div class="clearfix"></div>
-                                                            <div class="foot">
-                                                                <img src="/images/intCounter/clean.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/wrench.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/assign.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/do-not-disturb.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/bed.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                            </div>
-                                                            <div class="clearfix"></div>
-                                                        </div>
-                                                        <div class="townBlock cb-sexyBlue roomAss_detail">
-                                                            <div class="head">
-                                                                <span class="left txt-lg">0301</span>
-                                                                <span class="right">DDT</span>
-                                                            </div>
-                                                            <div class="clearfix"></div>
-                                                            <div class="content">
-                                                                <span>陳先生</span>
-                                                            </div>
-                                                            <div class="content">
-                                                                <span>04/29-04/30</span>
-                                                            </div>
-                                                            <div class="content">
-                                                                <span>拆床</span>
-                                                            </div>
-                                                            <div class="clearfix"></div>
-                                                            <div class="foot">
-                                                                <img src="/images/intCounter/clean.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/wrench.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/assign.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/do-not-disturb.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/bed.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                            </div>
-                                                            <div class="clearfix"></div>
-                                                        </div>
-                                                        <div class="townBlock cb-oosroomAss_detail">
-                                                            <div class="head">
-                                                                <span class="left txt-lg">0301</span>
-                                                                <span class="right">DDT</span>
-                                                            </div>
-                                                            <div class="clearfix"></div>
-                                                            <div class="content">
-                                                                <span>陳先生</span>
-                                                            </div>
-                                                            <div class="content">
-                                                                <span>04/29-04/30</span>
-                                                            </div>
-                                                            <div class="content">
-                                                                <span>拆床</span>
-                                                            </div>
-                                                            <div class="clearfix"></div>
-                                                            <div class="foot">
-                                                                <img src="/images/intCounter/clean.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/wrench.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/assign.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/do-not-disturb.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/bed.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                            </div>
-                                                            <div class="clearfix"></div>
-                                                        </div>
-                                                        <div class="townBlock cb-oc-od roomAss_detail">
-                                                            <div class="head">
-                                                                <span class="left txt-lg">0301</span>
-                                                                <span class="right">DDT</span>
-                                                            </div>
-                                                            <div class="clearfix"></div>
-                                                            <div class="content">
-                                                                <span>陳先生</span>
-                                                            </div>
-                                                            <div class="content">
-                                                                <span>04/29-04/30</span>
-                                                            </div>
-                                                            <div class="content">
-                                                                <span>拆床</span>
-                                                            </div>
-                                                            <div class="clearfix"></div>
-                                                            <div class="foot">
-                                                                <img src="/images/intCounter/clean.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/wrench.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/assign.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/do-not-disturb.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/bed.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                            </div>
-                                                            <div class="clearfix"></div>
-                                                        </div>
-                                                        <div class="townBlock cb-sexyBlue roomAss_detail">
-                                                            <div class="head">
-                                                                <span class="left txt-lg">0301</span>
-                                                                <span class="right">DDT</span>
-                                                            </div>
-                                                            <div class="clearfix"></div>
-                                                            <div class="content">
-                                                                <span>陳先生</span>
-                                                            </div>
-                                                            <div class="content">
-                                                                <span>04/29-04/30</span>
-                                                            </div>
-                                                            <div class="content">
-                                                                <span>拆床</span>
-                                                            </div>
-                                                            <div class="clearfix"></div>
-                                                            <div class="foot">
-                                                                <img src="/images/intCounter/clean.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/wrench.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/assign.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/do-not-disturb.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/bed.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                            </div>
-                                                            <div class="clearfix"></div>
-                                                        </div>
-                                                        <div class="townBlock cb-vc-vd roomAss_detail">
-                                                            <div class="head">
-                                                                <span class="left txt-lg">0301</span>
-                                                                <span class="right">DDT</span>
-                                                            </div>
-                                                            <div class="clearfix"></div>
-                                                            <div class="content">
-                                                                <span>陳先生</span>
-                                                            </div>
-                                                            <div class="content">
-                                                                <span>04/29-04/30</span>
-                                                            </div>
-                                                            <div class="content">
-                                                                <span>拆床</span>
-                                                            </div>
-                                                            <div class="clearfix"></div>
-                                                            <div class="foot">
-                                                                <img src="/images/intCounter/clean.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/wrench.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/assign.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/do-not-disturb.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/bed.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                            </div>
-                                                            <div class="clearfix"></div>
-                                                        </div>
-                                                        <div class="townBlock cb-oos roomAss_detail">
-                                                            <div class="head">
-                                                                <span class="left txt-lg">0301</span>
-                                                                <span class="right">DDT</span>
-                                                            </div>
-                                                            <div class="clearfix"></div>
-                                                            <div class="content">
-                                                                <span>陳先生</span>
-                                                            </div>
-                                                            <div class="content">
-                                                                <span>04/29-04/30</span>
-                                                            </div>
-                                                            <div class="content">
-                                                                <span>拆床</span>
-                                                            </div>
-                                                            <div class="clearfix"></div>
-                                                            <div class="foot">
-                                                                <img src="/images/intCounter/clean.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/wrench.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/assign.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/do-not-disturb.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/bed.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                            </div>
-                                                            <div class="clearfix"></div>
-                                                        </div>
-                                                        <div class="townBlock cb-ooo roomAss_detail">
-                                                            <div class="head">
-                                                                <span class="left txt-lg">0301</span>
-                                                                <span class="right">DDT</span>
-                                                            </div>
-                                                            <div class="clearfix"></div>
-                                                            <div class="content">
-                                                                <span>陳先生</span>
-                                                            </div>
-                                                            <div class="content">
-                                                                <span>04/29-04/30</span>
-                                                            </div>
-                                                            <div class="content">
-                                                                <span>拆床</span>
-                                                            </div>
-                                                            <div class="clearfix"></div>
-                                                            <div class="foot">
-                                                                <img src="/images/intCounter/clean.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/wrench.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/assign.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/do-not-disturb.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/bed.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                            </div>
-                                                            <div class="clearfix"></div>
-                                                        </div>
-                                                        <div class="townBlock cb-vc-vd roomAss_detail">
-                                                            <div class="head">
-                                                                <span class="left txt-lg">0301</span>
-                                                                <span class="right">DDT</span>
-                                                            </div>
-                                                            <div class="clearfix"></div>
-                                                            <div class="content">
-                                                                <span>陳先生</span>
-                                                            </div>
-                                                            <div class="content">
-                                                                <span>04/29-04/30</span>
-                                                            </div>
-                                                            <div class="content">
-                                                                <span>拆床</span>
-                                                            </div>
-                                                            <div class="clearfix"></div>
-                                                            <div class="foot">
-                                                                <img src="/images/intCounter/clean.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/wrench.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/assign.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/do-not-disturb.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/bed.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                            </div>
-                                                            <div class="clearfix"></div>
-                                                        </div>
-                                                        <div class="townBlock cb-oc-od roomAss_detail">
-                                                            <div class="head">
-                                                                <span class="left txt-lg">0301</span>
-                                                                <span class="right">DDT</span>
-                                                            </div>
-                                                            <div class="clearfix"></div>
-                                                            <div class="content">
-                                                                <span>陳先生</span>
-                                                            </div>
-                                                            <div class="content">
-                                                                <span>04/29-04/30</span>
-                                                            </div>
-                                                            <div class="content">
-                                                                <span>拆床</span>
-                                                            </div>
-                                                            <div class="clearfix"></div>
-                                                            <div class="foot">
-                                                                <img src="/images/intCounter/clean.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/wrench.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/assign.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/do-not-disturb.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/bed.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                            </div>
-                                                            <div class="clearfix"></div>
-                                                        </div>
-                                                        <div class="townBlock cb-vc-vd roomAss_detail">
-                                                            <div class="head">
-                                                                <span class="left txt-lg">0301</span>
-                                                                <span class="right">DDT</span>
-                                                            </div>
-                                                            <div class="clearfix"></div>
-                                                            <div class="content">
-                                                                <span>陳先生</span>
-                                                            </div>
-                                                            <div class="content">
-                                                                <span>04/29-04/30</span>
-                                                            </div>
-                                                            <div class="content">
-                                                                <span>拆床</span>
-                                                            </div>
-                                                            <div class="clearfix"></div>
-                                                            <div class="foot">
-                                                                <img src="/images/intCounter/clean.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/wrench.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/assign.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/do-not-disturb.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/bed.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                            </div>
-                                                            <div class="clearfix"></div>
-                                                        </div>
-                                                        <div class="townBlock cb-sexyBlue roomAss_detail">
-                                                            <div class="head">
-                                                                <span class="left txt-lg">0301</span>
-                                                                <span class="right">DDT</span>
-                                                            </div>
-                                                            <div class="clearfix"></div>
-                                                            <div class="content">
-                                                                <span>陳先生</span>
-                                                            </div>
-                                                            <div class="content">
-                                                                <span>04/29-04/30</span>
-                                                            </div>
-                                                            <div class="content">
-                                                                <span>拆床</span>
-                                                            </div>
-                                                            <div class="clearfix"></div>
-                                                            <div class="foot">
-                                                                <img src="/images/intCounter/clean.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/wrench.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/assign.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/do-not-disturb.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/bed.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                            </div>
-                                                            <div class="clearfix"></div>
-                                                        </div>
-                                                        <div class="townBlock cb-oc-od roomAss_detail">
-                                                            <div class="head">
-                                                                <span class="left txt-lg">0301</span>
-                                                                <span class="right">DDT</span>
-                                                            </div>
-                                                            <div class="clearfix"></div>
-                                                            <div class="content">
-                                                                <span>陳先生</span>
-                                                            </div>
-                                                            <div class="content">
-                                                                <span>04/29-04/30</span>
-                                                            </div>
-                                                            <div class="content">
-                                                                <span>拆床</span>
-                                                            </div>
-                                                            <div class="clearfix"></div>
-                                                            <div class="foot">
-                                                                <img src="/images/intCounter/clean.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/wrench.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/assign.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/do-not-disturb.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/bed.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                            </div>
-                                                            <div class="clearfix"></div>
-                                                        </div>
-                                                        <div class="townBlock cb-sexyBlueroomAss_detail">
-                                                            <div class="head">
-                                                                <span class="left txt-lg">0301</span>
-                                                                <span class="right">DDT</span>
-                                                            </div>
-                                                            <div class="clearfix"></div>
-                                                            <div class="content">
-                                                                <span>陳先生</span>
-                                                            </div>
-                                                            <div class="content">
-                                                                <span>04/29-04/30</span>
-                                                            </div>
-                                                            <div class="content">
-                                                                <span>拆床</span>
-                                                            </div>
-                                                            <div class="clearfix"></div>
-                                                            <div class="foot">
-                                                                <img src="/images/intCounter/clean.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/wrench.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/assign.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/do-not-disturb.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/bed.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                            </div>
-                                                            <div class="clearfix"></div>
-                                                        </div>
-                                                        <div class="townBlock cb-oc-od roomAss_detail">
-                                                            <div class="head">
-                                                                <span class="left txt-lg">0301</span>
-                                                                <span class="right">DDT</span>
-                                                            </div>
-                                                            <div class="clearfix"></div>
-                                                            <div class="content">
-                                                                <span>陳先生</span>
-                                                            </div>
-                                                            <div class="content">
-                                                                <span>04/29-04/30</span>
-                                                            </div>
-                                                            <div class="content">
-                                                                <span>拆床</span>
-                                                            </div>
-                                                            <div class="clearfix"></div>
-                                                            <div class="foot">
-                                                                <img src="/images/intCounter/clean.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/wrench.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/assign.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/do-not-disturb.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/bed.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                            </div>
-                                                            <div class="clearfix"></div>
-                                                        </div>
-                                                        <div class="townBlock cb-vc-vd roomAss_detail">
-                                                            <div class="head">
-                                                                <span class="left txt-lg">0301</span>
-                                                                <span class="right">DDT</span>
-                                                            </div>
-                                                            <div class="clearfix"></div>
-                                                            <div class="content">
-                                                                <span>陳先生</span>
-                                                            </div>
-                                                            <div class="content">
-                                                                <span>04/29-04/30</span>
-                                                            </div>
-                                                            <div class="content">
-                                                                <span>拆床</span>
-                                                            </div>
-                                                            <div class="clearfix"></div>
-                                                            <div class="foot">
-                                                                <img src="/images/intCounter/clean.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/wrench.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/assign.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/do-not-disturb.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/bed.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                            </div>
-                                                            <div class="clearfix"></div>
-                                                        </div>
-                                                        <div class="townBlock cb-oos roomAss_detail">
-                                                            <div class="head">
-                                                                <span class="left txt-lg">0301</span>
-                                                                <span class="right">DDT</span>
-                                                            </div>
-                                                            <div class="clearfix"></div>
-                                                            <div class="content">
-                                                                <span>陳先生</span>
-                                                            </div>
-                                                            <div class="content">
-                                                                <span>04/29-04/30</span>
-                                                            </div>
-                                                            <div class="content">
-                                                                <span>拆床</span>
-                                                            </div>
-                                                            <div class="clearfix"></div>
-                                                            <div class="foot">
-                                                                <img src="/images/intCounter/clean.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/wrench.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/assign.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/do-not-disturb.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/bed.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                            </div>
-                                                            <div class="clearfix"></div>
-                                                        </div>
-                                                        <div class="townBlock cb-oc-od roomAss_detail">
-                                                            <div class="head">
-                                                                <span class="left txt-lg">0301</span>
-                                                                <span class="right">DDT</span>
-                                                            </div>
-                                                            <div class="clearfix"></div>
-                                                            <div class="content">
-                                                                <span>陳先生</span>
-                                                            </div>
-                                                            <div class="content">
-                                                                <span>04/29-04/30</span>
-                                                            </div>
-                                                            <div class="content">
-                                                                <span>拆床</span>
-                                                            </div>
-                                                            <div class="clearfix"></div>
-                                                            <div class="foot">
-                                                                <img src="/images/intCounter/clean.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/wrench.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/assign.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/do-not-disturb.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/bed.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                            </div>
-                                                            <div class="clearfix"></div>
-                                                        </div>
-                                                        <div class="townBlock cb-sexyBlue roomAss_detail">
-                                                            <div class="head">
-                                                                <span class="left txt-lg">0301</span>
-                                                                <span class="right">DDT</span>
-                                                            </div>
-                                                            <div class="clearfix"></div>
-                                                            <div class="content">
-                                                                <span>陳先生</span>
-                                                            </div>
-                                                            <div class="content">
-                                                                <span>04/29-04/30</span>
-                                                            </div>
-                                                            <div class="content">
-                                                                <span>拆床</span>
-                                                            </div>
-                                                            <div class="clearfix"></div>
-                                                            <div class="foot">
-                                                                <img src="/images/intCounter/clean.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/wrench.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/assign.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/do-not-disturb.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/bed.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                            </div>
-                                                            <div class="clearfix"></div>
-                                                        </div>
-                                                        <div class="townBlock cb-oc-od roomAss_detail">
-                                                            <div class="head">
-                                                                <span class="left txt-lg">0301</span>
-                                                                <span class="right">DDT</span>
-                                                            </div>
-                                                            <div class="clearfix"></div>
-                                                            <div class="content">
-                                                                <span>陳先生</span>
-                                                            </div>
-                                                            <div class="content">
-                                                                <span>04/29-04/30</span>
-                                                            </div>
-                                                            <div class="content">
-                                                                <span>拆床</span>
-                                                            </div>
-                                                            <div class="clearfix"></div>
-                                                            <div class="foot">
-                                                                <img src="/images/intCounter/clean.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/wrench.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/assign.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/do-not-disturb.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/bed.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                            </div>
-                                                            <div class="clearfix"></div>
-                                                        </div>
-                                                        <div class="townBlock cb-sexyBlue roomAss_detail">
-                                                            <div class="head">
-                                                                <span class="left txt-lg">0301</span>
-                                                                <span class="right">DDT</span>
-                                                            </div>
-                                                            <div class="clearfix"></div>
-                                                            <div class="content">
-                                                                <span>陳先生</span>
-                                                            </div>
-                                                            <div class="content">
-                                                                <span>04/29-04/30</span>
-                                                            </div>
-                                                            <div class="content">
-                                                                <span>拆床</span>
-                                                            </div>
-                                                            <div class="clearfix"></div>
-                                                            <div class="foot">
-                                                                <img src="/images/intCounter/clean.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/wrench.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/assign.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/do-not-disturb.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/bed.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                            </div>
-                                                            <div class="clearfix"></div>
-                                                        </div>
-                                                        <div class="townBlock cb-oc-od roomAss_detail">
-                                                            <div class="head">
-                                                                <span class="left txt-lg">0301</span>
-                                                                <span class="right">DDT</span>
-                                                            </div>
-                                                            <div class="clearfix"></div>
-                                                            <div class="content">
-                                                                <span>陳先生</span>
-                                                            </div>
-                                                            <div class="content">
-                                                                <span>04/29-04/30</span>
-                                                            </div>
-                                                            <div class="content">
-                                                                <span>拆床</span>
-                                                            </div>
-                                                            <div class="clearfix"></div>
-                                                            <div class="foot">
-                                                                <img src="/images/intCounter/clean.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/wrench.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/assign.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/do-not-disturb.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/bed.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                            </div>
-                                                            <div class="clearfix"></div>
-                                                        </div>
-                                                        <div class="townBlock cb-oos roomAss_detail">
-                                                            <div class="head">
-                                                                <span class="left txt-lg">0301</span>
-                                                                <span class="right">DDT</span>
-                                                            </div>
-                                                            <div class="clearfix"></div>
-                                                            <div class="content">
-                                                                <span>陳先生</span>
-                                                            </div>
-                                                            <div class="content">
-                                                                <span>04/29-04/30</span>
-                                                            </div>
-                                                            <div class="content">
-                                                                <span>拆床</span>
-                                                            </div>
-                                                            <div class="clearfix"></div>
-                                                            <div class="foot">
-                                                                <img src="/images/intCounter/clean.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/wrench.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/assign.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/do-not-disturb.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/bed.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                            </div>
-                                                            <div class="clearfix"></div>
-                                                        </div>
-                                                        <div class="townBlock cb-sexyBlue roomAss_detail">
-                                                            <div class="head">
-                                                                <span class="left txt-lg">0301</span>
-                                                                <span class="right">DDT</span>
-                                                            </div>
-                                                            <div class="clearfix"></div>
-                                                            <div class="content">
-                                                                <span>陳先生</span>
-                                                            </div>
-                                                            <div class="content">
-                                                                <span>04/29-04/30</span>
-                                                            </div>
-                                                            <div class="content">
-                                                                <span>拆床</span>
-                                                            </div>
-                                                            <div class="clearfix"></div>
-                                                            <div class="foot">
-                                                                <img src="/images/intCounter/clean.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/wrench.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/assign.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/do-not-disturb.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/bed.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                            </div>
-                                                            <div class="clearfix"></div>
-                                                        </div>
-                                                        <div class="townBlock cb-oc-od roomAss_detail">
-                                                            <div class="head">
-                                                                <span class="left txt-lg">0301</span>
-                                                                <span class="right">DDT</span>
-                                                            </div>
-                                                            <div class="clearfix"></div>
-                                                            <div class="content">
-                                                                <span>陳先生</span>
-                                                            </div>
-                                                            <div class="content">
-                                                                <span>04/29-04/30</span>
-                                                            </div>
-                                                            <div class="content">
-                                                                <span>拆床</span>
-                                                            </div>
-                                                            <div class="clearfix"></div>
-                                                            <div class="foot">
-                                                                <img src="/images/intCounter/clean.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/wrench.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/assign.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/do-not-disturb.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/bed.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                            </div>
-                                                            <div class="clearfix"></div>
-                                                        </div>
-                                                        <div class="townBlock cb-oc-od roomAss_detail">
-                                                            <div class="head">
-                                                                <span class="left txt-lg">0301</span>
-                                                                <span class="right">DDT</span>
-                                                            </div>
-                                                            <div class="clearfix"></div>
-                                                            <div class="content">
-                                                                <span>陳先生</span>
-                                                            </div>
-                                                            <div class="content">
-                                                                <span>04/29-04/30</span>
-                                                            </div>
-                                                            <div class="content">
-                                                                <span>拆床</span>
-                                                            </div>
-                                                            <div class="clearfix"></div>
-                                                            <div class="foot">
-                                                                <img src="/images/intCounter/clean.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/wrench.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/assign.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/do-not-disturb.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/bed.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                            </div>
-                                                            <div class="clearfix"></div>
-                                                        </div>
-                                                        <div class="townBlock cb-ooo roomAss_detail">
-                                                            <div class="head">
-                                                                <span class="left txt-lg">0301</span>
-                                                                <span class="right">DDT</span>
-                                                            </div>
-                                                            <div class="clearfix"></div>
-                                                            <div class="content">
-                                                                <span>陳先生</span>
-                                                            </div>
-                                                            <div class="content">
-                                                                <span>04/29-04/30</span>
-                                                            </div>
-                                                            <div class="content">
-                                                                <span>拆床</span>
-                                                            </div>
-                                                            <div class="clearfix"></div>
-                                                            <div class="foot">
-                                                                <img src="/images/intCounter/clean.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/wrench.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/assign.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/do-not-disturb.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/bed.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                            </div>
-                                                            <div class="clearfix"></div>
-                                                        </div>
-                                                        <div class="townBlock cb-oos roomAss_detail">
-                                                            <div class="head">
-                                                                <span class="left txt-lg">0301</span>
-                                                                <span class="right">DDT</span>
-                                                            </div>
-                                                            <div class="clearfix"></div>
-                                                            <div class="content">
-                                                                <span>陳先生</span>
-                                                            </div>
-                                                            <div class="content">
-                                                                <span>04/29-04/30</span>
-                                                            </div>
-                                                            <div class="content">
-                                                                <span>拆床</span>
-                                                            </div>
-                                                            <div class="clearfix"></div>
-                                                            <div class="foot">
-                                                                <img src="/images/intCounter/clean.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/wrench.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/assign.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/do-not-disturb.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/bed.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                            </div>
-                                                            <div class="clearfix"></div>
-                                                        </div>
-                                                        <div class="townBlock cb-oc-od roomAss_detail">
-                                                            <div class="head">
-                                                                <span class="left txt-lg">0301</span>
-                                                                <span class="right">DDT</span>
-                                                            </div>
-                                                            <div class="clearfix"></div>
-                                                            <div class="content">
-                                                                <span>陳先生</span>
-                                                            </div>
-                                                            <div class="content">
-                                                                <span>04/29-04/30</span>
-                                                            </div>
-                                                            <div class="content">
-                                                                <span>拆床</span>
-                                                            </div>
-                                                            <div class="clearfix"></div>
-                                                            <div class="foot">
-                                                                <img src="/images/intCounter/clean.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/wrench.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/assign.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/do-not-disturb.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/bed.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                            </div>
-                                                            <div class="clearfix"></div>
-                                                        </div>
-                                                        <div class="townBlock cb-sexyBlue roomAss_detail">
-                                                            <div class="head">
-                                                                <span class="left txt-lg">0301</span>
-                                                                <span class="right">DDT</span>
-                                                            </div>
-                                                            <div class="clearfix"></div>
-                                                            <div class="content">
-                                                                <span>陳先生</span>
-                                                            </div>
-                                                            <div class="content">
-                                                                <span>04/29-04/30</span>
-                                                            </div>
-                                                            <div class="content">
-                                                                <span>拆床</span>
-                                                            </div>
-                                                            <div class="clearfix"></div>
-                                                            <div class="foot">
-                                                                <img src="/images/intCounter/clean.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/wrench.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/assign.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/do-not-disturb.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/bed.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                            </div>
-                                                            <div class="clearfix"></div>
-                                                        </div>
-                                                        <div class="townBlock no-show roomAss_detail">
-                                                            <div class="head">
-                                                                <span class="left txt-lg">0301</span>
-                                                                <span class="right">DDT</span>
-                                                            </div>
-                                                            <div class="clearfix"></div>
-                                                            <div class="content">
-                                                                <span>陳先生</span>
-                                                            </div>
-                                                            <div class="content">
-                                                                <span>04/29-04/30</span>
-                                                            </div>
-                                                            <div class="content">
-                                                                <span>拆床</span>
-                                                            </div>
-                                                            <div class="clearfix"></div>
-                                                            <div class="foot">
-                                                                <img src="/images/intCounter/clean.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/wrench.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/assign.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/do-not-disturb.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/bed.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                            </div>
-                                                            <div class="clearfix"></div>
-                                                        </div>
-                                                        <div class="townBlock cb-vc-vd roomAss_detail">
-                                                            <div class="head">
-                                                                <span class="left txt-lg">0301</span>
-                                                                <span class="right">DDT</span>
-                                                            </div>
-                                                            <div class="clearfix"></div>
-                                                            <div class="content">
-                                                                <span>陳先生</span>
-                                                            </div>
-                                                            <div class="content">
-                                                                <span>04/29-04/30</span>
-                                                            </div>
-                                                            <div class="content">
-                                                                <span>拆床</span>
-                                                            </div>
-                                                            <div class="clearfix"></div>
-                                                            <div class="foot">
-                                                                <img src="/images/intCounter/clean.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/wrench.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/assign.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/do-not-disturb.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/bed.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                            </div>
-                                                            <div class="clearfix"></div>
-                                                        </div>
-                                                        <div class="townBlock cb-oc-od roomAss_detail">
-                                                            <div class="head">
-                                                                <span class="left txt-lg">0301</span>
-                                                                <span class="right">DDT</span>
-                                                            </div>
-                                                            <div class="clearfix"></div>
-                                                            <div class="content">
-                                                                <span>陳先生</span>
-                                                            </div>
-                                                            <div class="content">
-                                                                <span>04/29-04/30</span>
-                                                            </div>
-                                                            <div class="content">
-                                                                <span>拆床</span>
-                                                            </div>
-                                                            <div class="clearfix"></div>
-                                                            <div class="foot">
-                                                                <img src="/images/intCounter/clean.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/wrench.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/assign.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/do-not-disturb.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/bed.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                            </div>
-                                                            <div class="clearfix"></div>
-                                                        </div>
-                                                        <div class="townBlock cb-vc-vd roomAss_detail">
-                                                            <div class="head">
-                                                                <span class="left txt-lg">0301</span>
-                                                                <span class="right">DDT</span>
-                                                            </div>
-                                                            <div class="clearfix"></div>
-                                                            <div class="content">
-                                                                <span>陳先生</span>
-                                                            </div>
-                                                            <div class="content">
-                                                                <span>04/29-04/30</span>
-                                                            </div>
-                                                            <div class="content">
-                                                                <span>拆床</span>
-                                                            </div>
-                                                            <div class="clearfix"></div>
-                                                            <div class="foot">
-                                                                <img src="/images/intCounter/clean.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/wrench.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/assign.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/do-not-disturb.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/bed.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                            </div>
-                                                            <div class="clearfix"></div>
-                                                        </div>
-                                                        <div class="townBlock no-show roomAss_detail">
-                                                            <div class="head">
-                                                                <span class="left txt-lg">0301</span>
-                                                                <span class="right">DDT</span>
-                                                            </div>
-                                                            <div class="clearfix"></div>
-                                                            <div class="content">
-                                                                <span>陳先生</span>
-                                                            </div>
-                                                            <div class="content">
-                                                                <span>04/29-04/30</span>
-                                                            </div>
-                                                            <div class="content">
-                                                                <span>拆床</span>
-                                                            </div>
-                                                            <div class="clearfix"></div>
-                                                            <div class="foot">
-                                                                <img src="/images/intCounter/clean.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/wrench.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/assign.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/do-not-disturb.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/bed.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                            </div>
-                                                            <div class="clearfix"></div>
-                                                        </div>
-                                                        <div class="townBlock cb-ooo roomAss_detail">
-                                                            <div class="head">
-                                                                <span class="left txt-lg">0301</span>
-                                                                <span class="right">DDT</span>
-                                                            </div>
-                                                            <div class="clearfix"></div>
-                                                            <div class="content">
-                                                                <span>陳先生</span>
-                                                            </div>
-                                                            <div class="content">
-                                                                <span>04/29-04/30</span>
-                                                            </div>
-                                                            <div class="content">
-                                                                <span>拆床</span>
-                                                            </div>
-                                                            <div class="clearfix"></div>
-                                                            <div class="foot">
-                                                                <img src="/images/intCounter/clean.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/wrench.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/assign.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/do-not-disturb.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/bed.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                            </div>
-                                                            <div class="clearfix"></div>
-                                                        </div>
-                                                        <div class="townBlock cb-oc-od roomAss_detail">
-                                                            <div class="head">
-                                                                <span class="left txt-lg">0301</span>
-                                                                <span class="right">DDT</span>
-                                                            </div>
-                                                            <div class="clearfix"></div>
-                                                            <div class="content">
-                                                                <span>陳先生</span>
-                                                            </div>
-                                                            <div class="content">
-                                                                <span>04/29-04/30</span>
-                                                            </div>
-                                                            <div class="content">
-                                                                <span>拆床</span>
-                                                            </div>
-                                                            <div class="clearfix"></div>
-                                                            <div class="foot">
-                                                                <img src="/images/intCounter/clean.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/wrench.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/assign.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/do-not-disturb.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/bed.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                            </div>
-                                                            <div class="clearfix"></div>
-                                                        </div>
-                                                        <div class="townBlock cb-ooo roomAss_detail">
-                                                            <div class="head">
-                                                                <span class="left txt-lg">0301</span>
-                                                                <span class="right">DDT</span>
-                                                            </div>
-                                                            <div class="clearfix"></div>
-                                                            <div class="content">
-                                                                <span>陳先生</span>
-                                                            </div>
-                                                            <div class="content">
-                                                                <span>04/29-04/30</span>
-                                                            </div>
-                                                            <div class="content">
-                                                                <span>拆床</span>
-                                                            </div>
-                                                            <div class="clearfix"></div>
-                                                            <div class="foot">
-                                                                <img src="/images/intCounter/clean.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/wrench.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/assign.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/do-not-disturb.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/bed.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                            </div>
-                                                            <div class="clearfix"></div>
-                                                        </div>
-                                                        <div class="townBlock cb-oos roomAss_detail">
-                                                            <div class="head">
-                                                                <span class="left txt-lg">0301</span>
-                                                                <span class="right">DDT</span>
-                                                            </div>
-                                                            <div class="clearfix"></div>
-                                                            <div class="content">
-                                                                <span>陳先生</span>
-                                                            </div>
-                                                            <div class="content">
-                                                                <span>04/29-04/30</span>
-                                                            </div>
-                                                            <div class="content">
-                                                                <span>拆床</span>
-                                                            </div>
-                                                            <div class="clearfix"></div>
-                                                            <div class="foot">
-                                                                <img src="/images/intCounter/clean.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/wrench.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/assign.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/do-not-disturb.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/bed.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                            </div>
-                                                            <div class="clearfix"></div>
-                                                        </div>
-                                                        <div class="townBlock no-show roomAss_detail">
-                                                            <div class="head">
-                                                                <span class="left txt-lg">0301</span>
-                                                                <span class="right">DDT</span>
-                                                            </div>
-                                                            <div class="clearfix"></div>
-                                                            <div class="content">
-                                                                <span>陳先生</span>
-                                                            </div>
-                                                            <div class="content">
-                                                                <span>04/29-04/30</span>
-                                                            </div>
-                                                            <div class="content">
-                                                                <span>拆床</span>
-                                                            </div>
-                                                            <div class="clearfix"></div>
-                                                            <div class="foot">
-                                                                <img src="/images/intCounter/clean.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/wrench.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/assign.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/do-not-disturb.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/bed.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                            </div>
-                                                            <div class="clearfix"></div>
-                                                        </div>
-                                                        <div class="townBlock cb-oc-od roomAss_detail">
-                                                            <div class="head">
-                                                                <span class="left txt-lg">0301</span>
-                                                                <span class="right">DDT</span>
-                                                            </div>
-                                                            <div class="clearfix"></div>
-                                                            <div class="content">
-                                                                <span>陳先生</span>
-                                                            </div>
-                                                            <div class="content">
-                                                                <span>04/29-04/30</span>
-                                                            </div>
-                                                            <div class="content">
-                                                                <span>拆床</span>
-                                                            </div>
-                                                            <div class="clearfix"></div>
-                                                            <div class="foot">
-                                                                <img src="/images/intCounter/clean.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/wrench.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/assign.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/do-not-disturb.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/bed.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                            </div>
-                                                            <div class="clearfix"></div>
-                                                        </div>
-                                                        <div class="townBlock cb-sexyBlue roomAss_detail">
-                                                            <div class="head">
-                                                                <span class="left txt-lg">0301</span>
-                                                                <span class="right">DDT</span>
-                                                            </div>
-                                                            <div class="clearfix"></div>
-                                                            <div class="content">
-                                                                <span>陳先生</span>
-                                                            </div>
-                                                            <div class="content">
-                                                                <span>04/29-04/30</span>
-                                                            </div>
-                                                            <div class="content">
-                                                                <span>拆床</span>
-                                                            </div>
-                                                            <div class="clearfix"></div>
-                                                            <div class="foot">
-                                                                <img src="/images/intCounter/clean.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/wrench.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/assign.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/do-not-disturb.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/bed.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                            </div>
-                                                            <div class="clearfix"></div>
-                                                        </div>
-                                                        <div class="townBlock cb-vc-vd roomAss_detail">
-                                                            <div class="head">
-                                                                <span class="left txt-lg">0301</span>
-                                                                <span class="right">DDT</span>
-                                                            </div>
-                                                            <div class="clearfix"></div>
-                                                            <div class="content">
-                                                                <span>陳先生</span>
-                                                            </div>
-                                                            <div class="content">
-                                                                <span>04/29-04/30</span>
-                                                            </div>
-                                                            <div class="content">
-                                                                <span>拆床</span>
-                                                            </div>
-                                                            <div class="clearfix"></div>
-                                                            <div class="foot">
-                                                                <img src="/images/intCounter/clean.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/wrench.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/assign.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/do-not-disturb.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/bed.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                            </div>
-                                                            <div class="clearfix"></div>
-                                                        </div>
-                                                        <div class="townBlock cb-sexyBlue roomAss_detail">
-                                                            <div class="head">
-                                                                <span class="left txt-lg">0301</span>
-                                                                <span class="right">DDT</span>
-                                                            </div>
-                                                            <div class="clearfix"></div>
-                                                            <div class="content">
-                                                                <span>陳先生</span>
-                                                            </div>
-                                                            <div class="content">
-                                                                <span>04/29-04/30</span>
-                                                            </div>
-                                                            <div class="content">
-                                                                <span>拆床</span>
-                                                            </div>
-                                                            <div class="clearfix"></div>
-                                                            <div class="foot">
-                                                                <img src="/images/intCounter/clean.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/wrench.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/assign.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/do-not-disturb.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/bed.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                            </div>
-                                                            <div class="clearfix"></div>
-                                                        </div>
-                                                        <div class="townBlock cb-vc-vd roomAss_detail">
-                                                            <div class="head">
-                                                                <span class="left txt-lg">0301</span>
-                                                                <span class="right">DDT</span>
-                                                            </div>
-                                                            <div class="clearfix"></div>
-                                                            <div class="content">
-                                                                <span>陳先生</span>
-                                                            </div>
-                                                            <div class="content">
-                                                                <span>04/29-04/30</span>
-                                                            </div>
-                                                            <div class="content">
-                                                                <span>拆床</span>
-                                                            </div>
-                                                            <div class="clearfix"></div>
-                                                            <div class="foot">
-                                                                <img src="/images/intCounter/clean.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/wrench.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/assign.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/do-not-disturb.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/bed.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                            </div>
-                                                            <div class="clearfix"></div>
-                                                        </div>
-                                                        <div class="townBlock cb-oc-od roomAss_detail">
-                                                            <div class="head">
-                                                                <span class="left txt-lg">0301</span>
-                                                                <span class="right">DDT</span>
-                                                            </div>
-                                                            <div class="clearfix"></div>
-                                                            <div class="content">
-                                                                <span>陳先生</span>
-                                                            </div>
-                                                            <div class="content">
-                                                                <span>04/29-04/30</span>
-                                                            </div>
-                                                            <div class="content">
-                                                                <span>拆床</span>
-                                                            </div>
-                                                            <div class="clearfix"></div>
-                                                            <div class="foot">
-                                                                <img src="/images/intCounter/clean.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/wrench.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/assign.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/do-not-disturb.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/bed.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                            </div>
-                                                            <div class="clearfix"></div>
-                                                        </div>
-                                                        <div class="townBlock cb-ooo roomAss_detail">
-                                                            <div class="head">
-                                                                <span class="left txt-lg">0301</span>
-                                                                <span class="right">DDT</span>
-                                                            </div>
-                                                            <div class="clearfix"></div>
-                                                            <div class="content">
-                                                                <span>陳先生</span>
-                                                            </div>
-                                                            <div class="content">
-                                                                <span>04/29-04/30</span>
-                                                            </div>
-                                                            <div class="content">
-                                                                <span>拆床</span>
-                                                            </div>
-                                                            <div class="clearfix"></div>
-                                                            <div class="foot">
-                                                                <img src="/images/intCounter/clean.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/wrench.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/assign.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/do-not-disturb.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/bed.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                            </div>
-                                                            <div class="clearfix"></div>
-                                                        </div>
-                                                        <div class="townBlock cb-vc-vd roomAss_detail">
-                                                            <div class="head">
-                                                                <span class="left txt-lg">0301</span>
-                                                                <span class="right">DDT</span>
-                                                            </div>
-                                                            <div class="clearfix"></div>
-                                                            <div class="content">
-                                                                <span>陳先生</span>
-                                                            </div>
-                                                            <div class="content">
-                                                                <span>04/29-04/30</span>
-                                                            </div>
-                                                            <div class="content">
-                                                                <span>拆床</span>
-                                                            </div>
-                                                            <div class="clearfix"></div>
-                                                            <div class="foot">
-                                                                <img src="/images/intCounter/clean.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/wrench.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/assign.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/do-not-disturb.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/bed.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                            </div>
-                                                            <div class="clearfix"></div>
-                                                        </div>
-                                                        <div class="townBlock cb-oc-od roomAss_detail">
-                                                            <div class="head">
-                                                                <span class="left txt-lg">0301</span>
-                                                                <span class="right">DDT</span>
-                                                            </div>
-                                                            <div class="clearfix"></div>
-                                                            <div class="content">
-                                                                <span>陳先生</span>
-                                                            </div>
-                                                            <div class="content">
-                                                                <span>04/29-04/30</span>
-                                                            </div>
-                                                            <div class="content">
-                                                                <span>拆床</span>
-                                                            </div>
-                                                            <div class="clearfix"></div>
-                                                            <div class="foot">
-                                                                <img src="/images/intCounter/clean.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/wrench.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/assign.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/do-not-disturb.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/bed.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                            </div>
-                                                            <div class="clearfix"></div>
-                                                        </div>
-                                                        <div class="townBlock cb-ooo roomAss_detail">
-                                                            <div class="head">
-                                                                <span class="left txt-lg">0301</span>
-                                                                <span class="right">DDT</span>
-                                                            </div>
-                                                            <div class="clearfix"></div>
-                                                            <div class="content">
-                                                                <span>陳先生</span>
-                                                            </div>
-                                                            <div class="content">
-                                                                <span>04/29-04/30</span>
-                                                            </div>
-                                                            <div class="content">
-                                                                <span>拆床</span>
-                                                            </div>
-                                                            <div class="clearfix"></div>
-                                                            <div class="foot">
-                                                                <img src="/images/intCounter/clean.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/wrench.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/assign.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/do-not-disturb.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/bed.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                            </div>
-                                                            <div class="clearfix"></div>
-                                                        </div>
-                                                        <div class="townBlock cb-oc-od roomAss_detail">
-                                                            <div class="head">
-                                                                <span class="left txt-lg">0301</span>
-                                                                <span class="right">DDT</span>
-                                                            </div>
-                                                            <div class="clearfix"></div>
-                                                            <div class="content">
-                                                                <span>陳先生</span>
-                                                            </div>
-                                                            <div class="content">
-                                                                <span>04/29-04/30</span>
-                                                            </div>
-                                                            <div class="content">
-                                                                <span>拆床</span>
-                                                            </div>
-                                                            <div class="clearfix"></div>
-                                                            <div class="foot">
-                                                                <img src="/images/intCounter/clean.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/wrench.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/assign.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/do-not-disturb.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/bed.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                            </div>
-                                                            <div class="clearfix"></div>
-                                                        </div>
-                                                        <div class="townBlock cb-ob roomAss_detail">
-                                                            <div class="head">
-                                                                <span class="left txt-lg">0301</span>
-                                                                <span class="right">DDT</span>
-                                                            </div>
-                                                            <div class="clearfix"></div>
-                                                            <div class="content">
-                                                                <span>陳先生</span>
-                                                            </div>
-                                                            <div class="content">
-                                                                <span>04/29-04/30</span>
-                                                            </div>
-                                                            <div class="content">
-                                                                <span>拆床</span>
-                                                            </div>
-                                                            <div class="clearfix"></div>
-                                                            <div class="foot">
-                                                                <img src="/images/intCounter/clean.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/wrench.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/assign.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/do-not-disturb.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/bed.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                            </div>
-                                                            <div class="clearfix"></div>
-                                                        </div>
-                                                        <div class="townBlock cb-ob roomAss_detail">
-                                                            <div class="head">
-                                                                <span class="left txt-lg">0301</span>
-                                                                <span class="right">DDT</span>
-                                                            </div>
-                                                            <div class="clearfix"></div>
-                                                            <div class="content">
-                                                                <span>陳先生</span>
-                                                            </div>
-                                                            <div class="content">
-                                                                <span>04/29-04/30</span>
-                                                            </div>
-                                                            <div class="content">
-                                                                <span>拆床</span>
-                                                            </div>
-                                                            <div class="clearfix"></div>
-                                                            <div class="foot">
-                                                                <img src="/images/intCounter/clean.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/wrench.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/assign.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/do-not-disturb.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/bed.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                            </div>
-                                                            <div class="clearfix"></div>
-                                                        </div>
-                                                        <div class="townBlock cb-oos roomAss_detail">
-                                                            <div class="head">
-                                                                <span class="left txt-lg">0301</span>
-                                                                <span class="right">DDT</span>
-                                                            </div>
-                                                            <div class="clearfix"></div>
-                                                            <div class="content">
-                                                                <span>陳先生</span>
-                                                            </div>
-                                                            <div class="content">
-                                                                <span>04/29-04/30</span>
-                                                            </div>
-                                                            <div class="content">
-                                                                <span>拆床</span>
-                                                            </div>
-                                                            <div class="clearfix"></div>
-                                                            <div class="foot">
-                                                                <img src="/images/intCounter/clean.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/wrench.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/assign.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/do-not-disturb.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                                <img src="/images/intCounter/bed.png"
-                                                                     class="float-left foCnt_icon"/>
-                                                            </div>
-                                                            <div class="clearfix"></div>
-                                                        </div>
-                                                        <div class="clearfix"></div>
                                                     </div>
                                                 </div>
                                             </div>
-
                                             <div id="SPR" class="tab-pane">
                                                 <p>Etsy mixtape wayfarers, ethical wes anderson tofu before they
                                 sold out mcsweeney's organic lomo retro fanny pack lo-fi
@@ -2035,7 +260,6 @@
                                                 <p>Raw denim you probably haven't heard of them jean shorts
                                 Austin.</p>
                                             </div>
-
                                             <div id="DXK" class="tab-pane">
                                                 <p>Etsy mixtape wayfarers, ethical wes anderson tofu before they
                                 sold out mcsweeney's organic lomo retro fanny pack lo-fi
@@ -2046,11 +270,13 @@
                                         </div>
                                     </div>
                                     <div class="clearfix"></div>
+                                    <!--/排房房間資料-->
                                 </div>
                             </div>
                         </div>
                     </div>
                     <!--  /.End 接待 roomAssign 內容 -->
+                    <!--按鈕-->
                     <div class="col-xs-1 col-sm-1">
                         <div class="row">
                             <div class="right-menu-co">
@@ -2058,28 +284,19 @@
                                     <li>
                                         <button class="btn btn-primary btn-white btn-defaultWidth"
                                                 role="button">排房
-
-
-
-
-
-
                                         </button>
                                     </li>
                                     <li>
                                         <button class="btn btn-primary btn-white btn-defaultWidth foCnt_autoAssignSGL"
                                                 role="button">批次排房
-
-
-
-
-
-
                                         </button>
                                     </li>
                                     <li>
                                         <button class="btn btn-danger btn-white btn-defaultWidth"
                                                 role="button">取消排房
+
+
+
 
 
 
@@ -2097,11 +314,17 @@
 
 
 
+
+
+
                                         </button>
                                     </li>
                                     <li>
                                         <button class="btn btn-gray btn-defaultWidth foCnt_autoAssign"
                                                 role="button">自動排房
+
+
+
 
 
 
@@ -2119,6 +342,9 @@
 
 
 
+
+
+
                                         </button>
                                     </li>
                                     <li>
@@ -2130,85 +356,182 @@
 
 
 
+
+
+
                                         </button>
                                     </li>
                                     <li>
-                                        <button class="btn btn-primary btn-white btn-defaultWidth town-list-btn">
-                                            清單模式
-
-
-
-
-
-
-                                        </button>
-                                        <button class="btn btn-primary btn-white btn-defaultWidth town-graphics-btn">
-                                            圖形模式
-
-
-
-
-
-
+                                        <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                @click="changeRoomDataType"
+                                        >
+                                            {{btnList? '清單模式':'圖形模式'}}
                                         </button>
                                     </li>
                                 </ul>
                             </div>
                         </div>
                     </div>
-                </div><!-- /.roomAssign -->
+                    <!--/按鈕-->
+                </div>
             </div>
         </div>
     </div>
 </template>
-<script>
 
+<script>
     const gs_prgId = "PMS0210030";
     import _ from "underscore";
 
     var vmHub = new Vue();
-
-    /** DatagridRmSingleGridClass **/
-    function DatagridSingleGridClass() {
+    //region  DatagridRmSingleGridClass
+    // 訂房多筆
+    function DatagridGroupClass() {
     }
-
-    DatagridSingleGridClass.prototype = new DatagridBaseClass();
-    DatagridSingleGridClass.prototype.onClickCell = function (idx, row) {
-        vmHub.$emit("selectDataGridRow", {row: row, index: idx});
+    DatagridGroupClass.prototype = new DatagridBaseClass();
+    DatagridGroupClass.prototype.onClickCell = function (idx, row) {
+        vmHub.$emit("setGroupOrderDt", {row: row, index: idx});
     };
-    DatagridSingleGridClass.prototype.onClickRow = function (idx, row) {
+    DatagridGroupClass.prototype.onClickRow = function (idx, row) {
+    };
+
+    // 訂房明細 List
+    function DatagridOrderListClass() {
+    }
+    DatagridOrderListClass.prototype = new DatagridBaseClass();
+    DatagridOrderListClass.prototype.onClickCell = function (idx, row) {
+        vmHub.$emit("setOrderDt", {row: row, index: idx});
+    };
+    DatagridOrderListClass.prototype.onClickRow = function (idx, row) {
+    };
+
+    // 排房房間
+    function DatagridRoomListClass() {
+    }
+    DatagridRoomListClass.prototype = new DatagridBaseClass();
+    DatagridRoomListClass.prototype.onClickCell = function (idx, row) {
+        vmHub.$emit("setRoomDt", {row: row, index: idx});
+    };
+    DatagridRoomListClass.prototype.onClickRow = function (idx, row) {
     };
     /*** Class End  ***/
-
+    //endregion
+    //rowLock
+    g_socket.on('checkTableLock', function (result) {
+        console.log(result)
+        if (!result.success) {
+            alert(result.errorMsg);
+        } else {
+            alert(result.success)
+        }
+    });
     export default {
         created() {
-            vmHub.$on("selectDataGridRow", (data) => {
-                this.editingGroupDataIndex = data.index;
-            })
+            vmHub.$on("setGroupOrderDt", (data) => {
+                this.selectDtIndex = data.index;
+            });
+            vmHub.$on('setOrderDt', (data) => {
+                this.selectListIndex = data.index;
+            });
+            vmHub.$on('setRoomDt', (data) => {
+                this.selectRoomDtIndex = data.index;
+            });
         },
-        mounted() {
-            this.fetchSearchFields();
-            this.fetchRentCalDat();
+        async mounted() {
+            await this.fetchSearchFields();
+            let lo_result = await this.fetchRentCalDat();
+            if (lo_result.success) {
+                //this.rentCalDat = moment(lo_result.rent_cal_dat).format('YYYY/MM/DD');
+                this.rentCalDat = '2018/06/29';
+                this.searchCond.ci_dat = this.rentCalDat;
+                this.searchCond.co_dat = moment(this.rentCalDat).add(1, 'days').format('YYYY/MM/DD');
+
+                await this.fetchOrderDtData();
+                $("#groupOrderDt_dg").datagrid('selectRow', 0);
+                this.selectDtIndex = 0; //watch selectDtIndex
+                this.doRowLock();
+
+            } else {
+                alert(lo_result.errorMsg);
+            }
         },
         watch: {
-            selectDtIndex() {
-            }
+            async selectDtIndex(newV, oldV) {
+                console.log('訂房多筆', newV, oldV);
+                await this.fetchOrderDtList();
+
+                $("#OrderDtList_dg").datagrid('selectRow', 0);
+                this.selectListIndex = 0; //watch selectListIndex
+                this.getAllRoomType();
+                this.fetchRoomList();
+            },
+            async selectListIndex(newVal, oldVal) {
+                console.log('訂房明細', newVal, oldVal);
+            },
         },
         data() {
             return {
                 searchFields: [],
                 searchCond: {},
-                fetchDgRowData: [],
-                groupOrderDtField: [],
 
                 //滾房租日
                 rentCalDat: '',
-                allOrderDts: [],
-                allOrderDtsCul: [],
-                selectDtIndex: 0,
-                orderDtList: [],
-                selectListIndex: 0,
-                RoomList: [],
+                //訂房多筆
+                groupOrderDtField: [],
+                groupOrderDtRowData:[],
+                selectDtIndex: -1,
+
+                //訂房明細
+                orderDtListField: [],
+                orderDtListRowData: [],
+                selectListIndex: -1,
+
+                //排房房間
+                roomDtListField: [],
+                roomDtListRowData: [
+                    {
+                        room_nos: '0301',
+                        room_cod: 'DDT',
+                        room_sta: 'V',
+                        clean_sta: 'C',
+                        oos_sta: 'Y',
+                        assign_sta: 'N',
+                        ALT_NAM: '陳先生',
+                        BED_STA: 'S',
+                        CI_DAT: '2018/04/29',
+                        CO_DAT: '2018/04/30',
+                        ROOM_RMK: '~~~'
+                    },
+                    {
+                        room_nos: '0301',
+                        room_cod: 'DDT',
+                        room_sta: 'V',
+                        clean_sta: 'C',
+                        oos_sta: 'Y',
+                        assign_sta: 'N',
+                        ALT_NAM: '陳先生',
+                        BED_STA: 'S',
+                        CI_DAT: '2018/04/29',
+                        CO_DAT: '2018/04/30',
+                        ROOM_RMK: '~~~'
+                    },
+                    {
+                        room_nos: '0301',
+                        room_cod: 'DDT',
+                        room_sta: 'V',
+                        clean_sta: 'C',
+                        oos_sta: 'Y',
+                        assign_sta: 'N',
+                        ALT_NAM: '陳先生',
+                        BED_STA: 'S',
+                        CI_DAT: '2018/04/29',
+                        CO_DAT: '2018/04/30',
+                        ROOM_RMK: '~~~'
+                    }],
+                selectRoomDtIndex: -1,
+
+                //顯示清單或是圖形模式 true:清單 false:圖形
+                btnList: false,
                 condition: {
                     floor: [],
                     roomStatus: '',
@@ -2216,124 +539,208 @@
                 },
                 roomType: ['WWW', "JW", "OSk"],
                 lockStatus: false,
-                dgIns: {},
+                dgGroup: {},
+                dgDetail: {},
+                dgRoom: {},
             };
         },
-        watch: {},
         methods: {
+            // 撈滾房租日期
             async fetchRentCalDat() {
                 try {
                     let lo_result = await BacUtils.doHttpPromisePostProxy('/api/qryRentCalDat', {});
-                    console.log(lo_result)
-                    this.rentCalDat = lo_result.rent_cal_dat;
+                    return lo_result;
                 } catch (err) {
                     throw Error(err);
                 }
             },
+            // 撈搜尋條件規格
             async fetchSearchFields() {
                 try {
                     let lo_result = await BacUtils.doHttpPromisePostProxy('/api/fetchOnlySearchFieldsData', {prg_id: gs_prgId});
-                    console.log(lo_result)
                     this.searchFields = lo_result.searchFieldsData;
-                    //this.searchCond.ci_dat = 滾房租日
                 } catch (err) {
                     throw Error(err);
                 }
             },
-            loadDataGridByPrgID() {
+            // 撈訂房多筆
+            async fetchOrderDtData() {
+                let searchCond =this.searchCond;
 
-                var self = this;
-                var lo_searchCond = _.clone(searchCondsearchCond);
+                try {
+                    const lo_params = {
+                        prg_id: gs_prgId,
+                        page_id: 1,
+                        tab_page_id: 11,
+                        searchCond: searchCond
+                    };
 
-                var lo_params = {
-                    prg_id: gs_prgId,
-                    page_id: 1,
-                    searchCond: lo_searchCond
-                };
-                BacUtils.doHttpPostAgent("/api/fetchDataGridFieldData", lo_params, (result) => {
-                    this.pageOneFieldData = result.dgFieldsData;
+                    let lo_result = await BacUtils.doHttpPromisePostProxy("/api/fetchDataGridFieldData", lo_params);
+                    if (lo_result.success) {
+                        this.groupOrderDtField = lo_result.dgFieldsData;
+                        this.groupOrderDtRowData = lo_result.dgRowData;
+                        if (this.searchFields.length <= 0) {
+                            this.searchFields = lo_result.searchFields;
+                        }
 
-                    if (this.searchFields.length <= 0) {
-                        this.searchFields = result.searchFields;
+                        this.showAllOrderDts();
+                    } else {
+                        alert(lo_result.errorMsg);
                     }
-                    this.isLoading = false;
-                    this.showDataGrid();
-                });
+                }
+                catch (err) {
+                    throw Error(err);
+                }
             },
-            fetchDgRowData() {
-                var lo_searchCond = _.clone(this.searchCond);
+            showAllOrderDts() {
+                this.dgGroup = new DatagridGroupClass();
+                this.dgGroup.init(gs_prgId, "groupOrderDt_dg", DatagridFieldAdapter.combineFieldOption(this.groupOrderDtField, "groupOrderDt_dg"), this.groupOrderDtField, {
+                    singleSelect: true,
+                    pagination: false,
+                    rownumbers: true,
+                    pageSize: 20 //一開始只載入20筆資料
+                });
+                this.dgGroup.loadPageDgData(this.groupOrderDtRowData);
+            },
+            // 訂房明細
+            async fetchOrderDtList() {
+                if (this.selectDtIndex < 0) {
+                    return;
+                }
 
-                var lo_params = {
-                    prg_id: gs_prgId,
-                    page_id: 1,
-                    searchCond: lo_searchCond
+                const lo_searchCond = {
+                    ikey: this.groupOrderDtRowData[this.selectDtIndex].ikey,
+                    order_sta: this.groupOrderDtRowData[this.selectDtIndex].order_sta,
+                    ci_dat: moment(this.groupOrderDtRowData[this.selectDtIndex].ci_dat).format('YYYY/MM/DD'),
+                    co_dat: moment(this.groupOrderDtRowData[this.selectDtIndex].co_dat).format('YYYY/MM/DD'),
+                    rate_cod: this.groupOrderDtRowData[this.selectDtIndex].rate_cod,
+                    use_cod: this.groupOrderDtRowData[this.selectDtIndex].use_cod,
+                    room_cod: this.groupOrderDtRowData[this.selectDtIndex].room_cod,
+                    rent_amt: this.groupOrderDtRowData[this.selectDtIndex].rent_amt,
+                    serv_amt: this.groupOrderDtRowData[this.selectDtIndex].serv_amt,
                 };
 
-                BacUtils.doHttpPromisePostProxy("/api/fetchDgRowData", lo_params).then(result => {
-                    this.pageOneDataGridRows = result.dgRowData;
-                    this.showDataGrid();
-                }, err => {
-                    throw Error(err);
-                })
-            },
-            fetchOrderDtData() {
-                const lo_searchCond = _.clone(this.searchCond);
-                lo_searchCond.ci_dat = '2013/10/13';
-                lo_searchCond.co_dat = '2013/10/14';
-                lo_searchCond.days = 1;
                 const lo_params = {
                     prg_id: gs_prgId,
                     page_id: 1,
-                    tab_page_id: 11,
+                    tab_page_id: 12,
                     searchCond: lo_searchCond
                 };
-                console.log(lo_params);
-                BacUtils.doHttpPromisePostProxy("/api/fetchDataGridFieldData", lo_params).then(result => {
-                    console.log(result);
-                    if (result.success) {
-                        this.groupOrderDtField = result.dgFieldsData;
-                        this.groupOrderDtRowData = result.dgRowData;
-                        if (this.searchFields.length <= 0) {
-                            this.searchFields = result.searchFields;
-                        }
-//                    this.isLoading = false;
-                        this.showDataGrid();
-                    }
-                    else {
-                        alert(result.errorMsg);
-                    }
 
-                }, err => {
-                    throw Error(err);
-                })
+                let lo_result = await BacUtils.doHttpPromisePostProxy("/api/fetchDataGridFieldData", lo_params);
+                if (lo_result.success) {
+                    this.orderDtListField = lo_result.dgFieldsData;
+                    this.orderDtListRowData = lo_result.dgRowData;
+                    if (this.searchFields.length <= 0) {
+                        this.searchFields = lo_result.searchFields;
+                    }
+                    this.showOrderDtList();
+                }
+                else {
+                    alert(lo_result.errorMsg);
+                }
             },
-            showDataGrid() {
-//                var colOption = [{field: 'ck', checkbox: true}];
-//                colOption = _.union(colOption, DatagridFieldAdapter.combineFieldOption(this.pageOneFieldData, 'groupOrderDt_dg'));
+            showOrderDtList(){
+                this.dgList = new DatagridOrderListClass();
+                this.dgList.init(gs_prgId, "OrderDtList_dg", DatagridFieldAdapter.combineFieldOption(this.orderDtListField, "OrderDtList_dg"), this.orderDtListField, {
+                    singleSelect: true,
+                    pagination: false,
+                    rownumbers: true,
+                    pageSize: 20
+                });
+                this.dgList.loadPageDgData(this.orderDtListRowData);
+            },
 
-                this.dgIns = new DatagridSingleGridClass();
-                this.dgIns.init(gs_prgId, "groupOrderDt_dg", DatagridFieldAdapter.combineFieldOption(this.groupOrderDtField, "groupOrderDt_dg"), this.groupOrderDtField, {
-                    singleSelect: false,
+            //撈取 排房房間 欄位標題
+            async getRoomColumns() {
+                try {
+                    const lo_searchCond = this.getSearchCondition();
+                    const lo_params = {
+                        prg_id: gs_prgId,
+                        page_id: 1,
+                        tab_page_id: 13,
+                        searchCond: lo_searchCond
+                    };
+
+                    let lo_result = await BacUtils.doHttpPromisePostProxy("/api/fetchOnlyDataGridFieldData", lo_params);
+                    if (lo_result) {
+                        this.roomDtListField = lo_result.dgFieldsData;
+                    } else {
+                        alert(lo_result.errorMsg);
+                    }
+                } catch (err) {
+                    throw Error(err);
+                }
+            },
+            //撈取 排房房間 資料
+            getRoomData() {
+
+            },
+            async fetchRoomList() {
+                await this.getRoomColumns();
+//                this.getRoomData();
+                this.showRoomList();
+            },
+            getSearchCondition(){
+
+            },
+            showRoomList () {
+                this.dgRoom = new DatagridRoomListClass();
+                this.dgRoom.init(gs_prgId, "townList-table", DatagridFieldAdapter.combineFieldOption(this.roomDtListField, "townList-table"), this.roomDtListField, {
+                    singleSelect: true,
                     pagination: false,
                     rownumbers: true,
                     pageSize: 20 //一開始只載入20筆資料
                 });
 
-                this.dgIns.loadPageDgData(this.groupOrderDtRowData);
+                this.dgRoom.loadPageDgData(this.roomDtListRowData);
+            },
 
-//                this.isLoading = false;
+            // 撈房間類型
+            async getAllRoomType() {
+                const lo_params = {
+                    rule_func_name: 'QRY_DETAIL_ORDER_DT',
+                    ci_dat: '2018/06/29'
+                };
+                try {
+                    let lo_result = await BacUtils.doHttpPromisePostProxy('/api/queryDataByRule', lo_params);
+                    console.log(lo_result)
+                    return lo_result;
+                } catch (err) {
+                    throw Error(err);
+                }
             },
-            showAllOrderDts() {
-                this.dgIns = new DatagridSingleGridClass();
-                this.dgIns.init("PMS0110042", "roomDetail-table", DatagridFieldAdapter.combineFieldOption(this.allOrderDtsCul, "roomDetail-table"), this.allOrderDtsCul);
-                this.dgIns.loadDgData(this.allOrderDts);
+            // 切換模式 (圖形/清單)
+            changeRoomDataType() {
+              this.btnList = !this.btnList;
             },
-            showOrderDtList(){
 
+            chooseRoomType(){
+                console.log("~~~")
+                alert("HI")
             },
-            chooseRoomType(idx){
-                alert(this.roomType[idx])
-            }
+            /**
+             * RowLock
+             */
+            doRowLock: function () {
+                var lo_param = {
+                    prg_id: gs_prgId,
+                    table_name: 'order_mn',
+                    lock_type: "R",
+                    key_cod: this.groupOrderDtRowData[this.selectDtIndex].ikey
+                };
+                g_socket.emit('handleTableLock', lo_param);
+            },
+
+            /**
+             * RowUnLock
+             */
+            doRowUnLock: function () {
+                var lo_param = {
+                    prg_id: gs_prgId
+                };
+                g_socket.emit('handleTableUnlock', lo_param);
+            },
         }
     }
 
