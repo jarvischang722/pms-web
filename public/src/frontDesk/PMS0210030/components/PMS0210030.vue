@@ -2166,12 +2166,15 @@
     const gs_prgId = "PMS0210030";
     import _ from "underscore";
 
+    var vmHub = new Vue();
+
     /** DatagridRmSingleGridClass **/
     function DatagridSingleGridClass() {
     }
 
     DatagridSingleGridClass.prototype = new DatagridBaseClass();
     DatagridSingleGridClass.prototype.onClickCell = function (idx, row) {
+        vmHub.$emit("selectDataGridRow", {row: row, index: idx});
     };
     DatagridSingleGridClass.prototype.onClickRow = function (idx, row) {
     };
@@ -2179,6 +2182,9 @@
 
     export default {
         created() {
+            vmHub.$on("selectDataGridRow", (data) => {
+                this.editingGroupDataIndex = data.index;
+            })
         },
         mounted() {
             this.fetchSearchFields();
@@ -2218,6 +2224,7 @@
             async fetchRentCalDat() {
                 try {
                     let lo_result = await BacUtils.doHttpPromisePostProxy('/api/qryRentCalDat', {});
+                    console.log(lo_result)
                     this.rentCalDat = lo_result.rent_cal_dat;
                 } catch (err) {
                     throw Error(err);
@@ -2226,6 +2233,7 @@
             async fetchSearchFields() {
                 try {
                     let lo_result = await BacUtils.doHttpPromisePostProxy('/api/fetchOnlySearchFieldsData', {prg_id: gs_prgId});
+                    console.log(lo_result)
                     this.searchFields = lo_result.searchFieldsData;
                     //this.searchCond.ci_dat = 滾房租日
                 } catch (err) {
@@ -2304,9 +2312,9 @@
 //                colOption = _.union(colOption, DatagridFieldAdapter.combineFieldOption(this.pageOneFieldData, 'groupOrderDt_dg'));
 
                 this.dgIns = new DatagridSingleGridClass();
-                this.dgIns.init(gs_prgId, "groupOrderDt_dg", [], this.groupOrderDtField, {
+                this.dgIns.init(gs_prgId, "groupOrderDt_dg", DatagridFieldAdapter.combineFieldOption(this.groupOrderDtField, "groupOrderDt_dg"), this.groupOrderDtField, {
                     singleSelect: false,
-                    pagination: true,
+                    pagination: false,
                     rownumbers: true,
                     pageSize: 20 //一開始只載入20筆資料
                 });
