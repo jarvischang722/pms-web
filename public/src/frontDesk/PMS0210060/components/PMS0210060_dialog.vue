@@ -153,8 +153,8 @@
                                     </li>
                                     <li v-if="isCheckIn">
                                         <button
-                                                class="btn btn-primary btn-white btn-defaultWidth reservationDialog-1"
-                                                role="button">{{i18nLang.program.PMS0210060['1013']}}
+                                                class="btn btn-primary btn-white btn-defaultWidth"
+                                                role="button" @click="r_1013">{{i18nLang.program.PMS0210060['1013']}}
                                         </button>
                                     </li>
                                     <!--<li>-->
@@ -225,17 +225,27 @@
             </div>
         </div>
         <!--/.訂房備註明細dialog-->
+        <pms0110041-lite
+                :row-data="editingOrderMnData"
+                :is-modifiable="isModifiable4OrderMn"
+                :is-create-status="isCreate4OrderMn"
+                :is-edit-status="isEdit4OrderMn"
+        ></pms0110041-lite>
     </div>
 </template>
 
 <script>
+    Vue.prototype.$eventHub = new Vue();
+
     import _s from 'underscore.string';
+    import pms0110041Lite from '../../../reservation/PMS0110040/components/PMS0110041_LITE'
 
     const gs_prgId = "PMS0210060";
 
     export default {
         name: "PMS0210060_dialog",
         props: ["rowData", "isCheckIn"],
+        components: {pms0110041Lite},
         mounted() {
         },
         data() {
@@ -250,6 +260,11 @@
                 guestMnFieldData: [],
                 guestMnValueData: [],
                 guestMnRowDataChecked: [],           //勾選guest mn資料
+
+                editingOrderMnData: {},
+                isModifiable4OrderMn: true,
+                isCreate4OrderMn: false,
+                isEdit4OrderMn: true
             }
         },
         watch: {
@@ -370,6 +385,30 @@
                 _.each(this.guestMnValueData, (lo_data) => {
                     this.guestMnRowDataChecked.push(lo_data);
                 });
+            },
+            /**
+             * 修改訂房卡
+             */
+            r_1013() {
+                let self = this;
+                this.editingOrderMnData = JSON.parse(JSON.stringify(this.rowData));
+                let dialog = $('#PMS0110041Lite').removeClass('hide').dialog({
+                    autoOpen: false,
+                    modal: true,
+                    title: '訂房卡',
+                    width: 1000,
+                    maxHeight: 1920,
+                    resizable: true,
+                    onBeforeClose() {
+                        self.editingOrderMnData = {};
+                        self.$eventHub.$emit("clearData");
+                        self.isCheckIn = undefined;
+                        setTimeout(() => {
+                            self.isCheckIn = true;
+                        }, 100)
+                    }
+                });
+                dialog.dialog('open');
             },
             /**
              * 驗證儲存資料
