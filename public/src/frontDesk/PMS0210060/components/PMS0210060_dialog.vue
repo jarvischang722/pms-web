@@ -180,7 +180,7 @@
                                     </li>
                                     <li>
                                         <button class="btn btn-primary btn-white btn-defaultWidth"
-                                                role="button">離開
+                                                role="button" @click="close">離開
                                         </button>
                                     </li>
                                 </ul>
@@ -371,6 +371,8 @@
                 let lo_return = {success: true, errorMsg: ""};
                 let la_ciSerBlankData = [];
 
+                //1.檢查有勾選資料
+                //2.自動產生住客資料
                 for (let lo_guestData of this.guestMnRowDataChecked) {
                     //檢查所選定的guest mn資料房號'
                     let ls_roomNos = lo_guestData.room_nos || "";
@@ -421,7 +423,6 @@
 
                 //檢查order mn 公帳號
                 if (lo_return.success && this.guestMnRowDataChecked.length > 0) {
-
                     let lo_doMasterRule = await BacUtils.doHttpPromisePostProxy("/api/queryDataByRule", {
                         rule_func_name: "r_1021",
                         isFirst: true,
@@ -444,7 +445,6 @@
                                 isFirst: false,
                                 orderMnData: this.orderMnValueData
                             }).then(result => {
-                                console.log(result);
                                 return result
                             }).catch(err => {
                                 return {success: false, errorMsg: err}
@@ -523,21 +523,29 @@
                     lo_tmpCUD.oriData.push(_.extend(lo_guestData, {page_id: page_id, tab_page_id: 12}));
                 });
 
-                let lo_save = await BacUtils.doHttpPromisePostProxy('/api/execNewFormatSQL', {
-                    prg_id: gs_prgId,
-                    page_id: page_id,
-                    func_id: func_id,
-                    tmpCUD: lo_tmpCUD
-                }).then(
-                    result => {
-                        return (result);
-                    }).catch(err => {
-                    return {success: false, errorMsg: err};
+                let lo_save = await new Promise((resolve, reject) => {
+                    setTimeout(() => {
+                        resolve({success: false, errorMsg: "test"});
+                    }, 500);
                 });
 
-                return lo_save;
-            }
+                // BacUtils.doHttpPromisePostProxy('/api/execNewFormatSQL', {
+                //     prg_id: gs_prgId,
+                //     page_id: page_id,
+                //     func_id: func_id,
+                //     tmpCUD: lo_tmpCUD
+                // }).then(
+                //     result => {
+                //         return (result);
+                //     }).catch(err => {
+                //     return {success: false, errorMsg: err};
+                // });
 
+                return lo_save;
+            },
+            close() {
+                $("#PMS0210060_dialog").dialog("close")
+            }
         }
     }
 </script>

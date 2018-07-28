@@ -87,7 +87,7 @@ module.exports = {
     r_1021: async function (postData, session, callback) {
         let lo_result = new ReturnClass();
         let lo_error = null;
-        let lb_isFirst = postData.isFirst === 'false' ? false : true;
+        let lb_isFirst = postData.isFirst === "false" ? false : true;
 
         try {
             if (lb_isFirst) {
@@ -119,40 +119,25 @@ module.exports = {
                 }
             }
             else {
-                console.log('test');
+                let lo_fetchGuestCoDatParam = {
+                    cluster_param: commonRule.ConvertToQueryParams(session.athena_id, "QRY_GUEST_MAX_CO_DAT"),
+                    param: {
+                        athena_id: session.athena_id,
+                        hotel_cod: session.hotel_cod,
+                        master_nos: postData.orderMnData.master_nos
+                    }
+                };
+                let lo_fetchOrderCoDatParam = {
+                    cluster_param: commonRule.ConvertToQueryParams(session.athena_id, "QRY_ODER_DT_MAX_CO_DAT"),
+                    param: {
+                        athena_id: session.athena_id,
+                        hotel_cod: session.hotel_cod,
+                        ikey: postData.orderMnData.ikey
+                    }
+                };
                 let [lo_fetchGuestCoDat, lo_fetchOrderDtCoDat] = await Promise.all([
-                    await new Promise((resolve, reject) => {
-                        const lo_clusterParam = commonRule.ConvertToQueryParams(session.athena_id, "QRY_GUEST_MAX_CO_DAT");
-                        const lo_param = {
-                            athena_id: session.athena_id,
-                            hotel_cod: session.hotel_cod,
-                            ikey: postData.orderMnData.master_nos
-                        };
-                        clusterQueryAgent.query(lo_clusterParam, lo_param, (err, result) => {
-                            if (err) {
-                                reject(err)
-                            }
-                            else {
-                                resolve(result);
-                            }
-                        })
-                    }),
-                    await new Promise((resolve, reject) => {
-                        const lo_clusterParam = commonRule.ConvertToQueryParams(session.athena_id, "QRY_ODER_DT_MAX_CO_DAT");
-                        const lo_param = {
-                            athena_id: session.athena_id,
-                            hotel_cod: session.hotel_cod,
-                            ikey: postData.orderMnData.ikey
-                        };
-                        clusterQueryAgent.query(lo_clusterParam, lo_param, (err, result) => {
-                            if (err) {
-                                reject(err)
-                            }
-                            else {
-                                resolve(result);
-                            }
-                        })
-                    }),
+                    getDbData(lo_fetchGuestCoDatParam.cluster_param, lo_fetchGuestCoDatParam.param),
+                    getDbData(lo_fetchOrderCoDatParam.cluster_param, lo_fetchOrderCoDatParam.param)
                 ]);
 
                 let ls_coDat = !_.isNull(lo_fetchGuestCoDat.co_dat) ? lo_fetchGuestCoDat.co_dat : lo_fetchOrderDtCoDat.co_dat;
@@ -164,6 +149,7 @@ module.exports = {
                     }
                 };
 
+                //TODO qname is null
                 let lo_ciMaster = await new Promise((resolve, reject) => {
                     let apiParams = {
                         "REVE-CODE": "PMS0210060",
@@ -202,3 +188,16 @@ module.exports = {
         callback(lo_error, lo_result);
     }
 };
+
+async function getDbData(cluster_param, param) {
+    return await new Promise((resolve, reject) => {
+        clusterQueryAgent.query(cluster_param, param, (err, result) => {
+            if (err) {
+                reject(err);
+            }
+            else {
+                resolve(result);
+            }
+        });
+    });
+}

@@ -400,7 +400,7 @@
     <!--CI公帳號讀取有效訂房卡明細最大退房日期-->
     <dao name="QRY_ODER_DT_MAX_CO_DAT">
         <statement><![CDATA[
-        SELECT MAX(CO_DAT)
+        SELECT MAX(CO_DAT) co_dat
         FROM ORDER_DT
         WHERE ATHENA_ID = :athena_id
         AND HOTEL_COD = :hotel_cod
