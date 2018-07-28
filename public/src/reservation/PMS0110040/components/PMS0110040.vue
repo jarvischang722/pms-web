@@ -191,18 +191,6 @@
                 });
                 this.dgIns.loadPageDgData(la_dgRowsData);
             },
-            fetchDgRowData() {
-//                let lo_params = {
-//                    prg_id: this.prg_id,
-//                    page_id: 1,
-//                    searchCond: this.searchCond
-//                };
-//                BacUtils.doHttpPromisePostProxy("/api/fetchDgRowData", lo_params).then(result => {
-//                    console.log(result);
-//                    this.mnDgRowsData = result.dgRowData;
-//                    this.dgIns.loadPageDgData(this.mnDgRowsData);
-//                });
-            },
             appendRow() {
                 this.isEditStatus = false;
                 this.isCreateStatus = true;
@@ -256,6 +244,8 @@
                     maxHeight: 1920,
                     resizable: true,
                     onBeforeClose() {
+                        let ln_fetchParam = this.activeName == 'dtDg' ? 2 : 1;
+                        self.fetchDgFieldsRowDataByTabPageId(ln_fetchParam);
                         self.editingRow = {};
                         self.isEditStatus = false;
                         self.isCreateStatus = false;

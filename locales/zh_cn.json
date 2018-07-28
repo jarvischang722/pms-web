@@ -331,6 +331,30 @@
       "Rate_Plan": "Rate Plan(中文)",
       "Amenities_Iny": "Amenities Iny.(中文)"
     },
+    "PMS0110041": {
+      "rate_cod": "房價代號",
+      "rate_nam": "房價名稱",
+      "remark": "使用說明",
+      "master_nos": "公帳號",
+      "master_sta": "目前狀態",
+      "master_typ": "類別",
+      "show_cod": "客戶代號",
+      "cust_nam": "客戶名稱",
+      "orderStaN": "正常",
+      "orderStaW": "等待",
+      "orderStaD": "取消",
+      "orderStaT": "詢價",
+      "changeOrderStatus": "狀態變更"
+    },
+    "PMS0110042": {
+      "isSelected": "請選項目",
+      "noData": "無住客資料",
+      "noResultsFound": "找不到此資料",
+      "noNeedToCancel": "無須取消的住客資料",
+      "isSave": "請先存檔",
+      "saveSuccess": "資料儲存成功",
+      "nothingChange": "無資料變更"
+    },
     "PMS0110050": {
       "roomTyp": "房型",
       "roomNos": "房號",
@@ -576,7 +600,8 @@
     "pms61msg11": "指定相關人員編號『%s』已於其他商務公司使用， 不可刪除",
     "pms61msg12": "指定相關人員編號『%s』已於住客歷史中使用， 不可刪除",
     "pms21msg1": "此住客資料已存在",
-    "pms21msg2": "%s(%s)此筆資料已為訂房使用(%s:%s)，不可刪除"
+    "pms21msg2": "%s(%s)此筆資料已為訂房使用(%s:%s)，不可刪除",
+    "pms11msg1": "此筆已有排房，確定要刪除？"
   },
   "Columns": {
     "show_cod": "公司編號",

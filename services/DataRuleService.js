@@ -161,7 +161,8 @@ exports.getSelectOptions = async function (session, typeSelectField, field, call
             });
         }
     }
-    else {
+    //下拉來源為對應檔
+    else if (typeSelectField.ds_from_sql.toUpperCase() != "R") {
         if (!_.isUndefined(ruleAgent[typeSelectField.rule_func_name])) {
             //方法訂義都需傳入一個Object參數集合
             let la_selectOptions = await new Promise(resolve => {
@@ -189,6 +190,10 @@ exports.getSelectOptions = async function (session, typeSelectField, field, call
         else {
             callback(lo_selectData);
         }
+    }
+    //下拉來源為當之作業的rule
+    else {
+        callback(lo_selectData);
     }
 };
 
@@ -317,6 +322,86 @@ exports.handleBlurUiField = function (postData, session, callback) {
         callback(errorObj, new ReturnClass());
     }
 };
+
+/**
+ * 使用者按下按鈕時檢查
+ * @param postData
+ * @param session
+ * @returns {Promise<void>}
+ */
+exports.handlePrgFuncRule = async (postData, session) => {
+    const lo_param = {
+        prg_id: postData.prg_id,
+        func_id: postData.func_id
+    };
+
+    if (!_.isUndefined(postData.page_id)) lo_param.page_id = Number(postData.page_id);
+    if (!_.isUndefined(postData.tab_page_id)) lo_param.tab_page_id = Number(postData.tab_page_id);
+
+    //從mongo PrgFunction 找資料
+    const lo_prgFuncData = await mongoAgent.PrgFunction.findOne(lo_param).exec()
+        .then(result => {
+            if (!result) {
+                throw "Not found prg function."
+            }
+            return commonTools.mongoDocToObject(result);
+        })
+        .catch(err => {
+            throw err;
+        });
+
+    if (lo_prgFuncData.rule_func_name.trim() === "") {
+        return await new ReturnClass();
+    }
+
+    //判斷ruleAgent裡是否有規則
+    if (!_.isUndefined(ruleAgent[lo_prgFuncData.rule_func_name])) {
+        return await ruleAgent[lo_prgFuncData.rule_func_name](postData, session);
+    }
+    else {
+        throw "Not found rule function.";
+    }
+};
+
+/**
+ * 透過規則取下拉資料
+ * @param postData
+ * @param session
+ * @returns {Promise.<void>}
+ */
+exports.handleSelectOptionRule = async function (postData, session) {
+    const lo_param = {
+        prg_id: postData.prg_id,
+        ui_field_name: postData.ui_field_name
+    };
+
+    if (!_.isUndefined(postData.page_id)) lo_param.page_id = Number(postData.page_id);
+    if (!_.isUndefined(postData.tab_page_id)) lo_param.tab_page_id = Number(postData.tab_page_id);
+
+    //從mongo UITypeSelect 找資料
+    const lo_uiTypeSelectData = await mongoAgent.UITypeSelect.findOne(lo_param).exec()
+        .then(result => {
+            if (!result) {
+                throw "Not found select function.";
+            }
+            return commonTools.mongoDocToObject(result);
+        }).catch(err => {
+            throw err;
+        });
+
+    if (lo_uiTypeSelectData.rule_func_name.trim() === "") {
+        return await new ReturnClass();
+    }
+
+    //判斷ruleAgent裡是否有規則
+    if (!_.isUndefined(ruleAgent[lo_uiTypeSelectData.rule_func_name]) && lo_uiTypeSelectData.ds_from_sql.toUpperCase() == "R") {
+        return await ruleAgent[lo_uiTypeSelectData.rule_func_name](postData, session);
+    }
+    else {
+        throw "Not found rule function.";
+    }
+};
+
 
 exports.handleClickUiRow = function (postData, session, callback) {
     let la_dtField = postData.dtField;
@@ -749,7 +834,6 @@ exports.chkDatagridDeleteEventRule = function (postData, session, callback) {
                         });
                     }
                 );
-
             });
             async.parallel(delChkFuncs, function (err, result) {
                 let lo_result = new ReturnClass();

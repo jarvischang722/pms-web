@@ -210,18 +210,30 @@
         <orderby>order by ikey,ikey_seq_nos</orderby>
     </dao>
 
+    <!--[PMS0110041] 取得qry_order_dt-->
+    <dao name="QRY_CARD_ORDER_DT">
+        <statement><![CDATA[
+            select * from order_dt where athena_id = :athena_id and hotel_cod = :hotel_cod and ikey = :ikey and order_sta <> 'X'
+        ]]>
+        </statement>
+        <parameter type="number" kind="3">athena_id</parameter>
+        <parameter type="string" kind="3">hotel_cod</parameter>
+        <parameter type="string" kind="3">ikey</parameter>
+        <orderby>ORDER BY ikey_seq_nos</orderby>
+    </dao>
+
     <dao name="QRY_ORDER_DT_FOR_DETAIL_GROUP">
         <statement><![CDATA[
-            select d.ikey_seq_nos, d.order_sta, d.ci_dat, d.co_dat, d.rate_cod, m.ratecod_nam, d.use_cod, d.rent_amt, d.serv_amt,
-            d.order_qnt, d.rent_tot, d.room_cod, d.adult_qnt, d.child_qnt, d.baby_qnt
-            from order_dt d
-            join ratecod_mn m on d.athena_id = m.athena_id and d.hotel_cod = m.hotel_cod
-            and d.rate_cod = m.rate_cod
-            where d.order_sta <> 'X'
-            and d.athena_id = :athena_id
-            and d.hotel_cod = :hotel_cod
-            and d.ikey = :ikey
-            order by ikey_seq_nos
+           select d.*,
+           pg_hfd_get_nam2.sf_hfd_get_guest_list(:athena_id, :hotel_cod, ikey, ikey_seq_nos, '#1####') guest_list
+           from order_dt d
+           join ratecod_mn m on d.athena_id = m.athena_id and d.hotel_cod = m.hotel_cod
+           and d.rate_cod = m.rate_cod
+           where d.order_sta <> 'X'
+           and d.athena_id = :athena_id
+           and d.hotel_cod = :hotel_cod
+           and d.ikey = :ikey
+           order by ikey_seq_nos
         ]]>
         </statement>
         <parameter type="number" kind="3">athena_id</parameter>
@@ -245,10 +257,24 @@
         <parameter type="string" kind="3">hotel_cod</parameter>
         <parameter type="string" kind="3">ikey</parameter>
         <parameter type="instring" kind="3">ikey_seq_nos</parameter>
-        <statement test="_v(param.ikey_seq_nos)">
-            <![CDATA[and ikey_seq_nos in(:ikey_seq_nos)]]></statement>
+        <statement test="_v(param.ikey_seq_nos)"><![CDATA[and ikey_seq_nos in(:ikey_seq_nos)]]></statement>
         <orderby>order by ikey_seq_nos</orderby>
     </dao>
+
+    <dao name="SEL_ORDER_DT_MAX_IKEY_SEQ_NOS">
+        <statement><![CDATA[
+            select max(ikey_seq_nos) ikey_seq_nos
+            from order_dt
+            where athena_id = :athena_id
+            and hotel_cod = :hotel_cod
+            and ikey = :ikey
+        ]]>
+        </statement>
+        <parameter type="number" kind="3">athena_id</parameter>
+        <parameter type="string" kind="3">hotel_cod</parameter>
+        <parameter type="string" kind="3">ikey</parameter>
+    </dao>
+
 
     <!-- ['PMS0820010'] 未來入住之訂房卡明細-->
     <dao name="CHK_ORDER_DT_ISEXIST">
@@ -277,6 +303,41 @@
         <parameter type="string" kind="1">hotel_cod</parameter>
         <parameter type="string" kind="1">guest_typ</parameter>
     </dao>
+
+
+    <!-- [prg_id: PMS0110042 ]  取得住客清單-->
+    <dao name="QRY_HOUSES_INFO_DETAIL">
+        <statement><![CDATA[
+        select athena_id, hotel_cod, ikey, ikey_seq_nos, room_nos, assign_sta,
+        pg_hfd_get_nam2.sf_hfd_get_guest_list(athena_id, hotel_cod, ikey, ikey_seq_nos, '#1####') guest_list from order_dt
+        where order_sta <> 'X'
+        and athena_id = :athena_id
+        and hotel_cod = :hotel_cod
+        and ikey = :ikey
+        ]]>
+        </statement>
+        <parameter type="number" kind="3">athena_id</parameter>
+        <parameter type="string" kind="3">hotel_cod</parameter>
+        <parameter type="string" kind="3">ikey</parameter>
+        <parameter type="instring" kind="3">ikey_seq_nos</parameter>
+        <statement test="_v(param.ikey_seq_nos)"><![CDATA[and ikey_seq_nos in(:ikey_seq_nos)]]></statement>
+        <orderby>order by ikey_seq_nos</orderby>
+    </dao>
+
+    <!-- [PMS0110041] 查詢是否有排房-->
+    <dao name="QRY_ASSIGN_QNT_ISEXIST">
+        <statement><![CDATA[
+            SELECT SUM(NVL(ASSIGN_QNT, 0) + NVL(CI_QNT, 0)) as assign_qnt FROM ORDER_DT
+            where athena_id = :athena_id
+            and ikey = :ikey
+            and ikey_seq_nos = :ikey_seq_nos
+        ]]>
+        </statement>
+        <parameter type="number" kind="3">athena_id</parameter>
+        <parameter type="string" kind="3">ikey</parameter>
+        <parameter type="string" kind="3">ikey_seq_nos</parameter>
+    </dao>
+
 
 
     <!-- [prg_id: PMS0210060 ] -->
