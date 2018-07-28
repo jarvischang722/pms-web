@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div v-loading="isLoading" element-loading-text="Loading...">
         <!--搜尋-->
         <div class="col-xs-12">
             <search-comp
@@ -35,12 +35,12 @@
                         <ul>
                             <li>
                                 <button class="btn btn-primary btn-white btn-defaultWidth "
-                                        role="button" @click="checkIn">入住
+                                        role="button" @click="r_1010">{{i18nLang.program.PMS0210060['1010']}}
                                 </button>
                             </li>
                             <li>
                                 <button class="btn btn-primary btn-white btn-defaultWidth "
-                                        role="button" @click="clFdCheckIn">取消入住
+                                        role="button" @click="r_1020">{{i18nLang.program.PMS0210060['1020']}}
                                 </button>
                             </li>
                         </ul>
@@ -146,7 +146,6 @@
                 let lo_searchFieldData = await BacUtils.doHttpPromisePostProxy("/api/fetchOnlySearchFieldsData", {
                     prg_id: gs_prgId
                 }).then((result) => {
-                    console.log(result);
                     return result;
                 }).catch(err => {
                     return {success: false, errorMsg: err};
@@ -163,7 +162,6 @@
                     page_id: 1,
                     tab_page_id: 11,
                 }).then((result) => {
-                    console.log(result);
                     return result;
                 }).catch(err => {
                     return {success: false, errorMsg: err};
@@ -197,7 +195,6 @@
                         lo_orderDtValueData.dgRowData[ln_idx] = _.extend(lo_orderDtValueData.dgRowData[ln_idx], lo_orderDtData);
                     });
                     this.orderDtValueData = lo_orderDtValueData.dgRowData;
-                    console.log(this.orderDtValueData);
                     this.showOrderDtDataGrid();
                 } else {
                     alert(lo_orderDtValueData.errorMsg)
@@ -209,7 +206,6 @@
                     page_id: 1,
                     tab_page_id: 12,
                 }).then((result) => {
-                    console.log(result);
                     return result;
                 }).catch(err => {
                     return {success: false, errorMsg: err};
@@ -242,7 +238,6 @@
                         lo_guestMnValueData.dgRowData[ln_idx] = lo_guestMnData;
                     });
                     this.guestMnValueData = lo_guestMnValueData.dgRowData;
-                    console.log(this.guestMnValueData);
                 } else {
                     alert(lo_guestMnValueData.errorMsg)
                 }
@@ -257,11 +252,11 @@
                 this.guestMnDgIns.init(gs_prgId, "guestMnTable", DatagridFieldAdapter.combineFieldOption(this.guestMnFieldData, "guestMnTable"), this.guestMnFieldData);
                 this.guestMnDgIns.loadDgData(this.guestMnValueData);
             },
-            checkIn() {
+            r_1010() {
                 this.isCheckIn = true;
                 this.showSingleGridDialog();
             },
-            clFdCheckIn() {
+            r_1020() {
                 this.isCheckIn = false;
                 //取消入住的SQL中, CI_DAT要帶滾房租日
                 this.editingRow.rent_cal_dat = moment(this.rentCalDat).format("YYYY/MM/DD");

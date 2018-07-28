@@ -326,7 +326,16 @@
     },
     "PMS0210060": {
       "isCiSerBlank": "尚有未指定住客資料之訂房資料，是否由系統自動產生住客資料?",
-      "chkMaster": "公帳號尚未C/I，是否要C/I公帳號?"
+      "chkMaster": "公帳號尚未C/I，是否要C/I公帳號?",
+      "allSelected": "全選",
+      "clearSelected": "取消全選",
+      "1010": "入住",
+      "1020": "取消入住",
+      "1011": "入住",
+      "1012": "C/I公帳號",
+      "1013": "修改訂房卡",
+      "1014": "排房",
+      "1021": "取消入住"
     },
     "PMS0110010": {
       "useRm": "用房數",
@@ -479,7 +488,7 @@
       "ChkEmail": "%s 格式不正確",
       "ChkUniCod": "%s 格式不正確",
       "chkDataChang": "資料異動，是否要修改?",
-      "chkDateIsBetween":"日期區間重疊",
+      "chkDateIsBetween": "日期區間重疊",
       "chkBeginDatAndEndDat": "起始日大於結束日"
     }
   },

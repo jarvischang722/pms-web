@@ -1,7 +1,7 @@
 <template>
     <div id="PMS0210060_dialog" class="hide padding-5">
         <div class="businessCompanyData">
-            <div class="col-xs-12 col-sm-12">
+            <div class="col-xs-12 col-sm-12" v-loading="isLoading" :element-loading-text="loadingText">
                 <div class="row">
                     <div class="col-xs-10 col-sm-10">
                         <div class="row no-margin-right">
@@ -129,30 +129,32 @@
                                 <ul>
                                     <li>
                                         <button class="btn btn-primary btn-white btn-defaultWidth"
-                                                role="button">全選
+                                                role="button" @click="selectAll">
+                                            {{i18nLang.program.PMS0210060.allSelected}}
                                         </button>
                                     </li>
                                     <li>
                                         <button class="btn btn-primary btn-white btn-defaultWidth"
-                                                role="button">取消全選
+                                                role="button" @click="guestMnRowDataChecked = []">
+                                            {{i18nLang.program.PMS0210060.clearSelected}}
                                         </button>
                                     </li>
                                     <li v-if="isCheckIn">
                                         <button
                                                 class="btn btn-primary btn-white btn-defaultWidth"
-                                                role="button" @click="r_1011">入住
+                                                role="button" @click="r_1011">{{i18nLang.program.PMS0210060['1010']}}
                                         </button>
                                     </li>
                                     <li v-if="isCheckIn">
                                         <button
                                                 class="btn btn-primary btn-white btn-defaultWidth"
-                                                role="button">C/I公帳號
+                                                role="button">{{i18nLang.program.PMS0210060['1012']}}
                                         </button>
                                     </li>
                                     <li v-if="isCheckIn">
                                         <button
                                                 class="btn btn-primary btn-white btn-defaultWidth reservationDialog-1"
-                                                role="button">修改訂房卡
+                                                role="button">{{i18nLang.program.PMS0210060['1013']}}
                                         </button>
                                     </li>
                                     <!--<li>-->
@@ -163,7 +165,7 @@
                                     <li v-if="isCheckIn">
                                         <button
                                                 class="btn btn-primary btn-white btn-defaultWidth foCnt_roomAssign"
-                                                role="button">排房
+                                                role="button">{{i18nLang.program.PMS0210060['1014']}}
                                         </button>
                                     </li>
                                     <!--l 版隱藏-->
@@ -175,12 +177,12 @@
                                     <li v-if="!isCheckIn">
                                         <button
                                                 class="btn btn-primary btn-white btn-defaultWidth"
-                                                role="button" @click="r_1021">取消入住
+                                                role="button" @click="r_1021">{{i18nLang.program.PMS0210060['1021']}}
                                         </button>
                                     </li>
                                     <li>
                                         <button class="btn btn-primary btn-white btn-defaultWidth"
-                                                role="button" @click="close">離開
+                                                role="button" @click="close">{{i18nLang.SystemCommon.Leave}}
                                         </button>
                                     </li>
                                 </ul>
@@ -238,14 +240,16 @@
         },
         data() {
             return {
+                i18nLang: go_i18nLang,
+                isLoading: false,
+                loadingText: "Loading...",
+
                 oriOrderMnFieldsData: [],
                 orderMnFieldsData: [],
                 orderMnValueData: {},
                 guestMnFieldData: [],
                 guestMnValueData: [],
                 guestMnRowDataChecked: [],           //勾選guest mn資料
-                isLoading: false,
-                loadingText: "Loading..."
             }
         },
         watch: {
@@ -361,6 +365,12 @@
             closeRmkDialog() {
                 $("#resvMoreRmks_dialog").dialog("close");
             },
+            selectAll() {
+                this.guestMnRowDataChecked = [];
+                _.each(this.guestMnValueData, (lo_data) => {
+                    this.guestMnRowDataChecked.push(lo_data);
+                });
+            },
             /**
              * 驗證儲存資料
              * 1.檢查有勾選資料
@@ -464,7 +474,7 @@
                 return lo_return;
             },
             /**
-             * 入住的規則
+             * 入住
              */
             async r_1011() {
                 this.isLoading = true;
@@ -492,6 +502,9 @@
                 this.isLoading = false;
                 this.loadingText = "loading...";
             },
+            /**
+             *取消入住
+             */
             async r_1021() {
                 this.isLoading = true;
                 this.loadingText = "saving...";
