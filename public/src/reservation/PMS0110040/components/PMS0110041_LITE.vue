@@ -65,7 +65,7 @@
                                                                            :required="field.requirable == 'Y'" min="0"
                                                                            :maxlength="field.ui_field_length"
                                                                            :class="{'input_sta_required' : field.requirable == 'Y'}"
-                                                                           @change="chkGuestMnFieldRule(field.ui_field_name,field.rule_func_name)"
+                                                                           @change="chkGuestMnFieldRule(field)"
                                                                            :disabled="field.modificable == 'N'||
                                                    (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)">
 
@@ -81,7 +81,7 @@
                                                                             text-field="display"
                                                                             @update:v-model="val => guestMnRowsData4Single[field.ui_field_name] = val"
                                                                             :default-val="guestMnRowsData4Single[field.ui_field_name]"
-                                                                            @change="chkGuestMnFieldRule(field.ui_field_name,field.rule_func_name)"
+                                                                            @change="chkGuestMnFieldRule(field)"
                                                                             :disabled="field.modificable == 'N'||
                                                    (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)"
                                                                     >
@@ -101,7 +101,7 @@
                                                                             :text-field="field.selectData.display"
                                                                             @update:v-model="val => guestMnRowsData4Single[field.ui_field_name] = val"
                                                                             :default-val="guestMnRowsData4Single[field.ui_field_name]"
-                                                                            @change="chkGuestMnFieldRule(field.ui_field_name,field.rule_func_name)"
+                                                                            @change="chkGuestMnFieldRule(field)"
                                                                             :disabled="field.modificable == 'N'|| !isModifiable ||
                                                    (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)">
                                                                     </bac-select-grid>
@@ -279,7 +279,8 @@
                                                             <template
                                                                     v-for="(singleData, idx) in orderDtRowsData4table">
                                                                 <tr>
-                                                                    <td class="text-center" @click="editingOrderDtIdx = idx">
+                                                                    <td class="text-center"
+                                                                        @click="editingOrderDtIdx = idx">
                                                                         <i class="fa fa-minus red"
                                                                            :class="{'pointer': isModifiable}"
                                                                            @click="removeRow(idx)"></i>
@@ -596,22 +597,53 @@
                     <div class="col-xs-10 col-sm-10">
                         <div class="row no-margin-right main-content-data">
                             <div class="grid">
-                                <div class="grid-item">
-                                    <label>取消原因代號</label>
-                                    <select class="input-medium medium-c3-col2">
-                                        <option value="1">0001/TYPHOON 颱風:天候因素/Y:是</option>
-                                        <option value="2">0002/DOUBLE BOOKING 重複訂房TEST/N:否</option>
-                                        <option value="2">0003/CHANGE SCHEDULE 改行程/N:否</option>
-                                        <option value="2">0004/BOOKED OTHER HOTEL 訂了別的飯店/N:否</option>
-                                        <option value="2">0005/家裡有事取消/Y:是</option>
-                                        <option value="2">0006/價格因素/Y:是</option>
-                                        <option value="2">0007/NoShow/N:否</option>
-                                    </select>
-                                </div>
-                                <div class="grid-item">
-                                    <label>說明</label>
-                                    <input type="text" class="input-medium medium-c3-col2" disabled/>
-                                </div>
+                                <template v-for="field in cancelFieldsData">
+                                    <div class="grid-item">
+                                        <label>{{field.ui_display_name}}</label>
+                                        <!--selectgrid-->
+                                        <bac-select-grid
+                                                v-if="field.visiable == 'Y' && field.ui_type == 'selectgrid'"
+                                                :style="{width:field.width + 'px' , height:field.height + 'px'}"
+                                                :class="{'input_sta_required' : field.requirable == 'Y'}"
+                                                v-model="cancelData[field.ui_field_name]"
+                                                :columns="field.selectData.columns"
+                                                :data="field.selectData.selectData"
+                                                :field="field"
+                                                :is-qry-src-before="field.selectData.isQrySrcBefore"
+                                                :id-field="field.selectData.value"
+                                                :text-field="field.selectData.display"
+                                                @update:v-model="val => cancelData[field.ui_field_name] = val"
+                                                :default-val="cancelData[field.ui_field_name]"
+                                                @change="chkCancelCod(field)"
+                                                :disabled="field.modificable == 'N'|| !isModifiable ||
+                                        (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)">
+                                        </bac-select-grid>
+
+                                        <input type="text"
+                                               v-model="cancelData[field.ui_field_name]"
+                                               v-if="field.visiable == 'Y' &&  field.ui_type == 'text'"
+                                               :style="{width:field.width + 'px' , height:field.height + 'px'}"
+                                               :required="field.requirable == 'Y'" min="0"
+                                               :maxlength="field.ui_field_length"
+                                               :class="{'input_sta_required' : field.requirable == 'Y'}"
+                                               :disabled="field.modificable == 'N'||
+                                                   (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)">
+                                        <!--<select class="input-medium medium-c3-col2">-->
+                                        <!--<option value="1">0001/TYPHOON 颱風:天候因素/Y:是</option>-->
+                                        <!--<option value="2">0002/DOUBLE BOOKING 重複訂房TEST/N:否</option>-->
+                                        <!--<option value="2">0003/CHANGE SCHEDULE 改行程/N:否</option>-->
+                                        <!--<option value="2">0004/BOOKED OTHER HOTEL 訂了別的飯店/N:否</option>-->
+                                        <!--<option value="2">0005/家裡有事取消/Y:是</option>-->
+                                        <!--<option value="2">0006/價格因素/Y:是</option>-->
+                                        <!--<option value="2">0007/NoShow/N:否</option>-->
+                                        <!--</select>-->
+                                    </div>
+                                </template>
+
+                                <!--<div class="grid-item">-->
+                                <!--<label>說明</label>-->
+                                <!--<input type="text" class="input-medium medium-c3-col2" disabled/>-->
+                                <!--</div>-->
                             </div>
                         </div><!--main-content-data-->
                         <div class="clearfix"></div>
@@ -764,6 +796,8 @@
 
                 oriOrderMnFieldsData: [],               //原始order mn 欄位資料
                 oriGuestMnFieldsData: [],               //原始guest mn 欄位資料
+                cancelFieldsData: [],                   //訂房取消欄位資料
+                cancelData: {},                         //訂房取消資料
                 fieldsDataLeft: [],                     //頁面顯示欄位資料
                 fieldsDataRight: [],                    //頁面顯示欄位資料
                 orderDtFieldsData4table: [],            //多筆 order dt 欄位資料
@@ -961,6 +995,7 @@
                     });
                 }
                 catch (err) {
+                    return {success: false, errMsg: err.message || err};
                     console.log(err)
                 }
             },
@@ -1289,7 +1324,7 @@
                         ikey_seq_nos: ikey_seq_nos
                     };
                     this.guestMnRowsData4Single = _.extend(this.guestMnRowsData4Single, lo_params);
-                    let lo_fetchDefault = await  BacUtils.doHttpPromisePostProxy('/api/queryDataByRule', {
+                    let lo_fetchDefault = await BacUtils.doHttpPromisePostProxy('/api/queryDataByRule', {
                         rule_func_name: 'get_guest_mn_default_data'
                     }).then(result => {
                         return result;
@@ -1466,34 +1501,29 @@
                 }
             },
             //單筆guest mn欄位規則檢查
-            async chkGuestMnFieldRule(ui_field_name, rule_func_name) {
-                let la_nowData = [this.guestMnRowsData4Single];
-                let la_beforeData = [this.beforeGuestMnRowsData4Single];
-                let la_diff = _.difference(la_beforeData, la_nowData);
+            async chkGuestMnFieldRule(field) {
+                const la_nowData = [this.guestMnRowsData4Single];
+                const la_beforeData = [this.beforeGuestMnRowsData4Single];
+                const la_diff = _.difference(la_beforeData, la_nowData);
 
                 if (la_diff.length === 0) {
                     return;
                 }
-                if (rule_func_name === "") {
+                if (field.rule_func_name === "") {
                     return;
                 }
 
                 try {
-                    let lo_postData = {
+                    const lo_postData = {
                         prg_id: gs_prgId,
-                        rule_func_name: rule_func_name,
-                        validateField: ui_field_name,
+                        rule_func_name: field.rule_func_name,
+                        validateField: field.ui_field_name,
                         singleRowData: la_nowData,
+                        order_mn: this.orderMnSingleData,
                         oriSingleData: la_beforeData,
                         allRowData: this.guestMnRowsData
                     };
-                    let lo_doChkFiledRule = await BacUtils.doHttpPromisePostProxy("/api/chkFieldRule", lo_postData)
-                        .then((result) => {
-                            return result;
-                        }).catch((err) => {
-                            return {success: false, errorMsg}
-                        });
-
+                    let lo_doChkFiledRule = await this.chkFieldRule(field, lo_postData);
                     if (lo_doChkFiledRule.success) {
                         //帶回來的預設值
                         if (!_.isEmpty(lo_doChkFiledRule.defaultValues)) {
@@ -1550,67 +1580,67 @@
 //                }
 //
 //                //楷岳(有問題: chkOrdermnAcustnam)
-//                const lo_acust_data = _.findWhere(field.selectData.selectData, {cust_cod: this.orderMnSingleData.acust_cod});
-//                if (_.isUndefined(lo_acust_data)) return;
-////                this.orderMnSingleData.acust_nam = lo_acust_data.acust_cod;     // (2.
-//                this.orderMnSingleData.sales_cod = lo_acust_data.sales_cod;     // (3.
-//                if (this.orderMnSingleData.group_nos === "") this.orderMnSingleData.group_nos = lo_acust_data.alt_nam; // (5.
-//                const lo_params = {
-//                    order_mn: this.orderMnSingleData,
-//                    guest_mn: this.guestMnRowsData4Single,
-//                    allRowsData: this.allRowsData
-//                };
-//
-//                try {
-//                    const lo_ruleResult = await this.chkFieldRule(field, lo_params);
-//                    console.log(lo_ruleResult);
-//                    if (lo_ruleResult.success) {
-//                        this.orderMnSingleData = _.extend(this.orderMnSingleData, lo_ruleResult.effectValues);
-//                    }
-//                    else {
-//                        alert(lo_ruleResult.errorMsg);
-//                    }
-//                }
-//                catch (error) {
-//                    console.log(error.errorMsg);
-//                }
-//
-//                try {
-//                    let lo_postData = {
-//                        prg_id: gs_prgId,
-//                        rule_func_name: field.rule_func_name,
-//                        validateField: field.ui_field_name,
-//                        singleRowData: la_orderData,
-//                        oriSingleData: la_beforeData,
-//                    };
-//                    let lo_doChkFiledRule = await BacUtils.doHttpPromisePostProxy("/api/chkFieldRule", lo_postData)
-//                        .then((result) => {
-//                            return result;
-//                        }).catch((err) => {
-//                            return {success: false, errorMsg}
-//                        });
-//                    if (lo_doChkFiledRule.success) {
-//                        //連動帶回的值
-//                        if (!_.isUndefined(lo_doChkFiledRule.effectValues) && _.size(lo_doChkFiledRule.effectValues) > 0) {
-//                            this.orderMnSingleData = _.extend(this.orderMnSingleData, lo_doChkFiledRule.effectValues);
-//
-//                            this.isEffectFromRule = lo_doChkFiledRule.isEffectFromRule;
-//                        }
-//                        //是否要show出訊息
-//                        if (lo_doChkFiledRule.showAlert) {
-//                            alert(lo_doChkFiledRule.alertMsg);
-//                        }
-//                        //改變前資料改為現在資料
-//                        this.beforeOrderMnSingleData = JSON.parse(JSON.stringify(this.orderMnSingleData));
-//                    }
-//                    else {
-//                        this.orderMnSingleData = _.extend(this.orderMnSingleData, this.beforeOrderMnSingleData);
-//                        alert(lo_doChkFiledRule.errorMsg);
-//                    }
-//                }
-//                catch (err) {
-//                    console.log(err);
-//                }
+                const lo_acust_data = _.findWhere(field.selectData.selectData, {cust_cod: this.orderMnSingleData.acust_cod});
+                if (_.isUndefined(lo_acust_data)) return;
+//                this.orderMnSingleData.acust_nam = lo_acust_data.acust_cod;     // (2.
+                this.orderMnSingleData.sales_cod = lo_acust_data.sales_cod;     // (3.
+                if (this.orderMnSingleData.group_nos === "") this.orderMnSingleData.group_nos = lo_acust_data.alt_nam; // (5.
+                const lo_params = {
+                    order_mn: this.orderMnSingleData,
+                    guest_mn: this.guestMnRowsData4Single,
+                    allRowsData: this.allRowsData
+                };
+
+                try {
+                    const lo_ruleResult = await this.chkFieldRule(field, lo_params);
+                    console.log(lo_ruleResult);
+                    if (lo_ruleResult.success) {
+                        this.orderMnSingleData = _.extend(this.orderMnSingleData, lo_ruleResult.effectValues);
+                    }
+                    else {
+                        alert(lo_ruleResult.errorMsg);
+                    }
+                }
+                catch (error) {
+                    console.log(error.errorMsg);
+                }
+
+                try {
+                    let lo_postData = {
+                        prg_id: gs_prgId,
+                        rule_func_name: field.rule_func_name,
+                        validateField: field.ui_field_name,
+                        singleRowData: la_orderData,
+                        oriSingleData: la_beforeData,
+                    };
+                    let lo_doChkFiledRule = await BacUtils.doHttpPromisePostProxy("/api/chkFieldRule", lo_postData)
+                        .then((result) => {
+                            return result;
+                        }).catch((err) => {
+                            return {success: false, errorMsg}
+                        });
+                    if (lo_doChkFiledRule.success) {
+                        //連動帶回的值
+                        if (!_.isUndefined(lo_doChkFiledRule.effectValues) && _.size(lo_doChkFiledRule.effectValues) > 0) {
+                            this.orderMnSingleData = _.extend(this.orderMnSingleData, lo_doChkFiledRule.effectValues);
+
+                            this.isEffectFromRule = lo_doChkFiledRule.isEffectFromRule;
+                        }
+                        //是否要show出訊息
+                        if (lo_doChkFiledRule.showAlert) {
+                            alert(lo_doChkFiledRule.alertMsg);
+                        }
+                        //改變前資料改為現在資料
+                        this.beforeOrderMnSingleData = JSON.parse(JSON.stringify(this.orderMnSingleData));
+                    }
+                    else {
+                        this.orderMnSingleData = _.extend(this.orderMnSingleData, this.beforeOrderMnSingleData);
+                        alert(lo_doChkFiledRule.errorMsg);
+                    }
+                }
+                catch (err) {
+                    console.log(err);
+                }
 
             },
             /**
@@ -1627,6 +1657,27 @@
             },
 
             /**
+             * 訂房取消原因
+             * @param field {object} 欄位資料
+             */
+            async chkCancelCod(field) {
+                const lo_param = {
+                    cancelData: this.cancelData,
+                    cancelFieldsData: this.cancelFieldsData
+                };
+                const lo_chkResult = await this.chkFieldRule(field, lo_param);
+                if (lo_chkResult.success) {
+                    let ln_cancelField;
+                    if (lo_chkResult.readonlyFields.length > 0) {
+                        ln_cancelField = _.findIndex(this.cancelFieldsData, {ui_field_name: lo_chkResult.readonlyFields[0]});
+                    }
+                    else if (lo_chkResult.unReadonlyFields.length > 0) {
+                        ln_cancelField = _.findIndex(this.cancelFieldsData, {ui_field_name: lo_chkResult.unReadonlyFields[0]});
+                    }
+                    this.cancelFieldsData[ln_cancelField].modificable = lo_chkResult.readonlyFields.length > 0 ? "N" : "Y";
+                }
+            },
+            /**
              * 欄位規則檢查
              * @param field {object} 欄位資料
              * @param params {object} 參數條件
@@ -1639,7 +1690,7 @@
                         return result;
                     })
                     .catch(err => {
-                        return err;
+                        return {success: false, errorMsg: err}
                     });
             },
             /**
@@ -2168,10 +2219,10 @@
                     this.editingOrderDtIdx = undefined;
                 }
             },
-            changeOrderSta(orderStaSelectData) {
+            async changeOrderSta(orderStaSelectData) {
                 this.orderStatus = orderStaSelectData.value;
-                if (this.orderStatus == 'D') {
-                    var dialog = $("#cancelRm_dialog").removeClass('hide').dialog({
+                if (this.orderStatus === 'D') {
+                    let dialog = $("#cancelRm_dialog").removeClass('hide').dialog({
                         modal: true,
                         title: "訂房取消",
                         title_html: true,
@@ -2181,6 +2232,19 @@
                         resizable: true
                     });
                 }
+                const ls_singleGridUrl = "/api/fetchOnlySinglePageFieldData";
+                const lo_fetchResult = await this.fetchFieldsData(ls_singleGridUrl, {
+                    prg_id: gs_prgId,
+                    page_id: 1011,
+                    tab_page_id: 1
+                });
+
+                if (lo_fetchResult.success) {
+                    this.cancelFieldsData = lo_fetchResult.gsFieldsData;
+                }
+
+                console.log(this.cancelFieldsData);
+
                 _.each(this.orderDtRowsData, (lo_orderData, ln_idx) => {
                     this.orderDtRowsData[ln_idx].order_sta = this.orderStatus;
                 });

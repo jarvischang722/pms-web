@@ -158,5 +158,20 @@
         <orderby>order by ci_ser</orderby>
     </dao>
 
-
+    <!-- [PMS0110041 訂房卡資料編輯] 檢查此住客同一天否重覆訂-->
+    <dao name="CHK_GUEST_IS_OVER_BOOKING">
+        <statement><![CDATA[
+            select count(*) as booking_qnt from order_dt d, guest_mn g
+            where d.ikey = g.ikey and d.ci_dat = to_date(:ci_dat, 'YYYY/MM/DD')
+            and d.ikey <> :ikey and d.order_sta not in ('D', 'S','W','T')
+            and g.alt_nam = :alt_nam and d.athena_id
+            and d.athena_id = :athena_id
+            and d.hotel_cod = :hotel_cod
+        ]]></statement>
+        <parameter type="number" kind="3">athena_id</parameter>
+        <parameter type="string" kind="3">hotel_cod</parameter>
+        <parameter type="string" kind="3">ikey</parameter>
+        <parameter type="string" kind="3">ci_dat</parameter>
+        <parameter type="string" kind="3">alt_nam</parameter>
+    </dao>
 </root>

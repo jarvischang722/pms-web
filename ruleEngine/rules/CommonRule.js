@@ -12,6 +12,7 @@ const selectClickRule = require("./CommonRuleLib/DgSelectClickRule");
 const selectgridQryRule = require("./CommonRuleLib/DgSelectgridQryRule");
 const ReturnClass = require('../returnClass');
 const go_config = require("../../configs/database");
+const clusterQueryAgent = require("../../plugins/kplug-oracle/ClusterQueryAgent");
 
 module.exports = {
     /**
@@ -240,6 +241,48 @@ module.exports = {
             id: ls_oracle_id,
             dao: dao
         };
+    },
+
+    /**
+     * cluster query
+     * @param session {object}
+     * @param params {object} dao 條件
+     * @param dao   {srring} dao 名稱
+     * @returns {Promise<any>}
+     */
+    clusterQuery: async function (session, params, dao) {
+        try {
+            const lo_daoParams = this.ConvertToQueryParams(session.athena_id, dao);
+            return new Promise((resolve, reject) => {
+                clusterQueryAgent.query(lo_daoParams, params, (err, result) => {
+                    err ? reject(err.message || err) : resolve(result);
+                });
+            });
+        }
+        catch (err) {
+            throw err;
+        }
+    },
+
+    /**
+     * cluster queryList
+     * @param session {object}
+     * @param params {object} dao 條件
+     * @param dao   {srring} dao 名稱
+     * @returns {Promise<any>}
+     */
+    clusterQueryList: async function (session, params, dao) {
+        try {
+            const lo_daoParams = this.ConvertToQueryParams(session.athena_id, dao);
+            return new Promise((resolve, reject) => {
+                clusterQueryAgent.queryList(lo_daoParams, params, (err, result) => {
+                    err ? reject(err.message || err) : resolve(result);
+                });
+            });
+        }
+        catch (err) {
+            throw err;
+        }
     }
 };
 

@@ -658,6 +658,8 @@
     "business_rmk": "行業名稱(英)",
     "guest_typ": "市場類別(英)",
     "guest_sna": "簡稱(英)",
-    "guest_nam": "名稱(英)"
+    "guest_nam": "名稱(英)",
+    "cancel_rmk": "取消原因代號(英)",
+    "flag1_sta": "是否可編輯(英)"
   }
 }

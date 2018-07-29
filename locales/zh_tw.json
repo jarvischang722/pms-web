@@ -662,6 +662,8 @@
     "business_rmk": "行業名稱",
     "guest_typ": "市場類別",
     "guest_sna": "簡稱",
-    "guest_nam": "名稱"
+    "guest_nam": "名稱",
+    "cancel_rmk": "取消原因代號",
+    "flag1_sta": "是否可編輯"
   }
 }
