@@ -283,82 +283,43 @@
                                 <ul>
                                     <li>
                                         <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                :class="{'btn-gray': !isClick}"
                                                 role="button">排房
                                         </button>
                                     </li>
                                     <li>
                                         <button class="btn btn-primary btn-white btn-defaultWidth foCnt_autoAssignSGL"
+                                                :class="{'btn-gray': !isClick}"
                                                 role="button">批次排房
                                         </button>
                                     </li>
                                     <li>
                                         <button class="btn btn-danger btn-white btn-defaultWidth"
+                                                :class="{'btn-gray': !isClick}"
                                                 role="button">取消排房
-
-
-
-
-
-
-
-
-
                                         </button>
                                     </li>
                                     <li>
                                         <button class="btn btn-danger btn-white btn-defaultWidth foCnt_batch_cal"
+                                                :class="{'btn-gray': !isClick}"
                                                 role="button">批次取消
-
-
-
-
-
-
-
-
-
                                         </button>
                                     </li>
                                     <li>
                                         <button class="btn btn-gray btn-defaultWidth foCnt_autoAssign"
                                                 role="button">自動排房
-
-
-
-
-
-
-
-
-
                                         </button>
                                     </li>
                                     <li>
                                         <button class="btn  btn-primary btn-white btn-defaultWidth focnt_lockRoom"
+                                                :class="{'btn-gray': !isClick}"
                                                 role="button">鎖定排房
-
-
-
-
-
-
-
-
-
                                         </button>
                                     </li>
                                     <li>
                                         <button class="btn btn-primary btn-white btn-defaultWidth reservationDialog-1"
+                                                :class="{'btn-gray': !isClick}"
                                                 role="button">訂房卡
-
-
-
-
-
-
-
-
-
                                         </button>
                                     </li>
                                     <li>
@@ -416,15 +377,7 @@
     };
     /*** Class End  ***/
     //endregion
-    //rowLock
-    g_socket.on('checkTableLock', function (result) {
-        console.log(result)
-        if (!result.success) {
-            alert(result.errorMsg);
-        } else {
-            alert(result.success)
-        }
-    });
+
     export default {
         created() {
             vmHub.$on("setGroupOrderDt", (data) => {
@@ -435,6 +388,19 @@
             });
             vmHub.$on('setRoomDt', (data) => {
                 this.selectRoomDtIndex = data.index;
+            });
+
+            // rowLock
+            let self = this;
+            g_socket.on('checkTableLock', function (result) {
+                if (!result.success) {
+                    self.isClick = false;
+                    alert(result.errorMsg);
+
+                } else {
+                    self.isClick = true;
+                    alert(result.success);
+                }
             });
         },
         async mounted() {
@@ -542,6 +508,8 @@
                 dgGroup: {},
                 dgDetail: {},
                 dgRoom: {},
+
+                isClick: true,
             };
         },
         methods: {
