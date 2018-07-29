@@ -54,39 +54,13 @@
                                     </span>
                                                         <span class="tooltip-text">
                                         <ul>
-                                            <li>
-                                                <div class="roomAsg-status-1 square-color pull-left"></div>
-                                                <div class="pull-left">不可排房</div>
-                                                <div class="clearfix"></div>
-                                            </li>
-                                            <li>
-                                                <div class="roomAsg-status-2 square-color pull-left"></div>
-                                                <div class="pull-left">修理房間</div>
-                                                <div class="clearfix"></div>
-                                            </li>
-                                            <li>
-                                                <div class="roomAsg-status-3 square-color pull-left"></div>
-                                                <div class="pull-left">可排房間</div>
-                                                <div class="clearfix"></div>
-                                            </li>
-                                            <li>
-                                                <div class="roomAsg-status-4 square-color pull-left"></div>
-                                                <div class="pull-left">不可移動</div>
-                                                <div class="clearfix"></div>
-                                            </li>
-                                            <li>
-                                                <div class="roomAsg-status-5 square-color pull-left"></div>
-                                                <div class="pull-left">今日預定C/O</div>
-                                                <div class="clearfix"></div>
-                                            </li>
-                                            <li>
-                                                <div class="roomAsg-status-6 square-color pull-left"></div>
-                                                <div class="pull-left">參觀</div>
+                                            <!--顏色對應方式??-->
+                                            <li v-for="(textDetail,idx) in ColorList">
+                                                <div class="square-color pull-left" :class="'roomAsg-status-'+(idx+1)"></div>
+                                                <div class="pull-left">{{textDetail}}</div>
                                                 <div class="clearfix"></div>
                                             </li>
                                         </ul>
-                                                            <!--<li class="divider"></li>-->
-
                                 </span>
                                                     </div>
                                                     <div class="searchCheckbox pull-left">
@@ -96,7 +70,7 @@
                                                      type="checkbox" checked
                                                      class="ace">
                                               <span class="lbl">
-                                                  <span class="subtxt">可排房</span>
+                                                  <span class="subtxt" >可排房</span>
                                               </span>
                                           </label>
                                     </span>
@@ -283,25 +257,25 @@
                                 <ul>
                                     <li>
                                         <button class="btn btn-primary btn-white btn-defaultWidth"
-                                                :class="{'btn-gray': !isClick}"
-                                                role="button">排房
+                                                :disabled="!lockStatus" @click="doAssign()"
+                                                role="button" >排房
                                         </button>
                                     </li>
                                     <li>
                                         <button class="btn btn-primary btn-white btn-defaultWidth foCnt_autoAssignSGL"
-                                                :class="{'btn-gray': !isClick}"
+                                                :disabled="!lockStatus" @click="doAssignAll()"
                                                 role="button">批次排房
                                         </button>
                                     </li>
                                     <li>
                                         <button class="btn btn-danger btn-white btn-defaultWidth"
-                                                :class="{'btn-gray': !isClick}"
+                                                :disabled="!lockStatus" @click="doUnassign()"
                                                 role="button">取消排房
                                         </button>
                                     </li>
                                     <li>
                                         <button class="btn btn-danger btn-white btn-defaultWidth foCnt_batch_cal"
-                                                :class="{'btn-gray': !isClick}"
+                                                :disabled="!lockStatus" @click="doUnassignAll()"
                                                 role="button">批次取消
                                         </button>
                                     </li>
@@ -312,13 +286,13 @@
                                     </li>
                                     <li>
                                         <button class="btn  btn-primary btn-white btn-defaultWidth focnt_lockRoom"
-                                                :class="{'btn-gray': !isClick}"
+                                                :disabled="!lockStatus" @click="lockRoom()"
                                                 role="button">鎖定排房
                                         </button>
                                     </li>
                                     <li>
                                         <button class="btn btn-primary btn-white btn-defaultWidth reservationDialog-1"
-                                                :class="{'btn-gray': !isClick}"
+                                                :disabled="!lockStatus" @click="checkRawCode()"
                                                 role="button">訂房卡
                                         </button>
                                     </li>
@@ -394,11 +368,11 @@
             let self = this;
             g_socket.on('checkTableLock', function (result) {
                 if (!result.success) {
-                    self.isClick = false;
+                    self.lockStatus = false;
                     alert(result.errorMsg);
 
                 } else {
-                    self.isClick = true;
+                    self.lockStatus = true;
                     alert(result.success);
                 }
             });
@@ -503,13 +477,17 @@
                     roomStatus: '',
                     roomType: []
                 },
+                //條件選項存放區
                 roomType: ['WWW', "JW", "OSk"],
-                lockStatus: false,
+                ColorList: ['不可排房','修理房間','可排房間','不可移動','今日預定C/O','參觀'],
+                // isLite:true, 要討論未來如何判斷使用版本(lite)
+                //
+                lockStatus: false,//lock有做的話(true)可以按按鈕
                 dgGroup: {},
                 dgDetail: {},
                 dgRoom: {},
 
-                isClick: true,
+                // isClick: true
             };
         },
         methods: {
@@ -684,9 +662,15 @@
             },
 
             chooseRoomType(){
-                console.log("~~~")
                 alert("HI")
             },
+            doAssign(){},
+            doAssignAll(){},
+            doUnassign(){},
+            doUnassignAll(){},
+            lockRoom(){},
+            checkRawCode(){},
+
             /**
              * RowLock
              */
@@ -714,9 +698,3 @@
 
 
 </script>
-
-<!--<style scoped>-->
-<!--.ps__rail-y {-->
-<!--right: 0;-->
-<!--}-->
-<!--</style>-->
