@@ -363,7 +363,7 @@
              * 開啟定備註明細
              */
             r_1015() {
-                let lo_orderRmkFiled = _.where(this.oriOrderMnFieldsData, {ui_field_name: "order_rmk"});
+                let lo_orderRmkFiled = _.findWhere(this.oriOrderMnFieldsData, {ui_field_name: "order_rmk"});
                 var dialog = $("#resvMoreRmks_dialog").removeClass('hide').dialog({
                     modal: true,
                     title: _.isUndefined(lo_orderRmkFiled) ? "" : lo_orderRmkFiled.ui_display_name,
