@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+    <dao name="QRY_ROOM_COLOR">
+        <statement><![CDATA[
+            SELECT NVL( COLOR_NUM, 16777215 )
+            FROM HFD_ROOM_COLOR_RF
+            WHERE ATHENA_ID = :athena_id
+            AND HOTEL_COD = :hotel_cod
+            AND PRO_TYP = 'ASI'
+            AND STATUS_COD = 'FONT'
+        ]]>
+        </statement>
+        <parameter type="number" kind="3">athena_id</parameter>
+        <parameter type="string" kind="3">hotel_cod</parameter>
+    </dao>
+</root>

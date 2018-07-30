@@ -149,7 +149,7 @@
                                                             <span class="ace-icon fa fa-angle-down icon-on-right"></span>
                                                         </button>
                                                         <ul class="dropdown-menu dropdown-info dropdown-menu-right dpUIList">
-                                                            <li v-for="(room, idx) in selectRoomFloor"><a href="#">{{room.value}}F</a></li>
+                                                            <li v-for="(room, idx) in roomFloor"><a href="#">{{room.value}}F</a></li>
                                                             <li><a href="#">ALL</a></li>
                                                             <!--<li class="divider"></li>-->
                                                         </ul>
@@ -170,7 +170,7 @@
                                                 <tbody class="css_tbody">
                                                 <tr class="css_tr" v-for="(room,idx) in roomType"
                                                     @click="chooseRoomType(room.room_cod)">
-                                                    <td class="css_td" :class="{active:room.room_cod === selectRoomCod }"> {{room.room_cod}}</td>
+                                                    <td class="css_td" :class="{active:room.room_cod === selectRoomType }"> {{room.room_cod}}</td>
                                                 </tr>
                                                 </tbody>
                                             </table>
@@ -179,13 +179,13 @@
                                         <div class="tab-content roomAssign-p" style="overflow: hidden;">
                                             <div id="All" class="tab-pane in active"
                                                  style="position: relative;">
-                                                <div class="town-table" v-show="btnList">
+                                                <div class="town-table" v-show="!btnList">
                                                     <div class="townRow easyui-panel">
                                                         <!--高度: townPage 的高度-->
                                                         <table id="townList-table" style="height: 500px;"></table>
                                                     </div>
                                                 </div>
-                                                <div class="town-grap scrollable" v-show="!btnList">
+                                                <div class="town-grap scrollable" v-show="btnList">
                                                     <div class="townPage">
                                                         <div class="townBlock roomAss_detail"
                                                              v-for="(roomDt, index) in roomDtListRowData">
@@ -376,20 +376,36 @@
             });
         },
         async mounted() {
-            await this.fetchSearchFields();
-            let lo_result = await this.fetchRentCalDat();
-            if (lo_result.success) {
-                //this.rentCalDat = moment(lo_result.rent_cal_dat).format('YYYY/MM/DD');
+            // 撈搜尋條件規格
+            let lo_searchFields = await this.fetchSearchFields();
+            if (lo_searchFields.success) {
+                this.searchFields = lo_searchFields.searchFieldsData;
+            } else {
+                alert(lo_searchFields.errorMsg);
+                return;
+            }
+
+            // 撈滾房租日期
+            let lo_rentCalDat = await this.fetchRentCalDat();
+            if (lo_rentCalDat.success) {
+                //this.rentCalDat = moment(lo_rentCalDat.rent_cal_dat).format('YYYY/MM/DD');
                 this.rentCalDat = '2018/06/29';
                 this.searchCond.ci_dat = this.rentCalDat;
                 this.searchCond.co_dat = moment(this.rentCalDat).add(1, 'days').format('YYYY/MM/DD');
 
                 await this.fetchOrderDtData();
                 $("#groupOrderDt_dg").datagrid('selectRow', 0);
-                this.selectDtIndex = 0; //watch selectDtIndex
+                this.selectDtIndex = 0; // watch selectDtIndex
                 // this.doRowLock();
+
+                // 樓層資料 (這個可以拉到最上層)
+                let lo_roomFloor = await this.getRoomFloor();
+                this.roomFloor = lo_roomFloor.effectValues;
+
+                // todo 樓層顏色說明 (目前撈沒資料)
+                this.getRoomColor();
             } else {
-                alert(lo_result.errorMsg);
+                alert(lo_rentCalDat.errorMsg);
             }
         },
         watch: {
@@ -399,18 +415,15 @@
 
                 $("#OrderDtList_dg").datagrid('selectRow', 0);
                 this.selectListIndex = 0; //watch selectListIndex
-                this.selectRoomCod = this.groupOrderDtRowData[this.selectDtIndex].use_cod;
+                this.selectRoomType = this.groupOrderDtRowData[this.selectDtIndex].use_cod;
                 let lsCiDat = moment(this.groupOrderDtRowData[this.selectDtIndex].ci_dat).format('YYYY/MM/DD');
 
                 // 房型種類
                 let lo_roomType = await this.getAllRoomType(lsCiDat);
                 this.roomType = lo_roomType.effectValues;
 
-                // 樓層資料 (這個可以拉到最上層)
-                let lo_roomFloor = await this.getRoomFloor();
-                this.selectRoomFloor = lo_roomFloor.effectValues;
-
-                // this.fetchRoomList();
+                // 清單
+                this.fetchRoomList();
             },
             async selectListIndex(newVal, oldVal) {
                 console.log('訂房明細', newVal, oldVal);
@@ -486,8 +499,8 @@
                 },
                 //條件選項存放區
                 roomType: [],
-                selectRoomCod: '',
-                selectRoomFloor: [],
+                roomFloor: [],
+                selectRoomType: '',
                 ColorList: ['不可排房', '修理房間', '可排房間', '不可移動', '今日預定C/O', '參觀'],
                 // isLite:true, 要討論未來如何判斷使用版本(lite)
                 //
@@ -498,7 +511,9 @@
             };
         },
         methods: {
-            // 撈滾房租日期
+            /**
+             * 撈滾房租日期
+             */
             async fetchRentCalDat() {
                 try {
                     let lo_result = await BacUtils.doHttpPromisePostProxy('/api/qryRentCalDat', {});
@@ -507,16 +522,22 @@
                     throw Error(err);
                 }
             },
-            // 撈搜尋條件規格
+
+            /**
+             * 撈搜尋條件規格
+             */
             async fetchSearchFields() {
                 try {
                     let lo_result = await BacUtils.doHttpPromisePostProxy('/api/fetchOnlySearchFieldsData', {prg_id: gs_prgId});
-                    this.searchFields = lo_result.searchFieldsData;
+                    return lo_result;
                 } catch (err) {
                     throw Error(err);
                 }
             },
-            // 撈訂房多筆
+
+            /**
+             * 撈訂房多筆
+             */
             async fetchOrderDtData() {
                 let searchCond = this.searchCond;
 
@@ -555,7 +576,10 @@
                 });
                 this.dgGroup.loadPageDgData(this.groupOrderDtRowData);
             },
-            // 訂房明細
+
+            /**
+             * 訂房明細
+             */
             async fetchOrderDtList() {
                 if (this.selectDtIndex < 0) {
                     return;
@@ -604,7 +628,16 @@
                 this.dgList.loadPageDgData(this.orderDtListRowData);
             },
 
-            //撈取 排房房間 欄位標題
+            /**
+             * 排房房間 搜尋條件
+             */
+            getSearchCondition() {
+
+            },
+
+            /**
+             * 排房房間 欄位標題
+             */
             async getRoomColumns() {
                 try {
                     const lo_searchCond = this.getSearchCondition();
@@ -625,20 +658,17 @@
                     throw Error(err);
                 }
             },
-            //撈取 排房房間 資料
+
+            /**
+             * 排房房間 資料
+             */
             getRoomData() {
 
             },
 
-            //
-            async fetchRoomList() {
-                await this.getRoomColumns();
-                //this.getRoomData();
-                this.showRoomList();
-            },
-            getSearchCondition() {
-
-            },
+            /**
+             * 顯示排房
+             */
             showRoomList() {
                 this.dgRoom = new DatagridRoomListClass();
                 this.dgRoom.init(gs_prgId, "townList-table", DatagridFieldAdapter.combineFieldOption(this.roomDtListField, "townList-table"), this.roomDtListField, {
@@ -648,7 +678,14 @@
                     pageSize: 20 //一開始只載入20筆資料
                 });
 
-                this.dgRoom.loadPageDgData(this.roomDtListRowData);
+                // this.dgRoom.loadPageDgData(this.roomDtListRowData);
+            },
+
+            //
+            async fetchRoomList() {
+                await this.getRoomColumns();
+                // this.getRoomData();
+                this.showRoomList();
             },
 
             /**
@@ -673,7 +710,7 @@
              * @param room_cod {String} 使用房型
              */
             chooseRoomType(room_cod) {
-                this.selectRoomCod = room_cod;
+                this.selectRoomType = room_cod;
 
                 //todo 重撈資料庫資料
             },
@@ -687,6 +724,22 @@
                 };
                 try {
                     let lo_result = await BacUtils.doHttpPromisePostProxy('/api/queryDataByRule', lo_params);
+                    return lo_result;
+                } catch (err) {
+                    throw Error(err);
+                }
+            },
+
+            /**
+             * 飯店顏色說明
+             */
+            async getRoomColor() {
+                const lo_params = {
+                    rule_func_name: 'getRoomColor',
+                };
+                try {
+                    let lo_result = await BacUtils.doHttpPromisePostProxy('/api/queryDataByRule', lo_params);
+                    console.log(lo_result)
                     return lo_result;
                 } catch (err) {
                     throw Error(err);
