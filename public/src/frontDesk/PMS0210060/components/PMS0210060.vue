@@ -60,6 +60,8 @@
 </template>
 
 <script>
+    Vue.prototype.$eventHub = new Vue();
+
     import pms0210060Dialog from './PMS0210060_dialog';
 
     const gs_prgId = "PMS0210060";
@@ -83,10 +85,60 @@
         name: "PMS0210060",
         components: {pms0210060Dialog},
         created() {
+            const self = this;
+            //選擇到哪筆guest mn
             vmHub.$on("getGuestMnData", async (data) => {
                 this.editingRow = data.orderDtRows;
                 await this.fetchGuestMnValueData();
                 this.showGuestMnDataGrid();
+            });
+
+            //訂房卡關閉後判斷此訂房卡是否有今日入住之訂房資料
+            this.$eventHub.$on("closeOrder", async () => {
+                let lo_param = {
+                    rule_func_name: "r_1010",
+                    rent_cal_dat: this.rentCalDat,
+                    singleRowData: $('#orderDtTable').datagrid('getSelected')
+                };
+                let lo_doChkRule = await BacUtils.doHttpPromisePostProxy("/api/queryDataByRule", lo_param).then(result => {
+                    return result
+                }).catch(err => {
+                    return {success, errorMsg: err}
+                });
+
+                if (lo_doChkRule.success) {
+                    this.showSingleGridDialog();
+                }
+                else {
+                    alert(lo_doChkRule.errorMsg);
+                }
+            });
+
+            //是否lock 訂房卡
+            g_socket.on("checkTableLock", (result) => {
+                if (result.success) {
+                    let lo_editingRow = $('#orderDtTable').datagrid('getSelected');
+                    this.editingRow = lo_editingRow;
+                    let dialog = $('#PMS0210060_dialog').removeClass('hide').dialog({
+                        autoOpen: false,
+                        modal: true,
+                        title: this.isCheckIn ? "Check In" : "取消入住",
+                        width: 1000,
+                        maxwidth: 1920,
+                        minheight: 800,
+                        dialogClass: "test",
+                        resizable: true,
+                        onBeforeClose() {
+                            self.editingRow = {};
+                            self.isCheckIn = undefined;
+                            self.fetchGuestMnFieldData();
+                            self.doUnLock();
+                        }
+                    }).dialog('open');
+                }
+                else {
+                    alert(go_i18nLang.ErrorMsg.pms21msg10);
+                }
             });
         },
         async mounted() {
@@ -252,9 +304,32 @@
                 this.guestMnDgIns.init(gs_prgId, "guestMnTable", DatagridFieldAdapter.combineFieldOption(this.guestMnFieldData, "guestMnTable"), this.guestMnFieldData);
                 this.guestMnDgIns.loadDgData(this.guestMnValueData);
             },
-            r_1010() {
+            /**
+             * 開啟入住畫面
+             * @returns {Promise<void>}
+             */
+            async r_1010() {
                 this.isCheckIn = true;
-                this.showSingleGridDialog();
+                let lo_editRow = $('#orderDtTable').datagrid('getSelected');
+                let lo_ciDat = moment(lo_editRow.ci_dat);
+
+                if (lo_ciDat.isSame(moment(this.rentCalDat))) {
+                    this.showSingleGridDialog();
+                }
+                else {
+                    if (lo_ciDat.isBefore(moment(this.rentCalDat), "days")) {
+                        alert(go_i18nLang.ErrorMsg.pms21msg8)
+                    }
+                    else if (lo_ciDat.isAfter(moment(this.rentCalDat), "days")) {
+                        let lb_conFirm = confirm(go_i18nLang.pragrom.PMS0210060.chkOrder);
+                        if (lb_conFirm) {
+                            this.$eventHub.$emit("openOrder", {
+                                rowData: lo_editRow
+                            });
+                        }
+                    }
+                }
+
             },
             r_1020() {
                 this.isCheckIn = false;
@@ -270,23 +345,24 @@
                     alert(go_i18nLang["SystemCommon"].SelectOneData);
                 }
                 else {
-                    this.editingRow = lo_editingRow;
-                    let dialog = $('#PMS0210060_dialog').removeClass('hide').dialog({
-                        autoOpen: false,
-                        modal: true,
-                        title: this.isCheckIn ? "Check In" : "取消入住",
-                        width: 1000,
-                        maxwidth: 1920,
-                        minheight: 800,
-                        dialogClass: "test",
-                        resizable: true,
-                        onBeforeClose() {
-                            self.editingRow = {};
-                            self.isCheckIn = undefined;
-                            self.fetchGuestMnFieldData();
-                        }
-                    }).dialog('open');
+                    this.doRowLock(gs_prgId, lo_editingRow.ikey);
+
                 }
+            },
+            doRowLock(prg_id, ikey) {
+                var lo_param = {
+                    prg_id: prg_id,
+                    table_name: "cust_mn",
+                    lock_type: "R",
+                    key_cod: ikey.trim()
+                };
+                g_socket.emit('handleTableLock', lo_param);
+            },
+            doUnLock() {
+                var lo_param = {
+                    prg_id: ""
+                };
+                g_socket.emit('handleTableUnlock', lo_param);
             }
         }
     }

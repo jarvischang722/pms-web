@@ -15,6 +15,44 @@ const encryptTools = require("../../../utils/encryptTools");
 
 module.exports = {
     /**
+     * 開啟入住畫面的檢查
+     * 1.關閉訂房卡編輯畫面後判斷此訂房卡是否有今日入住之訂房資料
+     * @param postData
+     * @param session
+     * @param callback
+     */
+    r_1010: async function (postData, session, callback) {
+        let lo_result = new ReturnClass();
+        let lo_error = null;
+
+        let lo_param = {
+            athena_id: session.athena_id,
+            hotel_cod: session.hotel_cod,
+            ikey: postData.singleRowData.ikey,
+            rent_cal_dat: postData.rent_cal_dat
+        };
+
+        let lo_clusterParam = commonRule.ConvertToQueryParams(session.athena_id, "CHK_ORDER_DT_HAVE_TODAY");
+
+        try {
+            let lo_qryData = await getDbData(lo_clusterParam, lo_param);
+            if (lo_qryData.order_count <= 0) {
+                lo_error = new ErrorClass();
+                lo_result.success = false;
+                lo_error.errorMsg = commonRule.getMsgByCod("pms21msg7", session.locale);
+            }
+        }
+        catch (err) {
+            lo_error = new ErrorClass();
+            lo_result.success = false;
+            lo_error.errorMsg = err;
+            console.error(err);
+        }
+
+        callback(lo_error, lo_result);
+    },
+
+    /**
      * 自動生成guest mn 資料
      * @param postData
      * @param session
@@ -144,12 +182,17 @@ module.exports = {
                 let lo_pageData = {
                     "1": {
                         tabs_data: {
-                            "11": {ikey: postData.orderMnData.ikey, co_dat: moment(ls_coDat).format("YYYY/MM/DD")}
+                            "11": {
+                                athena_id: session.user.athena_id,
+                                hotel_cod: session.user.hotel_cod,
+                                ikey: postData.orderMnData.ikey,
+                                co_dat: moment(ls_coDat).format("YYYY/MM/DD"),
+                                ins_usr: session.user.usr_id,
+                            }
                         }
                     }
                 };
 
-                //TODO qname is null
                 let lo_ciMaster = await new Promise((resolve, reject) => {
                     let apiParams = {
                         "REVE-CODE": "PMS0210060",
@@ -159,7 +202,8 @@ module.exports = {
                         "locale": session.locale,
                         "athena_id": session.user.athena_id,
                         "hotel_cod": session.user.hotel_cod,
-                        "page_data": lo_pageData
+                        "page_data": lo_pageData,
+                        "event_time": moment().format()
                     };
                     tools.requestApi(sysConf.api_url.java, apiParams, function (apiErr, apiRes, data) {
                         if (apiErr || !data) {

@@ -413,4 +413,22 @@
         <parameter type="string" kind="3">ikey</parameter>
     </dao>
 
+    <!--判斷訂房卡是否有今日入住訂房資料-->
+    <dao name="CHK_ORDER_DT_HAVE_TODAY">
+        <statement><![CDATA[
+        SELECT COUNT(*) as order_count
+        FROM ORDER_DT
+        WHERE ATHENA_ID = :athena_id
+        AND HOTEL_COD = :hotel_cod
+        AND IKEY = :ikey
+        AND CI_DAT = to_dat(:rent_cal_dat, 'YYYY/MM/DD')
+        AND ORDER_STA IN ( 'N', 'I' )
+        ]]>
+        </statement>
+        <parameter type="number" kind="3">athena_id</parameter>
+        <parameter type="string" kind="3">hotel_cod</parameter>
+        <parameter type="string" kind="3">ikey</parameter>
+        <parameter type="string" kind="3">rent_cal_dat</parameter>
+    </dao>
+
 </root>

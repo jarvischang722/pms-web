@@ -235,8 +235,6 @@
 </template>
 
 <script>
-    Vue.prototype.$eventHub = new Vue();
-
     import _s from 'underscore.string';
     import pms0110041Lite from '../../../reservation/PMS0110040/components/PMS0110041_LITE'
 
@@ -246,6 +244,26 @@
         name: "PMS0210060_dialog",
         props: ["rowData", "isCheckIn"],
         components: {pms0110041Lite},
+        created() {
+            let self = this;
+            this.$eventHub.$on("openOrder", (data) => {
+                this.editingOrderMnData = JSON.parse(JSON.stringify(data.rowData));
+                let dialog = $('#PMS0110041Lite').removeClass('hide').dialog({
+                    autoOpen: false,
+                    modal: true,
+                    title: '訂房卡',
+                    width: 1000,
+                    maxHeight: 1920,
+                    resizable: true,
+                    onBeforeClose() {
+                        self.editingOrderMnData = {};
+                        self.$eventHub.$emit("clearData");
+                        self.$eventHub.$emit("closeOrder")
+                    }
+                });
+                dialog.dialog('open');
+            });
+        },
         mounted() {
         },
         data() {
@@ -505,7 +523,6 @@
                         }
                         else {
                             lo_return.success = false;
-                            lo_return.errorMsg = "error";
                         }
                     }
                 }
@@ -538,8 +555,10 @@
                     alert(lo_validate.errorMsg);
                 }
 
-                this.isLoading = false;
-                this.loadingText = "loading...";
+                setTimeout(() => {
+                    this.isLoading = false;
+                    this.loadingText = "loading...";
+                }, 100);
             },
             /**
              *取消入住
@@ -575,23 +594,24 @@
                     lo_tmpCUD.oriData.push(_.extend(lo_guestData, {page_id: page_id, tab_page_id: 12}));
                 });
 
-                let lo_save = await new Promise((resolve, reject) => {
-                    setTimeout(() => {
-                        resolve({success: false, errorMsg: "test"});
-                    }, 500);
-                });
+                let lo_save = await
+                    //     new Promise((resolve, reject) => {
+                    //     setTimeout(() => {
+                    //         resolve({success: false, errorMsg: "test"});
+                    //     }, 500);
+                    // });
 
-                // BacUtils.doHttpPromisePostProxy('/api/execNewFormatSQL', {
-                //     prg_id: gs_prgId,
-                //     page_id: page_id,
-                //     func_id: func_id,
-                //     tmpCUD: lo_tmpCUD
-                // }).then(
-                //     result => {
-                //         return (result);
-                //     }).catch(err => {
-                //     return {success: false, errorMsg: err};
-                // });
+                    BacUtils.doHttpPromisePostProxy('/api/execNewFormatSQL', {
+                        prg_id: gs_prgId,
+                        page_id: page_id,
+                        func_id: func_id,
+                        tmpCUD: lo_tmpCUD
+                    }).then(
+                        result => {
+                            return (result);
+                        }).catch(err => {
+                        return {success: false, errorMsg: err};
+                    });
 
                 return lo_save;
             },
