@@ -51,7 +51,6 @@ module.exports = {
 
         callback(lo_error, lo_result);
     },
-
     /**
      * 自動生成guest mn 資料
      * @param postData

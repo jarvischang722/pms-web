@@ -421,7 +421,7 @@
         WHERE ATHENA_ID = :athena_id
         AND HOTEL_COD = :hotel_cod
         AND IKEY = :ikey
-        AND CI_DAT = to_dat(:rent_cal_dat, 'YYYY/MM/DD')
+        AND CI_DAT = to_date(:rent_cal_dat, 'YYYY/MM/DD')
         AND ORDER_STA IN ( 'N', 'I' )
         ]]>
         </statement>

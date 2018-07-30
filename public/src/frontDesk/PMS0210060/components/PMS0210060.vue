@@ -117,6 +117,7 @@
             //是否lock 訂房卡
             g_socket.on("checkTableLock", (result) => {
                 if (result.success) {
+                    this.isCheckIn = true;
                     let lo_editingRow = $('#orderDtTable').datagrid('getSelected');
                     this.editingRow = lo_editingRow;
                     let dialog = $('#PMS0210060_dialog').removeClass('hide').dialog({
@@ -309,7 +310,6 @@
              * @returns {Promise<void>}
              */
             async r_1010() {
-                this.isCheckIn = true;
                 let lo_editRow = $('#orderDtTable').datagrid('getSelected');
                 let lo_ciDat = moment(lo_editRow.ci_dat);
 
@@ -321,7 +321,7 @@
                         alert(go_i18nLang.ErrorMsg.pms21msg8)
                     }
                     else if (lo_ciDat.isAfter(moment(this.rentCalDat), "days")) {
-                        let lb_conFirm = confirm(go_i18nLang.pragrom.PMS0210060.chkOrder);
+                        let lb_conFirm = confirm(go_i18nLang.program.PMS0210060.chkOrder);
                         if (lb_conFirm) {
                             this.$eventHub.$emit("openOrder", {
                                 rowData: lo_editRow
@@ -352,7 +352,7 @@
             doRowLock(prg_id, ikey) {
                 var lo_param = {
                     prg_id: prg_id,
-                    table_name: "cust_mn",
+                    table_name: "order_mn",
                     lock_type: "R",
                     key_cod: ikey.trim()
                 };
