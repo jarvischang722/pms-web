@@ -392,8 +392,6 @@
                 console.log('訂房多筆', newV, oldV);
                 await this.queryOrderDtList();
 
-                $("#OrderDtList_dg").datagrid('selectRow', 0);
-                this.selectListIndex = 0; //watch selectListIndex
                 this.selectRoomType = this.groupOrderDtRowData[this.selectDtIndex].use_cod;
                 let lsCiDat = moment(this.groupOrderDtRowData[this.selectDtIndex].ci_dat).format('YYYY/MM/DD');
 
