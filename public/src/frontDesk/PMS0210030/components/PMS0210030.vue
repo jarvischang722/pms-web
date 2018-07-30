@@ -707,6 +707,12 @@
             async queryOrderDtList() {
                 let ln_OrderDtListLength = await this.fetchOrderDtListData();
                 this.showOrderDtList();
+
+                // Lock 第一筆資料
+                if (ln_OrderDtListLength > 0) {
+                    $("#OrderDtList_dg").datagrid('selectRow', 0);
+                    this.selectListIndex = 0; // watch selectDtIndex
+                }
             },
 
             /**
