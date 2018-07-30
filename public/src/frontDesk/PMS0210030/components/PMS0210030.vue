@@ -382,6 +382,10 @@
                     alert(result.success);
                 }
             });
+
+            this.dgGroup = new DatagridGroupClass();
+            this.dgList = new DatagridOrderListClass();
+            this.dgRoom = new DatagridRoomListClass();
         },
         async mounted() {
             // 初始化頁面
@@ -390,20 +394,17 @@
         watch: {
             async selectDtIndex(newV, oldV) {
                 console.log('訂房多筆', newV, oldV);
+                // 房型種類
+                let ls_ciDat = moment(this.groupOrderDtRowData[this.selectDtIndex].ci_dat).format('YYYY/MM/DD');
+                let lo_roomType = await this.getAllRoomType(ls_ciDat);
+                this.roomType = lo_roomType.effectValues;
+                this.selectRoomType = this.groupOrderDtRowData[this.selectDtIndex].use_cod;
+
+                // 產生 [訂房明細] DataGrid 資料
                 await this.queryOrderDtList();
 
-                this.selectRoomType = this.groupOrderDtRowData[this.selectDtIndex].use_cod;
-                let lsCiDat = moment(this.groupOrderDtRowData[this.selectDtIndex].ci_dat).format('YYYY/MM/DD');
-
-                // 房型種類
-                let lo_roomType = await this.getAllRoomType(lsCiDat);
-                this.roomType = lo_roomType.effectValues;
-
-                // 清單
-                await this.getRoomColumns();
+                // 排房房間 資料 （todo...）
                 await this.getRoomData();
-                this.showRoomList();
-                // this.fetchRoomList();
             },
             async selectListIndex(newVal, oldVal) {
                 console.log('訂房明細', newVal, oldVal);
@@ -517,12 +518,14 @@
                     return;
                 }
 
+                // 產生 [訂房多筆] [訂房明細] [排房房間] DataGrid 欄位
+                let lb_success = await this.queryField();
+                if (!lb_success) {
+                    alert('欄位資料有誤');
+                    return;
+                }
 
-                // todo 產生欄位 (之後包起來)
-                await this.fetchGroupOrderDtField();
-                await this.fetchOrderDtListField();
-
-                // 產生 [訂房多筆] 資料，並且用 DataGrid繫結
+                // 產生 [訂房多筆] DataGrid 資料
                 await this.queryGroupOrderDtRowData();
 
                 // 樓層資料 (固定的資料，只在初始化頁面時候撈取)
@@ -558,25 +561,50 @@
             },
 
             /**
-             * 訂房多筆
+             * 產生 [訂房多筆] [訂房明細] [排房房間] DataGrid 欄位
              */
-            // 處理 [訂房多筆]
-            async queryGroupOrderDtRowData() {
+            async queryField() {
                 try {
-                    let ln_groupOrderDtRowDataLength = await this.fetchGroupOrderDtRowData();
-                    this.showAllOrderDts();
+                    await this.fetchGroupOrderDtField();
+                    await this.fetchOrderDtListField();
+                    await this.getRoomColumns();
 
-                    // Lock 第一筆資料
-                    if (ln_groupOrderDtRowDataLength > 0) {
-                        $("#groupOrderDt_dg").datagrid('selectRow', 0);
-                        this.selectDtIndex = 0; // watch selectDtIndex
-                        this.doRowLock();
+                    if ( (this.groupOrderDtField.length !== 0)
+                        && (this.orderDtListField.length !== 0)
+                        && (this.roomDtListField.length !== 0)
+                    ) {
+                        this.dgGroup.init(gs_prgId, "groupOrderDt_dg", DatagridFieldAdapter.combineFieldOption(this.groupOrderDtField, "groupOrderDt_dg"), this.groupOrderDtField, {
+                            singleSelect: true,
+                            pagination: false,
+                            rownumbers: true,
+                            pageSize: 20 //一開始只載入20筆資料
+                        });
+                        this.dgList.init(gs_prgId, "OrderDtList_dg", DatagridFieldAdapter.combineFieldOption(this.orderDtListField, "OrderDtList_dg"), this.orderDtListField, {
+                            singleSelect: true,
+                            pagination: false,
+                            rownumbers: true,
+                            pageSize: 20
+                        });
+                        this.dgRoom.init(gs_prgId, "townList-table", DatagridFieldAdapter.combineFieldOption(this.roomDtListField, "townList-table"), this.roomDtListField, {
+                            singleSelect: true,
+                            pagination: false,
+                            rownumbers: true,
+                            pageSize: 20 //一開始只載入20筆資料
+                        });
+                        return true;
+                    } else {
+                        return false;
                     }
                 } catch (err) {
-                    throw Error(err);
+                    throw Error(err)
                 }
             },
-            // subFunction 單純撈 [訂房多筆] 欄位
+
+            //region [訂房多筆]
+            /**
+             * 訂房多筆
+             */
+            // 單純撈 [訂房多筆] 欄位
             async fetchGroupOrderDtField() {
                 try {
                     let searchCond = this.searchCond;
@@ -599,7 +627,7 @@
                     throw Error(err);
                 }
             },
-            // subFunction 單純撈 [訂房多筆] 資料
+            // 單純撈 [訂房多筆] 資料
             async fetchGroupOrderDtRowData() {
                 try {
                     console.log(this.searchCond);
@@ -624,21 +652,29 @@
                     throw Error(err);
                 }
             },
-            // subFunction 顯示 [訂房多筆] 欄位 + 資料
-            showAllOrderDts() {
-                this.dgGroup = new DatagridGroupClass();
-                this.dgGroup.init(gs_prgId, "groupOrderDt_dg", DatagridFieldAdapter.combineFieldOption(this.groupOrderDtField, "groupOrderDt_dg"), this.groupOrderDtField, {
-                    singleSelect: true,
-                    pagination: false,
-                    rownumbers: true,
-                    pageSize: 20 //一開始只載入20筆資料
-                });
-                this.dgGroup.loadPageDgData(this.groupOrderDtRowData);
-            },
+            // 產生 [訂房多筆] DataGrid 資料
+            async queryGroupOrderDtRowData() {
+                try {
+                    let ln_groupOrderDtRowDataLength = await this.fetchGroupOrderDtRowData();
+                    this.dgGroup.loadPageDgData(this.groupOrderDtRowData);
 
+                    // Lock 第一筆資料
+                    if (ln_groupOrderDtRowDataLength > 0) {
+                        $("#groupOrderDt_dg").datagrid('selectRow', 0);
+                        this.selectDtIndex = 0; // watch selectDtIndex
+                        this.doRowLock();
+                    }
+                } catch (err) {
+                    throw Error(err);
+                }
+            },
+            //endregion
+
+            //region [訂房明細]
             /**
              * 訂房明細
              */
+            // 單純撈 [訂房明細] 欄位
             async fetchOrderDtListField() {
                 try {
                     const lo_params = {
@@ -659,6 +695,7 @@
                     throw Error(err);
                 }
             },
+            // 單純撈 [訂房明細] 欄位
             async fetchOrderDtListData() {
                 if (this.selectDtIndex < 0) {
                     return;
@@ -692,19 +729,10 @@
                     alert(lo_result.errorMsg);
                 }
             },
-            showOrderDtList() {
-                this.dgList = new DatagridOrderListClass();
-                this.dgList.init(gs_prgId, "OrderDtList_dg", DatagridFieldAdapter.combineFieldOption(this.orderDtListField, "OrderDtList_dg"), this.orderDtListField, {
-                    singleSelect: true,
-                    pagination: false,
-                    rownumbers: true,
-                    pageSize: 20
-                });
-                this.dgList.loadPageDgData(this.orderDtListRowData);
-            },
+            // 產生 [訂房明細] DataGrid 資料
             async queryOrderDtList() {
                 let ln_OrderDtListLength = await this.fetchOrderDtListData();
-                this.showOrderDtList();
+                this.dgList.loadPageDgData(this.orderDtListRowData);
 
                 // Lock 第一筆資料
                 if (ln_OrderDtListLength > 0) {
@@ -712,17 +740,17 @@
                     this.selectListIndex = 0; // watch selectDtIndex
                 }
             },
+            //endregion
 
+            //region [排房房間]
             /**
-             * 排房房間 搜尋條件
+             * 排房房間
              */
+            // 排房房間 搜尋條件
             getSearchCondition() {
 
             },
-
-            /**
-             * 排房房間 欄位標題
-             */
+            // 單純撈 [排房房間] 欄位
             async getRoomColumns() {
                 try {
                     const lo_searchCond = this.getSearchCondition();
@@ -743,10 +771,7 @@
                     throw Error(err);
                 }
             },
-
-            /**
-             * 排房房間 資料
-             */
+            // 單純撈 [排房房間] 資料
             async getRoomData() {
                 try {
                     const lo_params = {
@@ -768,31 +793,10 @@
                     throw Error(err);
                 }
             },
+            //todo...
+            //endregion
 
-            /**
-             * 顯示排房
-             */
-            showRoomList() {
-                this.dgRoom = new DatagridRoomListClass();
-                this.dgRoom.init(gs_prgId, "townList-table", DatagridFieldAdapter.combineFieldOption(this.roomDtListField, "townList-table"), this.roomDtListField, {
-                    singleSelect: true,
-                    pagination: false,
-                    rownumbers: true,
-                    pageSize: 20 //一開始只載入20筆資料
-                });
-
-                // this.dgRoom.loadPageDgData(this.roomDtListRowData);
-            },
-
-            /**
-             * 顯示
-             */
-            async fetchRoomList() {
-                // await this.getRoomColumns();
-                // this.getRoomData();
-                // this.showRoomList();
-            },
-
+            //region [房間類型]
             /**
              * 撈房間類型
              * @param ci_dat {String} 查詢開始日期 format格式
@@ -806,6 +810,7 @@
                     let lo_result = await BacUtils.doHttpPromisePostProxy('/api/queryDataByRule', lo_params);
                     return lo_result;
                 } catch (err) {
+                    console.log(err)
                     throw Error(err);
                 }
             },
@@ -819,7 +824,9 @@
 
                 //todo 重撈資料庫資料
             },
+            //endregion
 
+            //region [飯店樓層]
             /**
              * 樓層選項
              */
@@ -851,6 +858,7 @@
                     }
                 }
             },
+            //endregion
 
             /**
              * 飯店顏色說明
@@ -867,20 +875,27 @@
                 }
             },
 
+            // 選擇的排房房間
             chooseRoomDt(roomDt) {
                 console.log(roomDt)
             },
 
+            // 排房
             doAssign() {
             },
+            // 批次排房
             doAssignAll() {
             },
+            // 取消排房
             doUnassign() {
             },
+            // 批次取消
             doUnassignAll() {
             },
+            // 鎖定排房
             lockRoom() {
             },
+            // 訂房卡
             checkRawCode() {
             },
             // 切換模式 (圖形/清單)
@@ -899,7 +914,6 @@
                 };
                 g_socket.emit('handleTableLock', lo_param);
             },
-
             /**
              * RowUnLock
              */
