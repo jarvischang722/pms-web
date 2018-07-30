@@ -292,7 +292,6 @@
             AND ORDER_MN.ATHENA_ID = :athena_id
             AND ORDER_MN.HOTEL_COD = :hotel_cod
             AND ORDER_DT.CI_DAT = :ci_dat
-            AND ORDER_DT.CO_DAT = :co_dat
         ]]>
         </statement>
         <parameter type="number" kind="3">athena_id</parameter>
@@ -300,7 +299,6 @@
         <parameter type="string" kind="3">ikey</parameter>
         <statement test="_v(param.ikey)"><![CDATA[ AND ORDER_DT.IKEY = :ikey]]></statement>
         <parameter type="date" kind="3">ci_dat</parameter>
-        <parameter type="date" kind="3">co_dat</parameter>
         <groupby>
             GROUP BY ORDER_DT.IKEY,
             ORDER_DT.ORDER_STA,
