@@ -38,6 +38,9 @@ module.exports = {
                     lo_error.errorMsg = err;
                 }
                 else {
+                    result.push({room_cod: 'ALL', view_seq: -1});
+                    result = _.sortBy(result, 'view_seq');
+
                     lo_return.success = true;
                     lo_return.effectValues = result;
                 }
@@ -77,10 +80,11 @@ module.exports = {
                 else {
                     result = result.map(lo_data => {
                         lo_data.value = parseInt(lo_data.value);
-                        lo_data.display = parseInt(lo_data.display);
+                        lo_data.display = parseInt(lo_data.display) + "F";
                         return lo_data;
                     });
-                    result = _.sortBy(result, 'value');
+                    result.push({value: -1, display: "ALL"});
+                    result = _.sortBy(result, "value");
 
                     lo_return.success = true;
                     lo_return.effectValues = result;
@@ -130,5 +134,44 @@ module.exports = {
             lo_error.errorMsg = err;
             lo_return.success = false;
         }
+    },
+
+    fetchRoomData: function (params, session, callback) {
+        let apiParams = {
+            "REVE-CODE": "PMS0210030",
+            "prg_id": "PMS0210030",
+            "athena_id": session.athena_id,
+            "hotel_cod": session.hotel_cod,
+            "func_id": "2010",
+            "client_ip": "",
+            "locale": "zh_TW",
+
+            "usr_id": session.user.usr_id,
+            "socket_id": "",
+            "begin_dat": params.ci_dat,
+            "end_dat": params.co_dat,
+            "room_cod": params.room_cod,
+            "character_rmk": params.character_rmk,
+            "build_nos": params.build_nos,
+            "floor_nos": params.floor_nos,
+            "bed_sta": params.bed_sta,
+            "can_assign": params.can_assign
+        };
+
+        tools.requestApi(sysConf.api_url.java, apiParams, function (apiErr, apiRes, data) {
+            let success = true;
+            let errorMsg = "";
+            if (apiErr || !data) {
+                success = false;
+                errorMsg = apiErr;
+            } else if (data["RETN-CODE"] != "0000") {
+                success = false;
+                errorMsg = data["RETN-CODE-DESC"] || '發生錯誤';
+                console.error(data["RETN-CODE-DESC"]);
+            } else {
+                errorMsg = data["RETN-CODE-DESC"];
+            }
+            callback(errorMsg, success, data);
+        });
     }
 };

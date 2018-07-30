@@ -149,8 +149,11 @@
                                                             <span class="ace-icon fa fa-angle-down icon-on-right"></span>
                                                         </button>
                                                         <ul class="dropdown-menu dropdown-info dropdown-menu-right dpUIList">
-                                                            <li v-for="(room, idx) in roomFloor"><a href="#">{{room.value}}F</a></li>
-                                                            <li><a href="#">ALL</a></li>
+                                                            <li v-for="(room, idx) in roomFloor"
+                                                                @click="chooseRoomFloor(room.value)"
+                                                            >
+                                                                <a href="#">{{room.display}}</a>
+                                                            </li>
                                                             <!--<li class="divider"></li>-->
                                                         </ul>
                                                     </div>
@@ -423,7 +426,10 @@
                 this.roomType = lo_roomType.effectValues;
 
                 // 清單
-                this.fetchRoomList();
+                await this.getRoomColumns();
+                await this.getRoomData();
+                this.showRoomList();
+                // this.fetchRoomList();
             },
             async selectListIndex(newVal, oldVal) {
                 console.log('訂房明細', newVal, oldVal);
@@ -501,6 +507,7 @@
                 roomType: [],
                 roomFloor: [],
                 selectRoomType: '',
+                selectRoomFloor: [],
                 ColorList: ['不可排房', '修理房間', '可排房間', '不可移動', '今日預定C/O', '參觀'],
                 // isLite:true, 要討論未來如何判斷使用版本(lite)
                 //
@@ -536,7 +543,7 @@
             },
 
             /**
-             * 撈訂房多筆
+             * 訂房多筆
              */
             async fetchOrderDtData() {
                 let searchCond = this.searchCond;
@@ -662,8 +669,26 @@
             /**
              * 排房房間 資料
              */
-            getRoomData() {
+            async getRoomData() {
+                try {
+                    const lo_params = {
+                        rule_func_name: 'fetchRoomData',
 
+                        ci_dat: this.searchCond.ci_dat,
+                        co_dat: this.searchCond.co_dat,
+                        room_cod: this.selectRoomType,
+                        character_rmk: "",
+                        build_nos: "",
+                        floor_nos: this.selectRoomFloor,
+                        bed_sta: "",
+                        can_assign: "N"
+                    };
+
+                    let lo_result = await BacUtils.doHttpPromisePostProxy('/api/queryDataByRule', lo_params);
+                    return lo_result;
+                } catch (err) {
+                    throw Error(err);
+                }
             },
 
             /**
@@ -681,11 +706,13 @@
                 // this.dgRoom.loadPageDgData(this.roomDtListRowData);
             },
 
-            //
+            /**
+             * 顯示
+             */
             async fetchRoomList() {
-                await this.getRoomColumns();
+                // await this.getRoomColumns();
                 // this.getRoomData();
-                this.showRoomList();
+                // this.showRoomList();
             },
 
             /**
@@ -718,7 +745,7 @@
             /**
              * 樓層選項
              */
-            async getRoomFloor() {
+            async getRoomFloor(room_floor) {
                 const lo_params = {
                     rule_func_name: 'getRoomMnQryFloorNos',
                 };
@@ -731,6 +758,23 @@
             },
 
             /**
+             * 選擇樓層選項
+             */
+            chooseRoomFloor(room_floor) {
+                if (room_floor === -1) {
+                    this.selectRoomFloor.length = 0;
+                    this.selectRoomFloor.push('');
+                } else {
+                    let isExtend = _.indexOf(this.selectRoomType, room_floor);
+                    if (isExtend === -1) {
+                        this.selectRoomFloor.push(room_floor);
+                    } else {
+                        this.selectRoomFloor.splice(isExtend, 1);
+                    }
+                }
+            },
+
+            /**
              * 飯店顏色說明
              */
             async getRoomColor() {
@@ -739,7 +783,6 @@
                 };
                 try {
                     let lo_result = await BacUtils.doHttpPromisePostProxy('/api/queryDataByRule', lo_params);
-                    console.log(lo_result)
                     return lo_result;
                 } catch (err) {
                     throw Error(err);
