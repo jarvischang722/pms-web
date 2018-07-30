@@ -56,7 +56,8 @@
                                         <ul>
                                             <!--顏色對應方式??-->
                                             <li v-for="(textDetail,idx) in ColorList">
-                                                <div class="square-color pull-left" :class="'roomAsg-status-'+(idx+1)"></div>
+                                                <div class="square-color pull-left"
+                                                     :class="'roomAsg-status-'+(idx+1)"></div>
                                                 <div class="pull-left">{{textDetail}}</div>
                                                 <div class="clearfix"></div>
                                             </li>
@@ -70,7 +71,7 @@
                                                      type="checkbox" checked
                                                      class="ace">
                                               <span class="lbl">
-                                                  <span class="subtxt" >可排房</span>
+                                                  <span class="subtxt">可排房</span>
                                               </span>
                                           </label>
                                     </span>
@@ -148,15 +149,9 @@
                                                             <span class="ace-icon fa fa-angle-down icon-on-right"></span>
                                                         </button>
                                                         <ul class="dropdown-menu dropdown-info dropdown-menu-right dpUIList">
-                                                            <li><a href="#">1F</a></li>
-
-                                                            <li><a href="#">2F</a></li>
-
-                                                            <li><a href="#">3F</a></li>
+                                                            <li v-for="(room, idx) in selectRoomFloor"><a href="#">{{room.value}}F</a></li>
                                                             <li><a href="#">ALL</a></li>
-
                                                             <!--<li class="divider"></li>-->
-
                                                         </ul>
                                                     </div>
                                                 </div>
@@ -174,8 +169,8 @@
                                             <table class="css_table horizTable center table-lg width-100 rm-table-s ">
                                                 <tbody class="css_tbody">
                                                 <tr class="css_tr" v-for="(room,idx) in roomType"
-                                                    @click="chooseRoomType">
-                                                    <td class="css_td" :class="{active:idx ==1}"> {{room}}</td>
+                                                    @click="chooseRoomType(room.room_cod)">
+                                                    <td class="css_td" :class="{active:room.room_cod === selectRoomCod }"> {{room.room_cod}}</td>
                                                 </tr>
                                                 </tbody>
                                             </table>
@@ -229,17 +224,17 @@
                                             </div>
                                             <div id="SPR" class="tab-pane">
                                                 <p>Etsy mixtape wayfarers, ethical wes anderson tofu before they
-                                sold out mcsweeney's organic lomo retro fanny pack lo-fi
-                                farm-to-table readymade.</p>
+                                                    sold out mcsweeney's organic lomo retro fanny pack lo-fi
+                                                    farm-to-table readymade.</p>
                                                 <p>Raw denim you probably haven't heard of them jean shorts
-                                Austin.</p>
+                                                    Austin.</p>
                                             </div>
                                             <div id="DXK" class="tab-pane">
                                                 <p>Etsy mixtape wayfarers, ethical wes anderson tofu before they
-                                sold out mcsweeney's organic lomo retro fanny pack lo-fi
-                                farm-to-table readymade.</p>
+                                                    sold out mcsweeney's organic lomo retro fanny pack lo-fi
+                                                    farm-to-table readymade.</p>
                                                 <p>Raw denim you probably haven't heard of them jean shorts
-                                Austin.</p>
+                                                    Austin.</p>
                                             </div>
                                         </div>
                                     </div>
@@ -258,7 +253,7 @@
                                     <li>
                                         <button class="btn btn-primary btn-white btn-defaultWidth"
                                                 :disabled="!lockStatus" @click="doAssign()"
-                                                role="button" >排房
+                                                role="button">排房
                                         </button>
                                     </li>
                                     <li>
@@ -323,6 +318,7 @@
     // 訂房多筆
     function DatagridGroupClass() {
     }
+
     DatagridGroupClass.prototype = new DatagridBaseClass();
     DatagridGroupClass.prototype.onClickCell = function (idx, row) {
         vmHub.$emit("setGroupOrderDt", {row: row, index: idx});
@@ -333,6 +329,7 @@
     // 訂房明細 List
     function DatagridOrderListClass() {
     }
+
     DatagridOrderListClass.prototype = new DatagridBaseClass();
     DatagridOrderListClass.prototype.onClickCell = function (idx, row) {
         vmHub.$emit("setOrderDt", {row: row, index: idx});
@@ -343,6 +340,7 @@
     // 排房房間
     function DatagridRoomListClass() {
     }
+
     DatagridRoomListClass.prototype = new DatagridBaseClass();
     DatagridRoomListClass.prototype.onClickCell = function (idx, row) {
         vmHub.$emit("setRoomDt", {row: row, index: idx});
@@ -389,8 +387,7 @@
                 await this.fetchOrderDtData();
                 $("#groupOrderDt_dg").datagrid('selectRow', 0);
                 this.selectDtIndex = 0; //watch selectDtIndex
-                this.doRowLock();
-
+                // this.doRowLock();
             } else {
                 alert(lo_result.errorMsg);
             }
@@ -402,8 +399,18 @@
 
                 $("#OrderDtList_dg").datagrid('selectRow', 0);
                 this.selectListIndex = 0; //watch selectListIndex
-                this.getAllRoomType();
-                this.fetchRoomList();
+                this.selectRoomCod = this.groupOrderDtRowData[this.selectDtIndex].use_cod;
+                let lsCiDat = moment(this.groupOrderDtRowData[this.selectDtIndex].ci_dat).format('YYYY/MM/DD');
+
+                // 房型種類
+                let lo_roomType = await this.getAllRoomType(lsCiDat);
+                this.roomType = lo_roomType.effectValues;
+
+                // 樓層資料 (這個可以拉到最上層)
+                let lo_roomFloor = await this.getRoomFloor();
+                this.selectRoomFloor = lo_roomFloor.effectValues;
+
+                // this.fetchRoomList();
             },
             async selectListIndex(newVal, oldVal) {
                 console.log('訂房明細', newVal, oldVal);
@@ -418,7 +425,7 @@
                 rentCalDat: '',
                 //訂房多筆
                 groupOrderDtField: [],
-                groupOrderDtRowData:[],
+                groupOrderDtRowData: [],
                 selectDtIndex: -1,
 
                 //訂房明細
@@ -478,16 +485,16 @@
                     roomType: []
                 },
                 //條件選項存放區
-                roomType: ['WWW', "JW", "OSk"],
-                ColorList: ['不可排房','修理房間','可排房間','不可移動','今日預定C/O','參觀'],
+                roomType: [],
+                selectRoomCod: '',
+                selectRoomFloor: [],
+                ColorList: ['不可排房', '修理房間', '可排房間', '不可移動', '今日預定C/O', '參觀'],
                 // isLite:true, 要討論未來如何判斷使用版本(lite)
                 //
                 lockStatus: false,//lock有做的話(true)可以按按鈕
                 dgGroup: {},
                 dgDetail: {},
                 dgRoom: {},
-
-                // isClick: true
             };
         },
         methods: {
@@ -511,7 +518,7 @@
             },
             // 撈訂房多筆
             async fetchOrderDtData() {
-                let searchCond =this.searchCond;
+                let searchCond = this.searchCond;
 
                 try {
                     const lo_params = {
@@ -586,7 +593,7 @@
                     alert(lo_result.errorMsg);
                 }
             },
-            showOrderDtList(){
+            showOrderDtList() {
                 this.dgList = new DatagridOrderListClass();
                 this.dgList.init(gs_prgId, "OrderDtList_dg", DatagridFieldAdapter.combineFieldOption(this.orderDtListField, "OrderDtList_dg"), this.orderDtListField, {
                     singleSelect: true,
@@ -622,15 +629,17 @@
             getRoomData() {
 
             },
+
+            //
             async fetchRoomList() {
                 await this.getRoomColumns();
-//                this.getRoomData();
+                //this.getRoomData();
                 this.showRoomList();
             },
-            getSearchCondition(){
+            getSearchCondition() {
 
             },
-            showRoomList () {
+            showRoomList() {
                 this.dgRoom = new DatagridRoomListClass();
                 this.dgRoom.init(gs_prgId, "townList-table", DatagridFieldAdapter.combineFieldOption(this.roomDtListField, "townList-table"), this.roomDtListField, {
                     singleSelect: true,
@@ -642,35 +651,64 @@
                 this.dgRoom.loadPageDgData(this.roomDtListRowData);
             },
 
-            // 撈房間類型
-            async getAllRoomType() {
+            /**
+             * 撈房間類型
+             * @param ci_dat {String} 查詢開始日期 format格式
+             */
+            async getAllRoomType(ci_dat) {
                 const lo_params = {
-                    rule_func_name: 'QRY_DETAIL_ORDER_DT',
-                    ci_dat: '2018/06/29'
+                    rule_func_name: 'getRoomType',
+                    ci_dat: ci_dat
                 };
                 try {
                     let lo_result = await BacUtils.doHttpPromisePostProxy('/api/queryDataByRule', lo_params);
-                    console.log(lo_result)
                     return lo_result;
                 } catch (err) {
                     throw Error(err);
                 }
             },
+
+            /**
+             * 選擇房間類型
+             * @param room_cod {String} 使用房型
+             */
+            chooseRoomType(room_cod) {
+                this.selectRoomCod = room_cod;
+
+                //todo 重撈資料庫資料
+            },
+
+            /**
+             * 樓層選項
+             */
+            async getRoomFloor() {
+                const lo_params = {
+                    rule_func_name: 'getRoomMnQryFloorNos',
+                };
+                try {
+                    let lo_result = await BacUtils.doHttpPromisePostProxy('/api/queryDataByRule', lo_params);
+                    return lo_result;
+                } catch (err) {
+                    throw Error(err);
+                }
+            },
+
+            doAssign() {
+            },
+            doAssignAll() {
+            },
+            doUnassign() {
+            },
+            doUnassignAll() {
+            },
+            lockRoom() {
+            },
+            checkRawCode() {
+            },
             // 切換模式 (圖形/清單)
             changeRoomDataType() {
-              this.btnList = !this.btnList;
+                this.btnList = !this.btnList;
             },
-
-            chooseRoomType(){
-                alert("HI")
-            },
-            doAssign(){},
-            doAssignAll(){},
-            doUnassign(){},
-            doUnassignAll(){},
-            lockRoom(){},
-            checkRawCode(){},
-
             /**
              * RowLock
              */
