@@ -628,22 +628,8 @@
                                                :class="{'input_sta_required' : field.requirable == 'Y'}"
                                                :disabled="field.modificable == 'N'||
                                                    (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)">
-                                        <!--<select class="input-medium medium-c3-col2">-->
-                                        <!--<option value="1">0001/TYPHOON 颱風:天候因素/Y:是</option>-->
-                                        <!--<option value="2">0002/DOUBLE BOOKING 重複訂房TEST/N:否</option>-->
-                                        <!--<option value="2">0003/CHANGE SCHEDULE 改行程/N:否</option>-->
-                                        <!--<option value="2">0004/BOOKED OTHER HOTEL 訂了別的飯店/N:否</option>-->
-                                        <!--<option value="2">0005/家裡有事取消/Y:是</option>-->
-                                        <!--<option value="2">0006/價格因素/Y:是</option>-->
-                                        <!--<option value="2">0007/NoShow/N:否</option>-->
-                                        <!--</select>-->
                                     </div>
                                 </template>
-
-                                <!--<div class="grid-item">-->
-                                <!--<label>說明</label>-->
-                                <!--<input type="text" class="input-medium medium-c3-col2" disabled/>-->
-                                <!--</div>-->
                             </div>
                         </div><!--main-content-data-->
                         <div class="clearfix"></div>
