@@ -81,6 +81,13 @@ function queryData(mode, cb, ddObj, param) {
 						cb(null, null);
 					}
 				}
+				if (connection) {
+					connection.close(function (err) {
+						if (err) {
+							console.error(err.message);
+						}
+					});
+				}
 			});
 		});
 	} else {
@@ -93,6 +100,13 @@ function queryData(mode, cb, ddObj, param) {
 				DB.doQuery(connection, daoDD.sql, daoDD.param, mode, start, size, function (err, result) {
 					results = results.concat(result);
 					callback(err);
+					if (connection) {
+						connection.close(function (err) {
+							if (err) {
+								console.error(err.message);
+							}
+						});
+					}
 				});
 			});
 		}, function (err) {

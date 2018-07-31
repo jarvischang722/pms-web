@@ -24,12 +24,12 @@ const kplugFun = {
 		return value * 1;
 	}
 };
-
 let prefix = ':';
 let pools = {};
 let daoList = [];
 let months = {};
 let daoPool = {};
+let dbOptions = {};
 let daoPath = path.join(__dirname, './dao/', 'service_dao.xml');
 let daoDoc = XMLUtil.createDocument(daoPath);
 let list = XMLUtil.getNodeList(daoDoc, "*//sql-source");
@@ -40,12 +40,15 @@ list.forEach(function (source) {
 console.log("Finished loading DAOs.");
 
 // Oracle db options
-oracledb.maxRows = dbConfig.oracle_maxRows || 1000;
-oracledb.poolMin = dbConfig.oracle_poolMin || 5;
-oracledb.poolMax = dbConfig.oracle_poolMax || 21;
-oracledb.poolTimeout = dbConfig.oracle_poolTimeout || 60;
-oracledb.poolIncrement = dbConfig.oracle_poolIncrement || 1;
+if (dbConfig.oracle_pool == false) {
 
+} else {
+	oracledb.maxRows = dbConfig.oracle_maxRows || 1000;
+	oracledb.poolMin = dbConfig.oracle_poolMin || 5;
+	oracledb.poolMax = dbConfig.oracle_poolMax || 21;
+	oracledb.poolTimeout = dbConfig.oracle_poolTimeout || 60;
+	oracledb.poolIncrement = dbConfig.oracle_poolIncrement || 1;
+}
 // Return all CLOBs as Strings
 oracledb.fetchAsString = [oracledb.CLOB];
 
@@ -57,6 +60,7 @@ DB.prototype.validQuery = null;
 DB.prototype.debug = 0;
 DB.prototype.clusters = [];
 DB.prototype.options = {};
+
 DB.prototype.create = function (opt) {
 	this.options = opt;
 	if (Array.isArray(opt) == false) {
@@ -69,68 +73,82 @@ DB.prototype.create = function (opt) {
 		this.clusters.push(this.options[i].id);
 		this.debug = this.options[i].debug;
 	}
-	async.each(this.options, function (option, callback) {
-		oracledb.createPool(
-			{
-				user: option.user,
-				password: option.password,
-				connectString: option.connectString
-			},
-			function (err, p) {
-				if (err) {
-					console.error(err);
-					process.exit(1);
-				}
-				// console.log(p._createdDate)
-				pools[option.id] = p;
-				p.id = option.id;
-				if (pools['default'] == null) {
-					pools['default'] = p;
-				}
-				//console.log('create pool:' + option.id);
-				if (_.isUndefined(option.months) == false) {
-					option.months.forEach(function (month) {
-						months[month] = p;
-					});
-				}
-				callback();
-			});
-	}, function (err) {
-		if (err) {
-			console.error(err);
-		}
-		dbObj.validQuery = setInterval(function () {
-			_.map(pools, async function (p, k) {
-				for (let i = 0; i < oracledb.poolMin; i++) {
-					let connection = null;
-					try {
-						let startTime = new Date().getTime();
-						connection = await dbObj.getConn(k);
-						let endTime = new Date().getTime();
-						if ((endTime - startTime) / 1000 > 1) {
-							console.error(`Oracle DB 連線異常: ${(endTime - startTime) / 1000} sec`);
-							console.error(`異常SQL:validQuery`);
-						}
-						if (connection != null) {
-							let result = await dbObj.doSearch(connection, "select 1 from dual", {}, 0, 0, 1);
-						}
-					} catch (err) {
+	if (dbConfig.oracle_pool == false) {
+		async.each(this.options, function (option, callback) {
+			dbOptions[option.id] = option;
+			if (dbOptions['default'] == null) {
+				dbOptions['default'] = option;
+			}
+			callback();
+		}, function (err) {
+			if (err) {
+				console.error(err);
+			}
+		});
+	} else {
+		async.each(this.options, function (option, callback) {
+			oracledb.createPool(
+				{
+					user: option.user,
+					password: option.password,
+					connectString: option.connectString
+				},
+				function (err, p) {
+					if (err) {
 						console.error(err);
+						process.exit(1);
 					}
-					finally {
-						if (connection) {
-							try {
-								await connection.close();
-							} catch (e) {
-								console.error(e);
+					// console.log(p._createdDate)
+					pools[option.id] = p;
+					p.id = option.id;
+					if (pools['default'] == null) {
+						pools['default'] = p;
+					}
+					//console.log('create pool:' + option.id);
+					if (_.isUndefined(option.months) == false) {
+						option.months.forEach(function (month) {
+							months[month] = p;
+						});
+					}
+					callback();
+				});
+		}, function (err) {
+			if (err) {
+				console.error(err);
+			}
+			dbObj.validQuery = setInterval(function () {
+				_.map(pools, async function (p, k) {
+					for (let i = 0; i < oracledb.poolMin; i++) {
+						let connection = null;
+						try {
+							let startTime = new Date().getTime();
+							connection = await dbObj.getConn(k);
+							let endTime = new Date().getTime();
+							if ((endTime - startTime) / 1000 > 1) {
+								console.error(`Oracle DB 連線異常: ${(endTime - startTime) / 1000} sec`);
+								console.error(`異常SQL:validQuery`);
+							}
+							if (connection != null) {
+								let result = await dbObj.doSearch(connection, "select 1 from dual", {}, 0, 0, 1);
+								console.dir(result);
+							}
+						} catch (err) {
+							console.error(err);
+						}
+						finally {
+							if (connection) {
+								try {
+									await connection.close();
+								} catch (e) {
+									console.error(e);
+								}
 							}
 						}
 					}
-				}
-			});
-		}, 60000);
-	});
-
+				});
+			}, 60000);
+		});
+	}
 };
 
 DB.prototype.isOk = function (id) {
@@ -148,6 +166,20 @@ function getConnection(arg1, arg2) {
 		if (_.isUndefined(arg1) == false) {
 			id = arg1;
 		}
+	}
+	if (dbConfig.oracle_pool == false) {
+		if (dbOptions[id] == null) {
+			cb('no connection id:' + id, null);
+			return
+		}
+		oracledb.getConnection(dbOptions[id], function (err, connection) {
+			if (err) {
+				cb(err.message, null);
+				return;
+			}
+			cb(err, connection);
+		});
+		return;
 	}
 	if (pools[id] == null) {
 		console.log('wait [%s] pool init', id);
@@ -177,11 +209,32 @@ function getConn(arg1) {
 		if (_.isUndefined(arg1) == false) {
 			id = arg1;
 		}
+		if (dbConfig.oracle_pool == false) {
+			if (dbOptions[id] == null) {
+				reject('no connection id:' + id);
+				return
+			}
+			let conn;
+			try {
+				conn = await oracledb.getConnection(dbOptions[id]);
+				resolve(conn);
+			} catch (err) { // catches errors in getConnection and the query
+				reject(err);
+			} finally {
+				// if (conn) {   // the conn assignment worked, must release
+				// 	try {
+				// 		await conn.release();
+				// 	} catch (e) {
+				// 		console.error(e);
+				// 	}
+				// }
+			}
+			return;
+		}
 		while (pools[id] == null) {
 			console.log('wait [%s] pool init', id);
 			await sleep(1000);
 		}
-
 		let conn;
 		try {
 			conn = await pools[id].getConnection();
