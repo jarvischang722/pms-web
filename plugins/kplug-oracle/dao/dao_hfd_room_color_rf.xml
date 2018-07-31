@@ -13,4 +13,33 @@
         <parameter type="number" kind="3">athena_id</parameter>
         <parameter type="string" kind="3">hotel_cod</parameter>
     </dao>
+
+    <!-- todo 18010 -->
+    <dao name="QRY_ROOM_DATA_LIST">
+        <statement><![CDATA[
+            SELECT ROOM_NOS,
+                   ROOM_COD,
+                   ROOM_STA,
+                   CLEAN_STA,
+                   OOS_STA,
+                   ASSIGN_STA,
+                   ALT_NAM,
+                   CI_DAT,
+                   CO_DAT,
+                   ROOM_RMK,
+                   VIEW_BGCOLOR
+            FROM TMP_PMS0210030_ROOM_LIST
+            WHERE ATHENA_ID = :athena_id
+            AND HOTEL_COD = :hotel_cod
+            AND USR_ID = :usr_id
+            AND SOCKET_ID = :socket_id
+            ORDER BY VIEW_SEQ
+        ]]>
+        </statement>
+        <parameter type="number" kind="3">athena_id</parameter>
+        <parameter type="string" kind="3">hotel_cod</parameter>
+        <parameter type="string" kind="3">usr_id</parameter>
+        <parameter type="string" kind="3">socket_id</parameter>
+    </dao>
+
 </root>

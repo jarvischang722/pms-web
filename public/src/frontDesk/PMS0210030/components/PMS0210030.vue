@@ -182,12 +182,6 @@
                                         <div class="tab-content roomAssign-p" style="overflow: hidden;">
                                             <div id="All" class="tab-pane in active"
                                                  style="position: relative;">
-                                                <div class="town-table" v-show="!btnList">
-                                                    <div class="townRow easyui-panel">
-                                                        <!--高度: townPage 的高度-->
-                                                        <table id="townList-table" style="height: 500px;"></table>
-                                                    </div>
-                                                </div>
                                                 <div class="town-grap scrollable" v-show="btnList">
                                                     <div class="townPage">
                                                         <!--<div class="townBlock roomAss_detail"-->
@@ -225,6 +219,12 @@
                                                             </div>
                                                             <div class="clearfix"></div>
                                                         </div>
+                                                    </div>
+                                                </div>
+                                                <div class="town-table" v-show="!btnList">
+                                                    <div class="townRow easyui-panel">
+                                                        <!--高度: townPage 的高度-->
+                                                        <table id="townList-table" style="height: 500px;"></table>
                                                     </div>
                                                 </div>
                                             </div>
@@ -312,8 +312,6 @@
                 </div>
             </div>
         </div>
-        <input type="button" @click="fetchOrderDtListField">
-        <input type="button" @click="fetchOrderDtListData">
     </div>
 </template>
 
@@ -400,6 +398,9 @@
                 this.roomType = lo_roomType.effectValues;
                 this.selectRoomType = this.groupOrderDtRowData[this.selectDtIndex].use_cod;
 
+                this.doRowUnLock();
+                this.doRowLock();
+
                 // 產生 [訂房明細] DataGrid 資料
                 await this.queryOrderDtList();
 
@@ -444,7 +445,7 @@
                         ROOM_RMK: '~~~'
                     },
                     {
-                        room_nos: '0301',
+                        room_nos: '0302',
                         room_cod: 'DDT',
                         room_sta: 'V',
                         clean_sta: 'C',
@@ -457,7 +458,7 @@
                         ROOM_RMK: '~~~'
                     },
                     {
-                        room_nos: '0301',
+                        room_nos: '0303',
                         room_cod: 'DDT',
                         room_sta: 'V',
                         clean_sta: 'C',
@@ -472,7 +473,7 @@
                 selectRoomDtIndex: -1,
 
                 //顯示清單或是圖形模式 true:清單 false:圖形
-                btnList: false,
+                btnList: true,
                 condition: {
                     floor: [],
                     roomStatus: '',
@@ -490,6 +491,8 @@
                 dgGroup: {},
                 dgDetail: {},
                 dgRoom: {},
+
+                selectRoomData: {}
             };
         },
         methods: {
@@ -512,7 +515,6 @@
                     //this.rentCalDat = moment(lo_rentCalDat.rent_cal_dat).format('YYYY/MM/DD');
                     this.rentCalDat = '2018/06/29'; // todo 目前寫死，之後要改
                     this.searchCond.ci_dat = this.rentCalDat;
-                    this.searchCond.co_dat = moment(this.rentCalDat).add(1, 'days').format('YYYY/MM/DD');
                 } else {
                     alert(lo_rentCalDat.errorMsg);
                     return;
@@ -525,15 +527,16 @@
                     return;
                 }
 
-                // 產生 [訂房多筆] DataGrid 資料
-                await this.queryGroupOrderDtRowData();
-
                 // 樓層資料 (固定的資料，只在初始化頁面時候撈取)
                 let lo_roomFloor = await this.getRoomFloor();
                 this.roomFloor = lo_roomFloor.effectValues;
+                this.chooseRoomFloor(-1);
 
                 // todo 樓層顏色說明 (固定的資料，只在初始化頁面時候撈取) ***目前撈沒資料
                 this.getRoomColor();
+
+                // 產生 [訂房多筆] DataGrid 資料
+                await this.queryGroupOrderDtRowData();
             },
 
             /**
@@ -565,14 +568,22 @@
              */
             async queryField() {
                 try {
-                    await this.fetchGroupOrderDtField();
-                    await this.fetchOrderDtListField();
+                    let lb_createField = true;
+                    if (this.groupOrderDtField.length === 0) {
+                        let ln_nos = await this.fetchGroupOrderDtField();
+                        lb_createField = ln_nos;
+                    }
+                    if (this.orderDtListField.length === 0) {
+                        let ln_nos = await this.fetchOrderDtListField();
+                        lb_createField = ln_nos;
+                    }
+                    if (this.roomDtListField.length === 0) {
+                        let ln_nos = await this.getRoomColumns();
+                        lb_createField = ln_nos;
+                    }
                     await this.getRoomColumns();
 
-                    if ( (this.groupOrderDtField.length !== 0)
-                        && (this.orderDtListField.length !== 0)
-                        && (this.roomDtListField.length !== 0)
-                    ) {
+                    if (lb_createField) {
                         this.dgGroup.init(gs_prgId, "groupOrderDt_dg", DatagridFieldAdapter.combineFieldOption(this.groupOrderDtField, "groupOrderDt_dg"), this.groupOrderDtField, {
                             singleSelect: true,
                             pagination: false,
@@ -591,9 +602,9 @@
                             rownumbers: true,
                             pageSize: 20 //一開始只載入20筆資料
                         });
-                        return true;
+                        return lb_createField;
                     } else {
-                        return false;
+                        return lb_createField;
                     }
                 } catch (err) {
                     throw Error(err)
@@ -619,6 +630,7 @@
                     let lo_result = await BacUtils.doHttpPromisePostProxy("/api/fetchOnlyDataGridFieldData", lo_params);
                     if (lo_result.success) {
                         this.groupOrderDtField = lo_result.dgFieldsData;
+                        return this.groupOrderDtField.length;
                     } else {
                         alert(lo_result.errorMsg);
                     }
@@ -662,7 +674,6 @@
                     if (ln_groupOrderDtRowDataLength > 0) {
                         $("#groupOrderDt_dg").datagrid('selectRow', 0);
                         this.selectDtIndex = 0; // watch selectDtIndex
-                        this.doRowLock();
                     }
                 } catch (err) {
                     throw Error(err);
@@ -687,6 +698,7 @@
 
                     if (lo_result.success) {
                         this.orderDtListField = lo_result.dgFieldsData;
+                        return this.orderDtListField.length;
                     }
                     else {
                         alert(lo_result.errorMsg);
@@ -695,7 +707,7 @@
                     throw Error(err);
                 }
             },
-            // 單純撈 [訂房明細] 欄位
+            // 單純撈 [訂房明細] 資料
             async fetchOrderDtListData() {
                 if (this.selectDtIndex < 0) {
                     return;
@@ -764,6 +776,7 @@
                     let lo_result = await BacUtils.doHttpPromisePostProxy("/api/fetchOnlyDataGridFieldData", lo_params);
                     if (lo_result) {
                         this.roomDtListField = lo_result.dgFieldsData;
+                        return this.roomDtListField.length;
                     } else {
                         alert(lo_result.errorMsg);
                     }
@@ -773,21 +786,22 @@
             },
             // 單純撈 [排房房間] 資料
             async getRoomData() {
+                this.selectRoomFloor = [2,3]; //todo
+                let ls_floor = this.selectRoomFloor.join(','); //todo
                 try {
                     const lo_params = {
                         rule_func_name: 'fetchRoomData',
-
-                        ci_dat: this.searchCond.ci_dat,
-                        co_dat: this.searchCond.co_dat,
-                        room_cod: this.selectRoomType,
-                        character_rmk: "",
-                        build_nos: "",
-                        floor_nos: this.selectRoomFloor,
-                        bed_sta: "",
-                        can_assign: "N"
+                        order_dt: _.extend(this.groupOrderDtRowData[this.selectDtIndex], {
+                            floor_nos: ls_floor //todo
+                        }),
                     };
 
                     let lo_result = await BacUtils.doHttpPromisePostProxy('/api/queryDataByRule', lo_params);
+                    let lo_paramsRoomList = {
+                        rule_func_name: 'fetRoomListData',
+                    };
+                    let lo_roomList = await BacUtils.doHttpPromisePostProxy('/api/queryDataByRule', lo_paramsRoomList);
+                    console.log(lo_roomList)
                     return lo_result;
                 } catch (err) {
                     throw Error(err);
@@ -802,11 +816,11 @@
              * @param ci_dat {String} 查詢開始日期 format格式
              */
             async getAllRoomType(ci_dat) {
-                const lo_params = {
-                    rule_func_name: 'getRoomType',
-                    ci_dat: ci_dat
-                };
                 try {
+                    const lo_params = {
+                        rule_func_name: 'getRoomType',
+                        ci_dat: ci_dat
+                    };
                     let lo_result = await BacUtils.doHttpPromisePostProxy('/api/queryDataByRule', lo_params);
                     return lo_result;
                 } catch (err) {
@@ -864,10 +878,11 @@
              * 飯店顏色說明
              */
             async getRoomColor() {
-                const lo_params = {
-                    rule_func_name: 'getRoomColor',
-                };
                 try {
+                    const lo_params = {
+                        rule_func_name: 'getRoomColor',
+                    };
+
                     let lo_result = await BacUtils.doHttpPromisePostProxy('/api/queryDataByRule', lo_params);
                     return lo_result;
                 } catch (err) {
@@ -877,11 +892,31 @@
 
             // 選擇的排房房間
             chooseRoomDt(roomDt) {
+                this.selectRoomData = roomDt;
                 console.log(roomDt)
             },
 
             // 排房
-            doAssign() {
+            async doAssign() {
+                try {
+                    let lo_orderDt = _.extend(this.orderDtListRowData[this.selectListIndex], {
+                        'ci_dat': moment(this.groupOrderDtRowData[this.selectDtIndex].ci_dat).format('YYYY/MM/DD'),
+                        'co_dat': moment(this.groupOrderDtRowData[this.selectDtIndex].co_dat).format('YYYY/MM/DD'),
+                        'ikey': this.groupOrderDtRowData[this.selectDtIndex].ikey,
+                    });
+
+                    const lo_apiParams = {
+                        rule_func_name: 'doAssign',
+                        func_id: "1010",
+                        order_dt: lo_orderDt,
+                        room_nos: 301
+                    };
+                    console.log(lo_apiParams);
+                    let lo_result = await BacUtils.doHttpPromisePostProxy('/api/queryDataByRule', lo_apiParams);
+                    console.log(lo_result);
+                } catch (err) {
+                    console.log(err)
+                }
             },
             // 批次排房
             doAssignAll() {
@@ -900,13 +935,14 @@
             },
             // 切換模式 (圖形/清單)
             changeRoomDataType() {
+                this.queryField();
                 this.btnList = !this.btnList;
             },
             /**
              * RowLock
              */
             doRowLock: function () {
-                var lo_param = {
+                let lo_param = {
                     prg_id: gs_prgId,
                     table_name: 'order_mn',
                     lock_type: "R",
@@ -918,7 +954,7 @@
              * RowUnLock
              */
             doRowUnLock: function () {
-                var lo_param = {
+                let lo_param = {
                     prg_id: gs_prgId
                 };
                 g_socket.emit('handleTableUnlock', lo_param);

@@ -291,7 +291,7 @@
             AND ORDER_DT.RATE_COD = RATECOD_MN.RATE_COD(+) AND ORDER_DT.ORDER_STA IN ( 'N', 'I' )
             AND ORDER_MN.ATHENA_ID = :athena_id
             AND ORDER_MN.HOTEL_COD = :hotel_cod
-            AND ORDER_DT.CI_DAT = :ci_dat
+            AND ORDER_DT.CI_DAT >= :ci_dat
         ]]>
         </statement>
         <parameter type="number" kind="3">athena_id</parameter>
