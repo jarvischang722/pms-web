@@ -484,12 +484,16 @@
                                                 role="button" @click="doSaveGrid">{{i18nLang.program.PMS0810230.save}}
 
 
+
+
                                         </button>
                                     </li>
                                     <li>
                                         <button class="btn btn-primary btn-white btn-defaultWidth"
                                                 role="button" @click="doOpenUseTime">
                                             {{i18nLang.program.PMS0810230.useTime}}
+
+
 
 
                                         </button>
@@ -500,12 +504,16 @@
                                                 role="button">{{i18nLang.program.PMS0810230.priceTrial}}(等SA)
 
 
+
+
                                         </button>
                                     </li>
                                     <li>
                                         <button class="btn btn-primary btn-white btn-defaultWidth"
                                                 role="button" @click="doOpenRateList">
                                             {{i18nLang.program.PMS0810230.rateList}}
+
+
 
 
                                         </button>
@@ -516,12 +524,16 @@
                                                 role="button">{{i18nLang.program.PMS0810230.depRate}}
 
 
+
+
                                         </button>
                                     </li>
                                     <li class="baseDateLi"
                                         v-if="$parent.prgEditionOptions.optionList.indexOf('PMS_RATECODE_B') > -1">
                                         <button class="btn btn-primary btn-white btn-defaultWidth rateCode_baseDate"
                                                 role="button">{{i18nLang.program.PMS0810230.baseRate}}
+
+
 
 
                                         </button>
@@ -531,12 +543,16 @@
                                                 role="button">{{i18nLang.program.PMS0810230.addPol}}
 
 
+
+
                                         </button>
                                     </li>
                                     <li>
                                         <button class="btn btn-primary btn-white btn-defaultWidth"
                                                 role="button" @click="doCloseDialog">
                                             {{i18nLang.program.PMS0810230.leave}}
+
+
 
 
                                         </button>
@@ -721,6 +737,8 @@
                                     <li>
                                         <button class="btn btn-primary btn-white btn-defaultWidth rateCode_duplicate"
                                                 role="button">複製
+
+
 
 
                                         </button>
@@ -1081,7 +1099,7 @@
                             }, 200);
                             if (result.success) {
                                 alert(go_i18nLang.program.PMS0810230.save_success);
-                                let lo_cloneData = JSON.parse(JSON.stringify(this.rowData));
+                                let lo_cloneData = JSON.parse(JSON.stringify(_.extend(this.rowData, this.singleData)));
                                 this.rowData = {}
                                 this.isEditStatus = true;
                                 this.isCreateStatus = false;
