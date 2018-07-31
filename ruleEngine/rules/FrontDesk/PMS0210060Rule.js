@@ -112,6 +112,9 @@ module.exports = {
                 console.error(data["RETN-CODE-DESC"]);
                 lo_error.errorMsg = data["RETN-CODE-DESC"];
             }
+            else if (!_.isUndefined(data["RETURN-DATA"]["2010"])) {
+                lo_result.effectValues = data["RETURN-DATA"];
+            }
             callback(lo_error, lo_result);
         });
     },

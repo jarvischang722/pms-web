@@ -330,6 +330,8 @@
       "chkOrder": "入住日期不是今天，是否修改訂房卡?",
       "allSelected": "全選",
       "clearSelected": "取消全選",
+      "checkInTitle": "check In",
+      "cancelCheckInTitle": "取消入住",
       "1010": "入住",
       "1020": "取消入住",
       "1011": "入住",

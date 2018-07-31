@@ -127,64 +127,80 @@
                         <div class="row">
                             <div class="right-menu-co">
                                 <ul>
+                                    <!--全選-->
                                     <li>
                                         <button class="btn btn-primary btn-white btn-defaultWidth"
                                                 role="button" @click="selectAll">
                                             {{i18nLang.program.PMS0210060.allSelected}}
                                         </button>
                                     </li>
+                                    <!--/.全選-->
+                                    <!--取消全選-->
                                     <li>
                                         <button class="btn btn-primary btn-white btn-defaultWidth"
                                                 role="button" @click="guestMnRowDataChecked = []">
                                             {{i18nLang.program.PMS0210060.clearSelected}}
                                         </button>
                                     </li>
+                                    <!--/.取消全選-->
+                                    <!--入住-->
                                     <li v-if="isCheckIn">
                                         <button
                                                 class="btn btn-primary btn-white btn-defaultWidth"
                                                 role="button" @click="r_1011">{{i18nLang.program.PMS0210060['1010']}}
                                         </button>
                                     </li>
-                                    <!--<li v-if="isCheckIn">-->
-                                        <!--<button-->
-                                                <!--class="btn btn-primary btn-white btn-defaultWidth"-->
-                                                <!--role="button">{{i18nLang.program.PMS0210060['1012']}}-->
-                                        <!--</button>-->
-                                    <!--</li>-->
+                                    <!--入住-->
+                                    <!--c/i公帳號-->
+                                    <li v-if="isCheckIn && edition!='LITE'">
+                                        <button
+                                                class="btn btn-primary btn-white btn-defaultWidth"
+                                                role="button">{{i18nLang.program.PMS0210060['1012']}}
+                                        </button>
+                                    </li>
+                                    <!--/.c/i公帳號-->
+                                    <!--修改訂房卡-->
                                     <li v-if="isCheckIn">
                                         <button
                                                 class="btn btn-primary btn-white btn-defaultWidth"
                                                 role="button" @click="r_1013">{{i18nLang.program.PMS0210060['1013']}}
                                         </button>
                                     </li>
+                                    <!--/.修改訂房卡-->
                                     <!--<li>-->
                                     <!--<button class="btn btn-primary btn-white btn-defaultWidth resv_guestDetail"-->
                                     <!--role="button">住客資料-->
                                     <!--</button>-->
                                     <!--</li>-->
+                                    <!--排房-->
                                     <li v-if="isCheckIn">
                                         <button
                                                 class="btn btn-primary btn-white btn-defaultWidth foCnt_roomAssign"
                                                 role="button">{{i18nLang.program.PMS0210060['1014']}}
                                         </button>
                                     </li>
+                                    <!--//排房-->
                                     <!--l 版隱藏-->
                                     <!--<li>-->
                                     <!--<button class="btn btn-gray btn-defaultWidth"-->
                                     <!--role="button">螢幕簽帳-->
                                     <!--</button>-->
                                     <!--</li>-->
+                                    <!--取消入住-->
                                     <li v-if="!isCheckIn">
                                         <button
                                                 class="btn btn-primary btn-white btn-defaultWidth"
                                                 role="button" @click="r_1021">{{i18nLang.program.PMS0210060['1021']}}
                                         </button>
                                     </li>
+                                    <!--/.取消入住-->
+                                    <!--離開-->
                                     <li>
                                         <button class="btn btn-primary btn-white btn-defaultWidth"
                                                 role="button" @click="close">{{i18nLang.SystemCommon.Leave}}
                                         </button>
                                     </li>
+                                    <!--/.離開-->
                                 </ul>
                             </div>
                         </div>
@@ -269,6 +285,7 @@
         data() {
             return {
                 i18nLang: go_i18nLang,
+                edition: "LITE",
                 isLoading: false,
                 loadingText: "Loading...",
 
@@ -493,47 +510,54 @@
                             lo_return.success = false;
                             lo_return.errorMsg = lo_doRule.errorMsg;
                         }
+                        else {
+                            if (!_.isEmpty(lo_doRule.effectValues)) {
+                                _.each(lo_doRule.effectValues["2010"], (lo_data) => {
+                                    let ln_idx = _.findIndex(this.guestMnRowDataChecked, {ikey_seq_nos: lo_data.ikey_seq_nos});
+                                    if (ln_idx > -1) {
+                                        this.guestMnRowDataChecked[ln_idx] = _.extend(this.guestMnRowDataChecked[ln_idx], lo_data);
+                                    }
+                                });
+                            }
+                        }
                     }
                 }
 
                 //檢查order mn 公帳號 LITE版不做
-//                if (lo_return.success && this.guestMnRowDataChecked.length > 0) {
-//                    let lo_doMasterRule = await BacUtils.doHttpPromisePostProxy("/api/queryDataByRule", {
-//                        rule_func_name: "r_1021",
-//                        isFirst: true,
-//                        orderMnData: this.orderMnValueData
-//                    }).then(result => {
-//                        return result
-//                    }).catch(err => {
-//                        return {success: false, errorMsg: err}
-//                    });
-//
-//                    // lo_return.success = false;
-//                    // lo_return.errorMsg = "false";
-//
-//                    if (lo_doMasterRule.showConfirm) {
-//                        let lb_confirm = confirm(go_i18nLang.program.PMS0210060.chkMaster);
-//
-//                        if (lb_confirm) {
-//                            let lo_doMasterRuleAgain = await BacUtils.doHttpPromisePostProxy("/api/queryDataByRule", {
-//                                rule_func_name: "r_1021",
-//                                isFirst: false,
-//                                orderMnData: this.orderMnValueData
-//                            }).then(result => {
-//                                return result
-//                            }).catch(err => {
-//                                return {success: false, errorMsg: err}
-//                            });
-//                            if (!lo_doMasterRuleAgain.success) {
-//                                lo_return.success = false;
-//                                lo_return.errorMsg = lo_doMasterRuleAgain.errorMsg;
-//                            }
-//                        }
-//                        else {
-//                            lo_return.success = false;
-//                        }
-//                    }
-//                }
+                if (lo_return.success && this.guestMnRowDataChecked.length > 0 && this.edition != "LITE") {
+                    let lo_doMasterRule = await BacUtils.doHttpPromisePostProxy("/api/queryDataByRule", {
+                        rule_func_name: "r_1021",
+                        isFirst: true,
+                        orderMnData: this.orderMnValueData
+                    }).then(result => {
+                        return result
+                    }).catch(err => {
+                        return {success: false, errorMsg: err}
+                    });
+
+                    if (lo_doMasterRule.showConfirm) {
+                        let lb_confirm = confirm(go_i18nLang.program.PMS0210060.chkMaster);
+
+                        if (lb_confirm) {
+                            let lo_doMasterRuleAgain = await BacUtils.doHttpPromisePostProxy("/api/queryDataByRule", {
+                                rule_func_name: "r_1021",
+                                isFirst: false,
+                                orderMnData: this.orderMnValueData
+                            }).then(result => {
+                                return result
+                            }).catch(err => {
+                                return {success: false, errorMsg: err}
+                            });
+                            if (!lo_doMasterRuleAgain.success) {
+                                lo_return.success = false;
+                                lo_return.errorMsg = lo_doMasterRuleAgain.errorMsg;
+                            }
+                        }
+                        else {
+                            lo_return.success = false;
+                        }
+                    }
+                }
 
                 return lo_return;
             },
@@ -543,7 +567,7 @@
             async r_1011() {
                 this.isLoading = true;
                 this.loadingText = "saving...";
-                let ls_funcId = "1010";
+                let ls_funcId = "1011";
                 let ls_pageId = 1010;
                 let lo_validate = await this.doValidate();
                 if (lo_validate.success) {
@@ -590,7 +614,7 @@
             },
             async doSave(func_id, page_id) {
                 let lo_tmpCUD = {
-                    updateData: [_.extend(this.orderMnValueData, {page_id: page_id, tab_page_id: 11})],
+                    updateData: [_.extend(this.orderMnValueData, {page_id: page_id, tab_page_id: 11, eco_typ: "C/I"})],
                     oriData: [this.orderMnValueData]
                 };
                 let la_saveData = JSON.parse(JSON.stringify(this.guestMnRowDataChecked));

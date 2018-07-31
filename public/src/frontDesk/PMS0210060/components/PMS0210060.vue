@@ -116,6 +116,7 @@
 
             //是否lock 訂房卡
             g_socket.on("checkTableLock", (result) => {
+                this.isLoading = false;
                 if (result.success) {
                     this.isCheckIn = true;
                     let lo_editingRow = $('#orderDtTable').datagrid('getSelected');
@@ -123,7 +124,7 @@
                     let dialog = $('#PMS0210060_dialog').removeClass('hide').dialog({
                         autoOpen: false,
                         modal: true,
-                        title: this.isCheckIn ? "Check In" : "取消入住",
+                        title: this.isCheckIn ? go_i18nLang.program.PMS0210060.checkInTitle : go_i18nLang.program.PMS0210060.cancelCheckInTitle,
                         width: 1000,
                         maxwidth: 1920,
                         minheight: 800,
@@ -311,23 +312,28 @@
              */
             async r_1010() {
                 let lo_editRow = $('#orderDtTable').datagrid('getSelected');
-                let lo_ciDat = moment(lo_editRow.ci_dat);
+                if (lo_editRow) {
+                    let lo_ciDat = moment(lo_editRow.ci_dat);
 
-                if (lo_ciDat.isSame(moment(this.rentCalDat))) {
-                    this.showSingleGridDialog();
-                }
-                else {
-                    if (lo_ciDat.isBefore(moment(this.rentCalDat), "days")) {
-                        alert(go_i18nLang.ErrorMsg.pms21msg8)
+                    if (lo_ciDat.isSame(moment(this.rentCalDat))) {
+                        this.showSingleGridDialog();
                     }
-                    else if (lo_ciDat.isAfter(moment(this.rentCalDat), "days")) {
-                        let lb_conFirm = confirm(go_i18nLang.program.PMS0210060.chkOrder);
-                        if (lb_conFirm) {
-                            this.$eventHub.$emit("openOrder", {
-                                rowData: lo_editRow
-                            });
+                    else {
+                        if (lo_ciDat.isBefore(moment(this.rentCalDat), "days")) {
+                            alert(go_i18nLang.ErrorMsg.pms21msg8)
+                        }
+                        else if (lo_ciDat.isAfter(moment(this.rentCalDat), "days")) {
+                            let lb_conFirm = confirm(go_i18nLang.program.PMS0210060.chkOrder);
+                            if (lb_conFirm) {
+                                this.$eventHub.$emit("openOrder", {
+                                    rowData: lo_editRow
+                                });
+                            }
                         }
                     }
+                }
+                else {
+                    alert(go_i18nLang["SystemCommon"].SelectOneData);
                 }
 
             },
@@ -345,6 +351,7 @@
                     alert(go_i18nLang["SystemCommon"].SelectOneData);
                 }
                 else {
+                    this.isLoading = true;
                     this.doRowLock(gs_prgId, lo_editingRow.ikey);
                 }
             },
