@@ -278,6 +278,7 @@ module.exports = {
 
         const lo_singleRowData = postData.singleRowData[0];
         const lo_order_mn = postData.order_mn;
+        const lo_order_dt = _.findWhere(postData.order_dt, {ikey_seq_nos: lo_singleRowData.ikey_seq_nos});
         let ls_altName = lo_singleRowData.alt_nam || "";
         let ls_gcustCod = ls_altName != "" && ls_altName.split(":").length > 1 ? ls_altName.split(":")[0] : "";
         //修改帶回對應欄位
@@ -346,14 +347,15 @@ module.exports = {
                         athena_id: session.athena_id,
                         hotel_cod: session.hotel_cod,
                         ikey: lo_order_mn.ikey,
-                        ci_dat: lo_singleRowData.ci_dat,
-                        alt_nam: ls_altName
+                        ci_dat: lo_order_dt.ci_dat,
+                        alt_nam: ls_altName.split(":")[1],
+
                     };
-                    // const ln_guestIsBooking = await commonRules.clusterQuery(session, lo_guestParams, "CHK_GUEST_IS_OVER_BOOKING");
-                    // if (ln_guestIsBooking.booking_qnt > 0) {
-                    //     lo_result.showAlert = true;
-                    //     lo_result.alertMsg.push(`住客: ${ls_altName}, 已於 ${moment(lo_order_mn.ci_dat).format("YYYY/MM/DD")}登錄過}`);
-                    // }
+                    const ln_guestIsBooking = await commonRules.clusterQuery(session, lo_guestParams, "CHK_GUEST_IS_OVER_BOOKING");
+                    if (ln_guestIsBooking.booking_qnt > 0) {
+                        lo_result.showAlert = true;
+                        lo_result.alertMsg.push(`住客: ${ls_altName}, 已於 ${moment(lo_order_dt.ci_dat).format("YYYY/MM/DD")}登錄過}`);
+                    }
 
                     //4.如果GHIST_MN的ghist_visit_dt有喜好房(看SA prefer room_sql)，顯示訊息『 注意！prefer room:[[%%pref_room%%]]』
                     const lo_perferParams = {
@@ -373,7 +375,7 @@ module.exports = {
                         guest_mn: lo_singleRowData,
                         type: "guest_mn"
                     }, session);
-                    console.log(lo_contract);
+                    lo_result.defaultValues = lo_contract;
                 }
             }
             catch (err) {
@@ -1187,7 +1189,7 @@ const chkAttenNamRule = async (params, session) => {
                 const lo_data = lo_order_mn[lo_contactData] || "";
                 if (lo_data.trim() !== "") {
                     lo_return.showConfirm = true;
-                    lo_return.confirmMsg = "是否蓋掉現有連絡資料?";
+                    lo_return.confirmMsg = commonRules.getMsgByCod("pms11msg5", session.locale);
                     break;
                 }
             }
@@ -1199,12 +1201,19 @@ const chkAttenNamRule = async (params, session) => {
                 gcust_cod: lo_guest_mn.gcust_cod
             };
             const lo_contact = await commonRules.clusterQuery(session, lo_param, "QRY_CONTACT_BY_ATTEN_BY");
+            //移除null、undefined
+            _.each(lo_contact, (value, key) => {
+                lo_contact[key] = value || "";
+            });
             lo_contact.atten_nam = lo_order_mn.atten_nam;
+            delete lo_contact["alt_nam"];
             return lo_contact;
         }
         else {
             return {atten_nam: lo_order_mn.atten_nam};
         }
     }
-
+    else {
+        return {atten_nam: lo_order_mn.atten_nam};
+    }
 }

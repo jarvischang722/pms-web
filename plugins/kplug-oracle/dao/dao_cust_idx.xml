@@ -75,12 +75,14 @@
             from cust_idx
             where cust_cod =
         </statement>
-        <parameter type="number" kind="3">athena_id</parameter>
+
         <statement test="param.atten_by == 'P'">:gcust_cod and athena_id = :athena_id</statement>
         <statement test="param.atten_by == 'C'">
-            (select cust_mn.atten_cod from cust_mn
-            where athena_id = :athena_id and cust_cod = :acust_cod) and athena_id = :athena_id
+            (select b.per_cust_cod from cust_mn a, cust_mn_pers_dt b
+            where a.athena_id = b.athena_id and a.cust_cod = b.cust_cod and a.atten_cod = b.seq_nos and a.athena_id = :athena_id
+            and a.cust_cod = :acust_cod) and athena_id = :athena_id
         </statement>
+        <parameter type="number" kind="3">athena_id</parameter>
         <parameter type="string" kind="3">gcust_cod</parameter>
         <parameter type="string" kind="3">acust_cod</parameter>
 

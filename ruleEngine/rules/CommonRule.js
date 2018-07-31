@@ -98,12 +98,11 @@ module.exports = {
      * @returns {String}: 訊息
      */
     getMsgByCod: function (msgCod, locale) {
+        let localeContent = {};
+        const appRootPath = require('app-root-path').path;
+        const localesPath = appRootPath + "/locales/";
+        const isExist = fs.existsSync(localesPath + locale.toLowerCase() + ".json");
 
-        var appRootPath = require('app-root-path').path;
-        var localeContent = {};
-        var localesPath = appRootPath + "/locales/";
-
-        var isExist = fs.existsSync(localesPath + locale.toLowerCase() + ".json");
         if (isExist) {
             localeContent = require(localesPath + locale.toLowerCase() + ".json");
 

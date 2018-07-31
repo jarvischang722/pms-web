@@ -640,7 +640,14 @@
                                 <ul>
                                     <li>
                                         <button class="btn btn-primary btn-white btn-defaultWidth"
-                                                role="button">離開
+                                                role="button" @click="">確定
+                                        </button>
+                                    </li>
+                                </ul>
+                                <ul>
+                                    <li>
+                                        <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                role="button" @click="">離開
                                         </button>
                                     </li>
                                 </ul>
@@ -1340,15 +1347,15 @@
                         allRowData: this.orderDtRowsData
                     };
                     try {
-                        let lo_doChkFiledRule = await BacUtils.doHttpPromisePostProxy("/api/chkFieldRule", lo_postData).then(result => {
+                        let lo_doChkFieldRule = await BacUtils.doHttpPromisePostProxy("/api/chkFieldRule", lo_postData).then(result => {
                             return result
                         }).catch(err => {
                             return {success: false, errorMsg: err}
                         });
-                        if (lo_doChkFiledRule.success) {
+                        if (lo_doChkFieldRule.success) {
                             //欄位是否唯獨
-                            if (lo_doChkFiledRule.readonlyFields.length > 0) {
-                                _.each(lo_doChkFiledRule.readonlyFields, (ls_field) => {
+                            if (lo_doChkFieldRule.readonlyFields.length > 0) {
+                                _.each(lo_doChkFieldRule.readonlyFields, (ls_field) => {
                                     let ln_changOriFieldIndex = _.findIndex(this.oriOrderDtFieldsData, {ui_field_name: ls_field});
                                     if (ln_changOriFieldIndex > -1) {
                                         this.oriOrderDtFieldsData[ln_changOriFieldIndex].modificable = 'N';
@@ -1362,8 +1369,8 @@
                                 });
                             }
                             //欄位是否可修改
-                            if (lo_doChkFiledRule.unReadonlyFields.length > 0) {
-                                _.each(lo_doChkFiledRule.unReadonlyFields, (ls_field) => {
+                            if (lo_doChkFieldRule.unReadonlyFields.length > 0) {
+                                _.each(lo_doChkFieldRule.unReadonlyFields, (ls_field) => {
                                     let ln_changOriFieldIndex = _.findIndex(this.oriOrderDtFieldsData, {ui_field_name: ls_field});
                                     if (ln_changOriFieldIndex > -1) {
                                         this.oriOrderDtFieldsData[ln_changOriFieldIndex].modificable = 'Y';
@@ -1378,7 +1385,7 @@
                             }
                         }
                         else {
-                            alert(lo_doChkFiledRule.errorMsg);
+                            alert(lo_doChkFieldRule.errorMsg);
                         }
                     }
                     catch (err) {
@@ -1489,12 +1496,18 @@
             //單筆guest mn欄位規則檢查
             async chkGuestMnFieldRule(field) {
                 const la_nowData = [this.guestMnRowsData4Single];
-                const la_beforeData = [this.beforeGuestMnRowsData4Single];
-                const la_diff = _.difference(la_beforeData, la_nowData);
-
-                if (la_diff.length === 0) {
-                    return;
+                // const la_beforeData = [this.beforeGuestMnRowsData4Single];
+                // const la_diff = _.difference(la_beforeData, la_nowData);
+                let lb_isDiff = false;
+                for (const ls_key in this.guestMnRowsData4Single) {
+                    const value = this.guestMnRowsData4Single[ls_key];
+                    if (value !== this.beforeGuestMnRowsData4Single[ls_key]) {
+                        lb_isDiff = true;
+                        break;
+                    }
                 }
+                if (lb_isDiff === false) return;
+
                 if (field.rule_func_name === "") {
                     return;
                 }
@@ -1506,31 +1519,40 @@
                         validateField: field.ui_field_name,
                         singleRowData: la_nowData,
                         order_mn: this.orderMnSingleData,
-                        oriSingleData: la_beforeData,
+                        order_dt: this.orderDtRowsData,
+                        // oriSingleData: la_beforeData,
                         allRowData: this.guestMnRowsData
                     };
-                    let lo_doChkFiledRule = await this.chkFieldRule(field, lo_postData);
-                    if (lo_doChkFiledRule.success) {
+                    let lo_doChkFieldRule = await this.chkFieldRule(field, lo_postData);
+
+                    if (lo_doChkFieldRule.success) {
                         //帶回來的預設值
-                        if (!_.isEmpty(lo_doChkFiledRule.defaultValues)) {
-                            let lo_guestMnData = _.extend(this.guestMnRowsData4Single, lo_doChkFiledRule.defaultValues);
-                            this.guestMnRowsData4Single = JSON.parse(JSON.stringify(lo_guestMnData));
+                        if (!_.isEmpty(lo_doChkFieldRule.defaultValues)) {
+                            const lo_orderMnData = _.extend(this.orderMnSingleData, lo_doChkFieldRule.defaultValues);
+                            this.orderMnSingleData = JSON.parse(JSON.stringify(lo_orderMnData));
                         }
-                        //連動帶回的值
-                        if (!_.isUndefined(lo_doChkFiledRule.effectValues) && _.size(lo_doChkFiledRule.effectValues) > 0) {
-                            this.guestMnRowsData4Single = _.extend(this.guestMnRowsData4Single, lo_doChkFiledRule.effectValues);
 
-                            this.isEffectFromRule = lo_doChkFiledRule.isEffectFromRule;
+                        if (lo_doChkFieldRule.showAlert) {
+                            _.each(lo_doChkFieldRule.alertMsg, ls_alertMsg => {
+                                alert(ls_alertMsg);
+                            })
                         }
-                        //改變前資料改為現在資料
-                        this.beforeGuestMnRowsData4Single = JSON.parse(JSON.stringify(this.guestMnRowsData4Single));
-
-                        this.setGuestMnRowData(this.guestMnRowsData4Single);
                     }
-                    else {
-                        this.guestMnRowsData4Single = _.extend(this.guestMnRowsData4Single, this.beforeGuestMnRowsData4Single);
-                        alert(lo_doChkFiledRule.errorMsg);
-                    }
+                    //     //連動帶回的值
+                    //     if (!_.isUndefined(lo_doChkFieldRule.effectValues) && _.size(lo_doChkFieldRule.effectValues) > 0) {
+                    //         this.guestMnRowsData4Single = _.extend(this.guestMnRowsData4Single, lo_doChkFieldRule.effectValues);
+                    //
+                    //         this.isEffectFromRule = lo_doChkFieldRule.isEffectFromRule;
+                    //     }
+                    //     //改變前資料改為現在資料
+                    //     this.beforeGuestMnRowsData4Single = JSON.parse(JSON.stringify(this.guestMnRowsData4Single));
+                    //
+                    //     this.setGuestMnRowData(this.guestMnRowsData4Single);
+                    // }
+                    // else {
+                    //     this.guestMnRowsData4Single = _.extend(this.guestMnRowsData4Single, this.beforeGuestMnRowsData4Single);
+                    //     alert(lo_doChkFieldRule.errorMsg);
+                    // }
                 }
                 catch (err) {
                     console.log(err);
@@ -1551,24 +1573,24 @@
              * @param field {object} 欄位資料
              */
             async chkOrderMnFieldRule(field) {
-//                if (_.isEmpty(this.beforeOrderMnSingleData)) {
-//                    this.beforeOrderMnSingleData = this.oriOrderMnSingleData;
-//                }
-//                let la_beforeData = [this.orderMnSingleData];
-//                let la_orderData = [this.beforeOrderMnSingleData];
-//                let la_diff = _.difference(la_beforeData, la_orderData);
-//
-//                if (la_diff.length == 0) {
-//                    return;
-//                }
-//                if (field.rule_func_name == "") {
-//                    return;
-//                }
-//
-//                //楷岳(有問題: chkOrdermnAcustnam)
+                // if (_.isEmpty(this.beforeOrderMnSingleData)) {
+                //     this.beforeOrderMnSingleData = this.oriOrderMnSingleData;
+                // }
+                // let la_beforeData = [this.orderMnSingleData];
+                // let la_orderData = [this.beforeOrderMnSingleData];
+                // let la_diff = _.difference(la_beforeData, la_orderData);
+                //
+                // if (la_diff.length == 0) {
+                //     return;
+                // }
+                // if (field.rule_func_name == "") {
+                //     return;
+                // }
+                //
+                // //楷岳(有問題: chkOrdermnAcustnam)
                 const lo_acust_data = _.findWhere(field.selectData.selectData, {cust_cod: this.orderMnSingleData.acust_cod});
                 if (_.isUndefined(lo_acust_data)) return;
-//                this.orderMnSingleData.acust_nam = lo_acust_data.acust_cod;     // (2.
+                // this.orderMnSingleData.acust_nam = lo_acust_data.acust_cod;     // (2.
                 this.orderMnSingleData.sales_cod = lo_acust_data.sales_cod;     // (3.
                 if (this.orderMnSingleData.group_nos === "") this.orderMnSingleData.group_nos = lo_acust_data.alt_nam; // (5.
                 const lo_params = {
@@ -1579,7 +1601,6 @@
 
                 try {
                     const lo_ruleResult = await this.chkFieldRule(field, lo_params);
-                    console.log(lo_ruleResult);
                     if (lo_ruleResult.success) {
                         this.orderMnSingleData = _.extend(this.orderMnSingleData, lo_ruleResult.effectValues);
                     }
@@ -1599,29 +1620,29 @@
                         singleRowData: la_orderData,
                         oriSingleData: la_beforeData,
                     };
-                    let lo_doChkFiledRule = await BacUtils.doHttpPromisePostProxy("/api/chkFieldRule", lo_postData)
+                    let lo_doChkFieldRule = await BacUtils.doHttpPromisePostProxy("/api/chkFieldRule", lo_postData)
                         .then((result) => {
                             return result;
                         }).catch((err) => {
                             return {success: false, errorMsg}
                         });
-                    if (lo_doChkFiledRule.success) {
+                    if (lo_doChkFieldRule.success) {
                         //連動帶回的值
-                        if (!_.isUndefined(lo_doChkFiledRule.effectValues) && _.size(lo_doChkFiledRule.effectValues) > 0) {
-                            this.orderMnSingleData = _.extend(this.orderMnSingleData, lo_doChkFiledRule.effectValues);
+                        if (!_.isUndefined(lo_doChkFieldRule.effectValues) && _.size(lo_doChkFieldRule.effectValues) > 0) {
+                            this.orderMnSingleData = _.extend(this.orderMnSingleData, lo_doChkFieldRule.effectValues);
 
-                            this.isEffectFromRule = lo_doChkFiledRule.isEffectFromRule;
+                            this.isEffectFromRule = lo_doChkFieldRule.isEffectFromRule;
                         }
                         //是否要show出訊息
-                        if (lo_doChkFiledRule.showAlert) {
-                            alert(lo_doChkFiledRule.alertMsg);
+                        if (lo_doChkFieldRule.showAlert) {
+                            alert(lo_doChkFieldRule.alertMsg);
                         }
                         //改變前資料改為現在資料
                         this.beforeOrderMnSingleData = JSON.parse(JSON.stringify(this.orderMnSingleData));
                     }
                     else {
                         this.orderMnSingleData = _.extend(this.orderMnSingleData, this.beforeOrderMnSingleData);
-                        alert(lo_doChkFiledRule.errorMsg);
+                        alert(lo_doChkFieldRule.errorMsg);
                     }
                 }
                 catch (err) {
@@ -1738,33 +1759,32 @@
                         oriSingleData: la_beforeData,
                         allRowData: this.orderDtRowsData
                     };
-                    let lo_doChkFiledRule = await BacUtils.doHttpPromisePostProxy("/api/chkFieldRule", lo_postData).then(result => {
+                    let lo_doChkFieldRule = await BacUtils.doHttpPromisePostProxy("/api/chkFieldRule", lo_postData).then(result => {
                         return result
                     }).catch(err => {
                         return {success: false, errorMsg: err}
                     });
-                    if (lo_doChkFiledRule.success) {
+                    if (lo_doChkFieldRule.success) {
                         //連動帶回的值
-                        if (!_.isUndefined(lo_doChkFiledRule.effectValues) && _.size(lo_doChkFiledRule.effectValues) > 0) {
-                            let la_effectValuesKey = Object.keys(lo_doChkFiledRule.effectValues);
+                        if (!_.isUndefined(lo_doChkFieldRule.effectValues) && _.size(lo_doChkFieldRule.effectValues) > 0) {
+                            let la_effectValuesKey = Object.keys(lo_doChkFieldRule.effectValues);
                             if (la_effectValuesKey.indexOf("allRowData") > -1) {
-                                let la_allRowData = JSON.parse(JSON.stringify(lo_doChkFiledRule.effectValues["allRowData"]));
+                                let la_allRowData = JSON.parse(JSON.stringify(lo_doChkFieldRule.effectValues["allRowData"]));
                                 this.orderDtRowsData = la_allRowData;
-                                console.log(this.orderDtRowsData);
                             }
                             else {
                                 this.orderDtRowsData4table[this.editingOrderDtIdx] =
-                                    _.extend(this.orderDtRowsData4table[this.editingOrderDtIdx], lo_doChkFiledRule.effectValues);
+                                    _.extend(this.orderDtRowsData4table[this.editingOrderDtIdx], lo_doChkFieldRule.effectValues);
                             }
-                            this.isEffectFromRule = lo_doChkFiledRule.isEffectFromRule;
+                            this.isEffectFromRule = lo_doChkFieldRule.isEffectFromRule;
                         }
                         //是否要show出訊息
-                        if (lo_doChkFiledRule.showAlert) {
-                            alert(lo_doChkFiledRule.alertMsg);
+                        if (lo_doChkFieldRule.showAlert) {
+                            alert(lo_doChkFieldRule.alertMsg);
                         }
                         //欄位是否唯獨
-                        if (lo_doChkFiledRule.readonlyFields.length > 0) {
-                            _.each(lo_doChkFiledRule.readonlyFields, (ls_field) => {
+                        if (lo_doChkFieldRule.readonlyFields.length > 0) {
+                            _.each(lo_doChkFieldRule.readonlyFields, (ls_field) => {
                                 let ln_changOriFieldIndex = _.findIndex(this.oriOrderDtFieldsData, {ui_field_name: ls_field});
                                 if (ln_changOriFieldIndex > -1) {
                                     this.oriOrderDtFieldsData[ln_changOriFieldIndex].modificable = 'N';
@@ -1778,8 +1798,8 @@
                             });
                         }
                         //欄位是否可修改
-                        if (lo_doChkFiledRule.unReadonlyFields.length > 0) {
-                            _.each(lo_doChkFiledRule.unReadonlyFields, (ls_field) => {
+                        if (lo_doChkFieldRule.unReadonlyFields.length > 0) {
+                            _.each(lo_doChkFieldRule.unReadonlyFields, (ls_field) => {
                                 let ln_changOriFieldIndex = _.findIndex(this.oriOrderDtFieldsData, {ui_field_name: ls_field});
                                 if (ln_changOriFieldIndex > -1) {
                                     this.oriOrderDtFieldsData[ln_changOriFieldIndex].modificable = 'Y';
@@ -1793,12 +1813,12 @@
                             });
                         }
                         //欄位下拉資料
-                        if (lo_doChkFiledRule.selectField.length > 0) {
-                            _.each(lo_doChkFiledRule.selectField, (ls_field) => {
+                        if (lo_doChkFieldRule.selectField.length > 0) {
+                            _.each(lo_doChkFieldRule.selectField, (ls_field) => {
                                 let ln_changFieldIndex = _.findIndex(this.orderDtFieldsData4table, {ui_field_name: ls_field});
                                 if (ln_changFieldIndex > -1) {
-                                    this.orderDtFieldsData4table[ln_changFieldIndex].selectData = lo_doChkFiledRule.multiSelectOptions[ls_field];
-                                    this.orderDtFieldsData4table[ln_changFieldIndex].selectDataDisplay = lo_doChkFiledRule.multiSelectOptions[ls_field];
+                                    this.orderDtFieldsData4table[ln_changFieldIndex].selectData = lo_doChkFieldRule.multiSelectOptions[ls_field];
+                                    this.orderDtFieldsData4table[ln_changFieldIndex].selectDataDisplay = lo_doChkFieldRule.multiSelectOptions[ls_field];
                                 }
                             });
                         }
@@ -1809,7 +1829,7 @@
                         this.orderDtRowsData4table[this.editingOrderDtIdx] =
                             _.extend(this.orderDtRowsData4table[this.editingOrderDtIdx], this.beforeOrderDtRowsData4Table[this.editingOrderDtIdx]);
                         // this.isEffectFromRule = false;
-                        alert(lo_doChkFiledRule.errorMsg);
+                        alert(lo_doChkFieldRule.errorMsg);
                     }
                     this.isLoadingDialog = false;
                 }
@@ -2229,12 +2249,13 @@
                     this.cancelFieldsData = lo_fetchResult.gsFieldsData;
                 }
 
-                console.log(this.cancelFieldsData);
-
                 _.each(this.orderDtRowsData, (lo_orderData, ln_idx) => {
                     this.orderDtRowsData[ln_idx].order_sta = this.orderStatus;
                 });
                 this.convertDtDataToSingleAndTable();
+            },
+            closeOrderStaDialog() {
+
             },
             async doSave() {
                 this.isLoadingDialog = true;
