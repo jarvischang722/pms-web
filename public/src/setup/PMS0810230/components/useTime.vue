@@ -91,12 +91,8 @@
         },
         methods: {
             deleteRow() {
-                let lb_isReadOnly = false;
-                //開始日已過滾房租日期時開始日欄位唯讀不可修改
-                lb_isReadOnly = compareRentCalDat(this.rowData.begin_dat, this.rowData.rentCalDat);
-                //當筆使用期間結束日期大於滾房租日期時為整筆唯讀，不可修改。
-                lb_isReadOnly = compareRentCalDat(this.rowData.end_dat, this.rowData.rentCalDat);
-                if (!lb_isReadOnly) {
+                let lb_isReadOnly = moment(this.rowData.begin_dat).isSameOrBefore(this.rowData.rentCalDat);
+                if (lb_isReadOnly == false) { //表示開始日期在滾房租日後面
                     let params = {type: 'delete', index: this.index, rowData: this.rowData};
                     this.$emit('on-custom-comp', params);
                 }
@@ -118,21 +114,19 @@
         },
         computed: {
             isReadOnly() {
-                let lb_isReadOnly = false;
-                lb_isReadOnly = compareRentCalDat(this.rowData.begin_dat, this.rowData.rentCalDat);
-                //當筆使用期間結束日期大於滾房租日期時為整筆唯讀，不可修改。
-                lb_isReadOnly = compareRentCalDat(this.rowData.end_dat, this.rowData.rentCalDat);
+                let lb_isReadOnly = moment(this.rowData.end_dat).isSameOrBefore(this.rowData.rentCalDat);
+                lb_isReadOnly = moment(this.rowData.begin_dat).isSameOrBefore(this.rowData.rentCalDat);
                 return lb_isReadOnly
             }
         },
         watch: {
             "rowData.begin_dat": function (val, oldVal) {
                 //chk_1010_begin_dat
-                if (moment(val).diff(moment(this.rowData.rentCalDat), "days") <= 0) {
-                    alert(go_i18nLang.program.PMS0810230.begBiggerEnd);
+                if (moment(val).isBefore(this.rowData.rentCalDat)) {
+                    alert(go_i18nLang.program.PMS0810230.begBiggerRel);
                     this.rowData.begin_dat = oldVal;
                 }
-                else if (moment(val).diff(moment(this.rowData.end_dat), "days") > 0) {
+                else if (moment(val).isAfter(moment(this.rowData.end_dat))) {
                     alert(go_i18nLang.program.PMS0810230.begBiggerEnd);
                     this.rowData.begin_dat = oldVal;
                 }
@@ -161,13 +155,13 @@
         },
         computed: {
             isReadOnly() {
-                let lb_isReadOnly = compareRentCalDat(this.rowData.end_dat, this.rowData.rentCalDat);
+                let lb_isReadOnly = moment(this.rowData.end_dat).isSameOrBefore(this.rowData.rentCalDat);
                 return lb_isReadOnly
             }
         },
         watch: {
             "rowData.end_dat": function (val, oldVal) {
-                if (moment(val).diff(moment(this.rowData.begin_dat), "days") < 0) {
+                if (moment(val).isBefore(moment(this.rowData.begin_dat))) {
                     alert(go_i18nLang.program.PMS0810230.begBiggerEnd);
                     this.rowData.end_dat = oldVal;
                 }
@@ -200,7 +194,7 @@
         },
         computed: {
             isReadOnly() {
-                let lb_isReadOnly = compareRentCalDat(this.rowData.end_dat, this.rowData.rentCalDat);
+                let lb_isReadOnly = moment(this.rowData.end_dat).isSameOrBefore(this.rowData.rentCalDat);
                 return lb_isReadOnly
             }
         },
@@ -238,7 +232,7 @@
         },
         computed: {
             isReadOnly() {
-                let lb_isReadOnly = compareRentCalDat(this.rowData.end_dat, this.rowData.rentCalDat);
+                let lb_isReadOnly = moment(this.rowData.end_dat).isSameOrBefore(this.rowData.rentCalDat);
                 return lb_isReadOnly
             }
         },
@@ -289,7 +283,7 @@
         },
         computed: {
             isReadOnly() {
-                let lb_isReadOnly = compareRentCalDat(this.rowData.end_dat, this.rowData.rentCalDat);
+                let lb_isReadOnly = moment(this.rowData.end_dat).isSameOrBefore(this.rowData.rentCalDat);
                 return lb_isReadOnly
             }
         },
@@ -852,9 +846,5 @@
                 return la_returnData;
             }
         }
-    }
-
-    function compareRentCalDat(nowDate, rentCalDat) {
-        return moment(nowDate).diff(rentCalDat) < 0 ? true : false;
     }
 </script>

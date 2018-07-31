@@ -480,8 +480,10 @@
                             <div class="right-menu-co">
                                 <ul>
                                     <li>
-                                        <button class="btn btn-primary btn-white btn-defaultWidth"
+                                        <button class="btn btn-primary btn-white btn-defaultWidth" disabled="!isLock"
                                                 role="button" @click="doSaveGrid">{{i18nLang.program.PMS0810230.save}}
+
+
 
 
                                         </button>
@@ -492,12 +494,16 @@
                                             {{i18nLang.program.PMS0810230.useTime}}
 
 
+
+
                                         </button>
                                     </li>
                                     <li>
                                         <!--等SA-->
                                         <button class="btn btn-primary btn-white btn-defaultWidth resv_priceTrial"
                                                 role="button">{{i18nLang.program.PMS0810230.priceTrial}}(等SA)
+
+
 
 
                                         </button>
@@ -508,12 +514,16 @@
                                             {{i18nLang.program.PMS0810230.rateList}}
 
 
+
+
                                         </button>
                                     </li>
                                     <li class="depDateLi"
                                         v-if="$parent.prgEditionOptions.optionList.indexOf('PMS_RATECODE_B') > -1">
                                         <button class="btn btn-primary btn-white btn-defaultWidth rateCode_dependantRate"
                                                 role="button">{{i18nLang.program.PMS0810230.depRate}}
+
+
 
 
                                         </button>
@@ -524,11 +534,15 @@
                                                 role="button">{{i18nLang.program.PMS0810230.baseRate}}
 
 
+
+
                                         </button>
                                     </li>
                                     <li v-if="$parent.prgEditionOptions.optionList.indexOf('PMS_RATECODE_B') > -1">
                                         <button class="btn btn-primary btn-white btn-defaultWidth rateCode_addPpl"
                                                 role="button">{{i18nLang.program.PMS0810230.addPol}}
+
+
 
 
                                         </button>
@@ -537,6 +551,8 @@
                                         <button class="btn btn-primary btn-white btn-defaultWidth"
                                                 role="button" @click="doCloseDialog">
                                             {{i18nLang.program.PMS0810230.leave}}
+
+
 
 
                                         </button>
@@ -721,6 +737,8 @@
                                     <li>
                                         <button class="btn btn-primary btn-white btn-defaultWidth rateCode_duplicate"
                                                 role="button">複製
+
+
 
 
                                         </button>
@@ -1081,7 +1099,7 @@
                             }, 200);
                             if (result.success) {
                                 alert(go_i18nLang.program.PMS0810230.save_success);
-                                let lo_cloneData = JSON.parse(JSON.stringify(this.rowData));
+                                let lo_cloneData = JSON.parse(JSON.stringify(_.extend(this.rowData, this.singleData)));
                                 this.rowData = {}
                                 this.isEditStatus = true;
                                 this.isCreateStatus = false;
