@@ -346,7 +346,6 @@
                 }
                 else {
                     this.doRowLock(gs_prgId, lo_editingRow.ikey);
-
                 }
             },
             doRowLock(prg_id, ikey) {

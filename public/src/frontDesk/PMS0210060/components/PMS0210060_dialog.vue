@@ -99,10 +99,10 @@
                                                 <td class="css_td" v-if="field.visiable == 'Y'">
                                                     <template v-if="field.ui_field_name == 'room_mn.clean_sta'">
                                                         <template v-if="data[field.ui_field_name] == 'D'">
-                                                            <span class='red'>{{field.selectData.find((item)=>item.value === data[field.ui_field_name]).display}}</span>
+                                                            <span class='red'>{{ cleanStaVal(field, data)}}</span>
                                                         </template>
                                                         <template v-else-if="data[field.ui_field_name] !== null">
-                                                            <span>{{field.selectData.find((item)=>item.value === data[field.ui_field_name]).display}}</span>
+                                                            <span>{{cleanStaVal(field, data)}}</span>
                                                         </template>
                                                         <template v-else>
                                                             <span>{{data[field.ui_field_name]}}</span>
@@ -369,6 +369,14 @@
                     alert(lo_guestMnData.errorMsg);
                 }
             },
+            cleanStaVal(field, singleData) {
+                let ls_cleanSta = "";
+                if (!_.isUndefined(field.selectData)) {
+                    let lo_selectedData = _.findWhere(field.selectData, {value: singleData[field.ui_field_name]});
+                    ls_cleanSta = _.isUndefined(lo_selectedData) ? ls_cleanSta : lo_selectedData.display;
+                }
+                return ls_cleanSta;
+            },
             /**
              * 執行欄位為button的function
              */
@@ -554,11 +562,8 @@
                 else {
                     alert(lo_validate.errorMsg);
                 }
-
-                setTimeout(() => {
-                    this.isLoading = false;
-                    this.loadingText = "loading...";
-                }, 100);
+                this.isLoading = false;
+                this.loadingText = "loading...";
             },
             /**
              *取消入住
@@ -588,18 +593,26 @@
                     updateData: [_.extend(this.orderMnValueData, {page_id: page_id, tab_page_id: 11})],
                     oriData: [this.orderMnValueData]
                 };
+                let la_saveData = JSON.parse(JSON.stringify(this.guestMnRowDataChecked));
 
-                _.each(this.guestMnRowDataChecked, (lo_guestData) => {
-                    lo_tmpCUD.updateData.push(_.extend(lo_guestData, {page_id: page_id, tab_page_id: 12}));
-                    lo_tmpCUD.oriData.push(_.extend(lo_guestData, {page_id: page_id, tab_page_id: 12}));
+                _.each(la_saveData, (lo_data) => {
+                    _.each(lo_data, (ls_val, ls_key) => {
+                        let la_key = ls_key.split(".");
+                        if (la_key.length > 1) {
+                            lo_data[la_key[1]] = ls_val;
+                            delete lo_data[ls_key];
+                        }
+                    });
+                    lo_tmpCUD.updateData.push(_.extend(lo_data, {page_id: page_id, tab_page_id: 12}));
+                    lo_tmpCUD.oriData.push(_.extend(lo_data, {page_id: page_id, tab_page_id: 12}));
                 });
 
                 let lo_save = await
-                    //     new Promise((resolve, reject) => {
-                    //     setTimeout(() => {
-                    //         resolve({success: false, errorMsg: "test"});
-                    //     }, 500);
-                    // });
+//                         new Promise((resolve, reject) => {
+//                         setTimeout(() => {
+//                             resolve({success: false, errorMsg: "test"});
+//                         }, 500);
+//                     });
 
                     BacUtils.doHttpPromisePostProxy('/api/execNewFormatSQL', {
                         prg_id: gs_prgId,
