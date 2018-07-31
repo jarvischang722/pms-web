@@ -186,7 +186,7 @@
                                                     <div class="townPage">
                                                         <!--<div class="townBlock roomAss_detail"-->
                                                         <div class="townBlock"
-                                                             v-for="(roomDt, index) in roomDtListRowData"
+                                                             v-for="(roomDt, index) in filterRoomList"
                                                              @click="chooseRoomDt(roomDt)"
                                                         >
                                                             <div class="head">
@@ -195,13 +195,13 @@
                                                             </div>
                                                             <div class="clearfix"></div>
                                                             <div class="content">
-                                                                <span>{{roomDt.alt_namALT_NAM}}</span>
+                                                                <span>{{roomDt.alt_nam}}</span>
                                                             </div>
                                                             <div class="content">
-                                                                <span>{{roomDt.CI_DAT}}-{{roomDt.CO_DAT}}</span>
+                                                                <span>{{roomDt.ci_dat}}-{{roomDt.co_dat}}</span>
                                                             </div>
                                                             <div class="content">
-                                                                <span>{{roomDt.BED_STA}}</span>
+                                                                <span>{{roomDt.assign_sta}}</span>
                                                             </div>
                                                             <div class="clearfix"></div>
 
@@ -319,7 +319,7 @@
     const gs_prgId = "PMS0210030";
     import _ from "underscore";
 
-    var vmHub = new Vue();
+    let vmHub = new Vue();
     //region  DatagridRmSingleGridClass
     // 訂房多筆
     function DatagridGroupClass() {
@@ -357,6 +357,90 @@
     //endregion
 
     export default {
+        data() {
+            return {
+                searchFields: [],
+                searchCond: {},
+
+                //滾房租日
+                rentCalDat: '',
+                //訂房多筆
+                groupOrderDtField: [],
+                groupOrderDtRowData: [],
+                selectDtIndex: -1,
+
+                //訂房明細
+                orderDtListField: [],
+                orderDtListRowData: [],
+                selectListIndex: -1,
+
+                //排房房間
+                roomDtListField: [],
+                roomDtListRowData: [],
+                // {
+                //     room_nos: '0301',
+                //     room_cod: 'DDT',
+                //     room_sta: 'V',
+                //     clean_sta: 'C',
+                //     oos_sta: 'Y',
+                //     assign_sta: 'N',
+                //     ALT_NAM: '陳先生',
+                //     BED_STA: 'S',
+                //     CI_DAT: '2018/04/29',
+                //     CO_DAT: '2018/04/30',
+                //     ROOM_RMK: '~~~'
+                // },
+                // {
+                //     room_nos: '0302',
+                //     room_cod: 'DDT',
+                //     room_sta: 'V',
+                //     clean_sta: 'C',
+                //     oos_sta: 'Y',
+                //     assign_sta: 'N',
+                //     ALT_NAM: '陳先生',
+                //     BED_STA: 'S',
+                //     CI_DAT: '2018/04/29',
+                //     CO_DAT: '2018/04/30',
+                //     ROOM_RMK: '~~~'
+                // },
+                // {
+                //     room_nos: '0303',
+                //     room_cod: 'DDT',
+                //     room_sta: 'V',
+                //     clean_sta: 'C',
+                //     oos_sta: 'Y',
+                //     assign_sta: 'N',
+                //     ALT_NAM: '陳先生',
+                //     BED_STA: 'S',
+                //     CI_DAT: '2018/04/29',
+                //     CO_DAT: '2018/04/30',
+                //     ROOM_RMK: '~~~'
+                // }],
+                selectRoomDtIndex: -1,
+
+                //顯示清單或是圖形模式 true:清單 false:圖形
+                btnList: true,
+                condition: {
+                    floor: [],
+                    roomStatus: '',
+                    roomType: []
+                },
+                //條件選項存放區
+                roomType: [],
+                roomFloor: [],
+                selectRoomType: '',
+                selectRoomFloor: [],
+                ColorList: ['不可排房', '修理房間', '可排房間', '不可移動', '今日預定C/O', '參觀'],
+                // isLite:true, 要討論未來如何判斷使用版本(lite)
+                //
+                lockStatus: false,//lock有做的話(true)可以按按鈕
+                dgGroup: {},
+                dgDetail: {},
+                dgRoom: {},
+
+                selectRoomData: {}
+            };
+        },
         created() {
             vmHub.$on("setGroupOrderDt", (data) => {
                 this.selectDtIndex = data.index;
@@ -385,10 +469,6 @@
             this.dgList = new DatagridOrderListClass();
             this.dgRoom = new DatagridRoomListClass();
         },
-        async mounted() {
-            // 初始化頁面
-            await this.initPageLoad();
-        },
         watch: {
             async selectDtIndex(newV, oldV) {
                 console.log('訂房多筆', newV, oldV);
@@ -405,95 +485,25 @@
                 await this.queryOrderDtList();
 
                 // 排房房間 資料 （todo...）
-                await this.getRoomData();
+                let lo_roomList = await this.getRoomData();
+                this.roomDtListRowData = lo_roomList.effectValues;
+
             },
             async selectListIndex(newVal, oldVal) {
                 console.log('訂房明細', newVal, oldVal);
             },
         },
-        data() {
-            return {
-                searchFields: [],
-                searchCond: {},
-
-                //滾房租日
-                rentCalDat: '',
-                //訂房多筆
-                groupOrderDtField: [],
-                groupOrderDtRowData: [],
-                selectDtIndex: -1,
-
-                //訂房明細
-                orderDtListField: [],
-                orderDtListRowData: [],
-                selectListIndex: -1,
-
-                //排房房間
-                roomDtListField: [],
-                roomDtListRowData: [
-                    {
-                        room_nos: '0301',
-                        room_cod: 'DDT',
-                        room_sta: 'V',
-                        clean_sta: 'C',
-                        oos_sta: 'Y',
-                        assign_sta: 'N',
-                        ALT_NAM: '陳先生',
-                        BED_STA: 'S',
-                        CI_DAT: '2018/04/29',
-                        CO_DAT: '2018/04/30',
-                        ROOM_RMK: '~~~'
-                    },
-                    {
-                        room_nos: '0302',
-                        room_cod: 'DDT',
-                        room_sta: 'V',
-                        clean_sta: 'C',
-                        oos_sta: 'Y',
-                        assign_sta: 'N',
-                        ALT_NAM: '陳先生',
-                        BED_STA: 'S',
-                        CI_DAT: '2018/04/29',
-                        CO_DAT: '2018/04/30',
-                        ROOM_RMK: '~~~'
-                    },
-                    {
-                        room_nos: '0303',
-                        room_cod: 'DDT',
-                        room_sta: 'V',
-                        clean_sta: 'C',
-                        oos_sta: 'Y',
-                        assign_sta: 'N',
-                        ALT_NAM: '陳先生',
-                        BED_STA: 'S',
-                        CI_DAT: '2018/04/29',
-                        CO_DAT: '2018/04/30',
-                        ROOM_RMK: '~~~'
-                    }],
-                selectRoomDtIndex: -1,
-
-                //顯示清單或是圖形模式 true:清單 false:圖形
-                btnList: true,
-                condition: {
-                    floor: [],
-                    roomStatus: '',
-                    roomType: []
-                },
-                //條件選項存放區
-                roomType: [],
-                roomFloor: [],
-                selectRoomType: '',
-                selectRoomFloor: [],
-                ColorList: ['不可排房', '修理房間', '可排房間', '不可移動', '今日預定C/O', '參觀'],
-                // isLite:true, 要討論未來如何判斷使用版本(lite)
-                //
-                lockStatus: false,//lock有做的話(true)可以按按鈕
-                dgGroup: {},
-                dgDetail: {},
-                dgRoom: {},
-
-                selectRoomData: {}
-            };
+        computed: {
+            /**
+             * 依照選擇的房型種類，過濾房型
+             */
+            filterRoomList: function() {
+                return this.roomDtListRowData.filter(lo_data => lo_data.room_cod === this.selectRoomType);;
+            },
+        },
+        async mounted() {
+            // 初始化頁面
+            await this.initPageLoad();
         },
         methods: {
             /**
@@ -791,12 +801,13 @@
 
                     let lo_result = await BacUtils.doHttpPromisePostProxy('/api/queryDataByRule', lo_params);
                     console.log(lo_result);
+
                     let lo_paramsRoomList = {
                         rule_func_name: 'fetRoomListData',
                     };
                     let lo_roomList = await BacUtils.doHttpPromisePostProxy('/api/queryDataByRule', lo_paramsRoomList);
-                    console.log(lo_roomList);
-                    return lo_result;
+
+                    return lo_roomList;
                 } catch (err) {
                     throw Error(err);
                 }
