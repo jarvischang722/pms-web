@@ -106,8 +106,8 @@
                 BTN_action: false,
                 isHideExpire: true,
                 dataGridRowsData: [],
-                dataGridRowsDataOfExpire: [],
                 dataGridRowsDataOfRateCode: [],
+                oriDataGridRowsDataOfRateCod: [],
                 oriDataGridRowsData: [],
                 fieldsData: [],
                 oriFieldsData: [],
@@ -174,12 +174,18 @@
                         alasql("select * from ? where rate_cod like '" + this.searchCondOfRate + "%' or ratecod_nam like '" + this.searchCondOfRate + "%'", [_.filter(this.dataGridRowsData, lo_dgRowData => {
                             return moment(new Date(lo_dgRowData.end_dat)).diff(moment(new Date(this.rentDatHq)), "days") >= 0
                         })]);
+                    this.oriDataGridRowsDataOfRateCode = alasql("select * from ? where rate_cod like '" + this.searchCondOfRate + "%' or ratecod_nam like '" + this.searchCondOfRate + "%'", [_.filter(this.oriDataGridRowsData, lo_dgRowData => {
+                        return moment(new Date(lo_dgRowData.end_dat)).diff(moment(new Date(this.rentDatHq)), "days") >= 0
+                    })]);
                 }
                 else {
                     this.dataGridRowsDataOfRateCode =
                         alasql("select * from ? where rate_cod like '" + this.searchCondOfRate + "%' or ratecod_nam like '" + this.searchCondOfRate + "%'", [this.dataGridRowsData]);
+                    this.oriDataGridRowsDataOfRateCode =
+                        alasql("select * from ? where rate_cod like '" + this.searchCondOfRate + "%' or ratecod_nam like '" + this.searchCondOfRate + "%'", [this.oriDataGridRowsData]);
                 }
                 this.dgIns.loadDgData(this.dataGridRowsDataOfRateCode);
+                this.dgIns.getOriDtRowData(this.oriDataGridRowsDataOfRateCode);
             }
         },
         methods: {
@@ -243,12 +249,19 @@
                         this.dataGridRowsDataOfRateCode = alasql("select * from ? where rate_cod like '" + this.searchCondOfRate + "%' or ratecod_nam like '" + this.searchCondOfRate + "%'", [_.filter(this.dataGridRowsData, lo_dgRowData => {
                             return moment(new Date(lo_dgRowData.end_dat)).diff(moment(new Date(this.rentDatHq)), "days") >= 0
                         })]);
+                        this.oriDataGridRowsDataOfRateCode = alasql("select * from ? where rate_cod like '" + this.searchCondOfRate + "%' or ratecod_nam like '" + this.searchCondOfRate + "%'", [_.filter(this.oriDataGridRowsData, lo_dgRowData => {
+                            return moment(new Date(lo_dgRowData.end_dat)).diff(moment(new Date(this.rentDatHq)), "days") >= 0
+                        })]);
+
                         this.showDataGrid();
                     }
                     else {
                         this.dataGridRowsData = this.$store.state.custMnModule.go_allData.ga_ccDataGridRowsData;
                         this.oriDataGridRowsData = this.$store.state.custMnModule.go_allOriData.ga_ccDataGridRowsData;
                         this.dataGridRowsDataOfRateCode = alasql("select * from ? where rate_cod like '" + this.searchCondOfRate + "%' or ratecod_nam like '" + this.searchCondOfRate + "%'", [_.filter(this.dataGridRowsData, lo_dgRowData => {
+                            return moment(new Date(lo_dgRowData.end_dat)).diff(moment(new Date(this.rentDatHq)), "days") >= 0
+                        })]);
+                        this.oriDataGridRowsDataOfRateCode = alasql("select * from ? where rate_cod like '" + this.searchCondOfRate + "%' or ratecod_nam like '" + this.searchCondOfRate + "%'", [_.filter(this.oriDataGridRowsData, lo_dgRowData => {
                             return moment(new Date(lo_dgRowData.end_dat)).diff(moment(new Date(this.rentDatHq)), "days") >= 0
                         })]);
                         this.dgIns.loadDgData(this.dataGridRowsDataOfRateCode);
@@ -260,7 +273,7 @@
                 this.dgIns = this.isModifiable ? new DatagridBaseClass() : new DatagridSingleGridClass();
                 this.dgIns.init("PMS0610020", "contractContent_dg", DatagridFieldAdapter.combineFieldOption(this.fieldsData, 'contractContent_dg'), this.fieldsData);
                 this.dgIns.loadDgData(this.dataGridRowsDataOfRateCode);
-                this.dgIns.getOriDtRowData(this.oriDataGridRowsData);
+                this.dgIns.getOriDtRowData(this.oriDataGridRowsDataOfRateCode);
                 this.dgIns.updateMnRowData(this.$store.state.custMnModule.go_allData.go_mnSingleData);
 
                 this.isLoading = false;
