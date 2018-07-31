@@ -145,12 +145,12 @@
                                                 role="button" @click="r_1011">{{i18nLang.program.PMS0210060['1010']}}
                                         </button>
                                     </li>
-                                    <li v-if="isCheckIn">
-                                        <button
-                                                class="btn btn-primary btn-white btn-defaultWidth"
-                                                role="button">{{i18nLang.program.PMS0210060['1012']}}
-                                        </button>
-                                    </li>
+                                    <!--<li v-if="isCheckIn">-->
+                                        <!--<button-->
+                                                <!--class="btn btn-primary btn-white btn-defaultWidth"-->
+                                                <!--role="button">{{i18nLang.program.PMS0210060['1012']}}-->
+                                        <!--</button>-->
+                                    <!--</li>-->
                                     <li v-if="isCheckIn">
                                         <button
                                                 class="btn btn-primary btn-white btn-defaultWidth"
@@ -213,7 +213,7 @@
                                 <ul>
                                     <li>
                                         <button class="btn btn-primary btn-white btn-defaultWidth"
-                                                role="button" @click="closeRmkDialog">離開
+                                                role="button" @click="closeRmkDialog">{{i18nLang.SystemCommon.Leave}}
                                         </button>
                                     </li>
                                 </ul>
@@ -496,44 +496,44 @@
                     }
                 }
 
-                //檢查order mn 公帳號
-                if (lo_return.success && this.guestMnRowDataChecked.length > 0) {
-                    let lo_doMasterRule = await BacUtils.doHttpPromisePostProxy("/api/queryDataByRule", {
-                        rule_func_name: "r_1021",
-                        isFirst: true,
-                        orderMnData: this.orderMnValueData
-                    }).then(result => {
-                        return result
-                    }).catch(err => {
-                        return {success: false, errorMsg: err}
-                    });
-
-                    // lo_return.success = false;
-                    // lo_return.errorMsg = "false";
-
-                    if (lo_doMasterRule.showConfirm) {
-                        let lb_confirm = confirm(go_i18nLang.program.PMS0210060.chkMaster);
-
-                        if (lb_confirm) {
-                            let lo_doMasterRuleAgain = await BacUtils.doHttpPromisePostProxy("/api/queryDataByRule", {
-                                rule_func_name: "r_1021",
-                                isFirst: false,
-                                orderMnData: this.orderMnValueData
-                            }).then(result => {
-                                return result
-                            }).catch(err => {
-                                return {success: false, errorMsg: err}
-                            });
-                            if (!lo_doMasterRuleAgain.success) {
-                                lo_return.success = false;
-                                lo_return.errorMsg = lo_doMasterRuleAgain.errorMsg;
-                            }
-                        }
-                        else {
-                            lo_return.success = false;
-                        }
-                    }
-                }
+                //檢查order mn 公帳號 LITE版不做
+//                if (lo_return.success && this.guestMnRowDataChecked.length > 0) {
+//                    let lo_doMasterRule = await BacUtils.doHttpPromisePostProxy("/api/queryDataByRule", {
+//                        rule_func_name: "r_1021",
+//                        isFirst: true,
+//                        orderMnData: this.orderMnValueData
+//                    }).then(result => {
+//                        return result
+//                    }).catch(err => {
+//                        return {success: false, errorMsg: err}
+//                    });
+//
+//                    // lo_return.success = false;
+//                    // lo_return.errorMsg = "false";
+//
+//                    if (lo_doMasterRule.showConfirm) {
+//                        let lb_confirm = confirm(go_i18nLang.program.PMS0210060.chkMaster);
+//
+//                        if (lb_confirm) {
+//                            let lo_doMasterRuleAgain = await BacUtils.doHttpPromisePostProxy("/api/queryDataByRule", {
+//                                rule_func_name: "r_1021",
+//                                isFirst: false,
+//                                orderMnData: this.orderMnValueData
+//                            }).then(result => {
+//                                return result
+//                            }).catch(err => {
+//                                return {success: false, errorMsg: err}
+//                            });
+//                            if (!lo_doMasterRuleAgain.success) {
+//                                lo_return.success = false;
+//                                lo_return.errorMsg = lo_doMasterRuleAgain.errorMsg;
+//                            }
+//                        }
+//                        else {
+//                            lo_return.success = false;
+//                        }
+//                    }
+//                }
 
                 return lo_return;
             },
