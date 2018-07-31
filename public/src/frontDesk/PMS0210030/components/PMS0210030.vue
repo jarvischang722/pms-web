@@ -568,22 +568,15 @@
              */
             async queryField() {
                 try {
-                    let lb_createField = true;
-                    if (this.groupOrderDtField.length === 0) {
-                        let ln_nos = await this.fetchGroupOrderDtField();
-                        lb_createField = ln_nos;
+                    let ln_groupOrderDtLength;
+                    let ln_OrderDtLength;
+                    if(this.groupOrderDtField.length === 0 || this.orderDtListField.length === 0){
+                        ln_groupOrderDtLength = await this.fetchGroupOrderDtField();
+                        ln_OrderDtLength = await this.fetchOrderDtListField();
                     }
-                    if (this.orderDtListField.length === 0) {
-                        let ln_nos = await this.fetchOrderDtListField();
-                        lb_createField = ln_nos;
-                    }
-                    if (this.roomDtListField.length === 0) {
-                        let ln_nos = await this.getRoomColumns();
-                        lb_createField = ln_nos;
-                    }
-                    await this.getRoomColumns();
+                    let ln_roomDataLength = await this.getRoomColumns();
 
-                    if (lb_createField) {
+                    if(ln_groupOrderDtLength || ln_OrderDtLength || ln_roomDataLength){
                         this.dgGroup.init(gs_prgId, "groupOrderDt_dg", DatagridFieldAdapter.combineFieldOption(this.groupOrderDtField, "groupOrderDt_dg"), this.groupOrderDtField, {
                             singleSelect: true,
                             pagination: false,
@@ -602,9 +595,9 @@
                             rownumbers: true,
                             pageSize: 20 //一開始只載入20筆資料
                         });
-                        return lb_createField;
-                    } else {
-                        return lb_createField;
+                        return true;
+                    }else {
+                        return false;
                     }
                 } catch (err) {
                     throw Error(err)
@@ -797,11 +790,12 @@
                     };
 
                     let lo_result = await BacUtils.doHttpPromisePostProxy('/api/queryDataByRule', lo_params);
+                    console.log(lo_result);
                     let lo_paramsRoomList = {
                         rule_func_name: 'fetRoomListData',
                     };
                     let lo_roomList = await BacUtils.doHttpPromisePostProxy('/api/queryDataByRule', lo_paramsRoomList);
-                    console.log(lo_roomList)
+                    console.log(lo_roomList);
                     return lo_result;
                 } catch (err) {
                     throw Error(err);
