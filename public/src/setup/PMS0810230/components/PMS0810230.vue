@@ -91,9 +91,8 @@
             this.prgEditionOptions = BacchusMainVM.prgEditionOptions;
 
             g_socket.on("checkTableLock", (result) => {
-                if (result.success) {
-                    // this.editingRow = $('#PMS0810230_dg').datagrid('getSelected');
-                    // this.showSingleGridDialog();
+                if (!result.success) {
+                   alert("lock failed");
                 }
             });
 
@@ -277,7 +276,7 @@
                     alert(go_i18nLang["SystemCommon"].SelectOneData);
                 }
                 else {
-                    // this.doRowLock(gs_prgId, lo_editRow.rate_cod);
+                    this.doRowLock(gs_prgId, lo_editRow.rate_cod);
                     this.editingRow = $('#PMS0810230_dg').datagrid('getSelected');
                     this.showSingleGridDialog();
                 }
@@ -294,6 +293,7 @@
                 else {
                     let lb_chkDelRow = confirm(go_i18nLang["SystemCommon"].check_delete);
                     if (lb_chkDelRow) {
+                        this.doRowLock(gs_prgId, lo_delRow.rate_cod);
                         let lo_params = {
                             page_id: this.pageOneFieldData[0].page_id,
                             tab_page_id: this.pageOneFieldData[0].tab_page_id,
@@ -387,7 +387,6 @@
             doCloseTimeRuleDialog() {
                 this.isOpenTimeRule = false;
             },
-            //TODO 再去問洪興大哥lock的流程
             doRowLock: function (prg_id, rate_cod) {
                 let ls_keyCod = this.userInfo.athena_id + this.userInfo.hotel_cod + rate_cod.trim();
                 let lo_param = {
@@ -396,12 +395,11 @@
                     lock_type: "R",
                     key_cod: ls_keyCod.trim()
                 };
-                // console.log(g_socket);
                 g_socket.emit('handleTableLock', lo_param);
             },
             doRowUnLock() {
                 let lo_param = {
-                    prg_id: ""
+                    prg_id: gs_prgId
                 };
                 g_socket.emit('handleTableUnlock', lo_param);
             }

@@ -145,6 +145,7 @@
       "end_placeholder": "结束日期(英文)",
       "selectDate": "請選擇日期(英文)",
       "begBiggerEnd": "開始日要小於結束日(英)",
+      "begBiggerRel": "開始日要大於滾房日(英)",
       "stopSell": "停售(英文)",
       "revert": "還原(英文)"
     },
