@@ -480,7 +480,7 @@
                             <div class="right-menu-co">
                                 <ul>
                                     <li>
-                                        <button class="btn btn-primary btn-white btn-defaultWidth"
+                                        <button class="btn btn-primary btn-white btn-defaultWidth" disabled="!isLock"
                                                 role="button" @click="doSaveGrid">{{i18nLang.program.PMS0810230.save}}
 
 

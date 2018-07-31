@@ -50,6 +50,7 @@
                 :is-create-status="isCreateStatus"
                 :is-edit-status="isEditStatus"
                 :version-state="versionState"
+                :is-lock="isLock"
         ></pms0810230-single-grid>
         <!--欄位內容多語系-->
         <field-multi-lang
@@ -92,7 +93,8 @@
 
             g_socket.on("checkTableLock", (result) => {
                 if (!result.success) {
-                   alert("lock failed");
+                    this.isLock = false;
+                    alert(result.errorMsg);
                 }
             });
 
@@ -147,6 +149,7 @@
         components: {pms0810230SingleGrid, fieldMultiLang},
         data() {
             return {
+                isLock: true,
                 sys_locales: JSON.parse(decodeURIComponent(getCookie("sys_locales")).replace("j:", "")),//語系
                 i18nLang: go_i18nLang,//多語系資料
                 go_funcPurview: [],//按鈕權限
