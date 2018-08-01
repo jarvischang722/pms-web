@@ -364,7 +364,7 @@ module.exports = {
                 }
             }
         };
-        //
+
         tools.requestApi(sysConf.api_url.java, apiParams, function (apiErr, apiRes, data) {
             let success = true;
             let errorMsg = "";

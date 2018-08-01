@@ -1039,8 +1039,8 @@
                 $.messager.confirm({
                     title: '鎖定訂房',
                     msg: `是否${ls_keyWord}排房`,
-                    fn: async function(r){
-                        if (r){
+                    fn: async function(result){
+                        if (result){
                             const lo_apiParams = {
                                 rule_func_name: 'doAsiLock',
                                 order_dt: lo_order_dt,
