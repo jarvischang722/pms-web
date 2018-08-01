@@ -299,17 +299,23 @@ module.exports = {
                                 "hotel_cod": session.hotel_cod,
                                 "ikey": lo_order_dt.ikey,
                                 "ikey_seq_nos": lo_order_dt.ikey_seq_nos,
+                                "upd_usr": session.user.usr_id,
                                 conditions: {
                                     "athena_id": session.athena_id,
                                     "hotel_cod": session.hotel_cod,
                                     "ikey": lo_order_dt.ikey,
-                                    "ikey_seq_nos": lo_order_dt.ikey_seq_nos
+                                    "ikey_seq_nos": lo_order_dt.ikey_seq_nos,
+                                    "upd_usr": session.user.usr_id
                                 }
                             }
                         ]
                     }
                 }
-            }
+            },
+            "client_ip": "",
+            "server_ip": "",
+            "event_time": moment().format(),
+            "mac": ""
         };
         tools.requestApi(sysConf.api_url.java, apiParams, function (apiErr, apiRes, data) {
             let success = true;
@@ -350,19 +356,25 @@ module.exports = {
                                 "hotel_cod": session.hotel_cod,
                                 "ikey": lo_order_dt.ikey,
                                 "ikey_seq_nos": lo_order_dt.ikey_seq_nos,
-                                "asi_lock": lo_order_dt.asi_lock,
+                                "asi_lock": "Y",
+                                "upd_usr": session.user.usr_id,
                                 conditions: {
                                     "athena_id": session.athena_id,
                                     "hotel_cod": session.hotel_cod,
                                     "ikey": lo_order_dt.ikey,
                                     "ikey_seq_nos": lo_order_dt.ikey_seq_nos,
-                                    "asi_lock": lo_order_dt.asi_lock
+                                    "asi_lock": "Y",
+                                    "upd_usr": session.user.usr_id
                                 }
                             }
                         ]
                     }
                 }
-            }
+            },
+            "client_ip": "",
+            "server_ip": "",
+            "event_time": moment().format(),
+            "mac": ""
         };
 
         tools.requestApi(sysConf.api_url.java, apiParams, function (apiErr, apiRes, data) {
