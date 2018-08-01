@@ -146,11 +146,9 @@ module.exports = {
             "client_ip": "",
             "locale": "zh_TW",
 
-            // "athena_id": session.athena_id,
-            // "hotel_cod": session.hotel_cod,
-            "athena_id": 1,
-            "hotel_cod": "02",
-            "usr_id": "a17017",
+            "athena_id": session.athena_id,
+            "hotel_cod": session.hotel_cod,
+            "usr_id": session.user.usr_id,
             "socket_id": "reftefbb",
             "ci_dat": moment(lo_orderDt.ci_dat).format("YYYY/MM/DD"),
             "co_dat": moment(lo_orderDt.co_dat).format("YYYY/MM/DD"),
@@ -221,15 +219,18 @@ module.exports = {
         let apiParams = {
             "REVE-CODE": "PMS0210030",
             "prg_id": "PMS0210030",
+            "func_id": "1010",
+            "client_ip": "",
+            "locale": "zh_TW",
+
             "athena_id": session.athena_id,
             "hotel_cod": session.hotel_cod,
-            "func_id": "1010",
             "ikey": lo_order_dt.ikey,
             "ikey_seq_nos": lo_order_dt.ikey_seq_nos,
             "ci_dat": lo_order_dt.ci_dat,
             "co_dat": lo_order_dt.co_dat,
             "room_cod": lo_order_dt.room_cod,
-            "room_nos": params.room_nos
+            "room_nos": lo_order_dt.room_nos
         };
 
         tools.requestApi(sysConf.api_url.java, apiParams, function (apiErr, apiRes, data) {
@@ -240,13 +241,12 @@ module.exports = {
                 errorMsg = apiErr;
             } else if (data["RETN-CODE"] != "0000") {
                 success = false;
-                errorMsg = data["RETN-CODE-DESC"] || '發生錯誤';
+                errorMsg = data["RETN-CODE-DESC"] || "發生錯誤";
                 console.error(data["RETN-CODE-DESC"]);
             } else {
                 errorMsg = data["RETN-CODE-DESC"];
             }
             callback(errorMsg, success, data);
         });
-
     }
 };

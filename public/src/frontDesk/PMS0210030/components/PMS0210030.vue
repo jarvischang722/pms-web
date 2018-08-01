@@ -898,7 +898,7 @@
             // 選擇的排房房間
             chooseRoomDt(roomDt) {
                 this.selectRoomData = roomDt;
-                console.log(roomDt)
+                console.log(roomDt);
             },
 
             // 排房
@@ -908,13 +908,13 @@
                         'ci_dat': moment(this.groupOrderDtRowData[this.selectDtIndex].ci_dat).format('YYYY/MM/DD'),
                         'co_dat': moment(this.groupOrderDtRowData[this.selectDtIndex].co_dat).format('YYYY/MM/DD'),
                         'ikey': this.groupOrderDtRowData[this.selectDtIndex].ikey,
+                        'room_nos': this.selectRoomData.room_nos
                     });
 
                     const lo_apiParams = {
                         rule_func_name: 'doAssign',
                         func_id: "1010",
                         order_dt: lo_orderDt,
-                        room_nos: 301
                     };
                     console.log(lo_apiParams);
                     let lo_result = await BacUtils.doHttpPromisePostProxy('/api/queryDataByRule', lo_apiParams);
