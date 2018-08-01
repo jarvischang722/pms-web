@@ -145,5 +145,6 @@
         <sql-source base="true" comment="test" key="test" path="dao_block_mn.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_bac_option_dt.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_tmp_pms0210030_room_list.xml"/>
+        <sql-source base="true" comment="test" key="test" path="dao_rminv_tr.xml"/>
     </sql-sources>
 </struts-config>

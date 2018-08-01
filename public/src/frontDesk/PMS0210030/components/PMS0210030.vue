@@ -173,7 +173,10 @@
                                                 <tbody class="css_tbody">
                                                 <tr class="css_tr" v-for="(room,idx) in roomType"
                                                     @click="chooseRoomType(room.room_cod)">
-                                                    <td class="css_td" :class="{active:room.room_cod === selectRoomType }"> {{room.room_cod}}</td>
+                                                    <td class="css_td"
+                                                        :class="{active:room.room_cod === selectRoomType }">
+                                                        {{room.room_cod}}
+                                                    </td>
                                                 </tr>
                                                 </tbody>
                                             </table>
@@ -497,8 +500,8 @@
             /**
              * 依照選擇的房型種類，過濾房型
              */
-            filterRoomList: function() {
-                return this.roomDtListRowData.filter(lo_data => lo_data.room_cod === this.selectRoomType);;
+            filterRoomList: function () {
+                return this.roomDtListRowData.filter(lo_data => lo_data.room_cod === this.selectRoomType);
             },
         },
         async mounted() {
@@ -580,13 +583,13 @@
                 try {
                     let ln_groupOrderDtLength;
                     let ln_OrderDtLength;
-                    if(this.groupOrderDtField.length === 0 || this.orderDtListField.length === 0){
+                    if (this.groupOrderDtField.length === 0 || this.orderDtListField.length === 0) {
                         ln_groupOrderDtLength = await this.fetchGroupOrderDtField();
                         ln_OrderDtLength = await this.fetchOrderDtListField();
                     }
                     let ln_roomDataLength = await this.getRoomColumns();
 
-                    if(ln_groupOrderDtLength || ln_OrderDtLength || ln_roomDataLength){
+                    if (ln_groupOrderDtLength || ln_OrderDtLength || ln_roomDataLength) {
                         this.dgGroup.init(gs_prgId, "groupOrderDt_dg", DatagridFieldAdapter.combineFieldOption(this.groupOrderDtField, "groupOrderDt_dg"), this.groupOrderDtField, {
                             singleSelect: true,
                             pagination: false,
@@ -606,7 +609,7 @@
                             pageSize: 20 //一開始只載入20筆資料
                         });
                         return true;
-                    }else {
+                    } else {
                         return false;
                     }
                 } catch (err) {
@@ -789,13 +792,13 @@
             },
             // 單純撈 [排房房間] 資料
             async getRoomData() {
-                this.selectRoomFloor = [2,3]; //todo
-                let ls_floor = this.selectRoomFloor.join(','); //todo
+                // this.selectRoomFloor = [2, 3]; //todo
+                // let ls_floor = this.selectRoomFloor.join(','); //todo
                 try {
                     const lo_params = {
                         rule_func_name: 'fetchRoomData',
                         order_dt: _.extend(this.groupOrderDtRowData[this.selectDtIndex], {
-                            floor_nos: ls_floor //todo
+                            // floor_nos: ls_floor //todo
                         }),
                     };
 
@@ -840,7 +843,7 @@
              */
             chooseRoomType(room_cod) {
                 this.selectRoomType = room_cod;
-
+                this.selectRoomData = this.filterRoomList[0];
                 //todo 重撈資料庫資料
             },
             //endregion
@@ -904,21 +907,46 @@
             // 排房
             async doAssign() {
                 try {
-                    let lo_orderDt = _.extend(this.orderDtListRowData[this.selectListIndex], {
-                        'ci_dat': moment(this.groupOrderDtRowData[this.selectDtIndex].ci_dat).format('YYYY/MM/DD'),
-                        'co_dat': moment(this.groupOrderDtRowData[this.selectDtIndex].co_dat).format('YYYY/MM/DD'),
-                        'ikey': this.groupOrderDtRowData[this.selectDtIndex].ikey,
-                        'room_nos': this.selectRoomData.room_nos
-                    });
+                    console.log(this.orderDtListRowData[this.selectListIndex]);
+                    let currentListRowData = this.orderDtListRowData[this.selectListIndex];
+                    if ((currentListRowData.assign_sta === 'Y' || currentListRowData.assign_sta === 'I') && currentListRowData.asi_lock === 'Y') {
+                        alert('不能排房');
+                        return;
+                    }
 
-                    const lo_apiParams = {
-                        rule_func_name: 'doAssign',
-                        func_id: "1010",
-                        order_dt: lo_orderDt,
+                    // 檢查房號可否排房
+                    const lo_checkRommNosParams = {
+                        rule_func_name: 'checkRoomNos',
+                        begin_dat: moment(this.groupOrderDtRowData[this.selectDtIndex].ci_dat).format('YYYY/MM/DD'),
+                        end_dat: moment(this.groupOrderDtRowData[this.selectDtIndex].co_dat).format('YYYY/MM/DD'),
+                        room_nos: this.selectRoomData.room_nos
                     };
-                    console.log(lo_apiParams);
-                    let lo_result = await BacUtils.doHttpPromisePostProxy('/api/queryDataByRule', lo_apiParams);
-                    console.log(lo_result);
+                    let lo_checkRommNos = await BacUtils.doHttpPromisePostProxy('/api/queryDataByRule', lo_checkRommNosParams);
+                    // todo return True, false 顯示未來用清單
+
+                    let lb_confrim = true;
+                    if (currentListRowData.room_cod !== this.selectRoomData.room_cod) {
+                        lb_confrim = confirm(`訂房使用房型與排房房號房型${this.selectRoomData.room_cod}不同是否確定執行排房?`);
+                    }
+
+                    if (lb_confrim) {
+                        let lo_orderDt = _.extend(this.orderDtListRowData[this.selectListIndex], {
+                            'ci_dat': this.groupOrderDtRowData[this.selectDtIndex].ci_dat,
+                            'co_dat': this.groupOrderDtRowData[this.selectDtIndex].co_dat,
+                            'ikey': this.groupOrderDtRowData[this.selectDtIndex].ikey,
+                            'room_nos': this.selectRoomData.room_nos
+                        });
+
+                        const lo_apiParams = {
+                            rule_func_name: 'doAssign',
+                            func_id: "1010",
+                            order_dt: lo_orderDt,
+                        };
+                        console.log(lo_apiParams);
+                        let lo_result = await BacUtils.doHttpPromisePostProxy('/api/queryDataByRule', lo_apiParams);
+                        console.log(lo_result);
+                        //todo 更新畫面
+                    }
                 } catch (err) {
                     console.log(err)
                 }
@@ -927,10 +955,58 @@
             doAssignAll() {
             },
             // 取消排房
-            doUnassign() {
+            async doUnassign() {
+                try {
+                    console.log(this.orderDtListRowData[this.selectListIndex])
+                    let currentListRowData = this.orderDtListRowData[this.selectListIndex];
+
+                    if (currentListRowData.assign_sta !== 'Y') {
+                        alert('不能取消');
+                        return;
+                    }
+                    if (currentListRowData.asi_lock === 'Y') {
+                        alert('已設定鎖定排房，不可執行取消排房');
+                        return;
+                    }
+
+                    let lo_orderDt = _.extend(currentListRowData, {
+                        'ikey': this.groupOrderDtRowData[this.selectDtIndex].ikey,
+                    });
+
+                    const lo_apiParams = {
+                        rule_func_name: 'doUnassign',
+                        order_dt: lo_orderDt,
+                    };
+                    console.log(lo_apiParams);
+                    let lo_result = await BacUtils.doHttpPromisePostProxy('/api/queryDataByRule', lo_apiParams);
+                    console.log(lo_result);
+
+                    //todo 更新畫面
+                } catch (err) {
+                    console.log(err)
+                }
             },
             // 批次取消
-            doUnassignAll() {
+            async doUnassignAll() {
+
+                // 批次取消預計取消排房明細資料
+                let lo_currentRowData = this.groupOrderDtRowData[this.selectDtIndex];
+                const lo_apiParams = {
+                    rule_func_name: 'quyCancelRoomList',
+                    ikey: lo_currentRowData.ikey,
+                    assign_sta: lo_currentRowData.assign_sta,
+                    order_sta: lo_currentRowData.order_sta,
+                    ci_dat: lo_currentRowData.ci_dat,
+                    co_dat: lo_currentRowData.co_dat,
+                    rate_cod: lo_currentRowData.rate_cod,
+                    use_cod: lo_currentRowData.use_cod,
+                    room_cod: lo_currentRowData.room_cod,
+                    rent_amt: lo_currentRowData.rent_amt,
+                    serv_amt: lo_currentRowData.serv_amt,
+                };
+                let lo_result = await BacUtils.doHttpPromisePostProxy('/api/queryDataByRule', lo_apiParams);
+                console.log(lo_result)
+
             },
             // 鎖定排房
             lockRoom() {
