@@ -118,7 +118,6 @@
             g_socket.on("checkTableLock", (result) => {
                 this.isLoading = false;
                 if (result.success) {
-                    this.isCheckIn = true;
                     let lo_editingRow = $('#orderDtTable').datagrid('getSelected');
                     this.editingRow = lo_editingRow;
                     let dialog = $('#PMS0210060_dialog').removeClass('hide').dialog({
@@ -316,6 +315,8 @@
                     let lo_ciDat = moment(lo_editRow.ci_dat);
 
                     if (lo_ciDat.isSame(moment(this.rentCalDat))) {
+                        this.editingRow = lo_editRow;
+                        this.isCheckIn = true;
                         this.showSingleGridDialog();
                     }
                     else {
@@ -338,14 +339,20 @@
 
             },
             r_1020() {
-                this.isCheckIn = false;
-                //取消入住的SQL中, CI_DAT要帶滾房租日
-                this.editingRow.rent_cal_dat = moment(this.rentCalDat).format("YYYY/MM/DD");
-                this.showSingleGridDialog();
+                let lo_editRow = $('#orderDtTable').datagrid('getSelected');
+                if (lo_editRow) {
+                    this.editingRow = lo_editRow;
+                    this.isCheckIn = false;
+                    //取消入住的SQL中, CI_DAT要帶滾房租日
+                    this.editingRow.rent_cal_dat = moment(this.rentCalDat).format("YYYY/MM/DD");
+                    this.showSingleGridDialog();
+                }
+                else {
+                    alert(go_i18nLang["SystemCommon"].SelectOneData)
+                }
             },
             showSingleGridDialog() {
                 let self = this;
-                this.editingRow = {};
                 let lo_editingRow = $('#orderDtTable').datagrid('getSelected');
                 if (!lo_editingRow) {
                     alert(go_i18nLang["SystemCommon"].SelectOneData);

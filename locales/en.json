@@ -332,6 +332,8 @@
       "clearSelected": "取消全選(英文)",
       "checkInTitle": "check In(英文)",
       "cancelCheckInTitle": "取消入住(英文)",
+      "isClRoomAssign": "一併取消排房(英文)",
+      "isRoomDirty": "房間改成髒房(英文)",
       "1010": "入住(英文)",
       "1020": "取消入住(英文)",
       "1011": "入住(英文)",

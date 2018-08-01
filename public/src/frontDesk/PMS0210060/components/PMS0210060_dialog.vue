@@ -247,6 +247,67 @@
                 :is-create-status="isCreate4OrderMn"
                 :is-edit-status="isEdit4OrderMn"
         ></pms0110041-lite>
+
+        <!--取消訂房入住選項-->
+        <div id="clFdCheckInOpt_dialog" class="hide padding-5">
+            <div class="businessCompanyData">
+                <div class="col-xs-12 col-sm-12">
+                    <div class="row">
+                        <div class="col-xs-9 col-sm-9">
+                            <div class="row no-margin-right">
+                                <div class="borderFrame">
+                                    <div class="gird">
+                                        <div class="grid-item billCheckbox">
+                                        <span class="checkbox">
+                                          <label class="checkbox-width width-auto">
+                                              <input name="form-field-checkbox" type="checkbox"
+                                                     class="ace" v-model="isClRoomAssign">
+                                              <span class="lbl">{{i18nLang.program.PMS0210060.isClRoomAssign}}</span>
+                                          </label>
+                                        </span>
+                                        </div>
+                                    </div>
+                                    <div class="clearfix"></div>
+                                    <div class="gird">
+                                        <div class="grid-item billCheckbox">
+                                        <span class="checkbox">
+                                          <label class="checkbox-width width-auto">
+                                              <input name="form-field-checkbox" type="checkbox"
+                                                     class="ace" v-model="isRoomDirty">
+                                              <span class="lbl">{{i18nLang.program.PMS0210060.isRoomDirty}}</span>
+                                          </label>
+                                        </span>
+                                        </div>
+                                    </div>
+                                    <div class="clearfix"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xs-3 col-sm-3">
+                            <div class="row">
+                                <div class="right-menu-co">
+                                    <ul>
+                                        <li>
+                                            <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                    role="button" @click="r_1022">{{i18nLang.SystemCommon.OK}}
+                                            </button>
+                                        </li>
+                                        <li>
+                                            <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                    role="button" @click="cancelOption">{{i18nLang.SystemCommon.Cancel}}
+                                            </button>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+        </div>
+        <!--/.取消訂房入住選項-->
     </div>
 </template>
 
@@ -299,12 +360,15 @@
                 editingOrderMnData: {},
                 isModifiable4OrderMn: true,
                 isCreate4OrderMn: false,
-                isEdit4OrderMn: true
+                isEdit4OrderMn: true,
+
+                isRoomDirty: true,
+                isClRoomAssign: true
             }
         },
         watch: {
             async isCheckIn(val) {
-                if (!_.isUndefined(val)) {
+                if (!_.isUndefined(val) && !_.isEmpty(this.rowData)) {
                     this.isLoading = true;
                     await this.fetchOrderMnData();
                     await this.fetchGuestMnData();
@@ -323,6 +387,15 @@
                 this.guestMnFieldData = [];
                 this.guestMnValueData = [];
                 this.guestMnRowDataChecked = [];
+                this.isLoading = false;
+                this.loadingText = "Loading...";
+                this.editingOrderMnData = {};
+                this.isModifiable4OrderMn = true;
+                this.isCreate4OrderMn = false;
+                this.isEdit4OrderMn = true;
+                this.isRoomDirty = true;
+                this.isClRoomAssign = true;
+
             },
             async fetchOrderMnData() {
                 let lo_param = {
@@ -354,7 +427,6 @@
                     tab_page_id: 12,
                     searchCond: this.rowData
                 };
-
                 let lo_guestMnData = await BacUtils.doHttpPromisePostProxy("/api/fetchDataGridFieldData", lo_param).then(result => {
                     return result
                 }).catch(err => {
@@ -378,6 +450,12 @@
                                 "order_dt.serv_amt": lo_data.serv_amt,
                             };
                             lo_guestMnData.dgRowData[ln_idx] = _.extend(lo_data, lo_formatGuestMnData)
+                        });
+                    }
+                    else {
+                        _.each(lo_guestMnData.dgRowData, (lo_data, ln_idx) => {
+                            lo_guestMnData.dgRowData[ln_idx].ci_dat = moment(lo_data.ci_dat).format("YYYY/MM/DD");
+                            lo_guestMnData.dgRowData[ln_idx].eco_dat = moment(lo_data.eco_dat).format("YYYY/MM/DD");
                         });
                     }
                     this.guestMnValueData = lo_guestMnData.dgRowData;
@@ -510,15 +588,13 @@
                             lo_return.success = false;
                             lo_return.errorMsg = lo_doRule.errorMsg;
                         }
-                        else {
-                            if (!_.isEmpty(lo_doRule.effectValues)) {
-                                _.each(lo_doRule.effectValues["2010"], (lo_data) => {
-                                    let ln_idx = _.findIndex(this.guestMnRowDataChecked, {ikey_seq_nos: lo_data.ikey_seq_nos});
-                                    if (ln_idx > -1) {
-                                        this.guestMnRowDataChecked[ln_idx] = _.extend(this.guestMnRowDataChecked[ln_idx], lo_data);
-                                    }
-                                });
-                            }
+                        if (!_.isEmpty(lo_doRule.effectValues)) {
+                            _.each(lo_doRule.effectValues["2010"], (lo_data) => {
+                                let ln_idx = _.findIndex(this.guestMnRowDataChecked, {ikey_seq_nos: lo_data.ikey_seq_nos});
+                                if (ln_idx > -1) {
+                                    this.guestMnRowDataChecked[ln_idx] = _.extend(this.guestMnRowDataChecked[ln_idx], lo_data);
+                                }
+                            });
                         }
                     }
                 }
@@ -526,7 +602,7 @@
                 //檢查order mn 公帳號 LITE版不做
                 if (lo_return.success && this.guestMnRowDataChecked.length > 0 && this.edition != "LITE") {
                     let lo_doMasterRule = await BacUtils.doHttpPromisePostProxy("/api/queryDataByRule", {
-                        rule_func_name: "r_1021",
+                        rule_func_name: "r_1012",
                         isFirst: true,
                         orderMnData: this.orderMnValueData
                     }).then(result => {
@@ -567,58 +643,74 @@
             async r_1011() {
                 this.isLoading = true;
                 this.loadingText = "saving...";
-                let ls_funcId = "1011";
-                let ls_pageId = 1010;
                 let lo_validate = await this.doValidate();
                 if (lo_validate.success) {
-                    let lo_save = await this.doSave(ls_funcId, ls_pageId);
-                    if (lo_save.success) {
-                        let lb_isCheckIn = this.isCheckIn;
-                        this.isCheckIn = undefined;
-                        setTimeout(() => {
-                            this.isCheckIn = lb_isCheckIn;
-                        }, 100)
+                    let la_saveData = JSON.parse(JSON.stringify(this.guestMnRowDataChecked));
+                    _.each(la_saveData, (lo_data) => {
+                        _.each(lo_data, (ls_val, ls_key) => {
+                            let la_key = ls_key.split(".");
+                            if (la_key.length > 1) {
+                                lo_data[la_key[1]] = ls_val;
+                                delete lo_data[ls_key];
+                            }
+                        });
+                    });
+                    let lo_doRule = await BacUtils.doHttpPromisePostProxy("/api/chkPrgFuncRule", {
+                        prg_id: gs_prgId,
+                        page_id: 1010,
+                        tab_page_id: 11,
+                        func_id: "1011",
+                        orderMnData: _.extend(this.orderMnValueData, {eco_typ: "C/I"}),
+                        guestMnData: la_saveData
+                    }).then(result => {
+                        return result
+                    }).catch(err => {
+                        return {success: false, errorMsg: err}
+                    });
+
+                    if (lo_doRule.success) {
                     }
                     else {
-                        alert(lo_save.errorMsg);
+                        if (Array.isArray(lo_doRule.errorMsg)) {
+                        }
+                        else {
+                            alert(lo_doRule.errorMsg);
+                        }
                     }
                 }
                 else {
                     alert(lo_validate.errorMsg);
                 }
-                this.isLoading = false;
-                this.loadingText = "loading...";
+                setTimeout(() => {
+                    this.isLoading = false;
+                    this.loadingText = "loading...";
+                }, 250)
+
             },
             /**
              *取消入住
              */
-            async r_1021() {
+            r_1021() {
+                var dialog = $("#clFdCheckInOpt_dialog").removeClass('hide').dialog({
+                    modal: true,
+                    title: "取消入住選項",
+                    title_html: true,
+                    width: 300,
+                    maxwidth: 1920,
+//                height: $(window).height(),
+//                autoOpen: true,
+                    dialogClass: "test",
+                    resizable: true
+                }).dialog("open");
+            },
+            /**
+             * 確認取消入住
+             */
+            async r_1022() {
+                this.cancelOption();
                 this.isLoading = true;
                 this.loadingText = "saving...";
-                let ls_funcId = "1022";
-                let ls_pageId = 1020;
-                let lo_save = await this.doSave(ls_funcId, ls_pageId);
-
-                if (lo_save.success) {
-                    let lb_isCheckIn = this.isCheckIn;
-                    this.isCheckIn = undefined;
-                    setTimeout(() => {
-                        this.isCheckIn = lb_isCheckIn;
-                    }, 100)
-                }
-                else {
-                    alert(lo_save.errorMsg);
-                }
-                this.isLoading = false;
-                this.loadingText = "loading...";
-            },
-            async doSave(func_id, page_id) {
-                let lo_tmpCUD = {
-                    updateData: [_.extend(this.orderMnValueData, {page_id: page_id, tab_page_id: 11, eco_typ: "C/I"})],
-                    oriData: [this.orderMnValueData]
-                };
                 let la_saveData = JSON.parse(JSON.stringify(this.guestMnRowDataChecked));
-
                 _.each(la_saveData, (lo_data) => {
                     _.each(lo_data, (ls_val, ls_key) => {
                         let la_key = ls_key.split(".");
@@ -627,30 +719,45 @@
                             delete lo_data[ls_key];
                         }
                     });
-                    lo_tmpCUD.updateData.push(_.extend(lo_data, {page_id: page_id, tab_page_id: 12}));
-                    lo_tmpCUD.oriData.push(_.extend(lo_data, {page_id: page_id, tab_page_id: 12}));
+                });
+                let lo_doRule = await BacUtils.doHttpPromisePostProxy("/api/chkPrgFuncRule", {
+                    prg_id: gs_prgId,
+                    page_id: 1020,
+                    tab_page_id: 11,
+                    func_id: "1022",
+                    orderMnData: _.extend(this.orderMnValueData, {
+                        eco_typ: "C/I",
+                        cancel_assign: this.isClRoomAssign ? 'Y' : 'N',
+                        room_dirty: this.isRoomDirty ? 'Y' : 'N'
+                    }),
+                    guestMnData: la_saveData
+                }).then(result => {
+                    return result
+                }).catch(err => {
+                    return {success: false, errorMsg: err}
                 });
 
-                let lo_save = await
-//                         new Promise((resolve, reject) => {
-//                         setTimeout(() => {
-//                             resolve({success: false, errorMsg: "test"});
-//                         }, 500);
-//                     });
-
-                    BacUtils.doHttpPromisePostProxy('/api/execNewFormatSQL', {
-                        prg_id: gs_prgId,
-                        page_id: page_id,
-                        func_id: func_id,
-                        tmpCUD: lo_tmpCUD
-                    }).then(
-                        result => {
-                            return (result);
-                        }).catch(err => {
-                        return {success: false, errorMsg: err};
-                    });
-
-                return lo_save;
+                if (lo_doRule.success) {
+                    this.isCheckIn = undefined;
+                    setTimeout(() => {
+                        this.isCheckIn = false;
+                    }, 100)
+                }
+                else {
+                    if (Array.isArray(lo_doRule.errorMsg)) {
+                    }
+                    else {
+                        alert(lo_doRule.errorMsg);
+                    }
+                }
+                this.isLoading = false;
+                this.loadingText = "loading...";
+            },
+            /**
+             * 關閉取消入住選項dialog
+             */
+            cancelOption() {
+                $("#clFdCheckInOpt_dialog").dialog("close");
             },
             close() {
                 $("#PMS0210060_dialog").dialog("close")

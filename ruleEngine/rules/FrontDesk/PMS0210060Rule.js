@@ -21,7 +21,7 @@ module.exports = {
      * @param session
      * @param callback
      */
-    r_1010: async function (postData, session, callback) {
+    doOpenCheckIn: async function (postData, session, callback) {
         let lo_result = new ReturnClass();
         let lo_error = null;
 
@@ -109,11 +109,18 @@ module.exports = {
             else if (data["RETN-CODE"] != "0000") {
                 lo_result.success = false;
                 lo_error = new ErrorClass();
-                console.error(data["RETN-CODE-DESC"]);
-                lo_error.errorMsg = data["RETN-CODE-DESC"];
+                if (!_.isUndefined(data["RETN-DATA"])) {
+                    console.error(data["RETN-DATA"]["data"]);
+                    lo_error.errorMsg = data["RETN-DATA"]["data"];
+                }
+                else {
+                    console.error(data["RETN-CODE-DESC"]);
+                    lo_error.errorMsg = data["RETN-CODE-DESC"];
+                }
+
             }
-            else if (!_.isUndefined(data["RETURN-DATA"]["2010"])) {
-                lo_result.effectValues = data["RETURN-DATA"];
+            if (!_.isUndefined(data["RETN-DATA"])) {
+                lo_result.effectValues = data["RETN-DATA"]["ciserdata"];
             }
             callback(lo_error, lo_result);
         });
@@ -124,7 +131,7 @@ module.exports = {
      * @param session
      * @param callback
      */
-    r_1021: async function (postData, session, callback) {
+    r_1012: async function (postData, session, callback) {
         let lo_result = new ReturnClass();
         let lo_error = null;
         let lb_isFirst = postData.isFirst === "false" ? false : true;
@@ -232,6 +239,120 @@ module.exports = {
         }
 
         callback(lo_error, lo_result);
+    },
+    /**
+     * 入住
+     * @param postData
+     * @param session
+     * @param callback
+     * @returns {Promise.<void>}
+     */
+    doCheckIn: async function (postData, session) {
+        let lo_result = new ReturnClass();
+        let lo_error = null;
+
+        let la_orderMnData = [_.extend(postData.orderMnData, {upd_usr: session.user.usr_id})];
+        let la_guestMnData = postData.guestMnData;
+
+        let lo_pageData = {
+            "1010": {
+                tabs_data: {
+                    "11": la_orderMnData,
+                    "12": la_guestMnData
+                }
+            }
+        };
+
+        try {
+            return await new Promise((resolve, reject) => {
+                let apiParams = {
+                    "reve_code": "PMS0210060",
+                    "func_id": "1011",
+                    "athena_id": session.athena_id,
+                    "hotel_cod": session.hotel_cod,
+                    "event_time": moment().format(),
+                    "page_data": lo_pageData
+                };
+                tools.requestApi(sysConf.api_url.java, apiParams, function (apiErr, apiRes, data) {
+                    if (apiErr || !data) {
+                        reject(apiErr)
+                    }
+                    else {
+                        if (data["RETN-CODE"] != "0000") {
+                            if (!_.isUndefined(data["RETN-DATA"])) {
+                                reject(data["RETN-DATA"]["data"]);
+                            }
+                            else {
+                                reject(data["RETN-CODE-DESC"]);
+                            }
+                        }
+                        else {
+                            resolve(lo_result);
+                        }
+                    }
+                });
+            });
+        }
+        catch (err) {
+            throw err;
+        }
+    },
+    /**
+     * 取消入住
+     * @param postData
+     * @param session
+     * @param callback
+     * @returns {Promise.<void>}
+     */
+    doCancelCheckIn: async function (postData, session) {
+        let lo_result = new ReturnClass();
+        let lo_error = null;
+
+        let la_orderMnData = [_.extend(postData.orderMnData, {upd_usr: session.user.usr_id})];
+        let la_guestMnData = postData.guestMnData;
+
+        let lo_pageData = {
+            "1020": {
+                tabs_data: {
+                    "11": la_orderMnData,
+                    "12": la_guestMnData
+                }
+            }
+        };
+
+        try {
+            return await new Promise((resolve, reject) => {
+                let apiParams = {
+                    "reve_code": "PMS0210060",
+                    "func_id": "1022",
+                    "athena_id": session.athena_id,
+                    "hotel_cod": session.hotel_cod,
+                    "event_time": moment().format(),
+                    "page_data": lo_pageData
+                };
+                tools.requestApi(sysConf.api_url.java, apiParams, function (apiErr, apiRes, data) {
+                    if (apiErr || !data) {
+                        reject(apiErr)
+                    }
+                    else {
+                        if (data["RETN-CODE"] != "0000") {
+                            if (!_.isUndefined(data["RETN-DATA"])) {
+                                reject(data["RETN-DATA"]["data"]);
+                            }
+                            else {
+                                reject(data["RETN-CODE-DESC"]);
+                            }
+                        }
+                        else {
+                            resolve(lo_result);
+                        }
+                    }
+                });
+            });
+        }
+        catch (err) {
+            throw err;
+        }
     }
 };
 
