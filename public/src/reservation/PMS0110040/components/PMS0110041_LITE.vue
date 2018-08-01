@@ -468,10 +468,6 @@
                             <div class="right-menu-co">
                                 <ul>
                                     <li>
-                                        <!-- id ="resv_changeTxt" 訂房卡button 文字轉換 -->
-                                        <!--<button id ="resv_changeTxt" class="btn btn-primary btn-white padding-lg btn-defaultWidth"-->
-                                        <!--role="button">Waiting</button>-->
-                                        <!--todo 詢問晉偉如何使用-->
                                         <div class="btn-group btn-defaultWidth  chgText-effect">
                                             <button data-toggle="dropdown"
                                                     class="btn btn-primary btn-white btn-defaultWidth dropdown-toggle"
@@ -640,14 +636,14 @@
                                 <ul>
                                     <li>
                                         <button class="btn btn-primary btn-white btn-defaultWidth"
-                                                role="button" @click="">確定
+                                                role="button" @click="closeOrderStaDialog('save')">確定
                                         </button>
                                     </li>
                                 </ul>
                                 <ul>
                                     <li>
                                         <button class="btn btn-primary btn-white btn-defaultWidth"
-                                                role="button" @click="">離開
+                                                role="button" @click="closeOrderStaDialog('exit')">離開
                                         </button>
                                     </li>
                                 </ul>
@@ -1573,19 +1569,30 @@
              * @param field {object} 欄位資料
              */
             async chkOrderMnFieldRule(field) {
-                // if (_.isEmpty(this.beforeOrderMnSingleData)) {
-                //     this.beforeOrderMnSingleData = this.oriOrderMnSingleData;
-                // }
-                // let la_beforeData = [this.orderMnSingleData];
-                // let la_orderData = [this.beforeOrderMnSingleData];
+                if (_.isEmpty(this.beforeOrderMnSingleData)) {
+                    this.beforeOrderMnSingleData = this.oriOrderMnSingleData;
+                }
+                const la_beforeData = [this.orderMnSingleData];
+                const la_orderData = [this.beforeOrderMnSingleData];
+                // const la_beforeData = [this.beforeGuestMnRowsData4Single];
+                // const la_diff = _.difference(la_beforeData, la_nowData);
+                let lb_isDiff = false;
+                for (const ls_key in this.orderMnSingleData) {
+                    const value = this.orderMnSingleData[ls_key];
+                    if (value !== this.beforeOrderMnSingleData[ls_key]) {
+                        lb_isDiff = true;
+                        break;
+                    }
+                }
+
                 // let la_diff = _.difference(la_beforeData, la_orderData);
                 //
-                // if (la_diff.length == 0) {
-                //     return;
-                // }
-                // if (field.rule_func_name == "") {
-                //     return;
-                // }
+                if (lb_isDiff === false) {
+                    return;
+                }
+                if (field.rule_func_name === "") {
+                    return;
+                }
                 //
                 // //楷岳(有問題: chkOrdermnAcustnam)
                 const lo_acust_data = _.findWhere(field.selectData.selectData, {cust_cod: this.orderMnSingleData.acust_cod});
@@ -2254,8 +2261,11 @@
                 });
                 this.convertDtDataToSingleAndTable();
             },
-            closeOrderStaDialog() {
-
+            closeOrderStaDialog(type) {
+                // if (type === "save") {
+                    console.log(type);
+                // }
+                $("#cancelRm_dialog").dialog('close');
             },
             async doSave() {
                 this.isLoadingDialog = true;
