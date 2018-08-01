@@ -153,16 +153,14 @@ module.exports = {
             "socket_id": "",
             "ci_dat": moment(lo_orderDt.ci_dat).format("YYYY/MM/DD"),
             "co_dat": moment(lo_orderDt.co_dat).format("YYYY/MM/DD"),
-            // "ci_dat": "2018/06/29",
-            // "co_dat": "2018/06/30",
             // "room_cod": lo_orderDt.room_cod,
-            "room_cod": "SKK",
+            "room_cod": "",
             "character_rmk": "",
             "build_nos": "",
             "floor_nos": "",
             // "floor_nos": lo_orderDt.floor_nos,
             "bed_sta": "",
-            "can_assign": ""
+            "can_assign": lo_orderDt.can_assign
         };
 
         tools.requestApi(sysConf.api_url.java, apiParams, function (apiErr, apiRes, data) {
@@ -288,16 +286,30 @@ module.exports = {
     doUnassign: function (params, session, callback) {
         const lo_order_dt = params.order_dt;
         let apiParams = {
+            "locale": "zh_TW",
             "REVE-CODE": "PMS0210030",
             "prg_id": "PMS0210030",
             "func_id": "1030",
-            "client_ip": "",
-            "locale": "zh_TW",
-
-            "athena_id": session.athena_id,
-            "hotel_cod": session.hotel_cod,
-            "ikey": lo_order_dt.ikey,
-            "ikey_seq_nos": lo_order_dt.ikey_seq_nos
+            "page_data": {
+                "1": {
+                    "tabs_data": {
+                        "1": [
+                            {
+                                "athena_id": session.athena_id,
+                                "hotel_cod": session.hotel_cod,
+                                "ikey": lo_order_dt.ikey,
+                                "ikey_seq_nos": lo_order_dt.ikey_seq_nos,
+                                conditions: {
+                                    "athena_id": session.athena_id,
+                                    "hotel_cod": session.hotel_cod,
+                                    "ikey": lo_order_dt.ikey,
+                                    "ikey_seq_nos": lo_order_dt.ikey_seq_nos
+                                }
+                            }
+                        ]
+                    }
+                }
+            }
         };
         tools.requestApi(sysConf.api_url.java, apiParams, function (apiErr, apiRes, data) {
             let success = true;
@@ -331,7 +343,7 @@ module.exports = {
             if (apiErr || !data) {
                 success = false;
                 errorMsg = apiErr;
-            } else if (data["RETN-CODE"] != "0000") {
+            } else if (data["RETN-CODE"] !== "0000") {
                 success = false;
                 errorMsg = data["RETN-CODE-DESC"] || "發生錯誤";
                 console.error(data["RETN-CODE-DESC"]);

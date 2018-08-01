@@ -68,8 +68,10 @@
                                     <span class="checkbox">
                                           <label class="checkbox-width">
                                               <input name="form-field-checkbox"
-                                                     type="checkbox" checked
-                                                     class="ace">
+                                                     type="checkbox"
+                                                     class="ace"
+                                                     v-model="chkAssign"
+                                              >
                                               <span class="lbl">
                                                   <span class="subtxt">可排房</span>
                                               </span>
@@ -442,7 +444,10 @@
                 dgList: {},
                 dgRoom: {},
 
-                selectRoomData: {}
+                selectRoomData: {},
+
+                // 可排房 or 不可排房
+                chkAssign: false,
             };
         },
         created() {
@@ -495,6 +500,9 @@
             },
             async selectListIndex(newVal, oldVal) {
                 console.log('訂房明細', newVal, oldVal);
+            },
+            async chkAssign(newVal, oldVal) {
+                await this.getRoomData();
             },
         },
         computed: {
@@ -804,6 +812,8 @@
                         rule_func_name: 'fetchRoomData',
                         order_dt: _.extend(this.groupOrderDtRowData[this.selectDtIndex], {
                             // floor_nos: ls_floor //todo
+                            // room_cod: this.selectRoomType, //todo
+                            can_assign: this.chkAssign ? 'Y': 'N'
                         }),
                     };
 
@@ -846,10 +856,11 @@
              * 選擇房間類型
              * @param room_cod {String} 使用房型
              */
-            chooseRoomType(room_cod) {
+            async chooseRoomType(room_cod) {
                 this.selectRoomType = room_cod;
                 this.selectRoomData = this.filterRoomList[0];
                 //todo 重撈資料庫資料
+                await this.getRoomData();
             },
             //endregion
 
