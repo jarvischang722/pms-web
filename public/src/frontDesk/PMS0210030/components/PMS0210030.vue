@@ -926,7 +926,7 @@
                     'ci_dat': this.groupOrderDtRowData[this.selectDtIndex].ci_dat,
                     'co_dat': this.groupOrderDtRowData[this.selectDtIndex].co_dat,
                     'ikey': this.groupOrderDtRowData[this.selectDtIndex].ikey,
-                    "ikey_seq_nos": this.orderDtListRowData[this.selectListIndex].ikey_seq_nos,
+                    // "ikey_seq_nos": this.orderDtListRowData[this.selectListIndex].ikey_seq_nos,
                     'room_nos': this.selectRoomData.room_nos,
                     'begin_dat': moment(this.groupOrderDtRowData[this.selectDtIndex].ci_dat).format('YYYY/MM/DD'),
                     'end_dat': moment(this.groupOrderDtRowData[this.selectDtIndex].co_dat).format('YYYY/MM/DD'),
@@ -1033,14 +1033,8 @@
             },
             // 鎖定排房
             async lockRoom() {
-                let loOrderData = this.orderDtListRowData[this.selectListIndex];
-                let ls_keyWord = loOrderData.asi_lock === 'N' ? '鎖定': '解除';
-
-                let lo_orderDt = {
-                    ikey: loOrderData.ikey,
-                    ikey_seq_nos: loOrderData.ikey_seq_nos,
-                    asi_lock: loOrderData.asi_lock
-                };
+                let lo_order_dt = this.combinationData();
+                let ls_keyWord = lo_order_dt.asi_lock === 'N' ? '鎖定': '解除';
 
                 $.messager.confirm({
                     title: '鎖定訂房',
@@ -1049,8 +1043,7 @@
                         if (r){
                             const lo_apiParams = {
                                 rule_func_name: 'doAsiLock',
-                                func_id: "1050",
-                                order_dt: lo_orderDt,
+                                order_dt: lo_order_dt,
                             };
                             let lo_result = await BacUtils.doHttpPromisePostProxy('/api/queryDataByRule', lo_apiParams);
                             console.log(lo_result)

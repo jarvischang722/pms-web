@@ -335,7 +335,35 @@ module.exports = {
      * @param callback
      */
     doAsiLock: function (params, session, callback) {
-        let apiParams = {};
+        const lo_order_dt = params.order_dt;
+        let apiParams = {
+            "locale": "zh_TW",
+            "REVE-CODE": "PMS0210030",
+            "prg_id": "PMS0210030",
+            "func_id": "1050",
+            "page_data": {
+                "1": {
+                    "tabs_data": {
+                        "1": [
+                            {
+                                "athena_id": session.athena_id,
+                                "hotel_cod": session.hotel_cod,
+                                "ikey": lo_order_dt.ikey,
+                                "ikey_seq_nos": lo_order_dt.ikey_seq_nos,
+                                "asi_lock": lo_order_dt.asi_lock,
+                                conditions: {
+                                    "athena_id": session.athena_id,
+                                    "hotel_cod": session.hotel_cod,
+                                    "ikey": lo_order_dt.ikey,
+                                    "ikey_seq_nos": lo_order_dt.ikey_seq_nos,
+                                    "asi_lock": lo_order_dt.asi_lock
+                                }
+                            }
+                        ]
+                    }
+                }
+            }
+        };
         //
         tools.requestApi(sysConf.api_url.java, apiParams, function (apiErr, apiRes, data) {
             let success = true;
