@@ -95,6 +95,8 @@
                 if (!result.success) {
                     this.isLock = false;
                     alert(result.errorMsg);
+                }else{
+                    this.isLock = true;
                 }
             });
 
@@ -149,7 +151,7 @@
         components: {pms0810230SingleGrid, fieldMultiLang},
         data() {
             return {
-                isLock: true,
+                isLock: false,
                 sys_locales: JSON.parse(decodeURIComponent(getCookie("sys_locales")).replace("j:", "")),//語系
                 i18nLang: go_i18nLang,//多語系資料
                 go_funcPurview: [],//按鈕權限
