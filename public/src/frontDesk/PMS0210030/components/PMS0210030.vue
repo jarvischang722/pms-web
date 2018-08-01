@@ -289,8 +289,9 @@
                                         </button>
                                     </li>
                                     <li>
-                                        <button class="btn  btn-primary btn-white btn-defaultWidth focnt_lockRoom"
-                                                :disabled="!lockStatus" @click="lockRoom()"
+                                        <!--<button class="btn  btn-primary btn-white btn-defaultWidth focnt_lockRoom"-->
+                                        <button class="btn  btn-primary btn-white btn-defaultWidth"
+                                                :disabled="!lockStatus" @click="lockRoom"
                                                 role="button">鎖定排房
                                         </button>
                                     </li>
@@ -438,7 +439,7 @@
                 //
                 lockStatus: false,//lock有做的話(true)可以按按鈕
                 dgGroup: {},
-                dgDetail: {},
+                dgList: {},
                 dgRoom: {},
 
                 selectRoomData: {}
@@ -490,7 +491,7 @@
                 // 排房房間 資料 （todo...）
                 let lo_roomList = await this.getRoomData();
                 this.roomDtListRowData = lo_roomList.effectValues;
-
+                this.dgRoom.loadPageDgData(this.roomDtListRowData);
             },
             async selectListIndex(newVal, oldVal) {
                 console.log('訂房明細', newVal, oldVal);
@@ -680,6 +681,10 @@
                     if (ln_groupOrderDtRowDataLength > 0) {
                         $("#groupOrderDt_dg").datagrid('selectRow', 0);
                         this.selectDtIndex = 0; // watch selectDtIndex
+                    } else if (ln_groupOrderDtRowDataLength === 0) {
+                        this.dgList.loadPageDgData([]);
+                        this.roomDtListRowData = [];
+                        alert('找不到資料');
                     }
                 } catch (err) {
                     throw Error(err);
@@ -904,22 +909,35 @@
                 console.log(roomDt);
             },
 
+            //組合條件 (排房、取消排房)
+            combinationData: function() {
+                let lo_Data = _.extend(this.orderDtListRowData[this.selectListIndex], {
+                    'ci_dat': this.groupOrderDtRowData[this.selectDtIndex].ci_dat,
+                    'co_dat': this.groupOrderDtRowData[this.selectDtIndex].co_dat,
+                    'ikey': this.groupOrderDtRowData[this.selectDtIndex].ikey,
+                    "ikey_seq_nos": this.orderDtListRowData[this.selectListIndex].ikey_seq_nos,
+                    'room_nos': this.selectRoomData.room_nos,
+                    'begin_dat': moment(this.groupOrderDtRowData[this.selectDtIndex].ci_dat).format('YYYY/MM/DD'),
+                    'end_dat': moment(this.groupOrderDtRowData[this.selectDtIndex].co_dat).format('YYYY/MM/DD'),
+                });
+                return lo_Data;
+            },
+
             // 排房
             async doAssign() {
                 try {
-                    console.log(this.orderDtListRowData[this.selectListIndex]);
                     let currentListRowData = this.orderDtListRowData[this.selectListIndex];
                     if ((currentListRowData.assign_sta === 'Y' || currentListRowData.assign_sta === 'I') && currentListRowData.asi_lock === 'Y') {
                         alert('不能排房');
                         return;
                     }
 
+                    let lo_orderDt = this.combinationData();
+
                     // 檢查房號可否排房
                     const lo_checkRommNosParams = {
                         rule_func_name: 'checkRoomNos',
-                        begin_dat: moment(this.groupOrderDtRowData[this.selectDtIndex].ci_dat).format('YYYY/MM/DD'),
-                        end_dat: moment(this.groupOrderDtRowData[this.selectDtIndex].co_dat).format('YYYY/MM/DD'),
-                        room_nos: this.selectRoomData.room_nos
+                        order_dt: lo_orderDt,
                     };
                     let lo_checkRommNos = await BacUtils.doHttpPromisePostProxy('/api/queryDataByRule', lo_checkRommNosParams);
                     // todo return True, false 顯示未來用清單
@@ -930,18 +948,14 @@
                     }
 
                     if (lb_confrim) {
-                        let lo_orderDt = _.extend(this.orderDtListRowData[this.selectListIndex], {
-                            'ci_dat': this.groupOrderDtRowData[this.selectDtIndex].ci_dat,
-                            'co_dat': this.groupOrderDtRowData[this.selectDtIndex].co_dat,
-                            'ikey': this.groupOrderDtRowData[this.selectDtIndex].ikey,
-                            'room_nos': this.selectRoomData.room_nos
-                        });
-
                         const lo_apiParams = {
                             rule_func_name: 'doAssign',
                             func_id: "1010",
+                            page_id: 1,
+                            tab_page_id: 1,
                             order_dt: lo_orderDt,
                         };
+
                         console.log(lo_apiParams);
                         let lo_result = await BacUtils.doHttpPromisePostProxy('/api/queryDataByRule', lo_apiParams);
                         console.log(lo_result);
@@ -957,7 +971,7 @@
             // 取消排房
             async doUnassign() {
                 try {
-                    console.log(this.orderDtListRowData[this.selectListIndex])
+                    console.log(this.orderDtListRowData[this.selectListIndex]);
                     let currentListRowData = this.orderDtListRowData[this.selectListIndex];
 
                     if (currentListRowData.assign_sta !== 'Y') {
@@ -969,9 +983,7 @@
                         return;
                     }
 
-                    let lo_orderDt = _.extend(currentListRowData, {
-                        'ikey': this.groupOrderDtRowData[this.selectDtIndex].ikey,
-                    });
+                    let lo_orderDt = this.combinationData();
 
                     const lo_apiParams = {
                         rule_func_name: 'doUnassign',
@@ -1009,7 +1021,31 @@
 
             },
             // 鎖定排房
-            lockRoom() {
+            async lockRoom() {
+                let loOrderData = this.orderDtListRowData[this.selectListIndex];
+                let ls_keyWord = loOrderData.asi_lock === 'N' ? '鎖定': '解除';
+
+                let lo_orderDt = {
+                    ikey: loOrderData.ikey,
+                    ikey_seq_nos: loOrderData.ikey_seq_nos,
+                    asi_lock: loOrderData.asi_lock
+                };
+
+                $.messager.confirm({
+                    title: '鎖定訂房',
+                    msg: `是否${ls_keyWord}排房`,
+                    fn: async function(r){
+                        if (r){
+                            const lo_apiParams = {
+                                rule_func_name: 'doAsiLock',
+                                func_id: "1050",
+                                order_dt: lo_orderDt,
+                            };
+                            let lo_result = await BacUtils.doHttpPromisePostProxy('/api/queryDataByRule', lo_apiParams);
+                            console.log(lo_result)
+                        }
+                    }
+                });
             },
             // 訂房卡
             checkRawCode() {
