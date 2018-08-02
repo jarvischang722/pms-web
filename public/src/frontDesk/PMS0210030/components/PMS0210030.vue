@@ -326,7 +326,18 @@
                 <div class="row">
                     <div class="col-xs-10 col-sm-10">
                         <div class="row no-margin-right">
-                            <table id="foCnt_batch_cal-table"></table>
+                            <table class="css_table horizTable click-effect">
+                                <thead class="css_thead">
+                                <tr class="css_tr">
+                                    <th class="css_th">AA</th>
+                                </tr>
+                                </thead>
+                                <tbody class="css_tbody">
+                                <tr class="css_tr">
+                                    <td class="css_td">A</td>
+                                </tr>
+                                </tbody>
+                            </table>
                         </div>
                         <div class="clearfix"></div>
                     </div>
@@ -476,7 +487,7 @@
                 selectRoomData: {},
 
                 // 可排房 or 不可排房
-                chkAssign: false,
+                chkAssign: true,
             };
         },
         created() {
@@ -963,6 +974,7 @@
                 return lo_combinationData;
             },
 
+            //region按鈕功能
             // 排房 :todo 檢查排房還沒好
             async doAssign() {
                 try {
@@ -1048,7 +1060,7 @@ console.log(lo_result);
 
                 // 批次取消預計取消排房明細資料
                 let lo_currentRowData = this.groupOrderDtRowData[this.selectDtIndex];
-                const lo_apiParams = {
+                const lo_params_ExpectedCancelData = {
                     rule_func_name: 'quyCancelRoomList',
                     ikey: lo_currentRowData.ikey,
                     assign_sta: lo_currentRowData.assign_sta,
@@ -1061,19 +1073,32 @@ console.log(lo_result);
                     rent_amt: lo_currentRowData.rent_amt,
                     serv_amt: lo_currentRowData.serv_amt,
                 };
-                let lo_result = await BacUtils.doHttpPromisePostProxy('/api/queryDataByRule', lo_apiParams);
-                console.log(lo_result)
+                let lo_expectedCancelData = await BacUtils.doHttpPromisePostProxy('/api/queryDataByRule', lo_params_ExpectedCancelData);
 
+                let la_ikeySeqNosList = lo_expectedCancelData.effectValues.map(x => x.ikey_seq_nos);
 
-                let dialog = $("#batchCancelList").removeClass('hide').dialog({
-                    modal: true,
-                    title: "批次取消失敗清單",
-                    title_html: true,
-                    width: 700,
-                    maxwidth: 1920,
-                    dialogClass: "test",
-                    resizable: true
+                let lo_combinationData = this.combinationData();
+                lo_combinationData = _.extend(lo_combinationData, {
+                    ikey_seq_nos_List: la_ikeySeqNosList
                 });
+console.log(lo_combinationData)
+                const lo_apiParams = {
+                    rule_func_name: 'doBatchUnassign',
+                    order_dt: lo_combinationData,
+                };
+                let lo_result = await BacUtils.doHttpPromisePostProxy('/api/queryDataByRule', lo_apiParams);
+console.log(lo_result)
+
+
+                // let dialog = $("#batchCancelList").removeClass('hide').dialog({
+                //     modal: true,
+                //     title: "批次取消失敗清單",
+                //     title_html: true,
+                //     width: 700,
+                //     maxwidth: 1920,
+                //     dialogClass: "test",
+                //     resizable: true
+                // });
 
 
             },
@@ -1114,6 +1139,7 @@ console.log(lo_result);
                 this.queryField();
                 this.btnList = !this.btnList;
             },
+            //endregion
 
             /**
              * RowLock

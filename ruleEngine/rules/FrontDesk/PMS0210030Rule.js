@@ -324,6 +324,66 @@ module.exports = {
     },
 
     /**
+     * 批次取消
+     * @param params
+     * @param session
+     * @param callback
+     */
+    doBatchUnassign: function(params, session, callback) {
+        const lo_order_dt = params.order_dt;
+
+        let la_Data = lo_order_dt.ikey_seq_nos_List.map(data => {
+            return {
+                "athena_id": session.athena_id,
+                "hotel_cod": session.hotel_cod,
+                "ikey": lo_order_dt.ikey,
+                "ikey_seq_nos": data,
+                "upd_usr": session.user.usr_id,
+                conditions: {
+                    "athena_id": session.athena_id,
+                    "hotel_cod": session.hotel_cod,
+                    "ikey": lo_order_dt.ikey,
+                    "ikey_seq_nos": data,
+                    "upd_usr": session.user.usr_id
+                }
+            };
+        });
+
+        let apiParams = {
+            "locale": "zh_TW",
+            "REVE-CODE": "PMS0210030",
+            "prg_id": "PMS0210030",
+            "func_id": "1030",
+            "page_data": {
+                "1": {
+                    "tabs_data": {
+                        "1": la_Data
+                    }
+                }
+            },
+            "client_ip": "",
+            "server_ip": "",
+            "event_time": moment().format(),
+            "mac": ""
+        };
+        tools.requestApi(sysConf.api_url.java, apiParams, function (apiErr, apiRes, data) {
+            let success = true;
+            let errorMsg = "";
+            if (apiErr || !data) {
+                success = false;
+                errorMsg = apiErr;
+            } else if (data["RETN-CODE"] !== "0000") {
+                success = false;
+                errorMsg = data["RETN-CODE-DESC"] || "發生錯誤";
+                console.error(data["RETN-CODE-DESC"]);
+            } else {
+                errorMsg = data["RETN-CODE-DESC"];
+            }
+            callback(errorMsg, success, data);
+        });
+    },
+
+    /**
      * 鎖定排房
      * @param params
      * @param session
@@ -432,6 +492,7 @@ module.exports = {
             lo_error.errorMsg = err;
         }
     },
+
     /**
      * 批次取消預計取消排房明細資料
      * @param params
