@@ -108,6 +108,19 @@
         });
     }
 
+    // 備註
+    function remark_btn() {
+        var dialog = $("#remark-Dialog").removeClass('hide').dialog({
+            modal: true,
+            title: "備註",
+            title_html: true,
+            width: 400,
+            maxwidth: 1920,
+            dialogClass: "test",
+            resizable: true
+        });
+    }
+
     // 訂房卡
     function reservationDialog_1() {
         var dialog = $("#reservationDialog-1-message").removeClass('hide').dialog({
@@ -470,7 +483,6 @@
             resizable: true
         });
     }
-
     var vm = new Vue({
         el: '#PMS0210020-info',
         data: {
@@ -499,6 +511,9 @@
             },
             clean_btn() {
                 clean_btn();
+            },
+            remark_btn(){
+                remark_btn()
             },
             reservationDialog_1() {
                 reservationDialog_1();
@@ -553,6 +568,7 @@
 
 
     });
+
     jQuery(function () {
         /***
          * PMS0210020 綜合櫃檯
@@ -1949,6 +1965,47 @@
             $(this).parents('.pageMain').find('.resultCount').css('min-width', '');
             $(this).html("相關房號").addClass('related-set1').removeClass('related-set2');
         });
+
+        //綜合櫃台切換
+        $('.intCounter-grap-btn').hide();
+//        $('.town-table').hide();
+//        $('#townList-table').hide();
+        $('.intCounterLeft').on('click', ".intCounter-list-btn", function (e) {
+            $(this).parents('.intCounterLeft').find('.intCounter-list-btn').hide();
+            $(this).parents('.intCounterLeft').find('.intCounter-grap-btn').show();
+            $(this).parents('.intCounterLeft').find('.intCounter-grap').hide();
+            $(this).parents('.intCounterLeft').find('.intCounter-list').show();
+            $(this).parents('.intCounterLeft').find('#intCounter-table').datagrid({
+                singleSelect: true,
+                collapsible: true,
+                // 從json 撈
+                url: '/jsonData/frontDesk/intCounter-table.json',
+                method: 'get',
+                columns: [[
+                    {field: 'rmNo', title: 'Rm. No.', width: 70},
+                    {field: 'rmType', title: 'Rm. Type', width: 70},
+                    {field: 'fullName', title: 'Full Name', width: 70},
+                    {field: 'ciDate', title: 'C/I Date', width: 100},
+                    {field: 'coDate', title: 'C/O Date', width: 100},
+                    {field: 'balance', title: 'Balance', width: 70},
+                    {field: 'rmSta', title: 'Rm Sta', width: 70},
+                    {field: 'hkSta', title: 'HK Sta', width: 70},
+                    {field: 'assign', title: 'Assign', width: 50},
+                    {field: 'oos', title: 'OOS', width: 50},
+                    {field: 'dnd', title: 'DND', width: 50},
+                    {field: 'bedSet.', title: 'Bed Set', width: 70},
+                    {field: 'rmRemark', title: 'Rm Remark', width: 150},
+                ]]
+            });
+        });
+        $('.intCounterLeft').on('click', ".intCounter-grap-btn", function (e) {
+            $(this).parents('.intCounterLeft').find('.intCounter-grap-btn').hide();
+            $(this).parents('.intCounterLeft').find('.intCounter-list').hide();
+            $(this).parents('.roomAssign').find('#intCounter-table').css('display', 'none');
+            $(this).parents('.intCounterLeft').find('.intCounter-grap').show();
+            $(this).parents('.intCounterLeft').find('.intCounter-list-btn').show();
+        });
+
 
         // 指定綜合櫃檯 選擇條件 (OC/OD/....)
         $(document).on('click', '.status-tip', function () {

@@ -2729,6 +2729,33 @@ td
             position: relative
             left: 1px
             top: 1px
+
+.popover-window-container
+  margin: 20px 0
+
+//關閉按鈕
+.popover-close
+  cursor: pointer
+  position: absolute
+  right: 1px
+  top: -25px
+  &:after, &:before
+    content: ""
+    height: 20px
+    width: 20px
+    border-top: 1px solid $grey
+    position: absolute
+    top: 7px
+    right: -8px
+    @include rotate(-45deg)
+  &:before
+    right: 6px
+    @include rotate(45deg)
+  &:hover
+    @include opacity(0.3)
+
+
+
 /*---- 達美樂介面 ----*/
 @import partials/_dominosStyle.sass
 
