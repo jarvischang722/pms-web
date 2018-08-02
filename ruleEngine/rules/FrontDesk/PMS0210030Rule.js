@@ -19,10 +19,9 @@ module.exports = {
      * @param callback
      */
     getRoomType: function (postData, session, callback) {
+        let lo_return = new ReturnClass();
+        let lo_error = new ErrorClass();
         try {
-            let lo_return = new ReturnClass();
-            let lo_error = null;
-
             let lo_default_params = {
                 athena_id: session.user.athena_id,
                 hotel_cod: session.user.hotel_cod,
@@ -33,13 +32,12 @@ module.exports = {
             let lo_clusterParam = commonRule.ConvertToQueryParams(session.athena_id, "QRY_ROOM_TYPE_DT");
             clusterQueryAgent.queryList(lo_clusterParam, lo_default_params, function (err, result) {
                 if (err) {
-                    lo_error = new ErrorClass();
                     lo_return.success = false;
                     lo_error.errorMsg = err;
                 }
                 else {
-                    result.push({room_cod: 'ALL', view_seq: -1});
-                    result = _.sortBy(result, 'view_seq');
+                    result.push({room_cod: "ALL", view_seq: -1});
+                    result = _.sortBy(result, "view_seq");
 
                     lo_return.success = true;
                     lo_return.effectValues = result;
@@ -48,7 +46,6 @@ module.exports = {
             });
         }
         catch (err) {
-            lo_error = new ErrorClass();
             lo_return.success = false;
             lo_error.errorMsg = err;
         }
@@ -61,10 +58,9 @@ module.exports = {
      * @param callback
      */
     getRoomMnQryFloorNos: function (postData, session, callback) {
+        let lo_return = new ReturnClass();
+        let lo_error = new ErrorClass();
         try {
-            let lo_return = new ReturnClass();
-            let lo_error = null;
-
             let lo_default_params = {
                 athena_id: session.user.athena_id,
                 hotel_cod: session.user.hotel_cod
@@ -73,7 +69,6 @@ module.exports = {
             let lo_clusterParam = commonRule.ConvertToQueryParams(session.athena_id, "QRY_ROOM_MN_QRY_FLOOR_NOS");
             clusterQueryAgent.queryList(lo_clusterParam, lo_default_params, function (err, result) {
                 if (err) {
-                    lo_error = new ErrorClass();
                     lo_return.success = false;
                     lo_error.errorMsg = err;
                 }
@@ -93,7 +88,6 @@ module.exports = {
             });
         }
         catch (err) {
-            lo_error = new ErrorClass();
             lo_error.errorMsg = err;
             lo_return.success = false;
         }
@@ -106,10 +100,9 @@ module.exports = {
      * @param callback
      */
     getRoomColor: function (postData, session, callback) {
+        let lo_return = new ReturnClass();
+        let lo_error = new ErrorClass();
         try {
-            let lo_return = new ReturnClass();
-            let lo_error = null;
-
             let lo_default_params = {
                 athena_id: session.user.athena_id,
                 hotel_cod: session.user.hotel_cod
@@ -118,7 +111,6 @@ module.exports = {
             let lo_clusterParam = commonRule.ConvertToQueryParams(session.athena_id, "QRY_ROOM_COLOR");
             clusterQueryAgent.queryList(lo_clusterParam, lo_default_params, function (err, result) {
                 if (err) {
-                    lo_error = new ErrorClass();
                     lo_return.success = false;
                     lo_error.errorMsg = err;
                 }
@@ -130,7 +122,6 @@ module.exports = {
             });
         }
         catch (err) {
-            lo_error = new ErrorClass();
             lo_error.errorMsg = err;
             lo_return.success = false;
         }
@@ -180,10 +171,9 @@ module.exports = {
         });
     },
     fetRoomListData: function (params, session, callback) {
+        let lo_return = new ReturnClass();
+        let lo_error = new ErrorClass();
         try {
-            let lo_return = new ReturnClass();
-            let lo_error = null;
-
             let lo_default_params = {
                 athena_id: 1,
                 hotel_cod: "02",
@@ -206,7 +196,6 @@ module.exports = {
             });
         }
         catch (err) {
-            lo_error = new ErrorClass();
             lo_error.errorMsg = err;
             lo_return.success = false;
         }
@@ -342,6 +331,8 @@ module.exports = {
      */
     doAsiLock: function (params, session, callback) {
         const lo_order_dt = params.order_dt;
+        let ls_asiLock = lo_order_dt.asi_lock === "Y" ? "N" : "Y";
+
         let apiParams = {
             "locale": "zh_TW",
             "REVE-CODE": "PMS0210030",
@@ -356,14 +347,14 @@ module.exports = {
                                 "hotel_cod": session.hotel_cod,
                                 "ikey": lo_order_dt.ikey,
                                 "ikey_seq_nos": lo_order_dt.ikey_seq_nos,
-                                "asi_lock": "Y",
+                                "asi_lock": ls_asiLock,
                                 "upd_usr": session.user.usr_id,
                                 conditions: {
                                     "athena_id": session.athena_id,
                                     "hotel_cod": session.hotel_cod,
                                     "ikey": lo_order_dt.ikey,
                                     "ikey_seq_nos": lo_order_dt.ikey_seq_nos,
-                                    "asi_lock": "Y",
+                                    "asi_lock": ls_asiLock,
                                     "upd_usr": session.user.usr_id
                                 }
                             }
@@ -396,28 +387,36 @@ module.exports = {
 
     /**
      * 檢查房號可否排房
+     * - 檢查開始日期 = 入住日期
+     * - 若入住日期 = 退房日期，則檢查結束日期 = 退房日期
+     * - 否則 檢查結束日期 = 退房日期 -1
      * @param params
      * @param session
      * @param callback
      */
     checkRoomNos: function (params, session, callback) {
+        let lo_return = new ReturnClass();
+        let lo_error = new ErrorClass();
         try {
             let lo_order_dt = params.order_dt;
-            let lo_return = new ReturnClass();
-            let lo_error = null;
+            let ld_beginDat = lo_order_dt.begin_dat;
+            let ld_endDat = lo_order_dt.end_dat;
+
+            if (ld_beginDat !== ld_endDat) {
+                ld_endDat = moment(ld_endDat).add(-1, "days").format("YYYY/MM/DD");
+            }
 
             let lo_default_params = {
                 athena_id: session.user.athena_id,
                 hotel_cod: session.user.hotel_cod,
-                end_dat: lo_order_dt.end_dat,
-                begin_dat: lo_order_dt.begin_dat,
+                begin_dat: ld_beginDat,
+                end_dat: ld_endDat,
                 room_nos: lo_order_dt.room_nos
             };
 
             let lo_clusterParam = commonRule.ConvertToQueryParams(session.athena_id, "CHECK_ROOM_NOS");
             clusterQueryAgent.queryList(lo_clusterParam, lo_default_params, function (err, result) {
                 if (err) {
-                    lo_error = new ErrorClass();
                     lo_return.success = false;
                     lo_error.errorMsg = err;
                 }
@@ -429,7 +428,6 @@ module.exports = {
             });
         }
         catch (err) {
-            lo_error = new ErrorClass();
             lo_return.success = false;
             lo_error.errorMsg = err;
         }
@@ -441,10 +439,9 @@ module.exports = {
      * @param callback
      */
     quyCancelRoomList: function (params, session, callback) {
+        let lo_return = new ReturnClass();
+        let lo_error = new ErrorClass();
         try {
-            let lo_return = new ReturnClass();
-            let lo_error = null;
-
             let lo_default_params = {
                 athena_id: session.user.athena_id,
                 hotel_cod: session.user.hotel_cod,
@@ -463,7 +460,6 @@ module.exports = {
             let lo_clusterParam = commonRule.ConvertToQueryParams(session.athena_id, "QRY_CANCEL_ROOM_LIST");
             clusterQueryAgent.queryList(lo_clusterParam, lo_default_params, function (err, result) {
                 if (err) {
-                    lo_error = new ErrorClass();
                     lo_return.success = false;
                     lo_error.errorMsg = err;
                 }
@@ -475,7 +471,6 @@ module.exports = {
             });
         }
         catch (err) {
-            lo_error = new ErrorClass();
             lo_return.success = false;
             lo_error.errorMsg = err;
         }

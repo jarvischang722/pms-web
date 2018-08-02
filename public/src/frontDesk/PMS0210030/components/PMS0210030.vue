@@ -922,7 +922,7 @@
 
             //組合條件 (排房、取消排房)
             combinationData: function() {
-                let lo_Data = _.extend(this.orderDtListRowData[this.selectListIndex], {
+                let lo_combinationData = _.extend(this.orderDtListRowData[this.selectListIndex], {
                     'ci_dat': this.groupOrderDtRowData[this.selectDtIndex].ci_dat,
                     'co_dat': this.groupOrderDtRowData[this.selectDtIndex].co_dat,
                     'ikey': this.groupOrderDtRowData[this.selectDtIndex].ikey,
@@ -931,27 +931,28 @@
                     'begin_dat': moment(this.groupOrderDtRowData[this.selectDtIndex].ci_dat).format('YYYY/MM/DD'),
                     'end_dat': moment(this.groupOrderDtRowData[this.selectDtIndex].co_dat).format('YYYY/MM/DD'),
                 });
-                return lo_Data;
+                return lo_combinationData;
             },
 
-            // 排房
+            // 排房 :todo 檢查排房還沒好
             async doAssign() {
                 try {
                     let currentListRowData = this.orderDtListRowData[this.selectListIndex];
-                    if ((currentListRowData.assign_sta === 'Y' || currentListRowData.assign_sta === 'I') && currentListRowData.asi_lock === 'Y') {
+                    if (currentListRowData.assign_sta === 'Y' || currentListRowData.assign_sta === 'I') {
+                        // todo i18n
                         alert('不能排房');
-                        return;
+                        // return;
                     }
 
-                    let lo_orderDt = this.combinationData();
+                    let lo_combinationData = this.combinationData();
 
                     // 檢查房號可否排房
                     const lo_checkRommNosParams = {
                         rule_func_name: 'checkRoomNos',
-                        order_dt: lo_orderDt,
+                        order_dt: lo_combinationData,
                     };
                     let lo_checkRommNos = await BacUtils.doHttpPromisePostProxy('/api/queryDataByRule', lo_checkRommNosParams);
-                    // todo return True, false 顯示未來用清單
+                    // todo 顯示未來用清單
 
                     let lb_confrim = true;
                     if (currentListRowData.room_cod !== this.selectRoomData.room_cod) {
@@ -961,31 +962,31 @@
                     if (lb_confrim) {
                         const lo_apiParams = {
                             rule_func_name: 'doAssign',
-                            func_id: "1010",
-                            page_id: 1,
-                            tab_page_id: 1,
-                            order_dt: lo_orderDt,
+                            order_dt: lo_combinationData,
                         };
 
-                        console.log(lo_apiParams);
                         let lo_result = await BacUtils.doHttpPromisePostProxy('/api/queryDataByRule', lo_apiParams);
-                        console.log(lo_result);
-                        //todo 更新畫面
+                        // todo 詢問後端能否不要回字串訊息?
+                        if (lo_result === "成功") {
+                            this.queryGroupOrderDtRowData();
+                            this.queryOrderDtList();
+                            this.getRoomData();
+                        }
                     }
                 } catch (err) {
                     console.log(err)
                 }
             },
+
             // 批次排房
             doAssignAll() {
             },
+
             // 取消排房
             async doUnassign() {
                 try {
-                    console.log(this.orderDtListRowData[this.selectListIndex]);
                     let currentListRowData = this.orderDtListRowData[this.selectListIndex];
-
-                    if (currentListRowData.assign_sta !== 'Y') {
+                    if (currentListRowData.assign_sta === 'N') {
                         alert('不能取消');
                         return;
                     }
@@ -994,21 +995,25 @@
                         return;
                     }
 
-                    let lo_orderDt = this.combinationData();
+                    let lo_combinationData = this.combinationData();
 
                     const lo_apiParams = {
                         rule_func_name: 'doUnassign',
-                        order_dt: lo_orderDt,
+                        order_dt: lo_combinationData,
                     };
-                    console.log(lo_apiParams);
                     let lo_result = await BacUtils.doHttpPromisePostProxy('/api/queryDataByRule', lo_apiParams);
-                    console.log(lo_result);
-
-                    //todo 更新畫面
+console.log(lo_result);
+                    // todo 詢問後端能否不要回字串訊息?
+                    if (lo_result === "成功") {
+                        this.queryGroupOrderDtRowData();
+                        this.queryOrderDtList();
+                        this.getRoomData();
+                    }
                 } catch (err) {
                     console.log(err)
                 }
             },
+
             // 批次取消
             async doUnassignAll() {
 
@@ -1031,8 +1036,10 @@
                 console.log(lo_result)
 
             },
+
             // 鎖定排房
             async lockRoom() {
+                let self = this;
                 let lo_order_dt = this.combinationData();
                 let ls_keyWord = lo_order_dt.asi_lock === 'N' ? '鎖定': '解除';
 
@@ -1046,19 +1053,27 @@
                                 order_dt: lo_order_dt,
                             };
                             let lo_result = await BacUtils.doHttpPromisePostProxy('/api/queryDataByRule', lo_apiParams);
-                            console.log(lo_result)
+                            // 重新render資料 :todo 詢問後端能否不要回字串訊息?
+                            if (lo_result === '成功') {
+                                self.queryGroupOrderDtRowData();
+                                self.queryOrderDtList();
+                                self.getRoomData();
+                            }
                         }
                     }
                 });
             },
+
             // 訂房卡
             checkRawCode() {
             },
-            // 切換模式 (圖形/清單)
+
+            // 切換模式 (圖形/清單) :todo datagrid細節資料有問題，就算開啟分頁功能，分頁依舊無法切換也沒資料。
             changeRoomDataType() {
                 this.queryField();
                 this.btnList = !this.btnList;
             },
+
             /**
              * RowLock
              */
@@ -1071,6 +1086,7 @@
                 };
                 g_socket.emit('handleTableLock', lo_param);
             },
+
             /**
              * RowUnLock
              */
