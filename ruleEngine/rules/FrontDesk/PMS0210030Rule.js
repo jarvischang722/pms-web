@@ -534,5 +534,49 @@ module.exports = {
             lo_return.success = false;
             lo_error.errorMsg = err;
         }
+    },
+
+    /**
+     * 批次排房預計排房明細資料
+     * @param params
+     * @param session
+     * @param callback
+     */
+    quyBatchAssignDt: function (params, session, callback) {
+        let lo_return = new ReturnClass();
+        let lo_error = new ErrorClass();
+        try {
+            let lo_order_dt = params.order_dt;
+            let lo_default_params = {
+                athena_id: session.user.athena_id,
+                hotel_cod: session.user.hotel_cod,
+                ikey: lo_order_dt.ikey,
+                order_sta: lo_order_dt.order_sta,
+                ci_dat: lo_order_dt.ci_dat,
+                co_dat: lo_order_dt.co_dat,
+                rate_cod: lo_order_dt.rate_cod,
+                use_cod: lo_order_dt.use_cod,
+                room_cod: lo_order_dt.room_cod,
+                rent_amt: lo_order_dt.rent_amt,
+                serv_amt: lo_order_dt.serv_amt
+            };
+
+            let lo_clusterParam = commonRule.ConvertToQueryParams(session.athena_id, "QRY_BATCH_ASSIGN_DT");
+            clusterQueryAgent.queryList(lo_clusterParam, lo_default_params, function (err, result) {
+                if (err) {
+                    lo_return.success = false;
+                    lo_error.errorMsg = err;
+                }
+                else {
+                    lo_return.success = true;
+                    lo_return.effectValues = result;
+                }
+                callback(lo_error, lo_return);
+            });
+        }
+        catch (err) {
+            lo_return.success = false;
+            lo_error.errorMsg = err;
+        }
     }
 };

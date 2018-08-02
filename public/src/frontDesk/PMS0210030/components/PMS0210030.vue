@@ -269,7 +269,7 @@
                                     </li>
                                     <li>
                                         <button class="btn btn-primary btn-white btn-defaultWidth foCnt_autoAssignSGL"
-                                                :disabled="!lockStatus" @click="doAssignAll()"
+                                                :disabled="!lockStatus" @click="doAssignAll"
                                                 role="button">批次排房
                                         </button>
                                     </li>
@@ -432,45 +432,6 @@
                 //排房房間
                 roomDtListField: [],
                 roomDtListRowData: [],
-                // {
-                //     room_nos: '0301',
-                //     room_cod: 'DDT',
-                //     room_sta: 'V',
-                //     clean_sta: 'C',
-                //     oos_sta: 'Y',
-                //     assign_sta: 'N',
-                //     ALT_NAM: '陳先生',
-                //     BED_STA: 'S',
-                //     CI_DAT: '2018/04/29',
-                //     CO_DAT: '2018/04/30',
-                //     ROOM_RMK: '~~~'
-                // },
-                // {
-                //     room_nos: '0302',
-                //     room_cod: 'DDT',
-                //     room_sta: 'V',
-                //     clean_sta: 'C',
-                //     oos_sta: 'Y',
-                //     assign_sta: 'N',
-                //     ALT_NAM: '陳先生',
-                //     BED_STA: 'S',
-                //     CI_DAT: '2018/04/29',
-                //     CO_DAT: '2018/04/30',
-                //     ROOM_RMK: '~~~'
-                // },
-                // {
-                //     room_nos: '0303',
-                //     room_cod: 'DDT',
-                //     room_sta: 'V',
-                //     clean_sta: 'C',
-                //     oos_sta: 'Y',
-                //     assign_sta: 'N',
-                //     ALT_NAM: '陳先生',
-                //     BED_STA: 'S',
-                //     CI_DAT: '2018/04/29',
-                //     CO_DAT: '2018/04/30',
-                //     ROOM_RMK: '~~~'
-                // }],
                 selectRoomDtIndex: -1,
 
                 //顯示清單或是圖形模式 true:清單 false:圖形
@@ -869,7 +830,7 @@
                         order_dt: _.extend(this.groupOrderDtRowData[this.selectDtIndex], {
                             // floor_nos: ls_floor //todo
                             // room_cod: this.selectRoomType, //todo
-                            can_assign: this.chkAssign ? 'Y': 'N'
+                            can_assign: this.chkAssign ? 'Y' : 'N'
                         }),
                     };
 
@@ -983,7 +944,7 @@ console.log(lo_roomList)
             },
 
             //組合條件 (排房、取消排房)
-            combinationData: function() {
+            combinationData: function () {
                 let lo_combinationData = _.extend(this.orderDtListRowData[this.selectListIndex], {
                     'ci_dat': this.groupOrderDtRowData[this.selectDtIndex].ci_dat,
                     'co_dat': this.groupOrderDtRowData[this.selectDtIndex].co_dat,
@@ -992,6 +953,11 @@ console.log(lo_roomList)
                     'select_room_nos': this.selectRoomData.room_nos, //組合
                     'begin_dat': moment(this.groupOrderDtRowData[this.selectDtIndex].ci_dat).format('YYYY/MM/DD'),
                     'end_dat': moment(this.groupOrderDtRowData[this.selectDtIndex].co_dat).format('YYYY/MM/DD'),
+                    'order_sta': this.groupOrderDtRowData[this.selectDtIndex].order_sta,
+                    'rate_cod': this.groupOrderDtRowData[this.selectDtIndex].rate_cod,
+                    'use_cod': this.groupOrderDtRowData[this.selectDtIndex].use_cod,
+                    'rent_amt': this.groupOrderDtRowData[this.selectDtIndex].rent_amt,
+                    'serv_amt': this.groupOrderDtRowData[this.selectDtIndex].serv_amt
                 });
                 return lo_combinationData;
             },
@@ -1016,7 +982,7 @@ console.log(lo_roomList)
                     };
                     let lo_checkRommNos = await BacUtils.doHttpPromisePostProxy('/api/queryDataByRule', lo_checkRommNosParams);
                     // todo 顯示未來用清單
-                    if (lo_checkRommNos.effectValues[0]['count(*)'] > 0 ) {
+                    if (lo_checkRommNos.effectValues[0]['count(*)'] > 0) {
                         alert('此房號已經被使用。');
                         return;
                     }
@@ -1046,8 +1012,35 @@ console.log(lo_roomList)
             },
 
             // 批次排房
-            doAssignAll() {
+            async doAssignAll() {
+                let lo_groupOrderDtRowData = this.groupOrderDtRowData[this.selectDtIndex];
+                console.log(lo_groupOrderDtRowData);
 
+                if (lo_groupOrderDtRowData.assign_qnt + lo_groupOrderDtRowData.ci_qnt > 0) {
+                    alert('指定訂房資料皆已排房或已入住');
+                    // return;
+                }
+
+                if (this.selectRoomType === 'ALL') {
+                    alert('請先指定房型後再執行批次排房');
+                    return;
+                }
+
+                let lb_confrim = true;
+                if(lo_groupOrderDtRowData.room_cod !== this.selectRoomType){
+                    //訂房使用房型 room_cod 與排房指定房型 xxx 不同，是否確定執行批次排房?
+                    lb_confrim = confirm(`訂房使用房型與排房房號房型${this.selectRoomType}不同，是否確定執行批次排房?`);
+                }
+
+
+                let lo_combinationData = this.combinationData();
+
+                const lo_apiParams = {
+                    rule_func_name: 'quyBatchAssignDt',
+                    order_dt: lo_combinationData,
+                };
+                let lo_result = await BacUtils.doHttpPromisePostProxy('/api/queryDataByRule', lo_apiParams);
+                console.log(lo_result)
             },
 
             // 取消排房
@@ -1100,11 +1093,16 @@ console.log(lo_roomList)
                     serv_amt: lo_currentRowData.serv_amt,
                 };
                 let lo_expectedCancelData = await BacUtils.doHttpPromisePostProxy('/api/queryDataByRule', lo_params_ExpectedCancelData);
-                let lb_isAsiLock = lo_expectedCancelData.effectValues.some(function(item){
+                if (lo_expectedCancelData.effectValues.length === 0) {
+                    alert('無任何排房資料');
+                    return;
+                }
+
+                let lb_isAsiLock = lo_expectedCancelData.effectValues.some(function (item) {
                     return item.asi_lock === 'Y'
                 });
 
-                if(lb_isAsiLock){
+                if (lb_isAsiLock) {
                     let lo_cloneExpectedCancle = JSON.parse(JSON.stringify(lo_expectedCancelData));
                     lo_cloneExpectedCancle.effectValues.forEach(data => {
                         if (data.asi_lock === 'Y') {
@@ -1150,7 +1148,7 @@ console.log(lo_roomList)
             async lockRoom() {
                 let self = this;
                 let lo_order_dt = this.combinationData();
-                let ls_keyWord = lo_order_dt.asi_lock === 'N' ? '鎖定': '解除';
+                let ls_keyWord = lo_order_dt.asi_lock === 'N' ? '鎖定' : '解除';
                 if (this.orderDtListRowData[this.selectListIndex].room_nos === undefined || this.orderDtListRowData[this.selectListIndex].room_nos === null) {
                     alert('請先設定排房');
                     return;
@@ -1159,8 +1157,8 @@ console.log(lo_roomList)
                 $.messager.confirm({
                     title: '鎖定訂房',
                     msg: `是否${ls_keyWord}排房`,
-                    fn: async function(result){
-                        if (result){
+                    fn: async function (result) {
+                        if (result) {
                             const lo_apiParams = {
                                 rule_func_name: 'doAsiLock',
                                 order_dt: lo_order_dt,
@@ -1187,7 +1185,9 @@ console.log(lo_roomList)
                 this.btnList = !this.btnList;
             },
 
-            doCloseCancelAssign: function() {
+            // 取消清單失敗離開按鈕
+            doCloseCancelAssign: function () {
+                $('#batchCancelList').dialog('close');
             },
             //endregion
 
