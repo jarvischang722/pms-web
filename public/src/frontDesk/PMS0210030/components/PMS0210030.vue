@@ -355,6 +355,7 @@
                                 <ul>
                                     <li>
                                         <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                @click="doCloseCancelAssign"
                                                 role="button">離開
                                         </button>
                                     </li>
@@ -1180,10 +1181,13 @@ console.log(lo_roomList)
             checkRawCode() {
             },
 
-            // 切換模式 (圖形/清單) :todo datagrid細節資料有問題，就算開啟分頁功能，分頁依舊無法切換也沒資料。
+            // 切換模式 (圖形/清單) :todo 切換有更好的方法嗎?
             changeRoomDataType() {
                 this.queryField();
                 this.btnList = !this.btnList;
+            },
+
+            doCloseCancelAssign: function() {
             },
             //endregion
 
