@@ -820,7 +820,7 @@
                     throw Error(err);
                 }
             },
-            // 單純撈 [排房房間] 資料
+            // 單純撈 [排房房間] 資料 todo
             async getRoomData() {
                 // this.selectRoomFloor = [2, 3]; //todo
                 // let ls_floor = this.selectRoomFloor.join(','); //todo
@@ -870,7 +870,7 @@ console.log(lo_roomList)
                     let lo_result = await BacUtils.doHttpPromisePostProxy('/api/queryDataByRule', lo_params);
                     return lo_result;
                 } catch (err) {
-                    console.log(err)
+                    console.log(err);
                     throw Error(err);
                 }
             },
@@ -940,7 +940,6 @@ console.log(lo_roomList)
             // 選擇的排房房間
             chooseRoomDt(roomDt) {
                 this.selectRoomData = roomDt;
-                console.log(roomDt);
             },
 
             //組合條件 (排房、取消排房)
@@ -966,14 +965,15 @@ console.log(lo_roomList)
             // 排房 :todo 顯示未來用清單
             async doAssign() {
                 try {
-                    let currentListRowData = this.orderDtListRowData[this.selectListIndex];
-                    if (currentListRowData.assign_sta === 'Y' || currentListRowData.assign_sta === 'I') {
-                        // todo i18n
+                    let lo_currentListRowData = this.orderDtListRowData[this.selectListIndex];
+                    let lo_combinationData = this.combinationData();
+                    let lb_confrim = true;
+
+                    //region ### 驗證 ###
+                    if (lo_currentListRowData.assign_sta === 'Y' || lo_currentListRowData.assign_sta === 'I') {
                         alert('不能排房');
                         return;
                     }
-
-                    let lo_combinationData = this.combinationData();
 
                     // 檢查房號可否排房
                     const lo_checkRommNosParams = {
@@ -987,10 +987,10 @@ console.log(lo_roomList)
                         return;
                     }
 
-                    let lb_confrim = true;
-                    if (currentListRowData.room_cod !== this.selectRoomData.room_cod) {
+                    if (lo_currentListRowData.room_cod !== this.selectRoomData.room_cod) {
                         lb_confrim = confirm(`訂房使用房型與排房房號房型${this.selectRoomData.room_cod}不同是否確定執行排房?`);
                     }
+                    //endregion
 
                     if (lb_confrim) {
                         const lo_apiParams = {
@@ -1007,40 +1007,47 @@ console.log(lo_roomList)
                         }
                     }
                 } catch (err) {
-                    console.log(err)
+                    console.log(err);
                 }
             },
 
             // 批次排房
             async doAssignAll() {
-                let lo_groupOrderDtRowData = this.groupOrderDtRowData[this.selectDtIndex];
-                console.log(lo_groupOrderDtRowData);
+                try {
+                    let lo_groupOrderDtRowData = this.groupOrderDtRowData[this.selectDtIndex];
+                    let lb_confrim = true;
+                    console.log(lo_groupOrderDtRowData);
 
-                if (lo_groupOrderDtRowData.assign_qnt + lo_groupOrderDtRowData.ci_qnt > 0) {
-                    alert('指定訂房資料皆已排房或已入住');
-                    // return;
+                    //region ### 驗證 ###
+                    if (lo_groupOrderDtRowData.assign_qnt + lo_groupOrderDtRowData.ci_qnt > 0) {
+                        alert('指定訂房資料皆已排房或已入住');
+                        return;
+                    }
+
+                    if (this.selectRoomType === 'ALL') {
+                        alert('請先指定房型後再執行批次排房');
+                        return;
+                    }
+
+                    if(lo_groupOrderDtRowData.room_cod !== this.selectRoomType){
+                        lb_confrim = confirm(`訂房使用房型與排房房號房型${this.selectRoomType}不同，是否確定執行批次排房?`);
+                    }
+                    //endregion
+
+                    if (lb_confrim) {
+                        let lo_combinationData = this.combinationData();
+
+                        const lo_apiParams = {
+                            rule_func_name: 'quyBatchAssignDt',
+                            order_dt: lo_combinationData,
+                        };
+                        // 批次排房預計排房明細資料
+                        let lo_result = await BacUtils.doHttpPromisePostProxy('/api/queryDataByRule', lo_apiParams);
+                        console.log(lo_result);
+                    }
+                } catch (err) {
+                    console.log(err);
                 }
-
-                if (this.selectRoomType === 'ALL') {
-                    alert('請先指定房型後再執行批次排房');
-                    return;
-                }
-
-                let lb_confrim = true;
-                if(lo_groupOrderDtRowData.room_cod !== this.selectRoomType){
-                    //訂房使用房型 room_cod 與排房指定房型 xxx 不同，是否確定執行批次排房?
-                    lb_confrim = confirm(`訂房使用房型與排房房號房型${this.selectRoomType}不同，是否確定執行批次排房?`);
-                }
-
-
-                let lo_combinationData = this.combinationData();
-
-                const lo_apiParams = {
-                    rule_func_name: 'quyBatchAssignDt',
-                    order_dt: lo_combinationData,
-                };
-                let lo_result = await BacUtils.doHttpPromisePostProxy('/api/queryDataByRule', lo_apiParams);
-                console.log(lo_result)
             },
 
             // 取消排房
@@ -1071,11 +1078,11 @@ console.log(lo_roomList)
                         this.getRoomData();
                     }
                 } catch (err) {
-                    console.log(err)
+                    console.log(err);
                 }
             },
 
-            // 批次取消
+            // 批次取消 todo 待整理程式碼
             async doUnassignAll() {
                 // 批次取消預計取消排房明細資料
                 let lo_currentRowData = this.groupOrderDtRowData[this.selectDtIndex];
@@ -1113,7 +1120,7 @@ console.log(lo_roomList)
                     });
                     this.cancelFaildData = lo_cloneExpectedCancle;
 
-                    let dialog = $("#batchCancelList").removeClass('hide').dialog({
+                    $("#batchCancelList").removeClass('hide').dialog({
                         modal: true,
                         title: "批次取消失敗清單",
                         title_html: true,
@@ -1146,33 +1153,37 @@ console.log(lo_roomList)
 
             // 鎖定排房
             async lockRoom() {
-                let self = this;
-                let lo_order_dt = this.combinationData();
-                let ls_keyWord = lo_order_dt.asi_lock === 'N' ? '鎖定' : '解除';
-                if (this.orderDtListRowData[this.selectListIndex].room_nos === undefined || this.orderDtListRowData[this.selectListIndex].room_nos === null) {
-                    alert('請先設定排房');
-                    return;
-                }
+                try {
+                    let self = this;
+                    let lo_order_dt = this.combinationData();
+                    let ls_keyWord = lo_order_dt.asi_lock === 'N' ? '鎖定' : '解除';
+                    if (this.orderDtListRowData[this.selectListIndex].room_nos === undefined || this.orderDtListRowData[this.selectListIndex].room_nos === null) {
+                        alert('請先設定排房');
+                        return;
+                    }
 
-                $.messager.confirm({
-                    title: '鎖定訂房',
-                    msg: `是否${ls_keyWord}排房`,
-                    fn: async function (result) {
-                        if (result) {
-                            const lo_apiParams = {
-                                rule_func_name: 'doAsiLock',
-                                order_dt: lo_order_dt,
-                            };
-                            let lo_result = await BacUtils.doHttpPromisePostProxy('/api/queryDataByRule', lo_apiParams);
-                            // 重新render資料 :todo 詢問後端能否不要回字串訊息?
-                            if (lo_result === '成功') {
-                                self.queryGroupOrderDtRowData();
-                                self.queryOrderDtList();
-                                self.getRoomData();
+                    $.messager.confirm({
+                        title: '鎖定訂房',
+                        msg: `是否${ls_keyWord}排房`,
+                        fn: async function (result) {
+                            if (result) {
+                                const lo_apiParams = {
+                                    rule_func_name: 'doAsiLock',
+                                    order_dt: lo_order_dt,
+                                };
+                                let lo_result = await BacUtils.doHttpPromisePostProxy('/api/queryDataByRule', lo_apiParams);
+                                // 重新render資料 :todo 詢問後端能否不要回字串訊息?
+                                if (lo_result === '成功') {
+                                    self.queryGroupOrderDtRowData();
+                                    self.queryOrderDtList();
+                                    self.getRoomData();
+                                }
                             }
                         }
-                    }
-                });
+                    });
+                } catch (err) {
+                    console.log(err);
+                }
             },
 
             // 訂房卡
