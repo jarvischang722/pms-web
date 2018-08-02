@@ -352,6 +352,12 @@
             ORDER BY ORDER_DT.IKEY_SEQ_NOS
         ]]>
         </statement>
+        <statement test="param.status == 'Y'"><![CDATA[
+            AND ORDER_DT.ORDER_QNT = ( ORDER_DT.ASSIGN_QNT + ORDER_DT.CI_QNT )
+        ]]></statement>
+        <statement test="param.status == 'N'"><![CDATA[
+            AND ORDER_DT.ORDER_QNT <> ( ORDER_DT.ASSIGN_QNT + ORDER_DT.CI_QNT )
+        ]]></statement>
         <parameter type="number" kind="3">athena_id</parameter>
         <parameter type="string" kind="3">hotel_cod</parameter>
         <parameter type="string" kind="3">ikey</parameter>

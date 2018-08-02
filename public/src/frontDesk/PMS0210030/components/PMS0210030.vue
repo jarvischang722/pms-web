@@ -329,13 +329,21 @@
                             <table class="css_table horizTable click-effect">
                                 <thead class="css_thead">
                                 <tr class="css_tr">
-                                    <th class="css_th">AA</th>
+                                    <th class="css_th" v-for="(filed, key) in cancelFaildField">
+                                        {{filed.filed}}
+                                    </th>
                                 </tr>
                                 </thead>
                                 <tbody class="css_tbody">
-                                <tr class="css_tr">
-                                    <td class="css_td">A</td>
-                                </tr>
+                                <template v-for="(data, index, key) in cancelFaildData">
+                                    <tr class="css_tr" v-for="(item, idx) in data">
+                                        <template>
+                                            <td class="css_td" v-for="(x,y) in item">
+                                                {{x}}
+                                            </td>
+                                        </template>
+                                    </tr>
+                                </template>
                                 </tbody>
                             </table>
                         </div>
@@ -488,6 +496,13 @@
 
                 // 可排房 or 不可排房
                 chkAssign: true,
+                cancelFaildField: [
+                    {filed: '序號'},
+                    {filed: '房號'},
+                    {filed: '住客姓名'},
+                    {filed: '訊息說明'},
+                ],
+                cancelFaildData: [],
             };
         },
         created() {
@@ -782,6 +797,7 @@
                     room_cod: this.groupOrderDtRowData[this.selectDtIndex].room_cod,
                     rent_amt: this.groupOrderDtRowData[this.selectDtIndex].rent_amt,
                     serv_amt: this.groupOrderDtRowData[this.selectDtIndex].serv_amt,
+                    status: this.searchCond.status,
                 };
 
                 const lo_params = {
@@ -857,14 +873,15 @@
                         }),
                     };
 
+                    // SP 執行程序
                     let lo_result = await BacUtils.doHttpPromisePostProxy('/api/queryDataByRule', lo_params);
-                    console.log(lo_result);
+console.log(lo_result); //查詢開始日期不可小於滾房租日期
 
                     let lo_paramsRoomList = {
                         rule_func_name: 'fetRoomListData',
                     };
                     let lo_roomList = await BacUtils.doHttpPromisePostProxy('/api/queryDataByRule', lo_paramsRoomList);
-
+console.log(lo_roomList)
                     return lo_roomList;
                 } catch (err) {
                     throw Error(err);
@@ -967,7 +984,7 @@
                     'co_dat': this.groupOrderDtRowData[this.selectDtIndex].co_dat,
                     'ikey': this.groupOrderDtRowData[this.selectDtIndex].ikey,
                     // "ikey_seq_nos": this.orderDtListRowData[this.selectListIndex].ikey_seq_nos,
-                    'room_nos': this.selectRoomData.room_nos,
+                    'select_room_nos': this.selectRoomData.room_nos, //組合
                     'begin_dat': moment(this.groupOrderDtRowData[this.selectDtIndex].ci_dat).format('YYYY/MM/DD'),
                     'end_dat': moment(this.groupOrderDtRowData[this.selectDtIndex].co_dat).format('YYYY/MM/DD'),
                 });
@@ -975,14 +992,14 @@
             },
 
             //region按鈕功能
-            // 排房 :todo 檢查排房還沒好
+            // 排房 :todo 顯示未來用清單
             async doAssign() {
                 try {
                     let currentListRowData = this.orderDtListRowData[this.selectListIndex];
                     if (currentListRowData.assign_sta === 'Y' || currentListRowData.assign_sta === 'I') {
                         // todo i18n
                         alert('不能排房');
-                        // return;
+                        return;
                     }
 
                     let lo_combinationData = this.combinationData();
@@ -994,6 +1011,10 @@
                     };
                     let lo_checkRommNos = await BacUtils.doHttpPromisePostProxy('/api/queryDataByRule', lo_checkRommNosParams);
                     // todo 顯示未來用清單
+                    if (lo_checkRommNos.effectValues[0]['count(*)'] > 0 ) {
+                        alert('此房號已經被使用。');
+                        return;
+                    }
 
                     let lb_confrim = true;
                     if (currentListRowData.room_cod !== this.selectRoomData.room_cod) {
@@ -1021,6 +1042,7 @@
 
             // 批次排房
             doAssignAll() {
+
             },
 
             // 取消排房
@@ -1043,7 +1065,7 @@
                         order_dt: lo_combinationData,
                     };
                     let lo_result = await BacUtils.doHttpPromisePostProxy('/api/queryDataByRule', lo_apiParams);
-console.log(lo_result);
+
                     // todo 詢問後端能否不要回字串訊息?
                     if (lo_result === "成功") {
                         this.queryGroupOrderDtRowData();
@@ -1057,7 +1079,6 @@ console.log(lo_result);
 
             // 批次取消
             async doUnassignAll() {
-
                 // 批次取消預計取消排房明細資料
                 let lo_currentRowData = this.groupOrderDtRowData[this.selectDtIndex];
                 const lo_params_ExpectedCancelData = {
@@ -1074,33 +1095,50 @@ console.log(lo_result);
                     serv_amt: lo_currentRowData.serv_amt,
                 };
                 let lo_expectedCancelData = await BacUtils.doHttpPromisePostProxy('/api/queryDataByRule', lo_params_ExpectedCancelData);
-
-                let la_ikeySeqNosList = lo_expectedCancelData.effectValues.map(x => x.ikey_seq_nos);
-
-                let lo_combinationData = this.combinationData();
-                lo_combinationData = _.extend(lo_combinationData, {
-                    ikey_seq_nos_List: la_ikeySeqNosList
+                let lb_isAsiLock = lo_expectedCancelData.effectValues.some(function(item){
+                    return item.asi_lock === 'Y'
                 });
-console.log(lo_combinationData)
-                const lo_apiParams = {
-                    rule_func_name: 'doBatchUnassign',
-                    order_dt: lo_combinationData,
-                };
-                let lo_result = await BacUtils.doHttpPromisePostProxy('/api/queryDataByRule', lo_apiParams);
-console.log(lo_result)
 
+                if(lb_isAsiLock){
+                    let lo_cloneExpectedCancle = JSON.parse(JSON.stringify(lo_expectedCancelData));
+                    lo_cloneExpectedCancle.effectValues.forEach(data => {
+                        if (data.asi_lock === 'Y') {
+                            data.asi_lock = '已設定鎖定排房，不可執行取消排房。';
+                        } else {
+                            data.asi_lock = '';
+                        }
+                    });
+                    this.cancelFaildData = lo_cloneExpectedCancle;
 
-                // let dialog = $("#batchCancelList").removeClass('hide').dialog({
-                //     modal: true,
-                //     title: "批次取消失敗清單",
-                //     title_html: true,
-                //     width: 700,
-                //     maxwidth: 1920,
-                //     dialogClass: "test",
-                //     resizable: true
-                // });
+                    let dialog = $("#batchCancelList").removeClass('hide').dialog({
+                        modal: true,
+                        title: "批次取消失敗清單",
+                        title_html: true,
+                        width: 700,
+                        maxwidth: 1920,
+                        dialogClass: "test",
+                        resizable: true
+                    });
+                } else {
+                    let la_ikeySeqNosList = lo_expectedCancelData.effectValues.map(x => x.ikey_seq_nos);
 
+                    let lo_combinationData = this.combinationData();
+                    lo_combinationData = _.extend(lo_combinationData, {
+                        ikey_seq_nos_List: la_ikeySeqNosList
+                    });
 
+                    const lo_apiParams = {
+                        rule_func_name: 'doBatchUnassign',
+                        order_dt: lo_combinationData,
+                    };
+                    let lo_result = await BacUtils.doHttpPromisePostProxy('/api/queryDataByRule', lo_apiParams);
+                    // todo 詢問後端能否不要回字串訊息?
+                    if (lo_result === "成功") {
+                        this.queryGroupOrderDtRowData();
+                        this.queryOrderDtList();
+                        this.getRoomData();
+                    }
+                }
             },
 
             // 鎖定排房
@@ -1108,6 +1146,10 @@ console.log(lo_result)
                 let self = this;
                 let lo_order_dt = this.combinationData();
                 let ls_keyWord = lo_order_dt.asi_lock === 'N' ? '鎖定': '解除';
+                if (this.orderDtListRowData[this.selectListIndex].room_nos === undefined || this.orderDtListRowData[this.selectListIndex].room_nos === null) {
+                    alert('請先設定排房');
+                    return;
+                }
 
                 $.messager.confirm({
                     title: '鎖定訂房',

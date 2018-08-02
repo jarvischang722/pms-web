@@ -226,7 +226,7 @@ module.exports = {
                                 "ci_dat": lo_order_dt.ci_dat,
                                 "co_dat": lo_order_dt.co_dat,
                                 "room_cod": lo_order_dt.room_cod,
-                                "room_nos": lo_order_dt.room_nos,
+                                "room_nos": lo_order_dt.select_room_nos,
                                 "upd_usr": session.user.usr_id,
                                 conditions: {
                                     "athena_id": session.athena_id,
@@ -236,7 +236,7 @@ module.exports = {
                                     "ci_dat": lo_order_dt.ci_dat,
                                     "co_dat": lo_order_dt.co_dat,
                                     "room_cod": lo_order_dt.room_cod,
-                                    "room_nos": lo_order_dt.room_nos,
+                                    "room_nos": lo_order_dt.select_room_nos,
                                     "upd_usr": session.user.usr_id
                                 }
                             }
@@ -471,7 +471,7 @@ module.exports = {
                 hotel_cod: session.user.hotel_cod,
                 begin_dat: ld_beginDat,
                 end_dat: ld_endDat,
-                room_nos: lo_order_dt.room_nos
+                room_nos: lo_order_dt.select_room_nos
             };
 
             let lo_clusterParam = commonRule.ConvertToQueryParams(session.athena_id, "CHECK_ROOM_NOS");
@@ -507,7 +507,6 @@ module.exports = {
                 athena_id: session.user.athena_id,
                 hotel_cod: session.user.hotel_cod,
                 ikey: params.ikey,
-                assign_sta: params.assign_sta,
                 order_sta: params.order_sta,
                 ci_dat: params.ci_dat,
                 co_dat: params.co_dat,
