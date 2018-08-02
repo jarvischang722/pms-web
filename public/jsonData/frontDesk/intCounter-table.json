@@ -1,0 +1,36 @@
+{
+  "total": 28,
+  "rows": [
+    {
+      "rmNo": "101",
+      "rmType": "STD",
+      "fullName": "王大明",
+      "ciDate": "2018/7/1",
+      "coDate": "2018/7/3",
+      "balance": "5,000",
+      "rmSta": "O",
+      "hkSta": "Clean",
+      "assign": "Y",
+      "oos": "Y",
+      "dnd": "Y",
+      "bedSet": "拆",
+      "rmRemark": ""
+    },
+    {
+      "rmNo": "102",
+      "rmType": "STD",
+      "fullName": "小偉",
+      "ciDate": "2018/7/2",
+      "coDate": "2018/7/5",
+      "balance": "7,000",
+      "rmSta": "OOO",
+      "hkSta": "Dirty",
+      "assign": "N",
+      "oos": "N",
+      "dnd": "N",
+      "bedSet": "併",
+      "rmRemark": "不吃豬"
+    }
+  ]
+}
+
