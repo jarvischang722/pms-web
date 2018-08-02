@@ -280,7 +280,8 @@
                                         </button>
                                     </li>
                                     <li>
-                                        <button class="btn btn-danger btn-white btn-defaultWidth foCnt_batch_cal"
+                                        <!--<button class="btn btn-danger btn-white btn-defaultWidth foCnt_batch_cal"-->
+                                        <button class="btn btn-danger btn-white btn-defaultWidth"
                                                 :disabled="!lockStatus" @click="doUnassignAll()"
                                                 role="button">批次取消
                                         </button>
@@ -316,6 +317,34 @@
                     </div>
                     <!--/按鈕-->
                 </div>
+            </div>
+        </div>
+
+        <!-- 批次取消失敗清單 -->
+        <div id="batchCancelList" class="hide padding-5">
+            <div class="col-xs-12 col-sm-12">
+                <div class="row">
+                    <div class="col-xs-10 col-sm-10">
+                        <div class="row no-margin-right">
+                            <table id="foCnt_batch_cal-table"></table>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="col-xs-2 col-sm-2">
+                        <div class="row">
+                            <div class="right-menu-co">
+                                <ul>
+                                    <li>
+                                        <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                role="button">離開
+                                        </button>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="clearfix"></div>
             </div>
         </div>
     </div>
@@ -1034,6 +1063,18 @@ console.log(lo_result);
                 };
                 let lo_result = await BacUtils.doHttpPromisePostProxy('/api/queryDataByRule', lo_apiParams);
                 console.log(lo_result)
+
+
+                let dialog = $("#batchCancelList").removeClass('hide').dialog({
+                    modal: true,
+                    title: "批次取消失敗清單",
+                    title_html: true,
+                    width: 700,
+                    maxwidth: 1920,
+                    dialogClass: "test",
+                    resizable: true
+                });
+
 
             },
 
