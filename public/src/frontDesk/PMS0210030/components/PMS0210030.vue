@@ -548,10 +548,8 @@
                 // 產生 [訂房明細] DataGrid 資料
                 await this.queryOrderDtList();
 
-                // 排房房間 資料 （todo...）
-                let lo_roomList = await this.getRoomData();
-                this.roomDtListRowData = lo_roomList.effectValues;
-                this.dgRoom.loadPageDgData(this.roomDtListRowData);
+                // 產生 [排房房間] 資料
+                await this.queryRoomList();
             },
             async selectListIndex(newVal, oldVal) {
                 console.log('訂房明細', newVal, oldVal);
@@ -641,19 +639,15 @@
             },
 
             /**
-             * 產生 [訂房多筆] [訂房明細] [排房房間] DataGrid 欄位
+             * 產生 [訂房多筆] [訂房明細] [排房房間] DataGrid 欄位 :todo 需要重寫
              */
             async queryField() {
                 try {
-                    let ln_groupOrderDtLength;
-                    let ln_OrderDtLength;
-                    if (this.groupOrderDtField.length === 0 || this.orderDtListField.length === 0) {
+                    let ln_groupOrderDtLength = this.groupOrderDtField.length;
+                    let ln_OrderDtLength = this.orderDtListField.length;
+                    if (ln_groupOrderDtLength === 0 || ln_OrderDtLength === 0) {
                         ln_groupOrderDtLength = await this.fetchGroupOrderDtField();
                         ln_OrderDtLength = await this.fetchOrderDtListField();
-                    }
-                    let ln_roomDataLength = await this.getRoomColumns();
-
-                    if (ln_groupOrderDtLength || ln_OrderDtLength || ln_roomDataLength) {
                         this.dgGroup.init(gs_prgId, "groupOrderDt_dg", DatagridFieldAdapter.combineFieldOption(this.groupOrderDtField, "groupOrderDt_dg"), this.groupOrderDtField, {
                             singleSelect: true,
                             pagination: false,
@@ -666,12 +660,17 @@
                             rownumbers: true,
                             pageSize: 20
                         });
+                    }
+
+                    let ln_roomDataLength = await this.getRoomColumns();
+                    if (ln_roomDataLength) {
                         this.dgRoom.init(gs_prgId, "townList-table", DatagridFieldAdapter.combineFieldOption(this.roomDtListField, "townList-table"), this.roomDtListField, {
                             singleSelect: true,
-                            pagination: false,
+                            pagination: true,
                             rownumbers: true,
                             pageSize: 20 //一開始只載入20筆資料
                         });
+                        this.dgRoom.loadPageDgData(this.roomDtListRowData);
                         return true;
                     } else {
                         return false;
@@ -886,6 +885,11 @@ console.log(lo_roomList)
                 } catch (err) {
                     throw Error(err);
                 }
+            },
+
+            async queryRoomList() {
+                let lo_roomList = await this.getRoomData();
+                this.roomDtListRowData = lo_roomList.effectValues;
             },
             //todo...
             //endregion
