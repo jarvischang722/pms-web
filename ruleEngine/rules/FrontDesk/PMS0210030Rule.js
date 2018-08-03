@@ -175,10 +175,10 @@ module.exports = {
         let lo_error = new ErrorClass();
         try {
             let lo_default_params = {
-                athena_id: 1,
-                hotel_cod: "02",
-                usr_id: "a17017",
-                socket_id: ""
+                athena_id: session.athena_id,
+                hotel_cod: session.hotel_cod,
+                usr_id: session.user.usr_id,
+                socket_id: "helloworld"
             };
 
             let lo_clusterParam = commonRule.ConvertToQueryParams(session.athena_id, "QRY_ROOM_DATA_LIST");
@@ -579,7 +579,6 @@ module.exports = {
             lo_error.errorMsg = err;
         }
     },
-
 
     /**
      * 批次排房確定按鈕
