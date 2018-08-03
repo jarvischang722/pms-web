@@ -662,6 +662,7 @@
             this.$eventHub.$on('getOrderDtRateCod', (data) => {
                 this.orderDtRowsData4table[this.editingOrderDtIdx].rate_cod = data.rateCodData.rate_cod;
                 let lo_rateCodFiled = _.findWhere(this.orderDtFieldsData4table, {ui_field_name: 'rate_cod'});
+                console.log(lo_rateCodFiled);
                 if (!_.isUndefined(lo_rateCodFiled)) {
                     this.chkDgFieldRule(lo_rateCodFiled.ui_field_name, lo_rateCodFiled.rule_func_name);
                 }
@@ -1688,9 +1689,9 @@
                 }
                 if (rule_func_name === "" || !this.isEffectFromRule) {
                     this.isEffectFromRule = true;
+                    console.log(rule_func_name);
                     return;
                 }
-
                 try {
                     this.isLoadingDialog = true;
                     let lo_postData = {
@@ -1701,6 +1702,7 @@
                         oriSingleData: la_beforeData,
                         allRowData: this.orderDtRowsData
                     };
+
                     let lo_doChkFiledRule = await BacUtils.doHttpPromisePostProxy("/api/chkFieldRule", lo_postData).then(result => {
                         return result
                     }).catch(err => {

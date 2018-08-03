@@ -313,7 +313,7 @@ module.exports = {
         let la_guestMnData = postData.guestMnData;
 
         let lo_pageData = {
-            "1020": {
+            "1010": {
                 tabs_data: {
                     "11": la_orderMnData,
                     "12": la_guestMnData
