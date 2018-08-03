@@ -1272,15 +1272,6 @@
                         dialogClass: "test",
                         resizable: true
                     });
-
-                    // 原生alert
-                    // let ls_message = "";
-                    //
-                    // for(let lo_cancelFaildData of this.cancelFaildData.effectValues){
-                    //     ls_message += `序號：${lo_cancelFaildData.ikey_seq_nos} 房號：${lo_cancelFaildData.room_nos} 住客姓名：${lo_cancelFaildData.full_nam} 訊息說明：${lo_cancelFaildData.asi_lock}`
-                    //
-                    // }
-                    // alert(ls_message);
                 } else {
                     let la_ikeySeqNosList = lo_expectedCancelData.effectValues.map(x => x.ikey_seq_nos);
 
