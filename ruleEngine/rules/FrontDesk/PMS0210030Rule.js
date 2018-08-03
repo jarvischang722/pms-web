@@ -141,7 +141,7 @@ module.exports = {
             "athena_id": session.athena_id,
             "hotel_cod": session.hotel_cod,
             "usr_id": session.user.usr_id,
-            "socket_id": "",
+            "socket_id": "helloworld",
             "ci_dat": moment(lo_orderDt.ci_dat).format("YYYY/MM/DD"),
             "co_dat": moment(lo_orderDt.co_dat).format("YYYY/MM/DD"),
             // "room_cod": lo_orderDt.room_cod,
@@ -225,7 +225,7 @@ module.exports = {
                                 "ikey_seq_nos": lo_order_dt.ikey_seq_nos,
                                 "ci_dat": lo_order_dt.ci_dat,
                                 "co_dat": lo_order_dt.co_dat,
-                                "room_cod": lo_order_dt.room_cod,
+                                "room_cod": lo_order_dt.select_room_cod,
                                 "room_nos": lo_order_dt.select_room_nos,
                                 "upd_usr": session.user.usr_id,
                                 conditions: {
@@ -235,7 +235,7 @@ module.exports = {
                                     "ikey_seq_nos": lo_order_dt.ikey_seq_nos,
                                     "ci_dat": lo_order_dt.ci_dat,
                                     "co_dat": lo_order_dt.co_dat,
-                                    "room_cod": lo_order_dt.room_cod,
+                                    "room_cod": lo_order_dt.select_room_cod,
                                     "room_nos": lo_order_dt.select_room_nos,
                                     "upd_usr": session.user.usr_id
                                 }
@@ -598,7 +598,7 @@ module.exports = {
                 "ikey_seq_nos": lo_data.ikey_seq_nos,
                 "ci_dat": lo_order_dt.ci_dat,
                 "co_dat": lo_order_dt.co_dat,
-                "room_cod": lo_order_dt.room_cod,
+                "room_cod": lo_order_dt.select_batch_room_cod,
                 "room_nos": lo_data.room_nos,
                 "upd_usr": session.user.usr_id,
                 conditions: {
@@ -608,7 +608,7 @@ module.exports = {
                     "ikey_seq_nos": lo_data.ikey_seq_nos,
                     "ci_dat": lo_order_dt.ci_dat,
                     "co_dat": lo_order_dt.co_dat,
-                    "room_cod": lo_order_dt.room_cod,
+                    "room_cod": lo_order_dt.select_batch_room_cod,
                     "room_nos": lo_data.room_nos,
                     "upd_usr": session.user.usr_id
                 }

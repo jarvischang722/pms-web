@@ -877,7 +877,7 @@
                     };
 
                     let lo_result = await BacUtils.doHttpPromisePostProxy("/api/fetchOnlyDataGridFieldData", lo_params);
-                    console.log(lo_result)
+
                     if (lo_result) {
                         this.roomDtListField = lo_result.dgFieldsData;
                         return this.roomDtListField.length;
@@ -1030,7 +1030,9 @@
 
                 let lo_combinationData = _.extend(this.orderDtListRowData[this.selectListIndex], this.groupOrderDtRowData[this.selectDtIndex]);
                 lo_combinationData = _.extend(lo_combinationData, {
-                    'select_room_nos': this.selectRoomData.room_nos, //組合
+                    'select_room_nos': this.selectRoomData.room_nos, //選擇的排房房號
+                    'select_room_cod': this.selectRoomData.room_cod, //選擇的排房房型
+                    'select_batch_room_cod': this.selectRoomType,
                     'begin_dat': moment(this.groupOrderDtRowData[this.selectDtIndex].ci_dat).format('YYYY/MM/DD'),
                     'end_dat': moment(this.groupOrderDtRowData[this.selectDtIndex].co_dat).format('YYYY/MM/DD'),
                 });
@@ -1293,23 +1295,37 @@
                         return;
                     }
 
-                    $.messager.confirm({
-                        title: '鎖定訂房',
-                        msg: `是否${ls_keyWord}排房`,
-                        fn: async function (result) {
-                            if (result) {
-                                const lo_apiParams = {
-                                    rule_func_name: 'doAsiLock',
-                                    order_dt: lo_order_dt,
-                                };
-                                let lo_result = await BacUtils.doHttpPromisePostProxy('/api/queryDataByRule', lo_apiParams);
-                                // 重新render資料 :todo 詢問後端能否不要回字串訊息?
-                                if (lo_result === '成功') {
-                                    self.reloadBindData();
-                                }
-                            }
+
+                    let lb_isLockAssign = confirm(`是否${ls_keyWord}排房`);
+                    if(lb_isLockAssign) {
+                        const lo_apiParams = {
+                            rule_func_name: 'doAsiLock',
+                            order_dt: lo_order_dt,
+                        };
+                        let lo_result = await BacUtils.doHttpPromisePostProxy('/api/queryDataByRule', lo_apiParams);
+                        // 重新render資料 :todo 詢問後端能否不要回字串訊息?
+                        if (lo_result === '成功') {
+                            self.reloadBindData();
                         }
-                    });
+                    }
+                    //
+                    // $.messager.confirm({
+                    //     title: '鎖定訂房',
+                    //     msg: `是否${ls_keyWord}排房`,
+                    //     fn: async function (result) {
+                    //         if (result) {
+                    //             const lo_apiParams = {
+                    //                 rule_func_name: 'doAsiLock',
+                    //                 order_dt: lo_order_dt,
+                    //             };
+                    //             let lo_result = await BacUtils.doHttpPromisePostProxy('/api/queryDataByRule', lo_apiParams);
+                    //             // 重新render資料 :todo 詢問後端能否不要回字串訊息?
+                    //             if (lo_result === '成功') {
+                    //                 self.reloadBindData();
+                    //             }
+                    //         }
+                    //     }
+                    // });
                 } catch (err) {
                     console.log(err);
                 }
@@ -1361,7 +1377,7 @@
                 };
                 g_socket.emit('handleTableUnlock', lo_param);
             },
-        }
+        },
     }
 
 
