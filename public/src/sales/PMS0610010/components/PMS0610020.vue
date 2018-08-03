@@ -500,7 +500,9 @@
                     }, result => {
                         this.singleData = result.gsDefaultData;
                         this.oriSingleData = JSON.parse(JSON.stringify(result.gsDefaultData));
-                        this.isLoadingDialog = false;
+                        setTimeout(() => {
+                            this.isLoadingDialog = false;
+                        }, 200);
                         this.setGlobalCustCod();
                         this.tabName = "set";
                     });
@@ -515,7 +517,9 @@
                     }, result => {
                         this.singleData = result.gsMnData.rowData[0];
                         this.oriSingleData = JSON.parse(JSON.stringify(result.gsMnData.rowData[0]));
-                        this.isLoadingDialog = false;
+                        setTimeout(() => {
+                            this.isLoadingDialog = false;
+                        }, 200);
                         this.setGlobalCustCod();
                         this.tabName = "set";
                     });
@@ -615,11 +619,15 @@
 
                 if (lo_doRpValidate == false) {
                     alert(go_i18nLang.program.PMS0610020.chkRpData);
-                    this.isLoadingDialog = false;
+                    setTimeout(() => {
+                        this.isLoadingDialog = false;
+                    }, 200);
                 }
                 else if (lo_doContractValidate == false) {
                     alert(go_i18nLang.program.PMS0610020.chkCcData);
-                    this.isLoadingDialog = false;
+                    setTimeout(() => {
+                        this.isLoadingDialog = false;
+                    }, 200);
                 }
                 else {
                     this.doConvertData();
@@ -627,7 +635,9 @@
 
                     if (lo_chkResult.success == false) {
                         alert(lo_chkResult.msg);
-                        this.isLoadingDialog = false;
+                        setTimeout(() => {
+                            this.isLoadingDialog = false;
+                        }, 200);
                     }
                     else {
                         this.$store.dispatch("custMnModule/doSaveAllData").then(result => {
@@ -646,7 +656,9 @@
                             else {
                                 alert(result.errorMsg);
                             }
-                            this.isLoadingDialog = false;
+                            setTimeout(() => {
+                                this.isLoadingDialog = false;
+                            }, 200);
                         });
                     }
                 }

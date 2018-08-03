@@ -964,9 +964,13 @@
                     else {
                         alert(result.errorMsg);
                     }
-                    this.isLoadingDialog = false;
+                    setTimeout(() => {
+                        this.isLoadingDialog = false;
+                    }, 200);
                 }, err => {
-                    this.isLoadingDialog = false;
+                    setTimeout(() => {
+                        this.isLoadingDialog = false;
+                    }, 200);
                     alert(err.statusText);
                 });
             },
@@ -1089,7 +1093,9 @@
                 var lo_chkResult = this.dataValidate();
                 if (lo_chkResult.success == false) {
                     alert(lo_chkResult.msg);
-                    this.isLoadingDialog = false;
+                    setTimeout(() => {
+                        this.isLoadingDialog = false;
+                    }, 200);
                 }
                 else {
                     try {
@@ -1117,7 +1123,9 @@
                     }
                     catch (err) {
                         alert(err);
-                        this.isLoadingDialog = false;
+                        setTimeout(() => {
+                            this.isLoadingDialog = false;
+                        }, 200);
                     }
                 }
             },
@@ -1157,6 +1165,7 @@
                 this.tabName = "";
                 $("#PMS0810230SingleGrid").dialog('close');
             }
+
         }
     }
 </script>
