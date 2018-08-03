@@ -585,13 +585,13 @@
                 await this.bindOrderDtList();
 
                 // 產生 [排房房間] 資料
-                await this.queryRoomList();
+                await this.bindRoomList();
             },
             async selectListIndex(newVal, oldVal) {
                 console.log('訂房明細', newVal, oldVal);
             },
             async chkAssign(newVal, oldVal) {
-                await this.queryRoomList();
+                await this.bindRoomList();
             },
         },
         computed: {
@@ -599,7 +599,11 @@
              * 依照選擇的房型種類，過濾房型
              */
             filterRoomList: function () {
-                return this.roomDtListRowData.filter(lo_data => lo_data.room_cod === this.selectRoomType);
+                if (this.selectRoomType === 'ALL') {
+                    return this.roomDtListRowData;
+                } else {
+                    return this.roomDtListRowData.filter(lo_data => lo_data.room_cod === this.selectRoomType);
+                }
             },
         },
         async mounted() {
@@ -918,9 +922,14 @@
                 }
             },
 
-            async queryRoomList() {
+            async bindRoomList() {
                 await this.getRoomData();
-                this.dgRoom.loadPageDgData(this.roomDtListRowData);
+                let lo_roomDtListRowData = this.roomDtListRowData;
+                if (this.selectRoomType !== 'ALL') {
+                    lo_roomDtListRowData = this.roomDtListRowData.filter(lo_data => lo_data.room_cod === this.selectRoomType);
+                }
+
+                this.dgRoom.loadPageDgData(lo_roomDtListRowData);
             },
             //todo...
             //endregion
@@ -951,8 +960,7 @@
             async chooseRoomType(room_cod) {
                 this.selectRoomType = room_cod;
                 this.selectRoomData = this.filterRoomList[0];
-                //todo 重撈資料庫資料
-                await this.queryRoomList();
+                await this.bindRoomList();
             },
             //endregion
 
@@ -1338,7 +1346,7 @@
             // 切換模式 (圖形/清單) :todo 切換有更好的方法嗎?
             changeRoomDataType() {
                 this.bindField();
-                this.queryRoomList();
+                this.bindRoomList();
                 this.btnList = !this.btnList;
             },
 
@@ -1352,7 +1360,7 @@
             reloadBindData() {
                 this.bindGroupOrderDtRowData();
                 this.bindOrderDtList();
-                this.queryRoomList();
+                this.bindRoomList();
             },
 
             /**
