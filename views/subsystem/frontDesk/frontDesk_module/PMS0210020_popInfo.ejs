@@ -2,8 +2,8 @@
     * PMS0210020 綜合櫃檯-彈窗內容
 */ -->
 
-<h4 class="popInfo-title">住人房間選單</h4>
-<div class="col-xs-12">
+<div class="col-xs-12 popover-window-container">
+    <span class="popover-close"></span>
     <div class="row">
         <div class="col-xs-10 foCounter">
             <div class="row no-margin-right">
@@ -163,6 +163,16 @@
                         <li>
                             <button class="btn btn-skin btn-defaultWidth"
                                     role="button" @click="pax_btn">電話開關
+                            </button>
+                        </li>
+                        <li>
+                            <button class="btn btn-primary btn-white btn-defaultWidth"
+                                    role="button" @click="remark_btn">備註
+                            </button>
+                        </li>
+                        <li>
+                            <button class="btn btn-primary btn-white btn-defaultWidth"
+                                    role="button">離開
                             </button>
                         </li>
                     </ul>

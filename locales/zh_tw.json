@@ -145,6 +145,7 @@
       "end_placeholder": "结束日期",
       "selectDate": "請選擇日期",
       "begBiggerEnd": "開始日要小於結束日",
+      "begBiggerRel": "開始日要大於滾房日",
       "stopSell": "停售",
       "revert": "還原"
     },
@@ -398,6 +399,9 @@
       "1010": "核准",
       "1020": "取消核准",
       "1030": "空白訂貨表下載"
+    },
+    "PMS0210030": {
+
     }
   },
   "table_in_use": "%s 使用中",

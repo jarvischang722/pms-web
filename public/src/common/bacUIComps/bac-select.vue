@@ -147,8 +147,8 @@
             }
         },
         beforeDestroy: function () {
+            $(this.$el).combobox('textbox').unbind('keyup');
             $(this.$el).combobox('destroy');
-            $(this.$el).combobox('textbox').unbind('keyup')
         }
     }
 </script>
