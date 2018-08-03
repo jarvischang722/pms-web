@@ -578,5 +578,76 @@ module.exports = {
             lo_return.success = false;
             lo_error.errorMsg = err;
         }
+    },
+
+
+    /**
+     * 批次排房確定按鈕
+     * @param params
+     * @param session
+     * @param callback
+     */
+    doBatchAssign: function (params, session, callback) {
+        const lo_order_dt = params.order_dt;
+
+        let la_Data = lo_order_dt.assignDataList.map(lo_data => {
+            return {
+                "athena_id": session.athena_id,
+                "hotel_cod": session.hotel_cod,
+                "ikey": lo_order_dt.ikey,
+                "ikey_seq_nos": lo_data.ikey_seq_nos,
+                "ci_dat": lo_order_dt.ci_dat,
+                "co_dat": lo_order_dt.co_dat,
+                "room_cod": lo_order_dt.room_cod,
+                "room_nos": lo_data.room_nos,
+                "upd_usr": session.user.usr_id,
+                conditions: {
+                    "athena_id": session.athena_id,
+                    "hotel_cod": session.hotel_cod,
+                    "ikey": lo_order_dt.ikey,
+                    "ikey_seq_nos": lo_data.ikey_seq_nos,
+                    "ci_dat": lo_order_dt.ci_dat,
+                    "co_dat": lo_order_dt.co_dat,
+                    "room_cod": lo_order_dt.room_cod,
+                    "room_nos": lo_data.room_nos,
+                    "upd_usr": session.user.usr_id
+                }
+            };
+        });
+
+        let apiParams = {
+            "locale": "zh_TW",
+            "REVE-CODE": "PMS0210030",
+            "prg_id": "PMS0210030",
+            "func_id": "1010",
+            "page_data": {
+                "1": {
+                    "tabs_data": {
+                        "1": la_Data
+                    }
+                }
+            },
+            "client_ip": "",
+            "server_ip": "",
+            "event_time": moment().format(),
+            "mac": ""
+        };
+
+        tools.requestApi(sysConf.api_url.java, apiParams, function (apiErr, apiRes, data) {
+            let success = true;
+            let errorMsg = "";
+            if (apiErr || !data) {
+                success = false;
+                errorMsg = apiErr;
+            } else if (data["RETN-CODE"] !== "0000") {
+                success = false;
+                errorMsg = data["RETN-CODE-DESC"] || "發生錯誤";
+                console.error(data["RETN-CODE-DESC"]);
+            } else {
+                errorMsg = data["RETN-CODE-DESC"];
+            }
+            callback(errorMsg, success, data);
+        });
     }
+
 };

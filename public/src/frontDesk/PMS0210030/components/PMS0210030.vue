@@ -330,13 +330,13 @@
                             <table class="css_table horizTable click-effect">
                                 <thead class="css_thead">
                                 <tr class="css_tr">
-                                    <th class="css_th" v-for="(filed, key) in cancelFaildField">
-                                        {{filed.filed}}
+                                    <th class="css_th" v-for="(field, key) in cancelFaildField">
+                                        {{field.field}}
                                     </th>
                                 </tr>
                                 </thead>
                                 <tbody class="css_tbody">
-                                <template v-for="(data, index, key) in cancelFaildData">
+                                <template v-for="(data, key) in cancelFaildData">
                                     <tr class="css_tr" v-for="(item, idx) in data">
                                         <template>
                                             <td class="css_td" v-for="(x,y) in item">
@@ -381,21 +381,21 @@
                                     <thead class="css_thead">
                                     <tr class="css_tr">
                                         <th class="css_th" v-for="(field, key) in batchAssignListField">
-                                            {{field.filed}}
+                                            {{field.field}}
                                         </th>
                                     </tr>
                                     </thead>
                                     <tbody class="css_tbody">
-                                    <template v-for="(AssignData, AssignKey) in batchAssignListData">
+                                    <template v-for="(AssignData, AssignKey) in batchAssignDataList">
                                         <tr>
                                             <template v-for="(AssignField, key) in batchAssignListField">
                                                 <td class="css_td"
                                                     v-if="AssignField.type === 'checkbox'"
-                                                    :style="{width: 60 + 'px'}"
                                                 >
                                                     <input style="margin: 5px" type="checkbox"
                                                            :value="AssignData"
-                                                           v-model="chkAssignList"
+                                                           v-model="chkAssignDataList"
+                                                           :disabled="AssignData.choose === 'N' ? 'disabled' : null "
                                                     >
                                                 </td>
                                                 <td class="css_td"
@@ -419,7 +419,10 @@
                                 <ul>
                                     <li>
                                         <button class="btn btn-primary btn-white btn-defaultWidth"
-                                                role="button">確定
+                                                role="button"
+                                                @click="doAssignAllSure"
+                                        >
+                                            確定
                                         </button>
                                     </li>
                                     <li>
@@ -522,21 +525,21 @@
                 // 可排房 or 不可排房
                 chkAssign: true,
                 cancelFaildField: [
-                    {filed: '序號'},
-                    {filed: '房號'},
-                    {filed: '住客姓名'},
-                    {filed: '訊息說明'},
+                    {field: '序號'},
+                    {field: '房號'},
+                    {field: '住客姓名'},
+                    {field: '訊息說明'},
                 ],
                 cancelFaildData: [],
                 batchAssignListField: [
-                    {filed: '選擇', value: 'choose', type: 'checkbox', width: 60},
-                    {filed: '房號', value: 'room_nos', type: 'text', width: 60},
-                    {filed: '序號', value: 'ikey_seq_nos', type: 'text', width: 60},
-                    {filed: '住客姓名', value: 'full_nam', type: 'text', width: 60},
-                    {filed: '訊息說明', value: 'message', type: 'text'},
+                    {field: '選擇', value: 'choose', type: 'checkbox', width: 60},
+                    {field: '房號', value: 'room_nos', type: 'text', width: 60},
+                    {field: '序號', value: 'ikey_seq_nos', type: 'text', width: 60},
+                    {field: '住客姓名', value: 'full_nam', type: 'text', width: 60},
+                    {field: '訊息說明', value: 'message', type: 'text'},
                 ],
-                batchAssignListData: [],
-                chkAssignList: [],
+                batchAssignDataList: [],
+                chkAssignDataList: [],
             };
         },
         created() {
@@ -575,8 +578,8 @@
                 this.roomType = lo_roomType.effectValues;
                 this.selectRoomType = this.groupOrderDtRowData[this.selectDtIndex].use_cod;
 
-                this.doRowUnLock();
-                this.doRowLock();
+                await this.doRowUnLock();
+                await this.doRowLock();
 
                 // 產生 [訂房明細] DataGrid 資料
                 await this.bindOrderDtList();
@@ -1079,9 +1082,7 @@
                         let lo_result = await BacUtils.doHttpPromisePostProxy('/api/queryDataByRule', lo_apiParams);
                         // todo 詢問後端能否不要回字串訊息?
                         if (lo_result === "成功") {
-                            this.bindGroupOrderDtRowData();
-                            this.bindOrderDtList();
-                            this.queryRoomList();
+                            this.reloadBindData();
                         }
                     }
                 } catch (err) {
@@ -1120,36 +1121,34 @@
                         };
                         // 批次排房預計排房明細資料
                         let lo_result = await BacUtils.doHttpPromisePostProxy('/api/queryDataByRule', lo_apiParams);
-                        // console.log(lo_result)
                         if(lo_result.effectValues.length > 0){
-                            // console.log(this.filterRoomList);
-
-                            /*穿插房型*/
-                            let la = [] ;
-                            this.filterRoomList.forEach(async lo_data => {
-                                console.log(lo_data.room_nos)
-                                console.log(la.length)
-                                if (la.length < lo_result.effectValues.length) {
-                                    lo_combinationData = _.extend(lo_combinationData, {
-                                        'select_room_nos': lo_data.room_nos, //組合
+                            let la_canAssignRoomNos = [];
+                            for (let lo_RoomData of this.filterRoomList) {
+                                if (la_canAssignRoomNos.length < lo_result.effectValues.length) {
+                                    _.extend(lo_combinationData, {
+                                        'select_room_nos': lo_RoomData.room_nos,
                                     });
-                                    console.log(lo_combinationData)
                                     const lo_checkRommNosParams = {
                                         rule_func_name: 'checkRoomNos',
                                         order_dt: lo_combinationData,
                                     };
                                     let lo_checkRommNos = await BacUtils.doHttpPromisePostProxy('/api/queryDataByRule', lo_checkRommNosParams);
-                                    console.log(lo_checkRommNos)
                                     if (lo_checkRommNos.effectValues[0]['count(*)'] === 0) {
-                                        la.push(lo_data)
+                                        la_canAssignRoomNos.push(lo_RoomData)
                                     }
                                 }
-                            })
-                            console.log(la)
-                            return;
+                            }
 
+                            lo_result.effectValues.forEach((lo_value, idx) => {
+                                if (la_canAssignRoomNos[idx] !== undefined) {
+                                    lo_value.room_nos = la_canAssignRoomNos[idx].room_nos;
+                                    lo_value.choose = 'Y';
+                                }
+                            });
+                            this.batchAssignDataList = lo_result.effectValues;
 
-                            this.batchAssignListData = lo_result.effectValues;
+                            let la_chkAssignDataList = lo_result.effectValues.filter(lo_data => lo_data.choose === 'Y');
+                            this.chkAssignDataList = la_chkAssignDataList;
 
                             $("#batchAssignListDialog").removeClass('hide').dialog({
                                 modal: true,
@@ -1161,12 +1160,28 @@
                                 resizable: true
                             });
                         }
-
-
-
                     }
                 } catch (err) {
                     console.log(err);
+                }
+            },
+
+            // 批次排房 確認按鈕
+            async doAssignAllSure() {
+                let lo_combinationData = this.combinationData();
+                lo_combinationData = _.extend(lo_combinationData, {
+                    assignDataList: this.chkAssignDataList
+                });
+                console.log(lo_combinationData)
+
+                const lo_apiParams = {
+                    rule_func_name: 'doBatchAssign',
+                    order_dt: lo_combinationData,
+                };
+
+                let lo_result = await BacUtils.doHttpPromisePostProxy('/api/queryDataByRule', lo_apiParams);
+                if (lo_result === '成功') {
+                    this.reloadBindData();
                 }
             },
 
@@ -1193,9 +1208,7 @@
 
                     // todo 詢問後端能否不要回字串訊息?
                     if (lo_result === "成功") {
-                        this.bindGroupOrderDtRowData();
-                        this.bindOrderDtList();
-                        this.queryRoomList();
+                        this.reloadBindData();
                     }
                 } catch (err) {
                     console.log(err);
@@ -1264,9 +1277,7 @@
                     let lo_result = await BacUtils.doHttpPromisePostProxy('/api/queryDataByRule', lo_apiParams);
                     // todo 詢問後端能否不要回字串訊息?
                     if (lo_result === "成功") {
-                        this.bindGroupOrderDtRowData();
-                        this.bindOrderDtList();
-                        this.queryRoomList();
+                        this.reloadBindData();
                     }
                 }
             },
@@ -1294,9 +1305,7 @@
                                 let lo_result = await BacUtils.doHttpPromisePostProxy('/api/queryDataByRule', lo_apiParams);
                                 // 重新render資料 :todo 詢問後端能否不要回字串訊息?
                                 if (lo_result === '成功') {
-                                    self.bindGroupOrderDtRowData();
-                                    self.bindOrderDtList();
-                                    self.queryRoomList();
+                                    self.reloadBindData();
                                 }
                             }
                         }
@@ -1323,10 +1332,17 @@
             },
             //endregion
 
+            // 重讀畫面
+            reloadBindData() {
+                this.bindGroupOrderDtRowData();
+                this.bindOrderDtList();
+                this.queryRoomList();
+            },
+
             /**
              * RowLock
              */
-            doRowLock: function () {
+            doRowLock: async function () {
                 let lo_param = {
                     prg_id: gs_prgId,
                     table_name: 'order_mn',
@@ -1339,7 +1355,7 @@
             /**
              * RowUnLock
              */
-            doRowUnLock: function () {
+            doRowUnLock: async function () {
                 let lo_param = {
                     prg_id: gs_prgId
                 };
