@@ -268,7 +268,8 @@
                                         </button>
                                     </li>
                                     <li>
-                                        <button class="btn btn-primary btn-white btn-defaultWidth foCnt_autoAssignSGL"
+                                        <!--<button class="btn btn-primary btn-white btn-defaultWidth foCnt_autoAssignSGL"-->
+                                        <button class="btn btn-primary btn-white btn-defaultWidth"
                                                 :disabled="!lockStatus" @click="doAssignAll"
                                                 role="button">批次排房
                                         </button>
@@ -367,6 +368,74 @@
                 <div class="clearfix"></div>
             </div>
         </div>
+        <!-- /批次取消失敗清單 -->
+
+        <!-- 批次排房彈出視窗 -->
+        <div id="batchAssignListDialog" class="hide padding-5">
+            <div class="col-xs-12 col-sm-12">
+                <div class="row">
+                    <div class="col-xs-10 col-sm-10">
+                        <div class="row no-margin-right">
+                            <div class="main-content-data">
+                                <table class="css_table horizTable click-effect">
+                                    <thead class="css_thead">
+                                    <tr class="css_tr">
+                                        <th class="css_th" v-for="(field, key) in batchAssignListField">
+                                            {{field.filed}}
+                                        </th>
+                                    </tr>
+                                    </thead>
+                                    <tbody class="css_tbody">
+                                    <template v-for="(AssignData, AssignKey) in batchAssignListData">
+                                        <tr>
+                                            <template v-for="(AssignField, key) in batchAssignListField">
+                                                <td class="css_td"
+                                                    v-if="AssignField.type === 'checkbox'"
+                                                    :style="{width: 60 + 'px'}"
+                                                >
+                                                    <input style="margin: 5px" type="checkbox"
+                                                           :value="AssignData"
+                                                           v-model="chkAssignList"
+                                                    >
+                                                </td>
+                                                <td class="css_td"
+                                                    v-if="AssignField.type === 'text'"
+                                                >
+                                                    <span>{{AssignData[AssignField.value]}}</span>
+                                                </td>
+                                            </template>
+                                        </tr>
+                                    </template>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="clearfix"></div>
+
+                    </div>
+                    <div class="col-xs-2 col-sm-2">
+                        <div class="row">
+                            <div class="right-menu-co">
+                                <ul>
+                                    <li>
+                                        <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                role="button">確定
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                role="button">離開
+                                        </button>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="clearfix"></div>
+            </div>
+        </div>
     </div>
 </template>
 
@@ -459,6 +528,15 @@
                     {filed: '訊息說明'},
                 ],
                 cancelFaildData: [],
+                batchAssignListField: [
+                    {filed: '選擇', value: 'choose', type: 'checkbox', width: 60},
+                    {filed: '房號', value: 'room_nos', type: 'text', width: 60},
+                    {filed: '序號', value: 'ikey_seq_nos', type: 'text', width: 60},
+                    {filed: '住客姓名', value: 'full_nam', type: 'text', width: 60},
+                    {filed: '訊息說明', value: 'message', type: 'text'},
+                ],
+                batchAssignListData: [],
+                chkAssignList: [],
             };
         },
         created() {
@@ -965,6 +1043,11 @@
                     let lb_confrim = true;
 
                     //region ### 驗證 ###
+                    if (Object.keys(this.selectRoomData).length === 0) {
+                        alert('請選擇一筆房間');
+                        return;
+                    }
+
                     if (lo_currentListRowData.assign_sta === 'Y' || lo_currentListRowData.assign_sta === 'I') {
                         alert('不能排房');
                         return;
@@ -1011,7 +1094,6 @@
                 try {
                     let lo_groupOrderDtRowData = this.groupOrderDtRowData[this.selectDtIndex];
                     let lb_confrim = true;
-                    console.log(lo_groupOrderDtRowData);
 
                     //region ### 驗證 ###
                     if (lo_groupOrderDtRowData.assign_qnt + lo_groupOrderDtRowData.ci_qnt > 0) {
@@ -1038,7 +1120,50 @@
                         };
                         // 批次排房預計排房明細資料
                         let lo_result = await BacUtils.doHttpPromisePostProxy('/api/queryDataByRule', lo_apiParams);
-                        console.log(lo_result);
+                        // console.log(lo_result)
+                        if(lo_result.effectValues.length > 0){
+                            // console.log(this.filterRoomList);
+
+                            /*穿插房型*/
+                            let la = [] ;
+                            this.filterRoomList.forEach(async lo_data => {
+                                console.log(lo_data.room_nos)
+                                console.log(la.length)
+                                if (la.length < lo_result.effectValues.length) {
+                                    lo_combinationData = _.extend(lo_combinationData, {
+                                        'select_room_nos': lo_data.room_nos, //組合
+                                    });
+                                    console.log(lo_combinationData)
+                                    const lo_checkRommNosParams = {
+                                        rule_func_name: 'checkRoomNos',
+                                        order_dt: lo_combinationData,
+                                    };
+                                    let lo_checkRommNos = await BacUtils.doHttpPromisePostProxy('/api/queryDataByRule', lo_checkRommNosParams);
+                                    console.log(lo_checkRommNos)
+                                    if (lo_checkRommNos.effectValues[0]['count(*)'] === 0) {
+                                        la.push(lo_data)
+                                    }
+                                }
+                            })
+                            console.log(la)
+                            return;
+
+
+                            this.batchAssignListData = lo_result.effectValues;
+
+                            $("#batchAssignListDialog").removeClass('hide').dialog({
+                                modal: true,
+                                title: `[訂房卡號：${lo_groupOrderDtRowData.ikey}  使用房型:${lo_groupOrderDtRowData.room_cod}]`,
+                                title_html: true,
+                                width: 700,
+                                maxwidth: 1920,
+                                dialogClass: "test",
+                                resizable: true
+                            });
+                        }
+
+
+
                     }
                 } catch (err) {
                     console.log(err);
