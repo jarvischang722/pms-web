@@ -110,8 +110,8 @@ module.exports = {
                 lo_result.success = false;
                 lo_error = new ErrorClass();
                 if (!_.isUndefined(data["RETN-DATA"])) {
-                    console.error(data["RETN-DATA"]["data"]);
-                    lo_error.errorMsg = data["RETN-DATA"]["data"];
+                    console.error(data["RETN-DATA"]["data"]["2010"]);
+                    lo_error.errorMsg = data["RETN-DATA"]["data"]["2010"];
                 }
                 else {
                     console.error(data["RETN-CODE-DESC"]);
@@ -120,7 +120,7 @@ module.exports = {
 
             }
             if (!_.isUndefined(data["RETN-DATA"])) {
-                lo_result.effectValues = data["RETN-DATA"]["ciserdata"];
+                lo_result.effectValues = data["RETN-DATA"]["data"];
             }
             callback(lo_error, lo_result);
         });
@@ -279,8 +279,8 @@ module.exports = {
                     }
                     else {
                         if (data["RETN-CODE"] != "0000") {
-                            if (!_.isUndefined(data["RETN-DATA"])) {
-                                reject(data["RETN-DATA"]["data"]);
+                            if (!_.isUndefined(data["RETN-DATA"]["1011"])) {
+                                reject(data["RETN-DATA"]["data"]["1011"]);
                             }
                             else {
                                 reject(data["RETN-CODE-DESC"]);
@@ -336,8 +336,8 @@ module.exports = {
                     }
                     else {
                         if (data["RETN-CODE"] != "0000") {
-                            if (!_.isUndefined(data["RETN-DATA"])) {
-                                reject(data["RETN-DATA"]["data"]);
+                            if (!_.isUndefined(data["RETN-DATA"]["1022"])) {
+                                reject(data["RETN-DATA"]["data"]["1022"]);
                             }
                             else {
                                 reject(data["RETN-CODE-DESC"]);

@@ -586,10 +586,20 @@
 
                         if (!lo_doRule.success) {
                             lo_return.success = false;
-                            lo_return.errorMsg = lo_doRule.errorMsg;
+
+                            if (Array.isArray(lo_doRule.errorMsg)) {
+                                let ls_errorMsg = "";
+                                _.each(lo_doRule.errorMsg, (ls_data) => {
+                                    ls_errorMsg = ls_errorMsg + ls_data + "\n";
+                                })
+                                lo_return.errorMsg = ls_errorMsg;
+                            }
+                            else {
+                                lo_return.errorMsg = lo_doRule.errorMsg;
+                            }
                         }
                         if (!_.isEmpty(lo_doRule.effectValues)) {
-                            _.each(lo_doRule.effectValues["2010"], (lo_data) => {
+                            _.each(lo_doRule.effectValues["ciserdata"], (lo_data) => {
                                 let ln_idx = _.findIndex(this.guestMnRowDataChecked, {ikey_seq_nos: lo_data.ikey_seq_nos});
                                 if (ln_idx > -1) {
                                     this.guestMnRowDataChecked[ln_idx] = _.extend(this.guestMnRowDataChecked[ln_idx], lo_data);
@@ -672,6 +682,11 @@
                     }
                     else {
                         if (Array.isArray(lo_doRule.errorMsg)) {
+                            let ls_errorMsg = "";
+                            _.each(lo_doRule.errorMsg, (ls_data) => {
+                                ls_errorMsg = ls_errorMsg + ls_data + "\n";
+                            });
+                            alert(ls_errorMsg);
                         }
                         else {
                             alert(lo_doRule.errorMsg);
@@ -745,6 +760,11 @@
                 }
                 else {
                     if (Array.isArray(lo_doRule.errorMsg)) {
+                        let ls_errorMsg = "";
+                        _.each(lo_doRule.errorMsg, (ls_data) => {
+                            ls_errorMsg = ls_errorMsg + ls_data + "\n";
+                        });
+                        alert(ls_errorMsg);
                     }
                     else {
                         alert(lo_doRule.errorMsg);

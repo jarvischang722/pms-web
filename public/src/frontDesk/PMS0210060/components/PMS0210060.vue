@@ -118,8 +118,8 @@
             g_socket.on("checkTableLock", (result) => {
                 this.isLoading = false;
                 if (result.success) {
+                    this.isCheckIn = this.openSta == "1010" ? true : false;
                     let lo_editingRow = $('#orderDtTable').datagrid('getSelected');
-                    this.editingRow = lo_editingRow;
                     let dialog = $('#PMS0210060_dialog').removeClass('hide').dialog({
                         autoOpen: false,
                         modal: true,
@@ -177,7 +177,8 @@
                 guestMnDgIns: {},              //guest mn dataGrid 實體
 
                 editingRow: {},         //正在點擊的order dt
-                isCheckIn: undefined
+                isCheckIn: undefined,
+                openSta: ""
             }
         },
         watch: {},
@@ -312,11 +313,11 @@
             async r_1010() {
                 let lo_editRow = $('#orderDtTable').datagrid('getSelected');
                 if (lo_editRow) {
+                    this.openSta = "1010";
+                    this.editingRow = lo_editRow;
                     let lo_ciDat = moment(lo_editRow.ci_dat);
 
                     if (lo_ciDat.isSame(moment(this.rentCalDat))) {
-                        this.editingRow = lo_editRow;
-                        this.isCheckIn = true;
                         this.showSingleGridDialog();
                     }
                     else {
@@ -341,8 +342,8 @@
             r_1020() {
                 let lo_editRow = $('#orderDtTable').datagrid('getSelected');
                 if (lo_editRow) {
+                    this.openSta = "1020";
                     this.editingRow = lo_editRow;
-                    this.isCheckIn = false;
                     //取消入住的SQL中, CI_DAT要帶滾房租日
                     this.editingRow.rent_cal_dat = moment(this.rentCalDat).format("YYYY/MM/DD");
                     this.showSingleGridDialog();
