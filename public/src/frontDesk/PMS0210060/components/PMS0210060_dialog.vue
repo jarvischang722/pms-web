@@ -692,9 +692,13 @@
 
                     if (lo_doRule.success) {
                         this.$message({
-                            message: '恭喜你，这是一条成功消息',
+                            message: go_i18nLang.program.PMS0210060.checkInSuccess,
                             duration: 3000
                         });
+                        this.isCheckIn = undefined;
+                        setTimeout(() => {
+                            this.isCheckIn = true;
+                        }, 100)
                     }
                     else {
                         if (Array.isArray(lo_doRule.errorMsg)) {
@@ -769,6 +773,10 @@
                 });
 
                 if (lo_doRule.success) {
+                    this.$message({
+                        message: go_i18nLang.program.PMS0210060.clCheckInSuccess,
+                        duration: 3000
+                    });
                     this.isCheckIn = undefined;
                     setTimeout(() => {
                         this.isCheckIn = false;

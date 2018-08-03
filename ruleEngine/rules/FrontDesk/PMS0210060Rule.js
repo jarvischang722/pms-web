@@ -82,7 +82,7 @@ module.exports = {
             });
         });
         let lo_pageData = {
-            "1": {
+            "1010": {
                 tabs_data: {
                     "11": la_orderMnData,
                     "12": la_guestMnData

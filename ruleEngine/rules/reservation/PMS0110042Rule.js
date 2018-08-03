@@ -657,11 +657,13 @@ module.exports = {
     ins_order_dt: async function (postData, session) {
         let lo_result = new ReturnClass();
         let lo_error = null;
+
+        let ls_ikey = postData.orderMnData.ikey;
         try {
             let lo_params = {
                 athena_id: session.user.athena_id,
                 hotel_cod: session.user.hotel_cod,
-                ikey: postData.allRowData[0].ikey
+                ikey: ls_ikey
             };
 
             //取order_dt max ikey_seq_nos
@@ -676,7 +678,7 @@ module.exports = {
                     }
                 });
             });
-            let lo_nowMaxIkeySeqNos = _.isUndefined(postData.allRowData[0].ikey_seq_nos) ?
+            let lo_nowMaxIkeySeqNos = _.isUndefined(postData.allRowData) ?
                 0 : _.max(postData.allRowData, (lo_orderDtRowsData) => {
                     return Number(lo_orderDtRowsData.ikey_seq_nos);
                 });

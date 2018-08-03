@@ -2046,7 +2046,8 @@
                         page_id: 1,
                         tab_page_id: 1,
                         func_id: 1100,
-                        allRowData: this.orderDtRowsData
+                        allRowData: this.orderDtRowsData,
+                        orderMnData: this.orderMnSingleData
                     };
                     try {
                         const lo_ruleResult = await this.chkPrgFuncRule(lo_param);
