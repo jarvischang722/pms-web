@@ -9,7 +9,7 @@
                     <search-comp
                             :search-fields="searchFields"
                             :search-cond.sync="searchCond"
-                            :fetch-data="queryGroupOrderDtRowData"
+                            :fetch-data="bindGroupOrderDtRowData"
                     ></search-comp>
                 </div> <!-- row-->
             </div> <!-- /.col-sm-12 -->
@@ -436,11 +436,6 @@
 
                 //顯示清單或是圖形模式 true:清單 false:圖形
                 btnList: true,
-                condition: {
-                    floor: [],
-                    roomStatus: '',
-                    roomType: []
-                },
                 //條件選項存放區
                 roomType: [],
                 roomFloor: [],
@@ -448,7 +443,6 @@
                 selectRoomFloor: [],
                 ColorList: ['不可排房', '修理房間', '可排房間', '不可移動', '今日預定C/O', '參觀'],
                 // isLite:true, 要討論未來如何判斷使用版本(lite)
-                //
                 lockStatus: false,//lock有做的話(true)可以按按鈕
                 dgGroup: {},
                 dgList: {},
@@ -487,7 +481,6 @@
 
                 } else {
                     self.lockStatus = true;
-                    alert(result.success);
                 }
             });
 
@@ -508,7 +501,7 @@
                 this.doRowLock();
 
                 // 產生 [訂房明細] DataGrid 資料
-                await this.queryOrderDtList();
+                await this.bindOrderDtList();
 
                 // 產生 [排房房間] 資料
                 await this.queryRoomList();
@@ -517,7 +510,7 @@
                 console.log('訂房明細', newVal, oldVal);
             },
             async chkAssign(newVal, oldVal) {
-                await this.getRoomData();
+                await this.queryRoomList();
             },
         },
         computed: {
@@ -558,7 +551,7 @@
                 }
 
                 // 產生 [訂房多筆] [訂房明細] [排房房間] DataGrid 欄位
-                let lb_success = await this.queryField();
+                let lb_success = await this.bindField();
                 if (!lb_success) {
                     alert('欄位資料有誤');
                     return;
@@ -573,7 +566,7 @@
                 this.getRoomColor();
 
                 // 產生 [訂房多筆] DataGrid 資料
-                await this.queryGroupOrderDtRowData();
+                await this.bindGroupOrderDtRowData();
             },
 
             /**
@@ -603,7 +596,7 @@
             /**
              * 產生 [訂房多筆] [訂房明細] [排房房間] DataGrid 欄位 :todo 需要重寫
              */
-            async queryField() {
+            async bindField() {
                 try {
                     let ln_groupOrderDtLength = this.groupOrderDtField.length;
                     let ln_OrderDtLength = this.orderDtListField.length;
@@ -624,7 +617,7 @@
                         });
                     }
 
-                    let ln_roomDataLength = await this.getRoomColumns();
+                    let ln_roomDataLength = await this.fetchRoomColumns();
                     if (ln_roomDataLength) {
                         this.dgRoom.init(gs_prgId, "townList-table", DatagridFieldAdapter.combineFieldOption(this.roomDtListField, "townList-table"), this.roomDtListField, {
                             singleSelect: true,
@@ -632,7 +625,6 @@
                             rownumbers: true,
                             pageSize: 20 //一開始只載入20筆資料
                         });
-                        this.dgRoom.loadPageDgData(this.roomDtListRowData);
                         return true;
                     } else {
                         return false;
@@ -696,7 +688,7 @@
                 }
             },
             // 產生 [訂房多筆] DataGrid 資料
-            async queryGroupOrderDtRowData() {
+            async bindGroupOrderDtRowData() {
                 try {
                     let ln_groupOrderDtRowDataLength = await this.fetchGroupOrderDtRowData();
                     this.dgGroup.loadPageDgData(this.groupOrderDtRowData);
@@ -778,7 +770,7 @@
                 }
             },
             // 產生 [訂房明細] DataGrid 資料
-            async queryOrderDtList() {
+            async bindOrderDtList() {
                 let ln_OrderDtListLength = await this.fetchOrderDtListData();
                 this.dgList.loadPageDgData(this.orderDtListRowData);
 
@@ -794,22 +786,17 @@
             /**
              * 排房房間
              */
-            // 排房房間 搜尋條件
-            getSearchCondition() {
-
-            },
             // 單純撈 [排房房間] 欄位
-            async getRoomColumns() {
+            async fetchRoomColumns() {
                 try {
-                    const lo_searchCond = this.getSearchCondition();
                     const lo_params = {
                         prg_id: gs_prgId,
                         page_id: 1,
                         tab_page_id: 13,
-                        searchCond: lo_searchCond
                     };
 
                     let lo_result = await BacUtils.doHttpPromisePostProxy("/api/fetchOnlyDataGridFieldData", lo_params);
+                    console.log(lo_result)
                     if (lo_result) {
                         this.roomDtListField = lo_result.dgFieldsData;
                         return this.roomDtListField.length;
@@ -836,13 +823,14 @@
 
                     // SP 執行程序
                     let lo_result = await BacUtils.doHttpPromisePostProxy('/api/queryDataByRule', lo_params);
-console.log(lo_result); //查詢開始日期不可小於滾房租日期
+                    console.log(lo_result); //查詢開始日期不可小於滾房租日期
 
                     let lo_paramsRoomList = {
                         rule_func_name: 'fetRoomListData',
                     };
                     let lo_roomList = await BacUtils.doHttpPromisePostProxy('/api/queryDataByRule', lo_paramsRoomList);
-console.log(lo_roomList)
+                    this.roomDtListRowData = lo_roomList.effectValues;
+                    console.log(lo_roomList)
                     return lo_roomList;
                 } catch (err) {
                     throw Error(err);
@@ -850,8 +838,8 @@ console.log(lo_roomList)
             },
 
             async queryRoomList() {
-                let lo_roomList = await this.getRoomData();
-                this.roomDtListRowData = lo_roomList.effectValues;
+                await this.getRoomData();
+                this.dgRoom.loadPageDgData(this.roomDtListRowData);
             },
             //todo...
             //endregion
@@ -883,7 +871,7 @@ console.log(lo_roomList)
                 this.selectRoomType = room_cod;
                 this.selectRoomData = this.filterRoomList[0];
                 //todo 重撈資料庫資料
-                await this.getRoomData();
+                await this.queryRoomList();
             },
             //endregion
 
@@ -944,19 +932,26 @@ console.log(lo_roomList)
 
             //組合條件 (排房、取消排房)
             combinationData: function () {
-                let lo_combinationData = _.extend(this.orderDtListRowData[this.selectListIndex], {
-                    'ci_dat': this.groupOrderDtRowData[this.selectDtIndex].ci_dat,
-                    'co_dat': this.groupOrderDtRowData[this.selectDtIndex].co_dat,
-                    'ikey': this.groupOrderDtRowData[this.selectDtIndex].ikey,
-                    // "ikey_seq_nos": this.orderDtListRowData[this.selectListIndex].ikey_seq_nos,
+                // let lo_combinationData = _.extend(this.orderDtListRowData[this.selectListIndex], {
+                //     'ci_dat': this.groupOrderDtRowData[this.selectDtIndex].ci_dat,
+                //     'co_dat': this.groupOrderDtRowData[this.selectDtIndex].co_dat,
+                //     'ikey': this.groupOrderDtRowData[this.selectDtIndex].ikey,
+                //     // "ikey_seq_nos": this.orderDtListRowData[this.selectListIndex].ikey_seq_nos,
+                //     'select_room_nos': this.selectRoomData.room_nos, //組合
+                //     'begin_dat': moment(this.groupOrderDtRowData[this.selectDtIndex].ci_dat).format('YYYY/MM/DD'),
+                //     'end_dat': moment(this.groupOrderDtRowData[this.selectDtIndex].co_dat).format('YYYY/MM/DD'),
+                //     'order_sta': this.groupOrderDtRowData[this.selectDtIndex].order_sta,
+                //     'rate_cod': this.groupOrderDtRowData[this.selectDtIndex].rate_cod,
+                //     'use_cod': this.groupOrderDtRowData[this.selectDtIndex].use_cod,
+                //     'rent_amt': this.groupOrderDtRowData[this.selectDtIndex].rent_amt,
+                //     'serv_amt': this.groupOrderDtRowData[this.selectDtIndex].serv_amt
+                // });
+
+                let lo_combinationData = _.extend(this.orderDtListRowData[this.selectListIndex], this.groupOrderDtRowData[this.selectDtIndex]);
+                lo_combinationData = _.extend(lo_combinationData, {
                     'select_room_nos': this.selectRoomData.room_nos, //組合
                     'begin_dat': moment(this.groupOrderDtRowData[this.selectDtIndex].ci_dat).format('YYYY/MM/DD'),
                     'end_dat': moment(this.groupOrderDtRowData[this.selectDtIndex].co_dat).format('YYYY/MM/DD'),
-                    'order_sta': this.groupOrderDtRowData[this.selectDtIndex].order_sta,
-                    'rate_cod': this.groupOrderDtRowData[this.selectDtIndex].rate_cod,
-                    'use_cod': this.groupOrderDtRowData[this.selectDtIndex].use_cod,
-                    'rent_amt': this.groupOrderDtRowData[this.selectDtIndex].rent_amt,
-                    'serv_amt': this.groupOrderDtRowData[this.selectDtIndex].serv_amt
                 });
                 return lo_combinationData;
             },
@@ -1001,9 +996,9 @@ console.log(lo_roomList)
                         let lo_result = await BacUtils.doHttpPromisePostProxy('/api/queryDataByRule', lo_apiParams);
                         // todo 詢問後端能否不要回字串訊息?
                         if (lo_result === "成功") {
-                            this.queryGroupOrderDtRowData();
-                            this.queryOrderDtList();
-                            this.getRoomData();
+                            this.bindGroupOrderDtRowData();
+                            this.bindOrderDtList();
+                            this.queryRoomList();
                         }
                     }
                 } catch (err) {
@@ -1053,12 +1048,12 @@ console.log(lo_roomList)
             // 取消排房
             async doUnassign() {
                 try {
-                    let currentListRowData = this.orderDtListRowData[this.selectListIndex];
-                    if (currentListRowData.assign_sta === 'N') {
+                    let lo_currentListRowData = this.orderDtListRowData[this.selectListIndex];
+                    if (lo_currentListRowData.assign_sta === 'N') {
                         alert('不能取消');
                         return;
                     }
-                    if (currentListRowData.asi_lock === 'Y') {
+                    if (lo_currentListRowData.asi_lock === 'Y') {
                         alert('已設定鎖定排房，不可執行取消排房');
                         return;
                     }
@@ -1073,9 +1068,9 @@ console.log(lo_roomList)
 
                     // todo 詢問後端能否不要回字串訊息?
                     if (lo_result === "成功") {
-                        this.queryGroupOrderDtRowData();
-                        this.queryOrderDtList();
-                        this.getRoomData();
+                        this.bindGroupOrderDtRowData();
+                        this.bindOrderDtList();
+                        this.queryRoomList();
                     }
                 } catch (err) {
                     console.log(err);
@@ -1144,9 +1139,9 @@ console.log(lo_roomList)
                     let lo_result = await BacUtils.doHttpPromisePostProxy('/api/queryDataByRule', lo_apiParams);
                     // todo 詢問後端能否不要回字串訊息?
                     if (lo_result === "成功") {
-                        this.queryGroupOrderDtRowData();
-                        this.queryOrderDtList();
-                        this.getRoomData();
+                        this.bindGroupOrderDtRowData();
+                        this.bindOrderDtList();
+                        this.queryRoomList();
                     }
                 }
             },
@@ -1174,9 +1169,9 @@ console.log(lo_roomList)
                                 let lo_result = await BacUtils.doHttpPromisePostProxy('/api/queryDataByRule', lo_apiParams);
                                 // 重新render資料 :todo 詢問後端能否不要回字串訊息?
                                 if (lo_result === '成功') {
-                                    self.queryGroupOrderDtRowData();
-                                    self.queryOrderDtList();
-                                    self.getRoomData();
+                                    self.bindGroupOrderDtRowData();
+                                    self.bindOrderDtList();
+                                    self.queryRoomList();
                                 }
                             }
                         }
@@ -1192,7 +1187,8 @@ console.log(lo_roomList)
 
             // 切換模式 (圖形/清單) :todo 切換有更好的方法嗎?
             changeRoomDataType() {
-                this.queryField();
+                this.bindField();
+                this.queryRoomList();
                 this.btnList = !this.btnList;
             },
 
