@@ -204,16 +204,24 @@
     <!-- [PMS0210060] CI清單入住，取得guest_mn資料 -->
     <dao name="QRY_CI_GUEST_MN">
         <statement><![CDATA[
-            SELECT ROOM_MN.CLEAN_STA, ORDER_DT.IKEY_SEQ_NOS, ORDER_DT.ROOM_NOS, GHIST_MN.VIP_STA, GUEST_MN.ALT_NAM, ORDER_DT.CI_DAT,
-            ORDER_DT.CO_DAT, TRIM(ORDER_DT.RATE_COD) || TRIM( DECODE( TRIM(RATECOD_MN.RATECOD_NAM), NULL, ' ', ':' || TRIM(RATECOD_MN.RATECOD_NAM) ) ) RATECOD_NAM,
-            ORDER_DT.USE_COD, ORDER_DT.ROOM_COD, ORDER_DT.RENT_AMT, ORDER_DT.SERV_AMT, GUEST_MN.CI_SER, ORDER_DT.ATHENA_ID, ORDER_DT.HOTEL_COD, ORDER_DT.IKEY
-            FROM GUEST_MN, ORDER_DT, GHIST_MN, RATECOD_MN, ROOM_MN
+            SELECT        ROOM_MN.CLEAN_STA,
+            ORDER_DT.IKEY_SEQ_NOS,
+            ORDER_DT.ROOM_NOS,
+            (select vip_sta from ghist_mn where ghist_mn.athena_id = guest_mn.athena_id and ghist_mn.gcust_cod = guest_mn.gcust_cod) vip_sta,
+            GUEST_MN.ALT_NAM,
+            ORDER_DT.CI_DAT,
+            ORDER_DT.CO_DAT,
+            TRIM(ORDER_DT.RATE_COD) || TRIM( DECODE( TRIM(RATECOD_MN.RATECOD_NAM), NULL, ' ', ':' || TRIM(RATECOD_MN.RATECOD_NAM) ) ) RATECOD_NAM,
+            ORDER_DT.USE_COD,
+            ORDER_DT.ROOM_COD,
+            ORDER_DT.RENT_AMT,
+            ORDER_DT.SERV_AMT,
+            GUEST_MN.CI_SER
+            FROM GUEST_MN, ORDER_DT, RATECOD_MN, ROOM_MN
             WHERE ORDER_DT.ATHENA_ID = GUEST_MN.ATHENA_ID(+)
             AND ORDER_DT.HOTEL_COD = GUEST_MN.HOTEL_COD(+)
             AND ORDER_DT.IKEY = GUEST_MN.IKEY(+)
             AND ORDER_DT.IKEY_SEQ_NOS = GUEST_MN.IKEY_SEQ_NOS(+)
-            AND GUEST_MN.ATHENA_ID = GHIST_MN.ATHENA_ID
-            AND GUEST_MN.GCUST_COD = GHIST_MN.GCUST_COD
             AND ORDER_DT.ATHENA_ID = ROOM_MN.ATHENA_ID(+)
             AND ORDER_DT.HOTEL_COD = ROOM_MN.HOTEL_COD(+)
             AND ORDER_DT.ROOM_NOS = ROOM_MN.ROOM_NOS(+)

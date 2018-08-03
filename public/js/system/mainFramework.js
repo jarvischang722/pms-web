@@ -50,7 +50,7 @@ let BacchusMainVM = new Vue({
             //Orverride the window alert  function
             window.alert = function () {
                 self.$alert(arguments[0], arguments[1] || go_i18nLang.SystemCommon.notice, {
-                    confirmButtonText: go_i18nLang.SystemCommon.OK
+                    confirmButtonText: go_i18nLang.SystemCommon.OK,
                 });
             };
             //When click the #MainContentDiv's area , usingSubsysID changed back to current process's subsystem id

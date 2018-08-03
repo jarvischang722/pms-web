@@ -98,7 +98,8 @@ module.exports = {
             "locale": session.locale,
             "athena_id": session.user.athena_id,
             "hotel_cod": session.user.hotel_cod,
-            "page_data": lo_pageData
+            "page_data": lo_pageData,
+            "event_time": moment().format()
         };
         tools.requestApi(sysConf.api_url.java, apiParams, function (apiErr, apiRes, data) {
             if (apiErr || !data) {
@@ -279,7 +280,7 @@ module.exports = {
                     }
                     else {
                         if (data["RETN-CODE"] != "0000") {
-                            if (!_.isUndefined(data["RETN-DATA"]["1011"])) {
+                            if (!_.isUndefined(data["RETN-DATA"])) {
                                 reject(data["RETN-DATA"]["data"]["1011"]);
                             }
                             else {
@@ -336,7 +337,7 @@ module.exports = {
                     }
                     else {
                         if (data["RETN-CODE"] != "0000") {
-                            if (!_.isUndefined(data["RETN-DATA"]["1022"])) {
+                            if (!_.isUndefined(data["RETN-DATA"])) {
                                 reject(data["RETN-DATA"]["data"]["1022"]);
                             }
                             else {

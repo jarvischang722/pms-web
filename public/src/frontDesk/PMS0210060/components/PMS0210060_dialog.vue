@@ -68,11 +68,11 @@
                             <div class="space-4"></div>
                             <!--多筆 guest mn -->
                             <div class="main-content-data">
-                                <div class="horizTable-outer pull-left ml-5">
-                                    <table class="css_table horizTable">
+                                <div class="horizTable-outer pull-left ml-5 fixed-table-container"  style="height: 200px;">
+                                    <table class="css_table horizTable" id="DtTable">
                                         <thead class="css_thead">
-                                        <tr class="css_tr">
-                                            <th class="css_th" style="min-width:40px;">選擇</th>
+                                        <tr class="css_tr ">
+                                            <th class="css_th rp-first-th" style="min-width:40px;">選擇</th>
                                             <th class="css_th" v-for="field in guestMnFieldData"
                                                 v-if="field.visiable === 'Y'"
                                                 :style="{'min-width': field.width + 'px'}">
@@ -116,7 +116,6 @@
                                         </tbody>
                                     </table>
                                 </div>
-                                <table id="fd-checkIn-table" style="height: 200px;"></table>
                             </div>
                             <!--/.多筆 guest mn -->
                             <div class="clearfix"></div>
@@ -241,13 +240,14 @@
             </div>
         </div>
         <!--/.訂房備註明細dialog-->
+        <!--修改訂房卡-->
         <pms0110041-lite
                 :row-data="editingOrderMnData"
                 :is-modifiable="isModifiable4OrderMn"
                 :is-create-status="isCreate4OrderMn"
                 :is-edit-status="isEdit4OrderMn"
         ></pms0110041-lite>
-
+        <!--/.修改訂房卡-->
         <!--取消訂房入住選項-->
         <div id="clFdCheckInOpt_dialog" class="hide padding-5">
             <div class="businessCompanyData">
@@ -342,6 +342,9 @@
             });
         },
         mounted() {
+        },
+        updated(){
+            $("#DtTable").tableHeadFixer({"left": 1});
         },
         data() {
             return {
@@ -599,10 +602,13 @@
                             }
                         }
                         if (!_.isEmpty(lo_doRule.effectValues)) {
-                            _.each(lo_doRule.effectValues["ciserdata"], (lo_data) => {
-                                let ln_idx = _.findIndex(this.guestMnRowDataChecked, {ikey_seq_nos: lo_data.ikey_seq_nos});
-                                if (ln_idx > -1) {
-                                    this.guestMnRowDataChecked[ln_idx] = _.extend(this.guestMnRowDataChecked[ln_idx], lo_data);
+                            _.each(lo_doRule.effectValues["ciser"], (ls_data) => {
+                                let la_data = ls_data.split(":");
+                                if (la_data.length > 1) {
+                                    let ln_idx = _.findIndex(this.guestMnRowDataChecked, {ikey_seq_nos: la_data[0]});
+                                    if (ln_idx > -1) {
+                                        this.guestMnRowDataChecked[ln_idx] = _.extend(this.guestMnRowDataChecked[ln_idx], {ci_ser: la_data[1]});
+                                    }
                                 }
                             });
                         }
@@ -665,20 +671,30 @@
                             }
                         });
                     });
-                    let lo_doRule = await BacUtils.doHttpPromisePostProxy("/api/chkPrgFuncRule", {
-                        prg_id: gs_prgId,
-                        page_id: 1010,
-                        tab_page_id: 11,
-                        func_id: "1011",
-                        orderMnData: _.extend(this.orderMnValueData, {eco_typ: "C/I"}),
-                        guestMnData: la_saveData
-                    }).then(result => {
-                        return result
-                    }).catch(err => {
-                        return {success: false, errorMsg: err}
-                    });
+                    let lo_doRule = await
+//                        new Promise((resolve) => {
+//                            setTimeout(() => {
+//                                resolve({success: true})
+//                            }, 250)
+//                        });
+                        BacUtils.doHttpPromisePostProxy("/api/chkPrgFuncRule", {
+                            prg_id: gs_prgId,
+                            page_id: 1010,
+                            tab_page_id: 11,
+                            func_id: "1011",
+                            orderMnData: _.extend(this.orderMnValueData, {eco_typ: "C/I"}),
+                            guestMnData: la_saveData
+                        }).then(result => {
+                            return result
+                        }).catch(err => {
+                            return {success: false, errorMsg: err}
+                        });
 
                     if (lo_doRule.success) {
+                        this.$message({
+                            message: '恭喜你，这是一条成功消息',
+                            duration: 3000
+                        });
                     }
                     else {
                         if (Array.isArray(lo_doRule.errorMsg)) {
