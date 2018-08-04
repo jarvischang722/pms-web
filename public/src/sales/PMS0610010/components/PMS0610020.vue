@@ -234,7 +234,7 @@
                                 <ul>
                                     <li>
                                         <button class="btn btn-primary btn-white btn-defaultWidth"
-                                                role="button" :disabled="!isModifiable"
+                                                role="button" :disabled="!isModifiable || !isLock"
                                                 @click="doSaveGrid">{{i18nLang.SystemCommon.Save}}
                                         </button>
                                     </li>
@@ -298,7 +298,7 @@
 
     export default {
         name: 'pms0610020',
-        props: ["rowData", "isCreateStatus", "isEditStatus", "isModifiable"],
+        props: ["rowData", "isCreateStatus", "isEditStatus", "isModifiable","isLock"],
         components: {
             relatedSetting,
             relatedPersonnel,
@@ -500,7 +500,9 @@
                     }, result => {
                         this.singleData = result.gsDefaultData;
                         this.oriSingleData = JSON.parse(JSON.stringify(result.gsDefaultData));
-                        this.isLoadingDialog = false;
+                        setTimeout(() => {
+                            this.isLoadingDialog = false;
+                        }, 200);
                         this.setGlobalCustCod();
                         this.tabName = "set";
                     });
@@ -515,7 +517,9 @@
                     }, result => {
                         this.singleData = result.gsMnData.rowData[0];
                         this.oriSingleData = JSON.parse(JSON.stringify(result.gsMnData.rowData[0]));
-                        this.isLoadingDialog = false;
+                        setTimeout(() => {
+                            this.isLoadingDialog = false;
+                        }, 200);
                         this.setGlobalCustCod();
                         this.tabName = "set";
                     });
@@ -615,11 +619,15 @@
 
                 if (lo_doRpValidate == false) {
                     alert(go_i18nLang.program.PMS0610020.chkRpData);
-                    this.isLoadingDialog = false;
+                    setTimeout(() => {
+                        this.isLoadingDialog = false;
+                    }, 200);
                 }
                 else if (lo_doContractValidate == false) {
                     alert(go_i18nLang.program.PMS0610020.chkCcData);
-                    this.isLoadingDialog = false;
+                    setTimeout(() => {
+                        this.isLoadingDialog = false;
+                    }, 200);
                 }
                 else {
                     this.doConvertData();
@@ -627,10 +635,13 @@
 
                     if (lo_chkResult.success == false) {
                         alert(lo_chkResult.msg);
-                        this.isLoadingDialog = false;
+                        setTimeout(() => {
+                            this.isLoadingDialog = false;
+                        }, 200);
                     }
                     else {
                         this.$store.dispatch("custMnModule/doSaveAllData").then(result => {
+                            this.doMnRowUnLock();
                             if (result.success) {
                                 alert(go_i18nLang.program.PMS0610020.save_success);
                                 let lo_cloneRowData = JSON.parse(JSON.stringify(this.rowData));
@@ -646,12 +657,15 @@
                             else {
                                 alert(result.errorMsg);
                             }
-                            this.isLoadingDialog = false;
+                            setTimeout(() => {
+                                this.isLoadingDialog = false;
+                            }, 200);
                         });
                     }
                 }
             },
             doCloseDialog() {
+                this.doMnRowUnLock();
                 $("#PMS0610020").dialog('close');
             },
             //ststus chg.(公司狀態)
@@ -708,6 +722,15 @@
                         });
                     }
                 });
+            },
+            doMnRowUnLock() {
+                let lo_param = {
+                    prg_id: 'PMS0610010',
+                    table_name: "cust_mn",
+                    lock_type: "R",
+                    key_cod: this.singleData.cust_cod
+                };
+                g_socket.emit('handleTableUnlock', lo_param);
             }
         }
     }
