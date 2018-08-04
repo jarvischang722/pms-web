@@ -6,6 +6,7 @@ let i18n = require("i18n");
 let optionsLib = this;
 let ReturnClass = require("../returnClass");
 
+//region //selectOption Lib
 /**
  * 上傳狀態選單
  * @returns {Array}
@@ -1551,6 +1552,24 @@ exports.OrderSta = () => {
     return lo_optionList;
 };
 
+exports.qryLangStatus = () => {
+    let lo_optionList = [
+        {
+            display: "排房",
+            value: "Y"
+        },
+        {
+            display: "未排房",
+            value: "N"
+        },
+        {
+            display: "全部",
+            value: ""
+        }
+    ];
+    return lo_optionList;
+}
+//endregion
 
 //TODO 將搬到 [程式編碼]Rule裡
 
@@ -2373,9 +2392,15 @@ exports.langMasterrfMastersta = function (params, callback) {
     callback(null, lo_result);
 };
 
-exports.qryOrderSta = function (parans, callback) {
+exports.qryOrderSta = function (params, callback) {
     let lo_result = new ReturnClass();
     lo_result.selectOptions = optionsLib.OrderSta();
+    callback(null, lo_result);
+};
+
+exports.langStatus = (params, callback) => {
+    let lo_result = new ReturnClass();
+    lo_result.selectOptions = optionsLib.qryLangStatus();
     callback(null, lo_result);
 };
 

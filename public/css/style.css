@@ -1836,28 +1836,24 @@ table.treetable span.indenter {
 .roomAssign .tab-content {
   border: 0;
 }
-
 .roomAssign .townPage .townBlock {
-    width: 130px;
-    height: 130px;
+  width: 130px;
+  height: 130px;
   margin: 10px;
   border: 2px solid transparent;
   background: #fff;
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
 }
-
 .roomAssign .townPage .townBlock.no-show {
   background: #fff;
   border-color: #ae8dc3;
 }
-
 .roomAssign .townPage .townBlock .content {
-    margin-top: 2px;
+  margin-top: 2px;
   font-size: 14px !important;
 }
-
 .roomAssign .townPage .townBlock .foot {
-    margin-top: 2px;
+  margin-top: 2px;
 }
 
 .chooseCount .css_table.rm-table-s td, .chooseCount .css_table.rm-table-s th {
@@ -3231,6 +3227,9 @@ ul.newVisitOther-btn {
 .rulesOfSeparation .counterRow .counterBlock.cb-doc-dod-tip {
   background: #7cbd64;
 }
+.rulesOfSeparation .counterRow .counterBlock.cb-oos-tip {
+  background: #93CBF9;
+}
 .rulesOfSeparation .counterRow .counterBlock.cb-dod {
   border-color: #ffddb3;
 }
@@ -3399,6 +3398,9 @@ ul.newVisitOther-btn {
 .foCounter .counterPage .counterRow .counterBlock.cb-doc-dod-tip {
   background: #7cbd64;
 }
+.foCounter .counterPage .counterRow .counterBlock.cb-oos-tip {
+  background: #93CBF9;
+}
 .foCounter .counterPage .counterRow .counterBlock.cb-dod {
   border-color: #ffddb3;
 }
@@ -3530,8 +3532,8 @@ ul.newVisitOther-btn {
   top: 91px;
 }
 .foCounter .counterPage .counterRow .counterBlock .content-ico .foCnt_icon {
-    width: 20px;
-    height: 20px;
+  width: 20px;
+  height: 20px;
   margin: 2px 3px auto 2px;
 }
 .foCounter .counterPage .counterRow .counterBlock .content-remark {
@@ -3571,23 +3573,21 @@ ul.newVisitOther-btn {
 .foCounter .floorPlan-table .r-table {
   margin-left: 1%;
 }
-
 .foCounter .floorPlan-table .roomNum {
-    box-sizing: border-box;
-    font-size: 2em;
-    font-style: italic;
-    font-weight: bold;
-    color: #DD5A43;
-    border: 2px solid #DD5A43;
-    height: 60px;
-    position: relative;
+  box-sizing: border-box;
+  font-size: 2em;
+  font-style: italic;
+  font-weight: bold;
+  color: #DD5A43;
+  border: 2px solid #DD5A43;
+  height: 60px;
+  position: relative;
 }
-
 .foCounter .floorPlan-table .roomNum .num {
-    position: absolute;
-    transform: translate(-50%, -50%);
-    top: 50%;
-    left: 50%;
+  position: absolute;
+  transform: translate(-50%, -50%);
+  top: 50%;
+  left: 50%;
 }
 .foCounter .floorPlan-table table {
   border: 1px solid #a0a8b4;
@@ -4635,7 +4635,6 @@ td div.act-box span.act-text {
 .townPage.town-grap {
   overflow: auto;
 }
-
 .townPage .townBlock {
   float: left;
   margin: 0 1px 1px 0;
@@ -4650,169 +4649,132 @@ td div.act-box span.act-text {
   cursor: pointer;
   border: 2px solid #fff;
 }
-
 .townPage .townBlock.no-show {
   background: #ae8dc3;
 }
-
 .townPage .townBlock:hover {
   opacity: 0.6;
 }
-
 .townPage .townBlock .content-sub {
   height: 18px;
 }
-
 .townPage .townBlock .head .left, .townPage .townBlock .content-sub .left, .townPage .townBlock .foot .left {
   float: left;
 }
-
 .townPage .townBlock .head .right, .townPage .townBlock .content-sub .right, .townPage .townBlock .foot .right {
   float: right;
 }
-
 .townPage .townBlock .head .txt-lg, .townPage .townBlock .content-sub .txt-lg, .townPage .townBlock .foot .txt-lg {
   font-weight: bold;
   font-size: 16px;
   line-height: 16px;
 }
-
 .townPage .townBlock .head .fa, .townPage .townBlock .content-sub .fa, .townPage .townBlock .foot .fa {
   font-size: 16px;
   margin-top: 8px;
 }
-
 .townPage .townBlock.active {
   border: 2px solid red;
 }
-
 .townPage .townBlock.cb-oc-od {
-    border-color: #ffd45a;
+  border-color: #ffd45a;
 }
-
 .townPage .townBlock.cb-oc-od-tip {
-    background: #ffd45a;
+  background: #ffd45a;
 }
-
 .townPage .townBlock.cb-ob {
-    border-color: #ae8dc3;
+  border-color: #ae8dc3;
 }
-
 .townPage .townBlock.cb-ob-tip {
-    background: #ae8dc3;
+  background: #ae8dc3;
 }
-
 .townPage .townBlock.cb-doc-dod {
-    border-color: #7cbd64;
+  border-color: #7cbd64;
 }
-
 .townPage .townBlock.cb-doc-dod-tip {
-    background: #7cbd64;
+  background: #7cbd64;
 }
-
-.townPage .townBlock.cb-dod {
-    border-color: #ffddb3;
-}
-
-.townPage .townBlock.cb-dod-tip {
-    background: #ffddb3;
-}
-
-.townPage .townBlock.cb-vc-vd {
-    border-color: #bfbfbf;
-}
-
-.townPage .townBlock.cb-vc-vd-tip {
-    background: #bfbfbf;
-}
-
-.townPage .townBlock.cb-all {
-    border-color: #dcbe88;
-}
-
-.townPage .townBlock.cb-all-tip {
-    background: #dcbe88;
-}
-
-.townPage .townBlock.cb-ooo {
-    border-color: #06eed5;
-}
-
-.townPage .townBlock.cb-ooo-tip {
-    background: #06eed5;
-}
-
-.townPage .townBlock.cb-vc-vdGreen {
-    border-color: #008148;
-}
-
-.townPage .townBlock.cb-vc-vdGreen-tip {
-    background: #008148;
-}
-
-.townPage .townBlock.cb-sexyBlue {
-    border-color: #19647E;
-}
-
-.townPage .townBlock.cb-sexyBlue-tip {
-    background: #19647E;
-}
-
-.townPage .townBlock.cb-darkGreen {
-    border-color: #00542f;
-}
-
-.townPage .townBlock.cb-darkGreen-tip {
-    background: #00542f;
-}
-
-.townPage .townBlock.cb-sexyYellow {
-    border-color: #848009;
-}
-
-.townPage .townBlock.cb-sexyYellow-tip {
-    background: #848009;
-}
-
-.townPage .townBlock.cb-sexyGreen {
-    border-color: #556b2f;
-}
-
-.townPage .townBlock.cb-sexyGreen-tip {
-    background: #556b2f;
-}
-
-.townPage .townBlock.cb-oos {
-    border-color: rgba(255, 33, 95, 0.77);
-}
-
 .townPage .townBlock.cb-oos-tip {
-    background: rgba(255, 33, 95, 0.77);
+  background: #93CBF9;
 }
-
+.townPage .townBlock.cb-dod {
+  border-color: #ffddb3;
+}
+.townPage .townBlock.cb-dod-tip {
+  background: #ffddb3;
+}
+.townPage .townBlock.cb-vc-vd {
+  border-color: #bfbfbf;
+}
+.townPage .townBlock.cb-vc-vd-tip {
+  background: #bfbfbf;
+}
+.townPage .townBlock.cb-all {
+  border-color: #dcbe88;
+}
+.townPage .townBlock.cb-all-tip {
+  background: #dcbe88;
+}
+.townPage .townBlock.cb-ooo {
+  border-color: #06eed5;
+}
+.townPage .townBlock.cb-ooo-tip {
+  background: #06eed5;
+}
+.townPage .townBlock.cb-vc-vdGreen {
+  border-color: #008148;
+}
+.townPage .townBlock.cb-vc-vdGreen-tip {
+  background: #008148;
+}
+.townPage .townBlock.cb-sexyBlue {
+  border-color: #19647E;
+}
+.townPage .townBlock.cb-sexyBlue-tip {
+  background: #19647E;
+}
+.townPage .townBlock.cb-darkGreen {
+  border-color: #00542f;
+}
+.townPage .townBlock.cb-darkGreen-tip {
+  background: #00542f;
+}
+.townPage .townBlock.cb-sexyYellow {
+  border-color: #848009;
+}
+.townPage .townBlock.cb-sexyYellow-tip {
+  background: #848009;
+}
+.townPage .townBlock.cb-sexyGreen {
+  border-color: #556b2f;
+}
+.townPage .townBlock.cb-sexyGreen-tip {
+  background: #556b2f;
+}
+.townPage .townBlock.cb-oos {
+  border-color: rgba(255, 33, 95, 0.77);
+}
+.townPage .townBlock.cb-oos-tip {
+  background: rgba(255, 33, 95, 0.77);
+}
 .townPage .townBlock.cb-s {
-    border-color: #c0d6ee;
+  border-color: #c0d6ee;
 }
-
 .townPage .townBlock.cb-s-tip {
-    background: #c0d6ee;
+  background: #c0d6ee;
 }
-
 .townPage .townBlock.cd-sexyPurple {
-    border-color: #4B3F72 !important;
+  border-color: #4B3F72 !important;
 }
-
 .townPage .townBlock.cd-sexyPurple-tip {
-    background: #4B3F72 !important;
+  background: #4B3F72 !important;
 }
-
 .townPage .townBlock.active {
-    border-color: #ff0000;
+  border-color: #ff0000;
 }
-
 .townPage .townBlock .foCnt_icon {
-    width: 20px;
-    height: 20px;
+  width: 20px;
+  height: 20px;
   margin: 2px 1px auto 1px;
 }
 
@@ -4897,6 +4859,9 @@ td div.act-box span.act-text {
 }
 .select-group .status-view div.status-tip.cb-doc-dod-tip {
   background: #7cbd64;
+}
+.select-group .status-view div.status-tip.cb-oos-tip {
+  background: #93CBF9;
 }
 .select-group .status-view div.status-tip.cb-dod {
   border-color: #ffddb3;
@@ -6428,6 +6393,41 @@ td div.triangle-box.colspan-28 {
   top: 1px;
 }
 
+.popover-window-container {
+  margin: 20px 0;
+}
+
+.popover-close {
+  cursor: pointer;
+  position: absolute;
+  right: 0px;
+  top: -25px;
+}
+.popover-close:after, .popover-close:before {
+  content: "";
+  height: 20px;
+  width: 20px;
+  border-top: 1px solid #777;
+  position: absolute;
+  top: 7px;
+  right: -8px;
+  -moz-transform: rotate(-45deg);
+  -ms-transform: rotate(-45deg);
+  -webkit-transform: rotate(-45deg);
+  transform: rotate(-45deg);
+}
+.popover-close:before {
+  right: 6px;
+  -moz-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  -webkit-transform: rotate(45deg);
+  transform: rotate(45deg);
+}
+.popover-close:hover {
+  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=30);
+  opacity: 0.3;
+}
+
 /*---- 達美樂介面 ---- */
 .dominos-inventory-container {
   display: flex;
@@ -7162,7 +7162,7 @@ td div.triangle-box.colspan-28 {
 }
 
 .ml-10 {
-    margin-left: 10px;
+  margin-left: 10px;
 }
 
 .ml-1-percent {
@@ -7881,36 +7881,36 @@ input[type=checkbox] {
 }
 
 .scroll-bar {
-    background-color: #aaaaaa;
-    border-radius: 6px;
-    right: 2px;
-    -moz-transition: background-color 0.2s linear, width 0.2s ease-in-out;
-    -o-transition: background-color 0.2s linear, width 0.2s ease-in-out;
-    -webkit-transition: background-color 0.2s linear, width 0.2s ease-in-out;
-    transition: background-color 0.2s linear, width 0.2s ease-in-out;
+  background-color: #aaaaaa;
+  border-radius: 6px;
+  right: 2px;
+  -moz-transition: background-color 0.2s linear, width 0.2s ease-in-out;
+  -o-transition: background-color 0.2s linear, width 0.2s ease-in-out;
+  -webkit-transition: background-color 0.2s linear, width 0.2s ease-in-out;
+  transition: background-color 0.2s linear, width 0.2s ease-in-out;
 }
 .scroll-bar:hover {
-    width: 12px;
-    -moz-transition: ease-in-out 0.2s;
-    -o-transition: ease-in-out 0.2s;
-    -webkit-transition: ease-in-out 0.2s;
-    transition: ease-in-out 0.2s;
+  width: 12px;
+  -moz-transition: ease-in-out 0.2s;
+  -o-transition: ease-in-out 0.2s;
+  -webkit-transition: ease-in-out 0.2s;
+  transition: ease-in-out 0.2s;
 }
 
 .scroll-track.scroll-active {
-    right: 2px;
-    border-radius: 6px;
+  right: 2px;
+  border-radius: 6px;
 }
 .scroll-track.scroll-active:hover {
-    width: 12px;
-    -moz-transition: ease-in-out 0.2s;
-    -o-transition: ease-in-out 0.2s;
-    -webkit-transition: ease-in-out 0.2s;
-    transition: ease-in-out 0.2s;
+  width: 12px;
+  -moz-transition: ease-in-out 0.2s;
+  -o-transition: ease-in-out 0.2s;
+  -webkit-transition: ease-in-out 0.2s;
+  transition: ease-in-out 0.2s;
 }
 
 .h-400 {
-    height: 100px;
+  height: 100px;
 }
 
 /*-------------- responsive -------------- */
