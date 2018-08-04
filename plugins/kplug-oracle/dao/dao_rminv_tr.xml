@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+    <!--檢查房號可否排房-->
+    <dao name="CHECK_ROOM_NOS">
+        <statement><![CDATA[
+            SELECT COUNT(*)
+            FROM RMINV_TR
+            WHERE ATHENA_ID = :athena_id
+            AND HOTEL_COD = :hotel_cod
+            AND END_DAT >= :end_dat
+            AND BEGIN_DAT <= :begin_dat
+            AND ROOM_NOS = :room_nos
+            AND ROWNUM <= 1
+        ]]>
+        </statement>
+        <parameter type="number" kind="3">athena_id</parameter>
+        <parameter type="string" kind="3">hotel_cod</parameter>
+        <parameter type="date" kind="3">end_dat</parameter>
+        <parameter type="date" kind="3">begin_dat</parameter>
+        <parameter type="number" kind="3">room_nos</parameter>
+
+    </dao>
+</root>

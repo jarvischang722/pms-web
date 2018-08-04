@@ -50,6 +50,7 @@
         <sql-source base="true" comment="test" key="test" path="dao_hfd_pickup_dt.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_hfd_rest_dt.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_hfd_rest_mn.xml"/>
+        <sql-source base="true" comment="test" key="test" path="dao_hfd_room_color_rf.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_hfd_todo_list_rf.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_hfd_transport_rf.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_hfd_use_dt.xml"/>
@@ -88,6 +89,7 @@
         <sql-source base="true" comment="test" key="test" path="dao_remark_dt.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_remark_typ_rf.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_rent_dt.xml"/>
+        <sql-source base="true" comment="test" key="test" path="dao_rermcod_rf.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_room_cod_order.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_room_mn.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_room_rf.xml"/>
@@ -143,5 +145,7 @@
         <sql-source base="true" comment="test" key="test" path="dao_bac_ui_lang.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_block_mn.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_bac_option_dt.xml"/>
+        <sql-source base="true" comment="test" key="test" path="dao_tmp_pms0210030_room_list.xml"/>
+        <sql-source base="true" comment="test" key="test" path="dao_rminv_tr.xml"/>
     </sql-sources>
 </struts-config>
