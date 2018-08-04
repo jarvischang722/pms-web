@@ -694,7 +694,7 @@ module.exports = {
             console.log(err);
             lo_error = new ErrorClass();
             lo_result.success = false;
-            lo_error.errorMsg = err;
+            lo_error.errorMsg = err.message || err;
             throw lo_error;
         }
     },

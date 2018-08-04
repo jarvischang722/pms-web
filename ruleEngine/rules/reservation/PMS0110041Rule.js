@@ -146,63 +146,62 @@ module.exports = {
     },
 
     /**
-     * 取guest_mn ci_ser
-     * @param postData
-     * @param session
-     * @param callback
+     * 取guest_mn預設值
+     * @param postData {object} : 前端條件
+     * @param session {object}
+     * @param callback {function} : 回調函數
      * @returns {Promise.<void>}
      */
     get_guest_mn_default_data: async function (postData, session, callback) {
-        let lo_result = new ReturnClass();
+        const lo_result = new ReturnClass();
         let lo_error = null;
 
         try {
-            //取order_mn tmp ikey
-            let lo_fetchCiSer = await new Promise((resolve, reject) => {
-                let apiParams = {
-                    "REVE-CODE": "BAC0900805",
-                    "func_id": "0000",
-                    "athena_id": session.user.athena_id,
-                    "comp_cod": "NULL",
-                    "hotel_cod": session.user.hotel_cod,
-                    "sys_cod": "HFD",
-                    "nos_nam": "CI_SER",
-                    "link_dat": "2000/01/01"
-                };
-                tools.requestApi(sysConf.api_url.java, apiParams, function (apiErr, apiRes, data) {
-                    if (apiErr || !data) {
-                        reject(apiErr)
-                    }
-                    else {
-                        resolve(data)
-                    }
-                });
-            });
-            if (lo_fetchCiSer["RETN-CODE"] != "0000") {
-                lo_result.success = false;
-                lo_error = new ErrorClass();
-                console.error(lo_fetchCiSer["RETN-CODE-DESC"]);
-                lo_error.errorMsg = lo_fetchCiSer["RETN-CODE-DESC"];
-            }
-            else {
-                lo_result.defaultValues = {
-                    athena_id: session.user.athena_id,
-                    assign_sta: 'N',
-                    ci_ser: lo_fetchCiSer["SERIES_NOS"],
-                    hotel_cod: session.user.hotel_cod,
-                    guest_sta: 'E',
-                    master_sta: 'G',
-                    system_typ: 'HFD'
-                };
-            }
+            //取ci_ser
+            const ls_ci_ser = await this.get_ci_ser(postData, session);
+            lo_result.defaultValues = {
+                athena_id: session.user.athena_id,
+                assign_sta: 'N',
+                ci_ser: ls_ci_ser,
+                hotel_cod: session.user.hotel_cod,
+                guest_sta: 'E',
+                master_sta: 'G',
+                system_typ: 'HFD'
+            };
         }
         catch (err) {
-            console.log(err);
+            console.error(err);
             lo_error = new ErrorClass();
             lo_result.success = false;
             lo_error.errorMsg = err;
         }
         callback(lo_error, lo_result);
+    },
+
+    /**
+     * 取ci_ser
+     * @param postData
+     * @param session
+     * @returns {Promise<*>}
+     */
+    get_ci_ser: async (postData, session) => {
+        const lo_apiParams = {
+            "REVE-CODE": "BAC0900805",
+            "func_id": "0000",
+            "athena_id": session.athena_id,
+            "comp_cod": "NULL",
+            "hotel_cod": session.hotel_cod,
+            "sys_cod": "HFD",
+            "nos_nam": "CI_SER",
+            "link_dat": "2000/01/01"
+        };
+        const lo_fetchCiSer = await tools.requestApi(sysConf.api_url.java, lo_apiParams);
+        if (lo_fetchCiSer["RETN-CODE"] !== "0000") {
+            throw lo_fetchCiSer["RETN-CODE-DESC"];
+        }
+        else {
+            return lo_fetchCiSer["SERIES_NOS"];
+        }
     },
 
     /**
@@ -278,69 +277,98 @@ module.exports = {
 
         const lo_singleRowData = postData.singleRowData[0];
         const lo_order_mn = postData.order_mn;
+        const lo_guest_mn = postData.guest_mn;
         const lo_order_dt = _.findWhere(postData.order_dt, {ikey_seq_nos: lo_singleRowData.ikey_seq_nos});
         let ls_altName = lo_singleRowData.alt_nam || "";
-        let ls_gcustCod = ls_altName != "" && ls_altName.split(":").length > 1 ? ls_altName.split(":")[0] : "";
-        //修改帶回對應欄位
-        if (ls_gcustCod != "") {
+        let ls_gcustCod = ls_altName !== "" && ls_altName.split(":").length > 1 ? ls_altName.split(":")[0] : "";
+
+        if (ls_gcustCod !== "") {
             try {
                 //(1)選定guest mn 資料後要打 procedure
-                let lo_doSetGhistMn = await new Promise((resolve, reject) => {
-                    let apiParams = {
-                        "REVE-CODE": "PMS0110041",
-                        "prg_id": "PMS0110041",
-                        "func_id": "0000",
-                        "athena_id": session.user.athena_id,
-                        "hotel_cod": session.user.hotel_cod,
-                        "cust_cod": _.isUndefined(postData.rowData) ? ls_gcustCod : postData.rowData.gcust_cod,
-                        "usr_id": session.user.usr_id
-                    };
-                    tools.requestApi(sysConf.api_url.java, apiParams, function (apiErr, apiRes, data) {
-                        if (apiErr || !data) {
-                            reject(apiErr)
-                        }
-                        else {
-                            resolve(data)
-                        }
-                    });
-                });
-                if (lo_doSetGhistMn["RETN-CODE"] != "0000") {
+                const lo_apiParams = {
+                    "REVE-CODE": "PMS0110041",
+                    "prg_id": "PMS0110041",
+                    "func_id": "0000",
+                    "athena_id": session.user.athena_id,
+                    "hotel_cod": session.user.hotel_cod,
+                    "cust_cod": _.isUndefined(postData.rowData) ? ls_gcustCod : postData.rowData.gcust_cod,
+                    "usr_id": session.user.usr_id
+                };
+                const lo_doSetGhistMn = await tools.requestApi(sysConf.api_url.java, lo_apiParams);
+
+                if (lo_doSetGhistMn["RETN-CODE"] !== "0000") {
                     lo_result.success = false;
                     lo_error = new ErrorClass();
                     console.error(lo_doSetGhistMn["RETN-CODE-DESC"]);
                     lo_error.errorMsg = lo_doSetGhistMn["RETN-CODE-DESC"];
                 }
                 else {
-                    //(2)帶回住客歷史ghist_mn到住客guest_mn
                     const lo_ghistParams = {
                         athena_id: session.athena_id,
                         hotel_cod: session.hotel_cod,
                         gcust_cod: _.isUndefined(postData.rowData) ? ls_gcustCod : postData.rowData.gcust_cod
                     };
                     const lo_ghistMnData = await commonRules.clusterQuery(session, lo_ghistParams, "QRY_GHIST_MN");
-                    lo_result.defaultValues = {
-                        airline_cod: lo_ghistMnData.airline_cod,
-                        airmb_nos: lo_ghistMnData.airmb_nos,
-                        car_nos: lo_ghistMnData.car_nos,
-                        contry_cod: lo_ghistMnData.contry_cod,
-                        first_nam: lo_ghistMnData.first_nam,
-                        gcust_cod: ls_gcustCod,
-                        last_nam: lo_ghistMnData.last_nam,
-                        precredit_amt: 0,
-                        rent_amt: 0,
-                        requst_rmk: lo_ghistMnData.requst_rmk,
-                        role_cod: lo_ghistMnData.role_cod,
-                        salute_cod: lo_ghistMnData.salute_cod,
-                        serv_amt: 0,
-                        vip_sta: lo_ghistMnData.vip_sta
-                    };
 
-                    // (3)訂房公司(order_mn.acust_cod)未填時，填入ghist_mn.acust_cod
-                    if (lo_order_mn.acust_cod === "") lo_result.defaultValues.acust_cod = lo_ghistMnData.acust_cod;
-                    // (4)公司名稱(order_mn.ccust_nam)未填時，填入ghist_mn.ccust_nam
-                    if (lo_order_mn.ccust_nam === "") lo_result.defaultValues.ccust_nam = lo_ghistMnData.ccust_nam;
+                    if (lo_ghistMnData !== null) {
+                        //(2)帶回住客歷史ghist_mn到住客guest_mn
+                        //新增
+                        if (lo_guest_mn.gcust_cod === "") {
+                            const ls_ci_ser = await this.get_ci_ser(postData, session);
+                            lo_result.defaultValues = {
+                                guestMnRowsData4Single: {
+                                    ci_ser: ls_ci_ser,
+                                    ikey: lo_order_dt.ikey,
+                                    ikey_seq_nos: lo_order_dt.ikey_seq_nos,
+                                    psngr_nos: "",
+                                    assign_sta: "N",
+                                    guest_sta: "E",
+                                    master_sta: "G",
+                                    gcust_cod: lo_ghistMnData.gcust_cod,
+                                    ccust_nam: lo_ghistMnData.ccust_nam,
+                                    alt_nam: lo_ghistMnData.alt_nam,
+                                    first_nam: lo_ghistMnData.first_nam,
+                                    last_nam: lo_ghistMnData.last_nam,
+                                    car_nos: lo_ghistMnData.car_nos,
+                                    airline_cod: lo_ghistMnData.airline_cod,
+                                    airmb_nos: lo_ghistMnData.airmb_nos,
+                                    rent_amt: 0,
+                                    serv_amt: 0,
+                                    precredit_amt: 0,
+                                    contry_cod: lo_ghistMnData.contry_cod,
+                                    system_typ: "HFD"
+                                }
+                            }
+                        }
+                        //修改
+                        else {
+                            lo_result.effectValues = {
+                                guestMnRowsData4Single: {
+                                    ccust_nam: lo_ghistMnData.ccust_nam,
+                                    alt_nam: `${lo_ghistMnData.gcust_cod}:${lo_ghistMnData.alt_nam}`,
+                                    first_nam: lo_ghistMnData.first_nam,
+                                    last_nam: lo_ghistMnData.last_nam,
+                                    car_nos: lo_ghistMnData.car_nos,
+                                    airline_cod: lo_ghistMnData.airline_cod,
+                                    airmb_nos: lo_ghistMnData.airmb_nos,
+                                    contry_cod: lo_ghistMnData.contry_cod,
+                                    //SA沒有寫
+                                    requst_rmk: lo_ghistMnData.requst_rmk,
+                                    role_cod: lo_ghistMnData.role_cod,
+                                    salute_cod: lo_ghistMnData.salute_cod,
+                                    vip_sta: lo_ghistMnData.vip_sta
+                                }
+                            };
+                        }
+
+                        // (3)訂房公司(order_mn.acust_cod)未填時，填入ghist_mn.acust_cod
+                        if (lo_order_mn.acust_cod === "") lo_result.effectValues.orderMnSingleData.acust_cod = lo_ghistMnData.acust_cod;
+                        // (4)公司名稱(order_mn.ccust_nam)未填時，填入ghist_mn.ccust_nam
+                        if (lo_order_mn.ccust_nam === "") lo_result.effectValues.orderMnSingleData.ccust_nam = lo_ghistMnData.ccust_nam;
+                    }
+
                     // (5)團號(order_mn.group_nos)未填時,將guest_mn.alt_nam入到order_mn.group_nos
-                    // if(lo_order_mn.group_nos === "") lo_result.defaultValues.group_nos =
+                    if (lo_order_mn.group_nos === "") lo_result.effectValues.orderMnSingleData.group_nos = lo_guest_mn.alt_nam;
 
                     //3.檢查此住客同一天否重覆訂(檢查此住客同一天否重覆訂sql)，若有，顯示訊息 ：『住客:[[%%as_alt_nam%%]],已於[[%%yyyy/mm/dd%%]]登錄過！ 』,可繼續操作
                     const lo_guestParams = {
@@ -349,7 +377,6 @@ module.exports = {
                         ikey: lo_order_mn.ikey,
                         ci_dat: lo_order_dt.ci_dat,
                         alt_nam: ls_altName.split(":")[1],
-
                     };
                     const ln_guestIsBooking = await commonRules.clusterQuery(session, lo_guestParams, "CHK_GUEST_IS_OVER_BOOKING");
                     if (ln_guestIsBooking.booking_qnt > 0) {
@@ -370,19 +397,18 @@ module.exports = {
                     }
 
                     //5.聯絡人的帶法見聯絡人處理方式,看『宏興SD 4.聯絡人處理方式』
-                    const lo_contract = await chkAttenNamRule({
+                    lo_result.effectValues.orderMnSingleData = await chkAttenNamRule({
                         order_mn: lo_order_mn,
                         guest_mn: lo_singleRowData,
                         type: "guest_mn"
                     }, session);
-                    lo_result.defaultValues = lo_contract;
                 }
             }
             catch (err) {
                 console.log(err);
                 lo_error = new ErrorClass();
                 lo_result.success = false;
-                lo_error.errorMsg = err;
+                lo_error.errorMsg = err.message || err;
             }
         }
         callback(lo_error, lo_result);
@@ -1069,7 +1095,11 @@ module.exports = {
 
     /**
      * 選完訂房公司Agent
+     * 1.cust_cod入到order_mn.acust_cod
+     * 2.alt_nam入到order_mn.acust_nam
+     * 3.sales_cod入到order_mn.sales_cod
      * 4.cust_mn.remark1入到order_mn.order_rmk【select remark1 from cust_mn where athena_id = ? and cust_cod = ?】
+     * 5.如果團號(order_mn.group_nos)未填時,將alt_nam入到order_mn.group_nos
      * 6.聯絡人的帶法見聯絡人處理方式,看『宏興SD 4.聯絡人處理方式』
      * 7.有固定的公帳號時,入到master_nos 且 master_sta = 'Y' 看SA『是否有固定公帳號SQL』
      * 8.如果訂房公司與舊的不同時，訂房明細房價要重算
@@ -1080,17 +1110,26 @@ module.exports = {
      */
     chkOrdermnAcustnam: async (postData, session, callback) => {
         const lo_return = new ReturnClass();
+        const la_orderDt4Table = postData.orderDt4Table;
         let lo_error = null;
 
         try {
             //4.
             const lo_params = {
                 athena_id: session.athena_id,
-                cust_cod: postData.order_mn.acust_cod,
-                allRowsData: postData.allRowsData
+                cust_cod: postData.order_mn.acust_cod
             };
             const lo_remarkResult = await commonRules.clusterQuery(session, lo_params, "QRY_REMARK1");
-            console.log(lo_remarkResult.remark1);
+
+            //5.如果團號(order_mn.group_nos)未填時,將alt_nam入到order_mn.group_nos
+            if (postData.order_mn.group_nos === "") {
+                lo_return.effectValues = {
+                    orderMnSingleData: {
+                        group_nos: postData.guest_mn.alt_nam,
+                        order_rmk: lo_remarkResult.remark1
+                    }
+                }
+            }
 
             //6.『宏興SD 4.聯絡人處理方式』
             const lo_attenNamParams = {
@@ -1099,7 +1138,14 @@ module.exports = {
                 type: "acust_nam"
             };
             let lo_contact = await chkAttenNamRule(lo_attenNamParams, session);
-            lo_return.effectValues = lo_contact;
+            lo_return.effectValues.orderMnSingleData = _.extend(lo_return.effectValues.orderMnSingleData, lo_contact);
+
+            //8.如果訂房公司與舊的不同時，訂房明細房價要重算
+            _.each(la_orderDt4Table, async (lo_orderDt4Table, ln_idx) => {
+                la_orderDt4Table[ln_idx] = await CalculationRoomPrice(lo_orderDt4Table, session);
+            });
+            lo_return.effectValues.orderDtRowsData4table = la_orderDt4Table;
+
         }
         catch (errorMsg) {
             lo_error = new ErrorClass();
@@ -1215,5 +1261,56 @@ const chkAttenNamRule = async (params, session) => {
     }
     else {
         return {atten_nam: lo_order_mn.atten_nam};
+    }
+};
+
+//計算房價
+const CalculationRoomPrice = async (orderDtData, session) => {
+    try {
+        const lo_apiParams = {
+            "REVE-CODE": "PMS0110041",
+            "prg_id": "PMS0110041",
+            "func_id": "0700",
+            "athena_id": session.user.athena_id,
+            "hotel_cod": session.user.hotel_cod,
+            "key_nos": orderDtData.key_nos,
+            "rate_cod": orderDtData.rate_cod,
+            "room_cod": orderDtData.room_cod,
+            "acust_cod": orderDtData.acust_cod,
+            "ci_dat": moment(orderDtData.ci_dat).format("YYYY/MM/DD"),
+            "stay_night": orderDtData.days,
+            "order_sta": orderDtData.order_sta,
+            "add_man_qnt": 0,
+            "add_child_qnt": 0,
+            "ikey": orderDtData.ikey,
+            "ikey_seq_nos": [orderDtData.ikey_seq_nos],
+            "upd_usr": session.user.usr_id,
+        };
+
+        const lo_computePrice = await tools.requestApi(sysConf.api_url.java, lo_apiParams);
+
+        if (lo_computePrice["RETN-CODE"] !== "0000") {
+            throw lo_computePrice["RETN-CODE-DESC"];
+            // lo_data.success = false;
+            // lo_data.errorMsg = lo_computePrice["RETN-CODE-DESC"];
+        }
+        else {
+            const lo_data = {};
+            const lo_params = {
+                athena_id: session.user.athena_id,
+                hotel_cod: session.user.hotel_cod,
+                ikey_seq_nos: orderDtData.ikey_seq_nos,
+                ikey: orderDtData.ikey,
+                key_nos: orderDtData.key_nos
+            };
+            const lo_fetchPrice = await commonRules.clusterQuery(session, lo_params, "QUY_ORDER_APPRAISE_FOR_ORDER_DT");
+            lo_data.rent_amt = lo_fetchPrice.rent_amt;
+            lo_data.serv_amt = lo_fetchPrice.serv_amt;
+            lo_data.other_amt = Number(lo_fetchPrice.total) - Number(lo_fetchPrice.serv_amt) - Number(lo_fetchPrice.rent_amt);
+            return lo_data;
+        }
+    }
+    catch (err) {
+        throw err.message || err;
     }
 }

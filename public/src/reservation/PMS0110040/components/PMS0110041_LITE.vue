@@ -10,7 +10,7 @@
                             <div style="position: relative;">
                                 <div class="resvTabs-topTxt">
                                     <div class="resvTabs-content">
-                                        <template v-for="(fields,key) in fieldsDataLeft" v-if="key == 0">
+                                        <template v-for="(fields,key) in fieldsDataLeft" v-if="key === 0">
                                             <template v-for="field in fields">
                                                 <span class="subT">{{field.ui_display_name}}:</span>
                                                 <template v-if="field.ui_type=='select'">
@@ -1516,17 +1516,22 @@
                         singleRowData: la_nowData,
                         order_mn: this.orderMnSingleData,
                         order_dt: this.orderDtRowsData,
-                        // oriSingleData: la_beforeData,
+                        guest_mn: this.guestMnRowsData4Single,
                         allRowData: this.guestMnRowsData
                     };
                     let lo_doChkFieldRule = await this.chkFieldRule(field, lo_postData);
 
                     if (lo_doChkFieldRule.success) {
-                        //帶回來的預設值
-                        if (!_.isEmpty(lo_doChkFieldRule.defaultValues)) {
-                            const lo_orderMnData = _.extend(this.orderMnSingleData, lo_doChkFieldRule.defaultValues);
-                            this.orderMnSingleData = JSON.parse(JSON.stringify(lo_orderMnData));
+                        //連動帶回的值
+                        if (!_.isUndefined(lo_doChkFieldRule.effectValues) && _.size(lo_doChkFieldRule.effectValues) > 0) {
+                            _.each(lo_doChkFieldRule.effectValues, (lo_datObj, ls_key) => {
+                                this[ls_key] = _.extend(this[ls_key], lo_datObj);
+                            });
+
+                            this.isEffectFromRule = lo_doChkFieldRule.isEffectFromRule;
                         }
+                        //改變前資料改為現在資料
+                        this.beforeGuestMnRowsData4Single = JSON.parse(JSON.stringify(this.guestMnRowsData4Single));
 
                         if (lo_doChkFieldRule.showAlert) {
                             _.each(lo_doChkFieldRule.alertMsg, ls_alertMsg => {
@@ -1534,21 +1539,10 @@
                             })
                         }
                     }
-                    //     //連動帶回的值
-                    //     if (!_.isUndefined(lo_doChkFieldRule.effectValues) && _.size(lo_doChkFieldRule.effectValues) > 0) {
-                    //         this.guestMnRowsData4Single = _.extend(this.guestMnRowsData4Single, lo_doChkFieldRule.effectValues);
-                    //
-                    //         this.isEffectFromRule = lo_doChkFieldRule.isEffectFromRule;
-                    //     }
-                    //     //改變前資料改為現在資料
-                    //     this.beforeGuestMnRowsData4Single = JSON.parse(JSON.stringify(this.guestMnRowsData4Single));
-                    //
-                    //     this.setGuestMnRowData(this.guestMnRowsData4Single);
-                    // }
-                    // else {
-                    //     this.guestMnRowsData4Single = _.extend(this.guestMnRowsData4Single, this.beforeGuestMnRowsData4Single);
-                    //     alert(lo_doChkFieldRule.errorMsg);
-                    // }
+                    else {
+                        this.guestMnRowsData4Single = _.extend(this.guestMnRowsData4Single, this.beforeGuestMnRowsData4Single);
+                        alert(lo_doChkFieldRule.errorMsg);
+                    }
                 }
                 catch (err) {
                     console.log(err);
@@ -1558,24 +1552,12 @@
             /**
              * 單筆order dt欄位規則檢查
              * 訂房公司規則
-             * 2.alt_nam入到order_mn.acust_nam
-             * 3.sales_cod入到order_mn.sales_cod
-             * 4.cust_mn.remark1入到order_mn.order_rmk【select remark1 from cust_mn where athena_id = ? and cust_cod = ?】
-             * 5.如果團號(order_mn.group_nos)未填時,將alt_nam入到order_mn.group_nos
-             * 6.聯絡人的帶法見聯絡人處理方式,看『宏興SD 4.聯絡人處理方式』
-             * 7.有固定的公帳號時,入到master_nos 且 master_sta = 'Y' 看SA『是否有固定公帳號SQL』
-             * 8.如果訂房公司與舊的不同時，訂房明細房價要重算
-             * call pg_hd1_cal_appraise2.pp_ren_dt_order_appraise()   看SA『計算房價』有傳入欄位
              * @param field {object} 欄位資料
              */
             async chkOrderMnFieldRule(field) {
                 if (_.isEmpty(this.beforeOrderMnSingleData)) {
                     this.beforeOrderMnSingleData = this.oriOrderMnSingleData;
                 }
-                const la_beforeData = [this.orderMnSingleData];
-                const la_orderData = [this.beforeOrderMnSingleData];
-                // const la_beforeData = [this.beforeGuestMnRowsData4Single];
-                // const la_diff = _.difference(la_beforeData, la_nowData);
                 let lb_isDiff = false;
                 for (const ls_key in this.orderMnSingleData) {
                     const value = this.orderMnSingleData[ls_key];
@@ -1585,75 +1567,44 @@
                     }
                 }
 
-                // let la_diff = _.difference(la_beforeData, la_orderData);
-                //
                 if (lb_isDiff === false) {
                     return;
                 }
                 if (field.rule_func_name === "") {
                     return;
                 }
+
                 //
                 // //楷岳(有問題: chkOrdermnAcustnam)
-                const lo_acust_data = _.findWhere(field.selectData.selectData, {cust_cod: this.orderMnSingleData.acust_cod});
-                if (_.isUndefined(lo_acust_data)) return;
-                // this.orderMnSingleData.acust_nam = lo_acust_data.acust_cod;     // (2.
-                this.orderMnSingleData.sales_cod = lo_acust_data.sales_cod;     // (3.
-                if (this.orderMnSingleData.group_nos === "") this.orderMnSingleData.group_nos = lo_acust_data.alt_nam; // (5.
                 const lo_params = {
+                    orderDt4Table: this.orderDtRowsData4table,
                     order_mn: this.orderMnSingleData,
                     guest_mn: this.guestMnRowsData4Single,
-                    allRowsData: this.allRowsData
                 };
 
                 try {
                     const lo_ruleResult = await this.chkFieldRule(field, lo_params);
                     if (lo_ruleResult.success) {
-                        this.orderMnSingleData = _.extend(this.orderMnSingleData, lo_ruleResult.effectValues);
-                    }
-                    else {
-                        alert(lo_ruleResult.errorMsg);
-                    }
-                }
-                catch (error) {
-                    console.log(error.errorMsg);
-                }
+                        if (!_.isUndefined(lo_ruleResult.effectValues) && _.size(lo_ruleResult.effectValues) > 0) {
+                            _.each(lo_ruleResult.effectValues, (lo_ObjData, ls_key) => {
+                                this[ls_key] = _.extend(this[ls_key], lo_ObjData);
+                            });
 
-                try {
-                    let lo_postData = {
-                        prg_id: gs_prgId,
-                        rule_func_name: field.rule_func_name,
-                        validateField: field.ui_field_name,
-                        singleRowData: la_orderData,
-                        oriSingleData: la_beforeData,
-                    };
-                    let lo_doChkFieldRule = await BacUtils.doHttpPromisePostProxy("/api/chkFieldRule", lo_postData)
-                        .then((result) => {
-                            return result;
-                        }).catch((err) => {
-                            return {success: false, errorMsg}
-                        });
-                    if (lo_doChkFieldRule.success) {
-                        //連動帶回的值
-                        if (!_.isUndefined(lo_doChkFieldRule.effectValues) && _.size(lo_doChkFieldRule.effectValues) > 0) {
-                            this.orderMnSingleData = _.extend(this.orderMnSingleData, lo_doChkFieldRule.effectValues);
-
-                            this.isEffectFromRule = lo_doChkFieldRule.isEffectFromRule;
-                        }
-                        //是否要show出訊息
-                        if (lo_doChkFieldRule.showAlert) {
-                            alert(lo_doChkFieldRule.alertMsg);
+                            this.isEffectFromRule = lo_ruleResult.isEffectFromRule;
+                        }//是否要show出訊息
+                        if (lo_ruleResult.showAlert) {
+                            alert(lo_ruleResult.alertMsg);
                         }
                         //改變前資料改為現在資料
                         this.beforeOrderMnSingleData = JSON.parse(JSON.stringify(this.orderMnSingleData));
                     }
                     else {
                         this.orderMnSingleData = _.extend(this.orderMnSingleData, this.beforeOrderMnSingleData);
-                        alert(lo_doChkFieldRule.errorMsg);
+                        alert(lo_ruleResult.errorMsg);
                     }
                 }
-                catch (err) {
-                    console.log(err);
+                catch (error) {
+                    console.log(error.message || error);
                 }
 
             },
@@ -2263,7 +2214,7 @@
             },
             closeOrderStaDialog(type) {
                 // if (type === "save") {
-                    console.log(type);
+                console.log(type);
                 // }
                 $("#cancelRm_dialog").dialog('close');
             },

@@ -12,7 +12,8 @@
     "forget_pw": "Forget Password",
     "email": "Enter Your Email",
     "send": "Send",
-    "return": "Return"
+    "return": "Return",
+    "chkAthenaID": "url athena_id is empty"
   },
   "BAC01P0120": {
     "index": "Index",
