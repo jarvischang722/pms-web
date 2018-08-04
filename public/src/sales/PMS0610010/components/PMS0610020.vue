@@ -234,7 +234,7 @@
                                 <ul>
                                     <li>
                                         <button class="btn btn-primary btn-white btn-defaultWidth"
-                                                role="button" :disabled="!isModifiable"
+                                                role="button" :disabled="!isModifiable || !isLock"
                                                 @click="doSaveGrid">{{i18nLang.SystemCommon.Save}}
                                         </button>
                                     </li>
@@ -298,7 +298,7 @@
 
     export default {
         name: 'pms0610020',
-        props: ["rowData", "isCreateStatus", "isEditStatus", "isModifiable"],
+        props: ["rowData", "isCreateStatus", "isEditStatus", "isModifiable","isLock"],
         components: {
             relatedSetting,
             relatedPersonnel,
@@ -641,6 +641,7 @@
                     }
                     else {
                         this.$store.dispatch("custMnModule/doSaveAllData").then(result => {
+                            this.doMnRowUnLock();
                             if (result.success) {
                                 alert(go_i18nLang.program.PMS0610020.save_success);
                                 let lo_cloneRowData = JSON.parse(JSON.stringify(this.rowData));
@@ -664,6 +665,7 @@
                 }
             },
             doCloseDialog() {
+                this.doMnRowUnLock();
                 $("#PMS0610020").dialog('close');
             },
             //ststus chg.(公司狀態)
@@ -720,6 +722,15 @@
                         });
                     }
                 });
+            },
+            doMnRowUnLock() {
+                let lo_param = {
+                    prg_id: 'PMS0610010',
+                    table_name: "cust_mn",
+                    lock_type: "R",
+                    key_cod: this.singleData.cust_cod
+                };
+                g_socket.emit('handleTableUnlock', lo_param);
             }
         }
     }
