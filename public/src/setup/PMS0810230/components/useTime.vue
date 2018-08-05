@@ -12,7 +12,7 @@
                                         row-click-color="#edf7ff"
                                         is-horizontal-resize
                                         style="width:100%"
-                                        :columns="useTimeColumns" _
+                                        :columns="useTimeColumns"
                                         :table-data="useTimeData"
                                         :error-content="errorContent"
                                         :column-cell-class-name="useTimeColumnCellClass"
@@ -35,11 +35,15 @@
                                                 role="button" @click="confirmData">{{i18nLang.program.PMS0810230.OK}}
 
 
+
+
                                         </button>
                                     </li>
                                     <li>
                                         <button class="btn btn-primary btn-white btn-defaultWidth"
                                                 role="button" @click="closeDialog">{{i18nLang.program.PMS0810230.leave}}
+
+
 
 
                                         </button>
@@ -122,13 +126,15 @@
         watch: {
             "rowData.begin_dat": function (val, oldVal) {
                 //chk_1010_begin_dat
-                if (moment(val).isBefore(this.rowData.rentCalDat)) {
-                    alert(go_i18nLang.program.PMS0810230.begBiggerRel);
-                    this.rowData.begin_dat = oldVal;
-                }
-                else if (moment(val).isAfter(moment(this.rowData.end_dat))) {
-                    alert(go_i18nLang.program.PMS0810230.begBiggerEnd);
-                    this.rowData.begin_dat = oldVal;
+                if (!this.isReadOnly) {
+                    if (moment(val).isBefore(this.rowData.rentCalDat)) {
+                        alert(go_i18nLang.program.PMS0810230.begBiggerRel);
+                        this.rowData.begin_dat = oldVal;
+                    }
+                    else if (moment(val).isAfter(moment(this.rowData.end_dat))) {
+                        alert(go_i18nLang.program.PMS0810230.begBiggerEnd);
+                        this.rowData.begin_dat = oldVal;
+                    }
                 }
             }
         },
@@ -550,23 +556,30 @@
                 this.useTimeData = [];
                 if (this.dataGridRowsData.length > 0) {
                     _.each(this.dataGridRowsData, (lo_dataGridRowsData) => {
-                        let lb_overDate = moment(lo_dataGridRowsData.end_dat).diff(this.rentCalDat, 'days') >= 1 ? false : true;
-                        if (this.isShowExpire || !this.isShowExpire && !lb_overDate) {
-                            this.useTimeData.push({
-                                "begin_dat": moment(lo_dataGridRowsData.begin_dat).format("YYYY/MM/DD"),
-                                "end_dat": moment(lo_dataGridRowsData.end_dat).format("YYYY/MM/DD"),
-                                "command_cod": lo_dataGridRowsData.command_cod,
-                                "command_option": _.isUndefined(lo_dataGridRowsData.command_option) ? "" : this.convertSelectData(lo_dataGridRowsData.command_option),
-                                "room_cods": _.isUndefined(lo_dataGridRowsData.room_cods) ? "" : this.convertSelectData(lo_dataGridRowsData.room_cods),
-                                "supply_nos": lo_dataGridRowsData.supply_nos,
-                                "cmFieldsData": _.findWhere(this.fieldsData, {ui_field_name: 'command_cod'}),
-                                "dtdFieldsData": this.convertCommandOption(lo_dataGridRowsData),
-                                "rcFieldsData": _.findWhere(this.fieldsData, {ui_field_name: 'room_cods'}),
-                                "rentCalDat": this.rentCalDat
-                            });
+                        let lo_currentRowData = {
+                            "begin_dat": moment(lo_dataGridRowsData.begin_dat).format("YYYY/MM/DD"),
+                            "end_dat": moment(lo_dataGridRowsData.end_dat).format("YYYY/MM/DD"),
+                            "command_cod": lo_dataGridRowsData.command_cod,
+                            "command_option": _.isUndefined(lo_dataGridRowsData.command_option) ? "" : this.convertSelectData(lo_dataGridRowsData.command_option),
+                            "room_cods": _.isUndefined(lo_dataGridRowsData.room_cods) ? "" : this.convertSelectData(lo_dataGridRowsData.room_cods),
+                            "supply_nos": lo_dataGridRowsData.supply_nos,
+                            "cmFieldsData": _.findWhere(this.fieldsData, {ui_field_name: 'command_cod'}),
+                            "dtdFieldsData": this.convertCommandOption(lo_dataGridRowsData),
+                            "rcFieldsData": _.findWhere(this.fieldsData, {ui_field_name: 'room_cods'}),
+                            "rentCalDat": this.rentCalDat
+                        };
+                        let lb_overDate = moment(lo_dataGridRowsData.end_dat).isBefore(this.rentCalDat, 'days');
+                        if (this.isShowExpire) {
+                            this.useTimeData.push(lo_currentRowData);
+                        }
+                        else {
+                            if (!lb_overDate) {
+                                this.useTimeData.push(lo_currentRowData);
+                            }
                         }
                     });
-                } else {
+                }
+                else {
                     this.useTimeData = [{
                         "cmFieldsData": _.findWhere(this.fieldsData, {ui_field_name: 'command_cod'}),
                         "dtdFieldsData": _.findWhere(this.fieldsData, {ui_field_name: 'command_option'}),
@@ -629,16 +642,19 @@
                 }
             },
             customCompFunc(params) {
-                let self = this;
+                const self = this;
+                const ln_index = _.findIndex(this.dataGridRowsData, {supply_nos: params.rowData.supply_nos});
+
+                if(ln_index === -1) return;
                 //將此筆被刪除的使用期間資料傳給房型資料
                 if (params.type == 'delete') {
                     this.$eventHub.$emit('getDeleteUseTimeData', {
-                        delUseTimeData: JSON.parse(JSON.stringify(this.dataGridRowsData[params.index]))
+                        delUseTimeData: JSON.parse(JSON.stringify(this.dataGridRowsData[ln_index]))
                     });
 
                     //此筆為剛新增的
-                    let ln_createIndex = _.findIndex(this.tmpCUD.createData, {supply_nos: this.dataGridRowsData[params.index].supply_nos});
-                    let ln_editIndex = _.findIndex(this.tmpCUD.updateData, {supply_nos: this.dataGridRowsData[params.index].supply_nos});
+                    const ln_createIndex = _.findIndex(this.tmpCUD.createData, {supply_nos: this.dataGridRowsData[ln_index].supply_nos});
+                    let ln_editIndex = _.findIndex(this.tmpCUD.updateData, {supply_nos: this.dataGridRowsData[ln_index].supply_nos});
                     if (ln_createIndex > -1) {
                         this.tmpCUD.createData.splice(ln_createIndex, 1);
                     }
@@ -649,11 +665,11 @@
                         this.tmpCUD.deleteData.push(_.extend(this.dataGridRowsData[ln_editIndex], {event_time: moment().format()}));
                     }
                     else {
-                        this.tmpCUD.deleteData.push(_.extend(this.dataGridRowsData[params.index], {event_time: moment().format()}));
+                        this.tmpCUD.deleteData.push(_.extend(this.dataGridRowsData[ln_index], {event_time: moment().format()}));
                     }
                     //此筆為直接刪除的
-                    this.$delete(this.useTimeData, params.index);
-                    this.dataGridRowsData.splice(params.index, 1);
+                    this.$delete(this.useTimeData, ln_index);
+                    this.dataGridRowsData.splice(ln_index, 1);
 
                     //轉換tmpCUD資料
                     let lo_param = {
@@ -676,10 +692,10 @@
                     });
                 }
                 else {
-                    _.each(this.dataGridRowsData[params.index], (ls_value, ls_key) => {
+                    _.each(this.dataGridRowsData[ln_index], (ls_value, ls_key) => {
                         let la_modifyKey = ["begin_dat", "end_dat", "command_cod", "command_option", "room_cods"];
                         if (_.indexOf(la_modifyKey, ls_key) > -1) {
-                            this.dataGridRowsData[params.index][ls_key] = params.rowData[ls_key];
+                            this.dataGridRowsData[ln_index][ls_key] = params.rowData[ls_key];
                         }
                     });
                 }
