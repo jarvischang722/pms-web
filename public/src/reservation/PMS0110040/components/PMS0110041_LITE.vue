@@ -417,7 +417,7 @@
 
                                                         <input type="text"
                                                                v-model="orderDtRowsData4Single[field.ui_field_name]"
-                                                               v-if="field.visiable == 'Y' && field.label_width != 0 && field.ui_type == 'text'"
+                                                               v-if="field.visiable == 'Y' && field.ui_type == 'text'"
                                                                :style="{width:field.width + 'px' , height:field.height + 'px'}"
                                                                :required="field.requirable == 'Y'" min="0"
                                                                :maxlength="field.ui_field_length"
@@ -425,12 +425,37 @@
                                                                @change="chkDgFieldRule(field.ui_field_name, field.rule_func_name)"
                                                                :disabled="field.modificable == 'N'|| !isModifiable ||
                                                    (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)">
-                                                        <input type="text" style="margin-left: -12px;"
+
+                                                        <input type="text"
                                                                v-model="orderDtRowsData4Single[field.ui_field_name]"
-                                                               v-else-if="field.visiable == 'Y' && field.label_width == 0 && field.ui_type == 'text'"
+                                                               v-else-if="field.visiable == 'Y' && field.ui_type == 'price'"
                                                                :style="{width:field.width + 'px' , height:field.height + 'px'}"
                                                                :required="field.requirable == 'Y'" min="0"
                                                                :maxlength="field.ui_field_length"
+                                                               :class="{'input_sta_required' : field.requirable == 'Y'}"
+                                                               @change="chkDgFieldRule(field.ui_field_name, field.rule_func_name)"
+                                                               :disabled="field.modificable == 'N'|| !isModifiable ||
+                                                   (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)">
+
+                                                        <input type="text"
+                                                               v-model="orderDtRowsData4Single[field.ui_field_name]"
+                                                               v-else-if="field.visiable == 'Y' && field.label_width != 0 && field.ui_type == 'number'"
+                                                               :style="{width:field.width + 'px' , height:field.height + 'px'}"
+                                                               :required="field.requirable == 'Y'" min="0"
+                                                               :maxlength="field.ui_field_length"
+                                                               class="text-right"
+                                                               :class="{'input_sta_required' : field.requirable == 'Y'}"
+                                                               @change="chkDgFieldRule(field.ui_field_name, field.rule_func_name)"
+                                                               :disabled="field.modificable == 'N'|| !isModifiable ||
+                                                   (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)">
+
+                                                        <input type="text" style="margin-left: -12px;"
+                                                               v-model="orderDtRowsData4Single[field.ui_field_name]"
+                                                               v-else-if="field.visiable == 'Y' && field.label_width == 0 && field.ui_type == 'number'"
+                                                               :style="{width:field.width + 'px' , height:field.height + 'px'}"
+                                                               :required="field.requirable == 'Y'" min="0"
+                                                               :maxlength="field.ui_field_length"
+                                                               class="text-right"
                                                                :class="{'input_sta_required' : field.requirable == 'Y'}"
                                                                @change="chkDgFieldRule(field.ui_field_name, field.rule_func_name)"
                                                                :disabled="field.modificable == 'N'|| !isModifiable ||
@@ -492,7 +517,7 @@
                                     </li>
                                     <li>
                                         <button class="btn btn-primary btn-white btn-defaultWidth"
-                                                role="button">新增
+                                                role="button" @click="addBooking">新增
                                         </button>
                                     </li>
                                     <li>
@@ -1580,6 +1605,7 @@
                     orderDt4Table: this.orderDtRowsData4table,
                     order_mn: this.orderMnSingleData,
                     guest_mn: this.guestMnRowsData4Single,
+                    key_nos: this.keyNos
                 };
 
                 try {
@@ -1607,18 +1633,6 @@
                     console.log(error.message || error);
                 }
 
-            },
-            /**
-             * 宏興SD，4.聯絡人處理方式
-             * (1)看『旅客姓名guest_mn.alt_nam、訂房公司名稱order_mn.acust_nam』,那個先key,就由它帶入
-             * (2)看另一個欄位有沒有值,來判斷先key後key
-             * (3)聯絡人order_mn.atten_nam是空值,才帶入
-             */
-            setOrderMnAttenNam(atten_nam, atten_by) {
-                if (this.orderMnSingleData.atten_nam === "" || this.orderMnSingleData.atten_nam === null) {
-                    this.orderMnSingleData.atten_nam = atten_nam;
-                    this.orderMnSingleData.atten_by = atten_by;
-                }
             },
 
             /**
@@ -1899,6 +1913,7 @@
                     resolve(lo_checkResult)
                 });
             },
+
             //region 按鈕的function
             //搜尋住客歷史資料
             searchGuestMnAltName() {
@@ -2017,7 +2032,6 @@
             async appendRow() {
                 let la_sourceTypSelectData = _.isUndefined(_.findWhere(this.oriOrderDtFieldsData, {ui_field_name: 'source_typ'})) ? [] : _.findWhere(this.oriOrderDtFieldsData, {ui_field_name: 'source_typ'}).selectData;
                 let la_guestTypSelectData = _.isUndefined(_.findWhere(this.oriOrderDtFieldsData, {ui_field_name: 'guest_typ'})) ? [] : _.findWhere(this.oriOrderDtFieldsData, {ui_field_name: 'guest_typ'}).selectData;
-
                 if (this.isModifiable) {
                     let lo_addData = {
                         add_baby: 0,
@@ -2278,6 +2292,19 @@
                     this.isLoadingDialog = false;
                 }
             },
+
+            //新增訂房卡
+            async addBooking() {
+                // this.isModifiable = false;
+                this.isEditStatus = false;
+                this.isCreateStatus = true;
+                this.rowData = {ikey: ""};
+
+                this.initData();
+                this.initTmpCUD();
+                this.fetchAllRowData();
+            },
+
             doChkDataIsChange() {
                 let lo_oriData = {};
                 let lo_nowData = {};
