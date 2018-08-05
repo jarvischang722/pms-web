@@ -892,7 +892,7 @@
                     throw Error(err);
                 }
             },
-            // 單純撈 [排房房間] 資料 todo
+            // 單純撈 [排房房間] 資料 todo 圖形
             async getRoomData() {
                 // this.selectRoomFloor = [2, 3]; //todo
                 // let ls_floor = this.selectRoomFloor.join(','); //todo
@@ -914,6 +914,14 @@
                         rule_func_name: 'fetRoomListData',
                     };
                     let lo_roomList = await BacUtils.doHttpPromisePostProxy('/api/queryDataByRule', lo_paramsRoomList);
+
+                    lo_roomList.effectValues.forEach(data => {
+                        if (data.ci_dat !== null && data.co_dat !== null) {
+                            data.ci_dat = moment(data.ci_dat).format('YYYY/MM/DD');
+                            data.co_dat = moment(data.co_dat).format('YYYY/MM/DD');
+                        }
+                    });
+
                     this.roomDtListRowData = lo_roomList.effectValues;
                     console.log(lo_roomList)
                     return lo_roomList;
@@ -931,7 +939,6 @@
 
                 this.dgRoom.loadPageDgData(lo_roomDtListRowData);
             },
-            //todo...
             //endregion
 
             //region [房間類型]
@@ -988,13 +995,20 @@
                     this.selectRoomFloor.length = 0;
                     this.selectRoomFloor.push('');
                 } else {
-                    let isExtend = _.indexOf(this.selectRoomType, room_floor);
+                    //
+                    let isAll = _.indexOf(this.selectRoomFloor, '');
+                    if (isAll > -1) {
+                        this.selectRoomFloor.splice(isAll, 1);
+                    }
+
+                    let isExtend = _.indexOf(this.selectRoomFloor, room_floor);
                     if (isExtend === -1) {
                         this.selectRoomFloor.push(room_floor);
                     } else {
                         this.selectRoomFloor.splice(isExtend, 1);
                     }
                 }
+                console.log(this.selectRoomFloor)
             },
             //endregion
 
@@ -1019,7 +1033,7 @@
                 this.selectRoomData = roomDt;
             },
 
-            //組合條件 (排房、取消排房)
+            // 組合條件 (排房、取消排房)
             combinationData: function () {
                 // let lo_combinationData = _.extend(this.orderDtListRowData[this.selectListIndex], {
                 //     'ci_dat': this.groupOrderDtRowData[this.selectDtIndex].ci_dat,
@@ -1038,8 +1052,8 @@
 
                 let lo_combinationData = _.extend(this.orderDtListRowData[this.selectListIndex], this.groupOrderDtRowData[this.selectDtIndex]);
                 lo_combinationData = _.extend(lo_combinationData, {
-                    'select_room_nos': this.selectRoomData.room_nos, //選擇的排房房號
-                    'select_room_cod': this.selectRoomData.room_cod, //選擇的排房房型
+                    'select_room_nos': this.selectRoomData.room_nos || '', //選擇的排房房號
+                    'select_room_cod': this.selectRoomData.room_cod || '', //選擇的排房房型
                     'select_batch_room_cod': this.selectRoomType,
                     'begin_dat': moment(this.groupOrderDtRowData[this.selectDtIndex].ci_dat).format('YYYY/MM/DD'),
                     'end_dat': moment(this.groupOrderDtRowData[this.selectDtIndex].co_dat).format('YYYY/MM/DD'),
