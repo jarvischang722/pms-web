@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <root>
-    <!--  AND SOCKET_ID = :socket_id  -->
     <!-- PMS0210030 排房多筆SP 暫時有問題，先移除socket_id參數 -->
     <dao name="QRY_ROOM_DATA_LIST">
         <statement><![CDATA[
@@ -18,6 +17,7 @@
             FROM TMP_PMS0210030_ROOM_LIST
             WHERE ATHENA_ID = :athena_id
             AND HOTEL_COD = :hotel_cod
+            AND SOCKET_ID = :socket_id
             AND USR_ID = :usr_id
             ORDER BY VIEW_SEQ
         ]]>
