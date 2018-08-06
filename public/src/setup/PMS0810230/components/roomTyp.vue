@@ -79,6 +79,9 @@
             el.focus()
         }
     });
+
+    let gs_prgId = "PMS0810230";
+
     export default {
         name: 'roomTyp',
         props: ["rowData", "isRoomType"],
@@ -310,7 +313,13 @@
                     }
                 });
 
-                this.useTimeSelectData = la_useTimeSelectData;
+                //過濾使用期間下拉資料
+                let ld_rentCalDat = moment(this.rentCalDat).format("YYYY/MM/DD");
+                this.useTimeSelectData = _.filter(la_useTimeSelectData, function (obj) {
+                    let ld_endDat = moment(obj.end_dat).format("YYYY/MM/DD");
+                    return moment(ld_endDat).diff(ld_rentCalDat) > 0;
+                });
+
                 this.selectedUseTimeData = "";
                 setTimeout(() => {
                     this.selectedUseTimeData = _.first(this.useTimeSelectData).value;
@@ -454,6 +463,7 @@
                                 let ld_endDat = moment(obj.end_dat).format("YYYY/MM/DD");
                                 return moment(ld_endDat).diff(ld_rentCalDat) > 0;
                             });
+
                             this.firstFetchRateCodDtData();
                         }
                         else {
@@ -464,7 +474,7 @@
             },
             firstFetchRateCodDtData() {
                 let lo_params = {
-                    prg_id: 'PMS0810230',
+                    prg_id: gs_prgId,
                     page_id: 2,
                     tab_page_id: 11,
                     searchCond: {
@@ -503,7 +513,7 @@
                 this.isLoading = true;
 
                 let lo_params = {
-                    prg_id: 'PMS0810230',
+                    prg_id: '',
                     page_id: 2,
                     tab_page_id: 11,
                     searchCond: {
@@ -541,7 +551,20 @@
                 }
                 else {
                     //剛新增的使用期間(未入到資料庫)
-                    this.getAndConvertTmpUseTimeData();
+                    BacUtils.doHttpPromisePostProxy("/api/fetchOnlyDataGridFieldData", {
+                        prg_id: gs_prgId,
+                        page_id: 2,
+                        tab_page_id: 11,
+                    }).then(result => {
+                        if (result.success) {
+                            //取得房租欄位資料
+                            this.rentAmtFieldData = _.findWhere(result.dgFieldsData, {ui_field_name: "rent_amt"});
+                            this.getAndConvertTmpUseTimeData();
+                        }
+                        else {
+                            alert(result.errorMsg);
+                        }
+                    });
                 }
             },
             //轉換日期規則資料
