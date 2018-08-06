@@ -129,6 +129,8 @@ module.exports = {
 
     //有問題 排房資料,
     fetchRoomData: function (params, session, callback) {
+        let lo_result = new ReturnClass();
+        let lo_error = new ErrorClass();
         const lo_orderDt = params.order_dt;
 
         let apiParams = {
@@ -143,7 +145,7 @@ module.exports = {
             "socket_id": session.user.usr_id,
             "ci_dat": moment(lo_orderDt.ci_dat).format("YYYY/MM/DD"),
             "co_dat": moment(lo_orderDt.co_dat).format("YYYY/MM/DD"),
-            "room_cod": lo_orderDt.select_room_cod,
+            "room_cod": lo_orderDt.room_cod,
             "character_rmk": "",
             "build_nos": "",
             "floor_nos": lo_orderDt.floor_nos,
@@ -163,6 +165,7 @@ module.exports = {
                 console.error(data["RETN-CODE-DESC"]);
             } else {
                 errorMsg = data["RETN-CODE-DESC"];
+                lo_result.success = true;
             }
             callback(errorMsg, success, data);
         });
