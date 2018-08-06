@@ -57,12 +57,19 @@
                                                         <span class="tooltip-text">
                                                             <ul>
                                                             <!--顏色對應方式??-->
-                                                                <li v-for="(textDetail,idx) in ColorList">
+                                                                <li v-for="colorText in colorMessage">
                                                                     <div class="square-color pull-left"
-                                                                         :class="'roomAsg-status-'+(idx+1)"></div>
-                                                                    <div class="pull-left">{{textDetail}}</div>
+                                                                         :style="{'background-color':'#' + colorText.color}"
+                                                                    ></div>
+                                                                    <div class="pull-left">{{colorText.display}}</div>
                                                                     <div class="clearfix"></div>
                                                                 </li>
+                                                                <!--<li v-for="(textDetail,idx) in ColorList">-->
+                                                                    <!--<div class="square-color pull-left"-->
+                                                                         <!--:class="'roomAsg-status-'+(idx+1)"></div>-->
+                                                                    <!--<div class="pull-left">{{textDetail}}</div>-->
+                                                                    <!--<div class="clearfix"></div>-->
+                                                                <!--</li>-->
                                                             </ul>
                                                         </span>
                                                     </div>
@@ -990,7 +997,7 @@
                     // 組資料格式，房間種類
                     let ls_roomType;
                     if (this.selectRoomType === 'ALL') {
-                        ls_roomFloor = "";
+                        ls_roomType = "";
                     } else {
                         ls_roomType = "'" + this.selectRoomType + "'";
                     }
@@ -1004,38 +1011,38 @@
                         }),
                     };
 
-                    // SP 執行程序
-                    let lo_result = await BacUtils.doHttpPromisePostProxy('/api/queryDataByRule', lo_params);
-                    console.log(lo_result); //查詢開始日期不可小於滾房租日期
+                    // SP 執行程序 *查詢開始日期不可小於滾房租日期
+                    let lo_roomList = await BacUtils.doHttpPromisePostProxy('/api/queryDataByRule', lo_params);
 
-                    let lo_paramsRoomList = {
-                        rule_func_name: 'fetRoomListData',
-                    };
-                    let lo_roomList = await BacUtils.doHttpPromisePostProxy('/api/queryDataByRule', lo_paramsRoomList);
+                    if (lo_roomList.success) {
+                        lo_roomList.effectValues.roomList.forEach(data => {
+                            if (data.ci_dat !== null && data.co_dat !== null) {
+                                data.ci_dat = moment(this.groupOrderDtRowData[this.selectDtIndex].ci_dat).local().format('MM/DD');
+                                data.co_dat = moment(this.groupOrderDtRowData[this.selectDtIndex].co_dat).local().format('MM/DD');
+                            }
+                        });
 
-                    lo_roomList.effectValues.forEach(data => {
-                        if (data.ci_dat !== null && data.co_dat !== null) {
-                            data.ci_dat = moment(this.groupOrderDtRowData[this.selectDtIndex].ci_dat).local().format('MM/DD');
-                            data.co_dat = moment(this.groupOrderDtRowData[this.selectDtIndex].co_dat).local().format('MM/DD');
-                        }
-                    });
-
-                    this.roomDtListRowData = lo_roomList.effectValues;
-                    console.log(lo_roomList)
-                    return lo_roomList;
+                        console.log(lo_roomList);
+                        return lo_roomList;
+                    } else {
+                        alert(errorMsg);
+                    }
                 } catch (err) {
                     throw Error(err);
                 }
             },
 
             async bindRoomList() {
-                await this.fetchRoomData();
-                let lo_roomDtListRowData = this.roomDtListRowData;
-                if (this.selectRoomType !== 'ALL') {
-                    lo_roomDtListRowData = this.roomDtListRowData.filter(lo_data => lo_data.room_cod === this.selectRoomType);
-                }
+                let lo_roomList = await this.fetchRoomData();
+                if (lo_roomList !== undefined) {
+                    this.roomDtListRowData = lo_roomList.effectValues.roomList;
+                    let lo_roomDtListRowData = [];
+                    if (this.selectRoomType !== 'ALL') {
+                        lo_roomDtListRowData = this.roomDtListRowData.filter(lo_data => lo_data.room_cod === this.selectRoomType);
+                    }
 
-                this.dgRoom.loadPageDgData(lo_roomDtListRowData);
+                    this.dgRoom.loadPageDgData(lo_roomDtListRowData);
+                }
             },
             //endregion
 
@@ -1107,7 +1114,7 @@
                         this.selectRoomFloor.splice(isExtend, 1);
                     }
                 }
-                this.fetchRoomData();
+                this.bindRoomList();
             },
 
             /**

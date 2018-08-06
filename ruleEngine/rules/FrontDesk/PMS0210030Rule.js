@@ -132,78 +132,76 @@ module.exports = {
         }
     },
 
-    //有問題 排房資料,
-    fetchRoomData: function (params, session, callback) {
+    //排房資料,
+    fetchRoomData: async function (postData, session, callback) {
         let lo_result = new ReturnClass();
         let lo_error = new ErrorClass();
-        const lo_orderDt = params.order_dt;
-
-        let apiParams = {
-            "REVE-CODE": "PMS0210030",
-            "prg_id": "PMS0210030",
-            "func_id": "2010",
-            "client_ip": "",
-            "locale": "zh_TW",
-            "athena_id": session.athena_id,
-            "hotel_cod": session.hotel_cod,
-            "usr_id": session.user.usr_id,
-            "socket_id": session.user.usr_id,
-            "ci_dat": moment(lo_orderDt.ci_dat).format("YYYY/MM/DD"),
-            "co_dat": moment(lo_orderDt.co_dat).format("YYYY/MM/DD"),
-            "room_cod": lo_orderDt.room_cod,
-            "character_rmk": "",
-            "build_nos": "",
-            "floor_nos": lo_orderDt.floor_nos,
-            "bed_sta": "",
-            "can_assign": lo_orderDt.can_assign
-        };
-
-        tools.requestApi(sysConf.api_url.java, apiParams, function (apiErr, apiRes, data) {
-            let success = true;
-            let errorMsg = "";
-            if (apiErr || !data) {
-                success = false;
-                errorMsg = apiErr;
-            } else if (data["RETN-CODE"] != "0000") {
-                success = false;
-                errorMsg = data["RETN-CODE-DESC"] || '發生錯誤';
-                console.error(data["RETN-CODE-DESC"]);
-            } else {
-                errorMsg = data["RETN-CODE-DESC"];
-                lo_result.success = true;
-            }
-            callback(errorMsg, success, data);
-        });
-    },
-    fetRoomListData: function (params, session, callback) {
-        let lo_return = new ReturnClass();
-        let lo_error = new ErrorClass();
         try {
-            let lo_default_params = {
-                athena_id: session.athena_id,
-                hotel_cod: session.hotel_cod,
-                usr_id: session.user.usr_id,
-                socket_id: session.user.usr_id
+            const lo_orderDt = postData.order_dt;
+
+            let apiParams = {
+                "REVE-CODE": "PMS0210030",
+                "prg_id": "PMS0210030",
+                "func_id": "2010",
+                "client_ip": "",
+                "locale": "zh_TW",
+                "athena_id": session.athena_id,
+                "hotel_cod": session.hotel_cod,
+                "usr_id": session.user.usr_id,
+                "socket_id": session.user.usr_id,
+                "ci_dat": moment(lo_orderDt.ci_dat).format("YYYY/MM/DD"),
+                "co_dat": moment(lo_orderDt.co_dat).format("YYYY/MM/DD"),
+                "room_cod": lo_orderDt.room_cod,
+                "character_rmk": "",
+                "build_nos": "",
+                "floor_nos": lo_orderDt.floor_nos,
+                "bed_sta": "",
+                "can_assign": lo_orderDt.can_assign
             };
 
-            let lo_clusterParam = commonRule.ConvertToQueryParams(session.athena_id, "QRY_ROOM_DATA_LIST");
-            clusterQueryAgent.queryList(lo_clusterParam, lo_default_params, function (err, result) {
-                if (err) {
-                    lo_error = new ErrorClass();
-                    lo_return.success = false;
-                    lo_error.errorMsg = err;
-                }
-                else {
-                    lo_return.success = true;
-                    lo_return.effectValues = result;
-                }
-                callback(lo_error, lo_return);
+            let lo_spRoomList = await new Promise((resolve, reject) => {
+                tools.requestApi(sysConf.api_url.java, apiParams, function (apiErr, apiRes, data) {
+                    if (apiErr || !data) {
+                        reject(apiErr)
+                    }
+                    else {
+                        resolve(data)
+                    }
+                });
             });
+
+            if (lo_spRoomList["RETN-CODE"] !== "0000") {
+                lo_result.success = false;
+                console.error(lo_spRoomList["RETN-CODE-DESC"]);
+                lo_error.errorMsg = lo_spRoomList["RETN-CODE-DESC"];
+            } else {
+                let lo_default_params = {
+                    athena_id: session.athena_id,
+                    hotel_cod: session.hotel_cod,
+                    usr_id: session.user.usr_id,
+                    socket_id: session.user.usr_id
+                };
+                let lo_fetchRoomList = await new Promise((resolve, reject) => {
+                    const lo_fetchTempTableParam = commonRule.ConvertToQueryParams(session.athena_id, "QRY_ROOM_DATA_LIST");
+                    clusterQueryAgent.queryList(lo_fetchTempTableParam, lo_default_params, (err, result) => {
+                        if (err) {
+                            reject(err);
+                        }
+                        else {
+                            resolve(result);
+                        }
+                    });
+                });
+                lo_result.success = true;
+                lo_result.effectValues.roomList = lo_fetchRoomList;
+            }
         }
         catch (err) {
+            lo_result.success = false;
             lo_error.errorMsg = err;
-            lo_return.success = false;
         }
+
+        callback(lo_error, lo_result);
     },
 
     /**
