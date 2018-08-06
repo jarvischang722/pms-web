@@ -137,19 +137,16 @@ module.exports = {
             "func_id": "2010",
             "client_ip": "",
             "locale": "zh_TW",
-
             "athena_id": session.athena_id,
             "hotel_cod": session.hotel_cod,
             "usr_id": session.user.usr_id,
             "socket_id": session.user.usr_id,
             "ci_dat": moment(lo_orderDt.ci_dat).format("YYYY/MM/DD"),
             "co_dat": moment(lo_orderDt.co_dat).format("YYYY/MM/DD"),
-            // "room_cod": lo_orderDt.room_cod,
-            "room_cod": "",
+            "room_cod": lo_orderDt.select_room_cod,
             "character_rmk": "",
             "build_nos": "",
-            "floor_nos": "",
-            // "floor_nos": lo_orderDt.floor_nos,
+            "floor_nos": lo_orderDt.floor_nos,
             "bed_sta": "",
             "can_assign": lo_orderDt.can_assign
         };

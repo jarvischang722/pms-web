@@ -41,7 +41,7 @@
 
                             </div>
                             <!--排房資料-->
-                            <div class="col-xs-7 right-info" v-loading="isLoadingRoomDtList">
+                            <div class="col-xs-7 right-info">
                                 <div class="">
                                     <!-- #section:elements.tab.position -->
                                     <div class="col-xs-12">
@@ -150,9 +150,11 @@
 
                                                             <span class="ace-icon fa fa-angle-down icon-on-right"></span>
                                                         </button>
-                                                        <ul class="dropdown-menu dropdown-info dropdown-menu-right dpUIList">
+                                                        <!--<ul class="dropdown-menu dropdown-info dropdown-menu-right dpUIList">-->
+                                                        <ul class="dropdown-menu dropdown-info dropdown-menu-right">
                                                             <li v-for="(room, idx) in roomFloor"
                                                                 @click="chooseRoomFloor(room.value)"
+                                                                :class="{'click-act': isChk(room.value)}"
                                                             >
                                                                 <a href="#">{{room.display}}</a>
                                                             </li>
@@ -504,54 +506,54 @@
         },
         data() {
             return {
-                //DataGrid
+                // DataGrid
                 dgGroup: {},
                 dgList: {},
                 dgRoom: {},
 
-                //搜尋
+                // 搜尋
                 searchFields: [],
                 searchCond: {},
 
-                //滾房租日
+                // 滾房租日
                 rentCalDat: '',
 
-                //訂房多筆
+                // 訂房多筆
                 groupOrderDtField: [],
                 groupOrderDtRowData: [],
                 selectDtIndex: -1,
 
-                //訂房明細
+                // 訂房明細
                 orderDtListField: [],
                 orderDtListRowData: [],
                 selectListIndex: -1,
 
-                //排房房間
+                // 排房房間
                 roomDtListField: [],
                 roomDtListRowData: [],
                 selectRoomDtIndex: -1,
-                //選擇房間資料
+                // 選擇房間資料
                 selectRoomData: {},
 
-                //顯示清單或是圖形模式 true:清單 false:圖形
+                // 顯示清單或是圖形模式 true:清單 false:圖形
                 btnList: true,
                 // 可排房 or 不可排房 Button
                 chkAssign: true,
-                //房型顯示資料
+                // 房型顯示資料
                 roomType: [],
-                //樓層顯示資料
+                // 樓層顯示資料
                 roomFloor: [],
-                //選擇房型資料
+                // 選擇房型資料
                 selectRoomType: '',
-                //選擇樓層資料
+                // 選擇樓層資料
                 selectRoomFloor: [],
-                //顏色說明
+                // 顏色說明
                 ColorList: ['不可排房', '修理房間', '可排房間', '不可移動', '今日預定C/O', '參觀'],
 
                 // isLite:true, 要討論未來如何判斷使用版本(lite)
                 lockStatus: false,//lock有做的話(true)可以按按鈕
 
-                //失敗清單
+                // 失敗清單
                 cancelFaildField: [
                     {field: '序號'},
                     {field: '房號'},
@@ -559,7 +561,7 @@
                     {field: '訊息說明'},
                 ],
                 cancelFaildData: [],
-                //批次清單
+                // 批次清單
                 batchAssignListField: [
                     {field: '選擇', value: 'choose', type: 'checkbox', width: 60},
                     {field: '房號', value: 'room_nos', type: 'text', width: 60},
@@ -571,9 +573,8 @@
                 chkAssignDataList: [],
 
                 // Loading
-                isLoadingGroupOrderDt: true,
-                isLoadingOrderDtList: true,
-                isLoadingRoomDtList: true,
+                isLoadingGroupOrderDt: false,
+                isLoadingOrderDtList: false,
             };
         },
         created() {
@@ -640,19 +641,25 @@
                 }
             },
             RoomListCiCoDat: function () {
-                console.log(moment.locale())
-                console.log(this.groupOrderDtRowData[this.selectDtIndex].ci_dat)
-                console.log(moment(this.groupOrderDtRowData[this.selectDtIndex].ci_dat).format('YYYY/MM/DD'));
-                let ls_ciDat = moment(this.groupOrderDtRowData[this.selectDtIndex].ci_dat, 'YYYY/MM/DD').format('MM/DD');
-                let ls_coDat = moment(this.groupOrderDtRowData[this.selectDtIndex].co_dat, 'YYYY/MM/DD').format('MM/DD');
+                let ls_ciDat = moment(this.groupOrderDtRowData[this.selectDtIndex].ci_dat).local().format('MM/DD');
+                let ls_coDat = moment(this.groupOrderDtRowData[this.selectDtIndex].co_dat).local().format('MM/DD');
                 return `${ls_ciDat} - ${ls_coDat}`;
-            }
+            },
         },
         async mounted() {
             // 初始化頁面
             await this.initPageLoad();
         },
         methods: {
+            isChk: function (value) {
+                if (this.selectRoomFloor.indexOf('') > -1 && value === -1) {
+                    return true;
+                } else if (this.selectRoomFloor.indexOf(value) > -1) {
+                    return true
+                } else {
+                    return false;
+                }
+            },
             /**
              * 初始化頁面要做的事情
              */
@@ -863,6 +870,7 @@
             },
             // 單純撈 [訂房明細] 資料
             async fetchOrderDtListData() {
+                //[訂房多筆]尚未選擇任何一筆資料的話 不撈取 [排房房間]資料
                 if (this.selectDtIndex < 0) {
                     return;
                 }
@@ -937,14 +945,26 @@
             },
             // 單純撈 [排房房間] 資料 todo 圖形
             async getRoomData() {
-                // this.selectRoomFloor = [2, 3]; //todo
-                // let ls_floor = this.selectRoomFloor.join(','); //todo
                 try {
+                    // [訂房多筆]尚未選擇任何一筆資料的話 ，撈取[排房房間]資料
+                    if (this.selectDtIndex < 0) {
+                        return;
+                    }
+
+                    // 組資料格式，樓層: 1樓、3樓、5樓、7樓	 => '1','3','5','7'
+                    // 打API給後端時資料是長 "'1','3','5','7'"
+                    let ls_roomFloor = this.selectRoomFloor.map(data => {
+                        if (data === '') {
+                            return "";
+                        }
+                        return "'" +  data + "'";
+                    });
+                    ls_roomFloor = ls_roomFloor.join(',');
+
                     const lo_params = {
                         rule_func_name: 'fetchRoomData',
                         order_dt: _.extend(this.groupOrderDtRowData[this.selectDtIndex], {
-                            // floor_nos: ls_floor //todo
-                            // room_cod: this.selectRoomType, //todo
+                            floor_nos: ls_roomFloor,
                             can_assign: this.chkAssign ? 'Y' : 'N'
                         }),
                     };
@@ -960,10 +980,8 @@
 
                     lo_roomList.effectValues.forEach(data => {
                         if (data.ci_dat !== null && data.co_dat !== null) {
-                            // data.ci_dat = moment(data.ci_dat).format('MM/DD');
-                            // data.co_dat = moment(data.co_dat).format('MM/DD');
-                            data.ci_dat = moment(data.ci_dat).format('MM/DD');
-                            data.co_dat = moment(data.co_dat).format('MM/DD');
+                            data.ci_dat = moment(this.groupOrderDtRowData[this.selectDtIndex].ci_dat).local().format('MM/DD');
+                            data.co_dat = moment(this.groupOrderDtRowData[this.selectDtIndex].co_dat).local().format('MM/DD');
                         }
                     });
 
@@ -976,7 +994,6 @@
             },
 
             async bindRoomList() {
-                this.isLoadingRoomDtList = true;
                 await this.getRoomData();
                 let lo_roomDtListRowData = this.roomDtListRowData;
                 if (this.selectRoomType !== 'ALL') {
@@ -984,7 +1001,6 @@
                 }
 
                 this.dgRoom.loadPageDgData(lo_roomDtListRowData);
-                this.isLoadingRoomDtList = false;
             },
             //endregion
 
@@ -1013,7 +1029,8 @@
              */
             async chooseRoomType(room_cod) {
                 this.selectRoomType = room_cod;
-                this.selectRoomData = this.filterRoomList[0];
+                this.selectRoomData = this.filterRoomList[0]; // todo 注意忘了當初為什麼要這樣寫
+
                 await this.bindRoomList();
             },
             //endregion
@@ -1055,7 +1072,7 @@
                         this.selectRoomFloor.splice(isExtend, 1);
                     }
                 }
-                console.log(this.selectRoomFloor)
+                this.getRoomData();
             },
             //endregion
 
@@ -1100,7 +1117,7 @@
                 let lo_combinationData = _.extend(this.orderDtListRowData[this.selectListIndex], this.groupOrderDtRowData[this.selectDtIndex]);
                 lo_combinationData = _.extend(lo_combinationData, {
                     'select_room_nos': this.selectRoomData.room_nos || '', //選擇的排房房號
-                    'select_room_cod': this.selectRoomData.room_cod || '', //選擇的排房房型
+                    'select_room_cod': this.selectRoomData.room_cod || this.selectRoomType, //選擇的排房房型
                     'select_batch_room_cod': this.selectRoomType,
                     'begin_dat': moment(this.groupOrderDtRowData[this.selectDtIndex].ci_dat).format('YYYY/MM/DD'),
                     'end_dat': moment(this.groupOrderDtRowData[this.selectDtIndex].co_dat).format('YYYY/MM/DD'),
