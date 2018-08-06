@@ -82,7 +82,7 @@
                                              disabled>
                                 </el-tab-pane>
                             </el-tabs>
-                            <div class="easyui-tabs easyUi-custom1 borderFrame"
+                            <div class="easyui-tabs borderFrame"
                                  style="min-height: 0; height: 380px !important; overflow-y: auto;">
                                 <div id="setPanel" v-show="tabName=='set'" class="padding-tabs">
                                     <related-setting
@@ -298,7 +298,7 @@
 
     export default {
         name: 'pms0610020',
-        props: ["rowData", "isCreateStatus", "isEditStatus", "isModifiable","isLock"],
+        props: ["rowData", "isCreateStatus", "isEditStatus", "isModifiable", "isLock"],
         components: {
             relatedSetting,
             relatedPersonnel,
@@ -641,7 +641,6 @@
                     }
                     else {
                         this.$store.dispatch("custMnModule/doSaveAllData").then(result => {
-                            this.doMnRowUnLock();
                             if (result.success) {
                                 alert(go_i18nLang.program.PMS0610020.save_success);
                                 let lo_cloneRowData = JSON.parse(JSON.stringify(this.rowData));
@@ -726,9 +725,6 @@
             doMnRowUnLock() {
                 let lo_param = {
                     prg_id: 'PMS0610010',
-                    table_name: "cust_mn",
-                    lock_type: "R",
-                    key_cod: this.singleData.cust_cod
                 };
                 g_socket.emit('handleTableUnlock', lo_param);
             }

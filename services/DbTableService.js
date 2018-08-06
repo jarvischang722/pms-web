@@ -261,6 +261,8 @@ exports.execSQL = function (prg_id, saveExecDatas, session, callback) {
     }
 };
 
+
+
 /**
  *
  * @param fieldData
@@ -717,7 +719,7 @@ exports.execNewFormatSQL = async function (postData, session) {
     lo_saveProc.setParams(postData, session);
     try {
         let lo_result = await lo_saveProc.execSaveProc();
-        return {success: true, errorMsg: ""};
+        return {success: true, errorMsg: "", apiReturnData: lo_result};
     }
     catch (err) {
         let ls_errorMsg = err.errorMsg || err.message;

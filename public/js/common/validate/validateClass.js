@@ -14,7 +14,7 @@ function validateClass() {
     this.required = function () {
         var ls_value = arguments[0];
         var ls_ui_display_name = arguments[1];
-        var lb_result = !_.isUndefined(ls_value) && ls_value !== "";
+        var lb_result = !_.isUndefined(ls_value) && ls_value !== "" && !_.isNull(ls_value);
         var ls_msg = (arguments.length == 2) ? sprintf(this.ls_msg.Required, ls_ui_display_name) : sprintf(this.ls_msg.Required, "");
 
         return {success: lb_result, msg: ls_msg};
@@ -281,6 +281,11 @@ function validateClass() {
                     }
                     else {
                         if (!_.isMatch(arrayVal, lo_oriSingleData[key][idx])) {
+                            _.each(arrayVal, function (objVal, objKey) {
+                                if (objVal != lo_oriSingleData[key][idx][objKey]) {
+                                    console.log(objKey, objVal, lo_oriSingleData[key][idx][objKey]);
+                                }
+                            });
                             lb_result = false;
                             return;
                         }

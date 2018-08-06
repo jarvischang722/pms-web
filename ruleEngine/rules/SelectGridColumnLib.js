@@ -714,3 +714,23 @@ exports.sel_orderdtroomcod_for_column = function (session, callback) {
     };
     callback(null, lo_result);
 };
+
+exports.sel_cancel_cod_for_column = async (session, callback) => {
+    let lo_result = {
+        columns: [
+            {
+                field: 'cancel_rmk',
+                title: commandRules.getColumnByNam("cancel_rmk", session.locale),
+                width: 200
+            },
+            {
+                field: 'flag1_sta',
+                title: commandRules.getColumnByNam("flag1_sta", session.locale),
+                width: 100
+            }
+        ],
+        display: "cancel_rmk",
+        value: "cancel_cod"
+    };
+    callback(null, lo_result);
+};

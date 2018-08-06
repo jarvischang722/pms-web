@@ -5,23 +5,43 @@ let ruleSVC = require("../services/DataRuleService");
 let commonTools = require("../utils/CommonTools");
 let ruleAgent = require("../ruleEngine/ruleAgent");
 let queryAgent = require('../plugins/kplug-oracle/QueryAgent');
+const ReturnClass = require("../ruleEngine/returnClass");
+const ErrorClass = require("../ruleEngine/errorClass");
 /**
  * 欄位規則檢查
  */
 exports.chkFieldRule = function (req, res) {
-
-    /** req.body :
-     prg_id         : 程式代號
-     validateField  : 要驗證的欄位
-     singleRowData  : 此筆明細全部資料
-     rule_func_name : 欄位規則函數
+    /**
+     * req.body :
+     * prg_id         : 程式代號
+     * validateField  : 要驗證的欄位
+     * singleRowData  : 此筆明細全部資料
+     * rule_func_name : 欄位規則函數
      **/
     ruleSVC.handleBlurUiField(req.body, req.session, function (err, result) {
 
         res.json(commonTools.mergeRtnErrResultJson(err, result));
 
     });
+};
 
+/**
+ * 按鈕規則檢查
+ * @param req
+ * @param res
+ */
+exports.chkPrgFuncRule = async (req, res) => {
+    let lo_result = new ReturnClass();
+    let lo_error = null;
+    try {
+        lo_result = await ruleSVC.handlePrgFuncRule(req.body, req.session);
+    }
+    catch (errorMsg) {
+        lo_error = new ErrorClass();
+        lo_result.success = false;
+        lo_error.errorMsg = errorMsg.message || errorMsg;
+    }
+    res.json(commonTools.mergeRtnErrResultJson(lo_error, lo_result));
 };
 
 exports.chkDtFieldRule = function (req, res) {
@@ -30,8 +50,10 @@ exports.chkDtFieldRule = function (req, res) {
     });
 };
 
-/*
-*data grid select click 規則檢查
+/**
+ * data grid select click 規則檢查
+ * @param req
+ * @param res
  */
 exports.chkDgSelectClickRule = function (req, res) {
     ruleSVC.chkSelectClickRule(req.body, req.session, function (err, result) {
@@ -85,6 +107,20 @@ exports.queryDataByRule = function (req, res) {
     ruleSVC.handleBlurUiField(req.body, req.session, function (err, result) {
         res.json(commonTools.mergeRtnErrResultJson(err, result));
     });
+};
+
+exports.chkSelectOptionRule = async function (req, res) {
+    let lo_result = new ReturnClass();
+    let lo_error = null;
+    try {
+        lo_result = await ruleSVC.handleSelectOptionRule(req.body, req.session);
+    }
+    catch (errorMsg) {
+        lo_result.success = false;
+        lo_error = new ErrorClass();
+        lo_error.errorMsg = errorMsg;
+    }
+    res.json(commonTools.mergeRtnErrResultJson(lo_error, lo_result));
 };
 
 

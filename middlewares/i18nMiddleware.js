@@ -9,7 +9,6 @@
 const _ = require("underscore");
 const i18n = require("i18n");
 const async = require("async");
-const clusterQueryAgent = require("../plugins/kplug-oracle/ClusterQueryAgent");
 const go_sysConf = require("../configs/systemConfig");
 const commonRule = require("../ruleEngine/rules/CommonRule");
 
@@ -20,7 +19,7 @@ module.exports = function (req, res, next) {
     async.series([
         async function (cb) {
             //只有登入頁需要往下跑
-            if (req.originalUrl.toLocaleLowerCase().indexOf("/login") == -1 && la_sys_locales.length != 0 && _.isArray(la_sys_locales)) {
+            if (req.originalUrl.toLocaleLowerCase().indexOf("/login") === -1 && la_sys_locales.length !== 0 && _.isArray(la_sys_locales)) {
                 res.cookie("sys_locales", req.cookies.sys_locales, {
                     maxAge: go_sysConf.sessionExpiredMS || 1000 * 60 * 60 * 3
                 });
@@ -35,7 +34,13 @@ module.exports = function (req, res, next) {
                 lo_cond.comp_cod = req.params.comp_cod || req.cookies.comp_cod;
             }
 
-            lao_localeInfo = await getUseLangsByAthenaID(lo_cond);
+            try {
+                lao_localeInfo = await getUseLangsByAthenaID(lo_cond);
+            }
+            catch (error) {
+                return cb(error, null);
+            }
+
 
             res.cookie("sys_locales", lao_localeInfo, {
                 maxAge: go_sysConf.sessionExpiredMS || 1000 * 60 * 60 * 3
@@ -53,7 +58,7 @@ module.exports = function (req, res, next) {
             }
 
             //檢查使用者可選語系
-            if (lao_localeInfo.length > 0 && _.findIndex(lao_localeInfo, {lang: ls_locale}) == -1) {
+            if (lao_localeInfo.length > 0 && _.findIndex(lao_localeInfo, {lang: ls_locale}) === -1) {
                 ls_locale = lao_localeInfo[0].lang;
             }
             cb(null, "done2");
@@ -115,25 +120,25 @@ function _v(value) {
  * @return {Promise<any>}
  */
 async function getUseLangsByAthenaID(lo_cond) {
-    let lo_langRf = require("../configs/LangNameRf.json");
-    return new Promise((resolve, reject) => {
-        let lo_daoParams = commonRule.ConvertToQueryParams(lo_cond.athena_id, "QRY_UI_LANG_BY_ATHENA_ID");
-        clusterQueryAgent.queryList(lo_daoParams, lo_cond, function (err, langs) {
-            if (err) {
-                console.error(err);
-            }
-            let lao_localeInfo = _.uniq(_.map(langs, function (lang) {
-                return {
-                    lang: lang.locale,
-                    name: lo_langRf[lang.locale]
-                        ? encodeURIComponent(lo_langRf[lang.locale])
-                        : lang.locale
-                };
-            }), function (lao_localeInfo) {
-                return lao_localeInfo.lang;
-            });
-            resolve(lao_localeInfo)
+    const lo_langRf = require("../configs/LangNameRf.json");
 
+    try {
+        const la_langs = await commonRule.clusterQueryList(lo_cond, lo_cond, "QRY_UI_LANG_BY_ATHENA_ID");
+        const lao_localeInfo = _.uniq(_.map(la_langs, lang => {
+            return {
+                lang: lang.locale,
+                name: lo_langRf[lang.locale]
+                    ? encodeURIComponent(lo_langRf[lang.locale])
+                    : lang.locale
+            };
+        }), lao_localeInfo => {
+            return lao_localeInfo.lang;
         });
-    });
+        return lao_localeInfo;
+    }
+    catch (err) {
+        const ls_errorMsg = err.message || err;
+        console.error(ls_errorMsg);
+        throw ls_errorMsg;
+    }
 }

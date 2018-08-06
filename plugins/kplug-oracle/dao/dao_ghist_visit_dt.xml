@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+    <!-- [PMS0110041 訂房卡資料編輯] 住客喜好房-->
+    <dao name="QRY_PREFER_ROOM">
+        <statement><![CDATA[
+             select pref_room
+             from GHIST_VISIT_DT t
+             where gcust_cod = :gcust_cod
+             and hotel_cod = :hotel_cod
+             and athena_id = :athena_id
+        ]]>
+        </statement>
+        <parameter type="number" kind="3">athena_id</parameter>
+        <parameter type="string" kind="3">hotel_cod</parameter>
+        <parameter type="string" kind="3">gcust_cod</parameter>
+    </dao>
+</root>

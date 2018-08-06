@@ -1,42 +1,8 @@
 { 
-    "_id" : ObjectId("58c4f3e0323a15276c3aa30d"), 
-    "prg_id" : "PMS0810020", 
-    "ui_field_name" : "room_typ", 
-    "rule_func_name" : "qry_rvrmcod_rf_room_typ", 
-    "defaultVal" : "", 
-    "ds_from_sql" : "Y", 
-    "ui_display_name" : "room_nam", 
-    "multi_value_field" : ""
-}
-{ 
-    "_id" : ObjectId("58c4f3e0323a15276c3aa30e"), 
-    "prg_id" : "PMS0810020", 
-    "ui_field_name" : "free_cod", 
-    "rule_func_name" : "QRY_SERVICE_RF_FREE_COD", 
-    "defaultVal" : "", 
-    "ds_from_sql" : "Y", 
-    "ui_display_name" : "item_sna", 
-    "multi_lang_table" : "lang_service_rf", 
-    "multi_value_field" : "item_nos", 
-    "multi_display_field" : "item_sna"
-}
-{ 
     "_id" : ObjectId("58c4f3e0323a15276c3aa30f"), 
     "prg_id" : "PMS0810020", 
     "ui_field_name" : "rent_cod", 
     "rule_func_name" : "QRY_SERVICE_RF_RENT_COD", 
-    "defaultVal" : "", 
-    "ds_from_sql" : "Y", 
-    "ui_display_name" : "item_sna", 
-    "multi_lang_table" : "lang_service_rf", 
-    "multi_value_field" : "item_nos", 
-    "multi_display_field" : "item_sna"
-}
-{ 
-    "_id" : ObjectId("58c4f3e0323a15276c3aa310"), 
-    "prg_id" : "PMS0810020", 
-    "ui_field_name" : "serv_cod", 
-    "rule_func_name" : "QRY_SERVICE_RF_SERV_COD", 
     "defaultVal" : "", 
     "ds_from_sql" : "Y", 
     "ui_display_name" : "item_sna", 
@@ -53,14 +19,6 @@
     "ds_from_sql" : "N"
 }
 { 
-    "_id" : ObjectId("58d88880aec99cfdc7e715c3"), 
-    "prg_id" : "PMS0810080", 
-    "ui_field_name" : "use_sta", 
-    "rule_func_name" : "getGuestgrprfUseStaList", 
-    "defaultVal" : "Y", 
-    "ds_from_sql" : "N"
-}
-{ 
     "_id" : ObjectId("58ec3ef4b51fc62120b87323"), 
     "prg_id" : "PMS0810090", 
     "ui_field_name" : "history_sta", 
@@ -68,6 +26,22 @@
     "defaultVal" : "Y", 
     "ds_from_sql" : "N", 
     "multi_lang_table" : ""
+}
+{ 
+    "_id" : ObjectId("58ec3ef4b51fc62120b87326"), 
+    "prg_id" : "PMS0810090", 
+    "ui_field_name" : "rcard_prtrent", 
+    "rule_func_name" : "qry_guest_rf_rcard_prtrent", 
+    "defaultVal" : "", 
+    "ds_from_sql" : "N"
+}
+{ 
+    "_id" : ObjectId("58ec3ef4b51fc62120b87325"), 
+    "prg_id" : "PMS0810090", 
+    "ui_field_name" : "use_sta", 
+    "rule_func_name" : "qry_guest_rf_use_sta", 
+    "defaultVal" : "Y", 
+    "ds_from_sql" : "N"
 }
 { 
     "_id" : ObjectId("58ec3ef4b51fc62120b87324"), 
@@ -79,22 +53,6 @@
     "ui_display_name" : ""
 }
 { 
-    "_id" : ObjectId("58ec3ef4b51fc62120b87325"), 
-    "prg_id" : "PMS0810090", 
-    "ui_field_name" : "use_sta", 
-    "rule_func_name" : "qry_guest_rf_use_sta", 
-    "defaultVal" : "Y", 
-    "ds_from_sql" : "N"
-}
-{ 
-    "_id" : ObjectId("58ec3ef4b51fc62120b87326"), 
-    "prg_id" : "PMS0810090", 
-    "ui_field_name" : "rcard_prtrent", 
-    "rule_func_name" : "qry_guest_rf_rcard_prtrent", 
-    "defaultVal" : "", 
-    "ds_from_sql" : "N"
-}
-{ 
     "_id" : ObjectId("58ec3ef4b51fc62120b87327"), 
     "prg_id" : "PMS0810090", 
     "ui_field_name" : "guest_grp", 
@@ -102,6 +60,14 @@
     "rule_func_name" : "qry_guest_rf_guest_grp", 
     "defaultVal" : "", 
     "ds_from_sql" : "Y"
+}
+{ 
+    "_id" : ObjectId("58f71151b51fc63a80ff061c"), 
+    "prg_id" : "PMS0810110", 
+    "ui_field_name" : "use_sta", 
+    "rule_func_name" : "qry_source_rf_use_sta", 
+    "defaultVal" : "Y", 
+    "ds_from_sql" : "N"
 }
 { 
     "_id" : ObjectId("58ec3f18b51fc62120b87328"), 
@@ -120,14 +86,6 @@
     "ds_from_sql" : "N"
 }
 { 
-    "_id" : ObjectId("58f71151b51fc63a80ff061c"), 
-    "prg_id" : "PMS0810110", 
-    "ui_field_name" : "use_sta", 
-    "rule_func_name" : "qry_source_rf_use_sta", 
-    "defaultVal" : "Y", 
-    "ds_from_sql" : "N"
-}
-{ 
     "_id" : ObjectId("58f7115fb51fc63a80ff061d"), 
     "prg_id" : "PMS0810110", 
     "ui_field_name" : "source_grp", 
@@ -137,10 +95,60 @@
     "ds_from_sql" : "Y"
 }
 { 
+    "_id" : ObjectId("58d88880aec99cfdc7e715c3"), 
+    "prg_id" : "PMS0810080", 
+    "ui_field_name" : "use_sta", 
+    "rule_func_name" : "getGuestgrprfUseStaList", 
+    "defaultVal" : "Y", 
+    "ds_from_sql" : "N"
+}
+{ 
     "_id" : ObjectId("58f7116cb51fc63a80ff061e"), 
     "prg_id" : "PMS0810110", 
     "ui_field_name" : "modify_sta", 
     "rule_func_name" : "", 
+    "defaultVal" : "Y", 
+    "ds_from_sql" : "N"
+}
+{ 
+    "_id" : ObjectId("58c4f3e0323a15276c3aa30e"), 
+    "prg_id" : "PMS0810020", 
+    "ui_field_name" : "free_cod", 
+    "rule_func_name" : "QRY_SERVICE_RF_FREE_COD", 
+    "defaultVal" : "", 
+    "ds_from_sql" : "Y", 
+    "ui_display_name" : "item_sna", 
+    "multi_lang_table" : "lang_service_rf", 
+    "multi_value_field" : "item_nos", 
+    "multi_display_field" : "item_sna"
+}
+{ 
+    "_id" : ObjectId("58c4f3e0323a15276c3aa30d"), 
+    "prg_id" : "PMS0810020", 
+    "ui_field_name" : "room_typ", 
+    "rule_func_name" : "qry_rvrmcod_rf_room_typ", 
+    "defaultVal" : "", 
+    "ds_from_sql" : "Y", 
+    "ui_display_name" : "room_nam", 
+    "multi_value_field" : ""
+}
+{ 
+    "_id" : ObjectId("58c4f3e0323a15276c3aa310"), 
+    "prg_id" : "PMS0810020", 
+    "ui_field_name" : "serv_cod", 
+    "rule_func_name" : "QRY_SERVICE_RF_SERV_COD", 
+    "defaultVal" : "", 
+    "ds_from_sql" : "Y", 
+    "ui_display_name" : "item_sna", 
+    "multi_lang_table" : "lang_service_rf", 
+    "multi_value_field" : "item_nos", 
+    "multi_display_field" : "item_sna"
+}
+{ 
+    "_id" : ObjectId("58f71184b51fc63a80ff0620"), 
+    "prg_id" : "PMS0810200", 
+    "ui_field_name" : "is_default", 
+    "rule_func_name" : "qry_hfd_todo_list_rf_Is_default", 
     "defaultVal" : "Y", 
     "ds_from_sql" : "N"
 }
@@ -153,11 +161,11 @@
     "ds_from_sql" : "N"
 }
 { 
-    "_id" : ObjectId("58f71184b51fc63a80ff0620"), 
-    "prg_id" : "PMS0810200", 
-    "ui_field_name" : "is_default", 
-    "rule_func_name" : "qry_hfd_todo_list_rf_Is_default", 
-    "defaultVal" : "Y", 
+    "_id" : ObjectId("590ae9cd65ff672008651a2c"), 
+    "prg_id" : "PMS0830060", 
+    "ui_field_name" : "bincome_sta", 
+    "rule_func_name" : "qry_hc_adjrmk_rf_bincome_sta", 
+    "defaultVal" : "N", 
     "ds_from_sql" : "N"
 }
 { 
@@ -179,14 +187,6 @@
     "defaultVal" : "0", 
     "ds_from_sql" : "", 
     "multi_lang_table" : ""
-}
-{ 
-    "_id" : ObjectId("590ae9cd65ff672008651a2c"), 
-    "prg_id" : "PMS0830060", 
-    "ui_field_name" : "bincome_sta", 
-    "rule_func_name" : "qry_hc_adjrmk_rf_bincome_sta", 
-    "defaultVal" : "N", 
-    "ds_from_sql" : "N"
 }
 { 
     "_id" : ObjectId("590ae9de65ff672008651a2d"), 
@@ -225,15 +225,6 @@
     "ds_from_sql" : "N"
 }
 { 
-    "_id" : ObjectId("591eae093911413e5c436940"), 
-    "prg_id" : "PMS0810060", 
-    "ui_field_name" : "contry_cod", 
-    "ui_display_name" : "contry_nam", 
-    "rule_func_name" : "qry_hfd_live_cod_rf_contry_cod", 
-    "defaultVal" : "", 
-    "ds_from_sql" : "Y"
-}
-{ 
     "_id" : ObjectId("5923f38a4cc7e705089b9767"), 
     "prg_id" : "PMS0860070", 
     "ui_field_name" : "default_sta", 
@@ -250,6 +241,15 @@
     "rule_func_name" : "qry_contact_rf_contact_typ", 
     "defaultVal" : "T", 
     "ds_from_sql" : "N"
+}
+{ 
+    "_id" : ObjectId("591eae093911413e5c436940"), 
+    "prg_id" : "PMS0810060", 
+    "ui_field_name" : "contry_cod", 
+    "ui_display_name" : "contry_nam", 
+    "rule_func_name" : "qry_hfd_live_cod_rf_contry_cod", 
+    "defaultVal" : "", 
+    "ds_from_sql" : "Y"
 }
 { 
     "_id" : ObjectId("5925472b4cc7e705089b978b"), 
@@ -297,68 +297,6 @@
     "ds_from_sql" : "N"
 }
 { 
-    "_id" : ObjectId("592568884cc7e705089b97aa"), 
-    "prg_id" : "PMS0810030", 
-    "ui_field_name" : "hq_cod", 
-    "ui_display_name" : "contry_nam", 
-    "rule_func_name" : "qry_cntry_rf_hq_cod", 
-    "defaultVal" : "", 
-    "ds_from_sql" : "Y"
-}
-{ 
-    "_id" : ObjectId("5925ae07f560481d404bc57f"), 
-    "prg_id" : "PMS0820010", 
-    "ui_field_name" : "sys_default", 
-    "ui_display_name" : "", 
-    "rule_func_name" : "qryCharacterrfSysdefault", 
-    "defaultVal" : "N", 
-    "ds_from_sql" : "N"
-}
-{ 
-    "_id" : ObjectId("5931366d6e646b21a86afa5c"), 
-    "prg_id" : "PMS0810150", 
-    "page_id" : NumberInt(2), 
-    "template_id" : "gridsingle", 
-    "ui_field_name" : "view_seq", 
-    "rule_func_name" : "", 
-    "defaultVal" : "0", 
-    "ds_from_sql" : "N", 
-    "ui_display_name" : ""
-}
-{ 
-    "_id" : ObjectId("593136ab6e646b21a86afa5d"), 
-    "prg_id" : "PMS0810150", 
-    "page_id" : NumberInt(2), 
-    "template_id" : "gridsingle", 
-    "ui_field_name" : "dp_req", 
-    "rule_func_name" : "qryGuarenteerfDpreq", 
-    "defaultVal" : "N", 
-    "ds_from_sql" : "N", 
-    "ui_display_name" : ""
-}
-{ 
-    "_id" : ObjectId("593136da6e646b21a86afa5e"), 
-    "prg_id" : "PMS0810150", 
-    "ui_field_name" : "cc_req", 
-    "rule_func_name" : "qryGuarenteerfDpreq", 
-    "defaultVal" : "N", 
-    "ds_from_sql" : "N", 
-    "ui_display_name" : "", 
-    "page_id" : NumberInt(2), 
-    "template_id" : "gridsingle"
-}
-{ 
-    "_id" : ObjectId("593136f16e646b21a86afa5f"), 
-    "prg_id" : "PMS0810150", 
-    "ui_field_name" : "use_sta", 
-    "rule_func_name" : "qryGuarenteerfUsesta", 
-    "defaultVal" : "Y", 
-    "ds_from_sql" : "N", 
-    "ui_display_name" : "", 
-    "page_id" : NumberInt(2), 
-    "template_id" : "gridsingle"
-}
-{ 
     "_id" : ObjectId("593221896e646b21a86afa87"), 
     "prg_id" : "PMS0810180", 
     "ui_field_name" : "agent_no", 
@@ -366,15 +304,6 @@
     "defaultVal" : "", 
     "ds_from_sql" : "Y", 
     "ui_display_name" : "code_nam"
-}
-{ 
-    "_id" : ObjectId("593221a56e646b21a86afa88"), 
-    "prg_id" : "PMS0810180", 
-    "ui_field_name" : "default_source_typ", 
-    "rule_func_name" : "qry_gw_cust_rf_default_source_typ", 
-    "defaultVal" : "", 
-    "ds_from_sql" : "Y", 
-    "ui_display_name" : "source_nam"
 }
 { 
     "_id" : ObjectId("593221bd6e646b21a86afa89"), 
@@ -417,17 +346,24 @@
     "ds_from_sql" : ""
 }
 { 
-    "_id" : ObjectId("5942092cd199903ddcd88317"), 
-    "prg_id" : "PMS0810190", 
-    "tab_page_id" : NumberInt(1), 
-    "ui_field_name" : "use_cod", 
-    "ui_display_name" : "use_nam", 
-    "rule_func_name" : "QRY_HFD_ORDER_CONFIRM_RF_USE_COD", 
-    "defaultVal" : "", 
-    "ds_from_sql" : "Y", 
-    "multi_lang_table" : "", 
-    "multi_value_field" : "", 
-    "multi_display_field" : ""
+    "_id" : ObjectId("593136f16e646b21a86afa5f"), 
+    "prg_id" : "PMS0810150", 
+    "ui_field_name" : "use_sta", 
+    "rule_func_name" : "qryGuarenteerfUsesta", 
+    "defaultVal" : "Y", 
+    "ds_from_sql" : "N", 
+    "ui_display_name" : "", 
+    "page_id" : NumberInt(2), 
+    "template_id" : "gridsingle"
+}
+{ 
+    "_id" : ObjectId("5925ae07f560481d404bc57f"), 
+    "prg_id" : "PMS0820010", 
+    "ui_field_name" : "sys_default", 
+    "ui_display_name" : "", 
+    "rule_func_name" : "qryCharacterrfSysdefault", 
+    "defaultVal" : "N", 
+    "ds_from_sql" : "N"
 }
 { 
     "_id" : ObjectId("594a373e4a8b672498df605c"), 
@@ -439,13 +375,17 @@
     "ds_from_sql" : "N"
 }
 { 
-    "_id" : ObjectId("594cb16e4a8b672498df605f"), 
-    "prg_id" : "PMS0810030", 
-    "ui_field_name" : "state_cod", 
-    "ui_display_name" : "state_nam", 
-    "rule_func_name" : "qry_cntry_rf_state_cod", 
+    "_id" : ObjectId("5942092cd199903ddcd88317"), 
+    "prg_id" : "PMS0810190", 
+    "tab_page_id" : NumberInt(1), 
+    "ui_field_name" : "use_cod", 
+    "ui_display_name" : "use_nam", 
+    "rule_func_name" : "QRY_HFD_ORDER_CONFIRM_RF_USE_COD", 
     "defaultVal" : "", 
-    "ds_from_sql" : "Y"
+    "ds_from_sql" : "Y", 
+    "multi_lang_table" : "", 
+    "multi_value_field" : "", 
+    "multi_display_field" : ""
 }
 { 
     "_id" : ObjectId("594cb17c4a8b672498df6060"), 
@@ -466,23 +406,44 @@
     "ds_from_sql" : "Y"
 }
 { 
-    "_id" : ObjectId("596c33c71ce4521c686b38ea"), 
-    "prg_id" : "PMS0840010", 
-    "ui_field_name" : "item_nos", 
-    "ui_display_name" : "item_sna", 
-    "rule_func_name" : "GET_HKMTYPE_RF_ITEM_NOS", 
+    "_id" : ObjectId("594cb16e4a8b672498df605f"), 
+    "prg_id" : "PMS0810030", 
+    "ui_field_name" : "state_cod", 
+    "ui_display_name" : "state_nam", 
+    "rule_func_name" : "qry_cntry_rf_state_cod", 
     "defaultVal" : "", 
-    "ds_from_sql" : "Y", 
+    "ds_from_sql" : "Y"
+}
+{ 
+    "_id" : ObjectId("593136ab6e646b21a86afa5d"), 
+    "prg_id" : "PMS0810150", 
+    "page_id" : NumberInt(2), 
+    "template_id" : "gridsingle", 
+    "ui_field_name" : "dp_req", 
+    "rule_func_name" : "qryGuarenteerfDpreq", 
+    "defaultVal" : "N", 
+    "ds_from_sql" : "N", 
+    "ui_display_name" : ""
+}
+{ 
+    "_id" : ObjectId("596dc2931ce45229ec046745"), 
+    "prg_id" : "PMS0820050", 
+    "tab_page_id" : NumberInt(1), 
+    "ui_field_name" : "action_cod", 
+    "ui_display_name" : "", 
+    "rule_func_name" : "", 
+    "defaultVal" : "add", 
+    "ds_from_sql" : "", 
     "multi_lang_table" : "", 
     "multi_value_field" : "", 
     "multi_display_field" : ""
 }
 { 
-    "_id" : ObjectId("596c33c71ce4521c686b38eb"), 
+    "_id" : ObjectId("596c33c71ce4521c686b38ea"), 
     "prg_id" : "PMS0840010", 
-    "ui_field_name" : "serv_nos", 
+    "ui_field_name" : "item_nos", 
     "ui_display_name" : "item_sna", 
-    "rule_func_name" : "GET_HKMTYPE_RF_SERV_NOS", 
+    "rule_func_name" : "GET_HKMTYPE_RF_ITEM_NOS", 
     "defaultVal" : "", 
     "ds_from_sql" : "Y", 
     "multi_lang_table" : "", 
@@ -503,19 +464,6 @@
     "multi_display_field" : ""
 }
 { 
-    "_id" : ObjectId("596dc2931ce45229ec046745"), 
-    "prg_id" : "PMS0820050", 
-    "tab_page_id" : NumberInt(1), 
-    "ui_field_name" : "action_cod", 
-    "ui_display_name" : "", 
-    "rule_func_name" : "", 
-    "defaultVal" : "add", 
-    "ds_from_sql" : "", 
-    "multi_lang_table" : "", 
-    "multi_value_field" : "", 
-    "multi_display_field" : ""
-}
-{ 
     "_id" : ObjectId("596dc2931ce45229ec046746"), 
     "prg_id" : "PMS0820050", 
     "tab_page_id" : NumberInt(1), 
@@ -529,25 +477,11 @@
     "multi_display_field" : ""
 }
 { 
-    "_id" : ObjectId("596dc2931ce45229ec046747"), 
-    "prg_id" : "PMS0820050", 
-    "tab_page_id" : NumberInt(1), 
-    "ui_field_name" : "co_notice", 
-    "ui_display_name" : "", 
-    "rule_func_name" : "qryHfdusedtConotice", 
-    "defaultVal" : "N", 
-    "ds_from_sql" : "N", 
-    "multi_lang_table" : "", 
-    "multi_value_field" : "", 
-    "multi_display_field" : ""
-}
-{ 
-    "_id" : ObjectId("596dc2931ce45229ec046748"), 
-    "prg_id" : "PMS0820050", 
-    "tab_page_id" : NumberInt(1), 
-    "ui_field_name" : "item_cod", 
-    "ui_display_name" : "item_nam", 
-    "rule_func_name" : "QRY_HFD_USE_DT_ITEM_COD", 
+    "_id" : ObjectId("596c33c71ce4521c686b38eb"), 
+    "prg_id" : "PMS0840010", 
+    "ui_field_name" : "serv_nos", 
+    "ui_display_name" : "item_sna", 
+    "rule_func_name" : "GET_HKMTYPE_RF_SERV_NOS", 
     "defaultVal" : "", 
     "ds_from_sql" : "Y", 
     "multi_lang_table" : "", 
@@ -555,12 +489,42 @@
     "multi_display_field" : ""
 }
 { 
-    "_id" : ObjectId("596dc2931ce45229ec046749"), 
-    "prg_id" : "PMS0820050", 
-    "tab_page_id" : NumberInt(1), 
-    "ui_field_name" : "is_visiable", 
+    "_id" : ObjectId("593221a56e646b21a86afa88"), 
+    "prg_id" : "PMS0810180", 
+    "ui_field_name" : "default_source_typ", 
+    "rule_func_name" : "qry_gw_cust_rf_default_source_typ", 
+    "defaultVal" : "", 
+    "ds_from_sql" : "Y", 
+    "ui_display_name" : "source_nam"
+}
+{ 
+    "_id" : ObjectId("5931366d6e646b21a86afa5c"), 
+    "prg_id" : "PMS0810150", 
+    "page_id" : NumberInt(2), 
+    "template_id" : "gridsingle", 
+    "ui_field_name" : "view_seq", 
+    "rule_func_name" : "", 
+    "defaultVal" : "0", 
+    "ds_from_sql" : "N", 
+    "ui_display_name" : ""
+}
+{ 
+    "_id" : ObjectId("593136da6e646b21a86afa5e"), 
+    "prg_id" : "PMS0810150", 
+    "ui_field_name" : "cc_req", 
+    "rule_func_name" : "qryGuarenteerfDpreq", 
+    "defaultVal" : "N", 
+    "ds_from_sql" : "N", 
     "ui_display_name" : "", 
-    "rule_func_name" : "qryHfdusedtIsvisiable", 
+    "page_id" : NumberInt(2), 
+    "template_id" : "gridsingle"
+}
+{ 
+    "_id" : ObjectId("596ec670d199900da00c71eb"), 
+    "prg_id" : "PMS0820030", 
+    "ui_field_name" : "pro_typ", 
+    "ui_display_name" : "", 
+    "rule_func_name" : "getHfdroomcolorrfProtyp", 
     "defaultVal" : "", 
     "ds_from_sql" : "N", 
     "multi_lang_table" : "", 
@@ -576,18 +540,6 @@
     "rule_func_name" : "", 
     "defaultVal" : "", 
     "ds_from_sql" : "", 
-    "multi_lang_table" : "", 
-    "multi_value_field" : "", 
-    "multi_display_field" : ""
-}
-{ 
-    "_id" : ObjectId("596ec670d199900da00c71eb"), 
-    "prg_id" : "PMS0820030", 
-    "ui_field_name" : "pro_typ", 
-    "ui_display_name" : "", 
-    "rule_func_name" : "getHfdroomcolorrfProtyp", 
-    "defaultVal" : "", 
-    "ds_from_sql" : "N", 
     "multi_lang_table" : "", 
     "multi_value_field" : "", 
     "multi_display_field" : ""
@@ -641,11 +593,12 @@
     "multi_display_field" : ""
 }
 { 
-    "_id" : ObjectId("5977690ed7826628c0a3ca63"), 
-    "prg_id" : "PMS0830090", 
-    "ui_field_name" : "master_sta", 
+    "_id" : ObjectId("596dc2931ce45229ec046749"), 
+    "prg_id" : "PMS0820050", 
+    "tab_page_id" : NumberInt(1), 
+    "ui_field_name" : "is_visiable", 
     "ui_display_name" : "", 
-    "rule_func_name" : "qryMasterrfMastersta", 
+    "rule_func_name" : "qryHfdusedtIsvisiable", 
     "defaultVal" : "", 
     "ds_from_sql" : "N", 
     "multi_lang_table" : "", 
@@ -665,6 +618,18 @@
     "multi_display_field" : ""
 }
 { 
+    "_id" : ObjectId("5977ea98d7826628c0a3ca93"), 
+    "prg_id" : "PMS0840030", 
+    "ui_field_name" : "middle_typ", 
+    "ui_display_name" : "typ_nam", 
+    "rule_func_name" : "qry_Hkproduct_rf_Middle_typ", 
+    "defaultVal" : "", 
+    "ds_from_sql" : "Y", 
+    "multi_lang_table" : "", 
+    "multi_value_field" : "", 
+    "multi_display_field" : ""
+}
+{ 
     "_id" : ObjectId("5977690ed7826628c0a3ca65"), 
     "prg_id" : "PMS0830092", 
     "ui_field_name" : "show_cod", 
@@ -677,13 +642,34 @@
     "multi_display_field" : ""
 }
 { 
-    "_id" : ObjectId("5977ea98d7826628c0a3ca93"), 
-    "prg_id" : "PMS0840030", 
-    "ui_field_name" : "middle_typ", 
-    "ui_display_name" : "typ_nam", 
-    "rule_func_name" : "qry_Hkproduct_rf_Middle_typ", 
+    "_id" : ObjectId("5977690ed7826628c0a3ca63"), 
+    "prg_id" : "PMS0830090", 
+    "ui_field_name" : "master_sta", 
+    "ui_display_name" : "", 
+    "rule_func_name" : "qryMasterrfMastersta", 
     "defaultVal" : "", 
-    "ds_from_sql" : "Y", 
+    "ds_from_sql" : "N", 
+    "multi_lang_table" : "", 
+    "multi_value_field" : "", 
+    "multi_display_field" : ""
+}
+{ 
+    "_id" : ObjectId("592568884cc7e705089b97aa"), 
+    "prg_id" : "PMS0810030", 
+    "ui_field_name" : "hq_cod", 
+    "ui_display_name" : "contry_nam", 
+    "rule_func_name" : "qry_cntry_rf_hq_cod", 
+    "defaultVal" : "", 
+    "ds_from_sql" : "Y"
+}
+{ 
+    "_id" : ObjectId("5977ea99d7826628c0a3ca95"), 
+    "prg_id" : "PMS0840030", 
+    "ui_field_name" : "amodify_sta", 
+    "ui_display_name" : "", 
+    "rule_func_name" : "qryHkproductrfAmodifysta", 
+    "defaultVal" : "Y", 
+    "ds_from_sql" : "N", 
     "multi_lang_table" : "", 
     "multi_value_field" : "", 
     "multi_display_field" : ""
@@ -701,36 +687,12 @@
     "multi_display_field" : ""
 }
 { 
-    "_id" : ObjectId("5977ea99d7826628c0a3ca95"), 
-    "prg_id" : "PMS0840030", 
-    "ui_field_name" : "amodify_sta", 
-    "ui_display_name" : "", 
-    "rule_func_name" : "qryHkproductrfAmodifysta", 
-    "defaultVal" : "Y", 
-    "ds_from_sql" : "N", 
-    "multi_lang_table" : "", 
-    "multi_value_field" : "", 
-    "multi_display_field" : ""
-}
-{ 
     "_id" : ObjectId("5977ea99d7826628c0a3ca96"), 
     "prg_id" : "PMS0840030", 
     "ui_field_name" : "inv_sta", 
     "ui_display_name" : "", 
     "rule_func_name" : "qryHkproductrfInvsta", 
     "defaultVal" : "N", 
-    "ds_from_sql" : "N", 
-    "multi_lang_table" : "", 
-    "multi_value_field" : "", 
-    "multi_display_field" : ""
-}
-{ 
-    "_id" : ObjectId("5977ea99d7826628c0a3ca97"), 
-    "prg_id" : "PMS0840030", 
-    "ui_field_name" : "service_sta", 
-    "ui_display_name" : "", 
-    "rule_func_name" : "qryHkproductrfServicesta", 
-    "defaultVal" : "Y", 
     "ds_from_sql" : "N", 
     "multi_lang_table" : "", 
     "multi_value_field" : "", 
@@ -749,11 +711,24 @@
     "multi_display_field" : ""
 }
 { 
-    "_id" : ObjectId("5977ea99d7826628c0a3ca99"), 
+    "_id" : ObjectId("5977ea99d7826628c0a3ca97"), 
     "prg_id" : "PMS0840030", 
-    "ui_field_name" : "goods_cod", 
-    "ui_display_name" : "goods_rmk", 
-    "rule_func_name" : "QRY_HKPRODUCT_RF_GOODS_COD", 
+    "ui_field_name" : "service_sta", 
+    "ui_display_name" : "", 
+    "rule_func_name" : "qryHkproductrfServicesta", 
+    "defaultVal" : "Y", 
+    "ds_from_sql" : "N", 
+    "multi_lang_table" : "", 
+    "multi_value_field" : "", 
+    "multi_display_field" : ""
+}
+{ 
+    "_id" : ObjectId("596dc2931ce45229ec046748"), 
+    "prg_id" : "PMS0820050", 
+    "tab_page_id" : NumberInt(1), 
+    "ui_field_name" : "item_cod", 
+    "ui_display_name" : "item_nam", 
+    "rule_func_name" : "QRY_HFD_USE_DT_ITEM_COD", 
     "defaultVal" : "", 
     "ds_from_sql" : "Y", 
     "multi_lang_table" : "", 
@@ -773,13 +748,25 @@
     "multi_display_field" : ""
 }
 { 
-    "_id" : ObjectId("5977ea99d7826628c0a3ca9b"), 
+    "_id" : ObjectId("5977ea99d7826628c0a3ca99"), 
     "prg_id" : "PMS0840030", 
-    "ui_field_name" : "serv_nos", 
-    "ui_display_name" : "item_sna", 
-    "rule_func_name" : "QRY_HKPRODUCT_RF_SERV_NOS", 
+    "ui_field_name" : "goods_cod", 
+    "ui_display_name" : "goods_rmk", 
+    "rule_func_name" : "QRY_HKPRODUCT_RF_GOODS_COD", 
     "defaultVal" : "", 
     "ds_from_sql" : "Y", 
+    "multi_lang_table" : "", 
+    "multi_value_field" : "", 
+    "multi_display_field" : ""
+}
+{ 
+    "_id" : ObjectId("5977ea99d7826628c0a3ca9f"), 
+    "prg_id" : "PMS0840030", 
+    "ui_field_name" : "opencode_sta", 
+    "ui_display_name" : "", 
+    "rule_func_name" : "", 
+    "defaultVal" : "N", 
+    "ds_from_sql" : "", 
     "multi_lang_table" : "", 
     "multi_value_field" : "", 
     "multi_display_field" : ""
@@ -792,6 +779,18 @@
     "rule_func_name" : "", 
     "defaultVal" : "0", 
     "ds_from_sql" : "", 
+    "multi_lang_table" : "", 
+    "multi_value_field" : "", 
+    "multi_display_field" : ""
+}
+{ 
+    "_id" : ObjectId("5977ea99d7826628c0a3ca9b"), 
+    "prg_id" : "PMS0840030", 
+    "ui_field_name" : "serv_nos", 
+    "ui_display_name" : "item_sna", 
+    "rule_func_name" : "QRY_HKPRODUCT_RF_SERV_NOS", 
+    "defaultVal" : "", 
+    "ds_from_sql" : "Y", 
     "multi_lang_table" : "", 
     "multi_value_field" : "", 
     "multi_display_field" : ""
@@ -821,42 +820,13 @@
     "multi_display_field" : ""
 }
 { 
-    "_id" : ObjectId("5977ea99d7826628c0a3ca9f"), 
-    "prg_id" : "PMS0840030", 
-    "ui_field_name" : "opencode_sta", 
+    "_id" : ObjectId("596dc2931ce45229ec046747"), 
+    "prg_id" : "PMS0820050", 
+    "tab_page_id" : NumberInt(1), 
+    "ui_field_name" : "co_notice", 
     "ui_display_name" : "", 
-    "rule_func_name" : "", 
+    "rule_func_name" : "qryHfdusedtConotice", 
     "defaultVal" : "N", 
-    "ds_from_sql" : "", 
-    "multi_lang_table" : "", 
-    "multi_value_field" : "", 
-    "multi_display_field" : ""
-}
-{ 
-    "_id" : ObjectId("59786b181ce45221e87fd746"), 
-    "prg_id" : "PMS0830010", 
-    "page_id" : NumberInt(1), 
-    "tab_page_id" : NumberInt(1), 
-    "template_id" : "datagrid", 
-    "ui_field_name" : "cashier_cod", 
-    "ui_display_name" : "usr_cname", 
-    "rule_func_name" : "QRY_CASHIER_RF_CASHIER_COD", 
-    "defaultVal" : "", 
-    "ds_from_sql" : "Y", 
-    "multi_lang_table" : "", 
-    "multi_value_field" : "", 
-    "multi_display_field" : ""
-}
-{ 
-    "_id" : ObjectId("59786b181ce45221e87fd747"), 
-    "prg_id" : "PMS0830010", 
-    "page_id" : NumberInt(2), 
-    "tab_page_id" : NumberInt(1), 
-    "template_id" : "gridsingle", 
-    "ui_field_name" : "use_sta", 
-    "ui_display_name" : "", 
-    "rule_func_name" : "qryCashierrfUsesta", 
-    "defaultVal" : "", 
     "ds_from_sql" : "N", 
     "multi_lang_table" : "", 
     "multi_value_field" : "", 
@@ -889,6 +859,21 @@
     "multi_display_field" : ""
 }
 { 
+    "_id" : ObjectId("59786b181ce45221e87fd746"), 
+    "prg_id" : "PMS0830010", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "cashier_cod", 
+    "ui_display_name" : "usr_cname", 
+    "rule_func_name" : "QRY_CASHIER_RF_CASHIER_COD", 
+    "defaultVal" : "", 
+    "ds_from_sql" : "Y", 
+    "multi_lang_table" : "", 
+    "multi_value_field" : "", 
+    "multi_display_field" : ""
+}
+{ 
     "_id" : ObjectId("598168a630731c1b48ace83f"), 
     "prg_id" : "PMS0830100", 
     "tab_page_id" : NumberInt(1), 
@@ -902,14 +887,16 @@
     "multi_display_field" : ""
 }
 { 
-    "_id" : ObjectId("598168a630731c1b48ace840"), 
-    "prg_id" : "PMS0830100", 
+    "_id" : ObjectId("59786b181ce45221e87fd747"), 
+    "prg_id" : "PMS0830010", 
+    "page_id" : NumberInt(2), 
     "tab_page_id" : NumberInt(1), 
-    "ui_field_name" : "day_sta", 
-    "ui_display_name" : "day_nam", 
-    "rule_func_name" : "QRY_HFD_REST_DT_DAYSTA", 
+    "template_id" : "gridsingle", 
+    "ui_field_name" : "use_sta", 
+    "ui_display_name" : "", 
+    "rule_func_name" : "qryCashierrfUsesta", 
     "defaultVal" : "", 
-    "ds_from_sql" : "Y", 
+    "ds_from_sql" : "N", 
     "multi_lang_table" : "", 
     "multi_value_field" : "", 
     "multi_display_field" : ""
@@ -937,19 +924,17 @@
     "multi_display_field" : ""
 }
 { 
-    "_id" : ObjectId("598bca11726c3e34cca32581"), 
-    "prg_id" : "PMS0830010", 
+    "_id" : ObjectId("598168a630731c1b48ace840"), 
+    "prg_id" : "PMS0830100", 
     "tab_page_id" : NumberInt(1), 
-    "template_id" : "gridsingle", 
-    "ui_field_name" : "cashier_cod", 
-    "ui_display_name" : "usr_cname", 
-    "rule_func_name" : "chkCashierrfCashiercod", 
+    "ui_field_name" : "day_sta", 
+    "ui_display_name" : "day_nam", 
+    "rule_func_name" : "QRY_HFD_REST_DT_DAYSTA", 
     "defaultVal" : "", 
-    "ds_from_sql" : "N", 
+    "ds_from_sql" : "Y", 
     "multi_lang_table" : "", 
     "multi_value_field" : "", 
-    "multi_display_field" : "", 
-    "page_id" : NumberInt(2)
+    "multi_display_field" : ""
 }
 { 
     "_id" : ObjectId("59ab7938c226546d1da495a9"), 
@@ -964,6 +949,21 @@
     "multi_lang_table" : "", 
     "multi_value_field" : "", 
     "multi_display_field" : ""
+}
+{ 
+    "_id" : ObjectId("598bca11726c3e34cca32581"), 
+    "prg_id" : "PMS0830010", 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "ui_field_name" : "cashier_cod", 
+    "ui_display_name" : "usr_cname", 
+    "rule_func_name" : "chkCashierrfCashiercod", 
+    "defaultVal" : "", 
+    "ds_from_sql" : "N", 
+    "multi_lang_table" : "", 
+    "multi_value_field" : "", 
+    "multi_display_field" : "", 
+    "page_id" : NumberInt(2)
 }
 { 
     "_id" : ObjectId("59ab7938c226546d1da495aa"), 
@@ -994,20 +994,6 @@
     "multi_display_field" : ""
 }
 { 
-    "_id" : ObjectId("59ab7938c226546d1da495ac"), 
-    "prg_id" : "PMS0810050", 
-    "page_id" : NumberInt(1), 
-    "tab_page_id" : NumberInt(1), 
-    "ui_field_name" : "day4", 
-    "ui_display_name" : "", 
-    "rule_func_name" : "qryHfdarriverfday", 
-    "defaultVal" : "N", 
-    "ds_from_sql" : "N", 
-    "multi_lang_table" : "", 
-    "multi_value_field" : "", 
-    "multi_display_field" : ""
-}
-{ 
     "_id" : ObjectId("59ab7938c226546d1da495ad"), 
     "prg_id" : "PMS0810050", 
     "page_id" : NumberInt(1), 
@@ -1022,25 +1008,11 @@
     "multi_display_field" : ""
 }
 { 
-    "_id" : ObjectId("59ab7938c226546d1da495ae"), 
+    "_id" : ObjectId("59ab7938c226546d1da495ac"), 
     "prg_id" : "PMS0810050", 
     "page_id" : NumberInt(1), 
     "tab_page_id" : NumberInt(1), 
-    "ui_field_name" : "day6", 
-    "ui_display_name" : "", 
-    "rule_func_name" : "qryHfdarriverfday", 
-    "defaultVal" : "N", 
-    "ds_from_sql" : "N", 
-    "multi_lang_table" : "", 
-    "multi_value_field" : "", 
-    "multi_display_field" : ""
-}
-{ 
-    "_id" : ObjectId("59ab7938c226546d1da495af"), 
-    "prg_id" : "PMS0810050", 
-    "page_id" : NumberInt(1), 
-    "tab_page_id" : NumberInt(1), 
-    "ui_field_name" : "day7", 
+    "ui_field_name" : "day4", 
     "ui_display_name" : "", 
     "rule_func_name" : "qryHfdarriverfday", 
     "defaultVal" : "N", 
@@ -1055,6 +1027,20 @@
     "page_id" : NumberInt(1), 
     "tab_page_id" : NumberInt(2), 
     "ui_field_name" : "day1", 
+    "ui_display_name" : "", 
+    "rule_func_name" : "qryHfdarriverfday", 
+    "defaultVal" : "N", 
+    "ds_from_sql" : "N", 
+    "multi_lang_table" : "", 
+    "multi_value_field" : "", 
+    "multi_display_field" : ""
+}
+{ 
+    "_id" : ObjectId("59ab7938c226546d1da495af"), 
+    "prg_id" : "PMS0810050", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "ui_field_name" : "day7", 
     "ui_display_name" : "", 
     "rule_func_name" : "qryHfdarriverfday", 
     "defaultVal" : "N", 
@@ -1106,20 +1092,6 @@
     "multi_display_field" : ""
 }
 { 
-    "_id" : ObjectId("59ab7938c226546d1da495b4"), 
-    "prg_id" : "PMS0810050", 
-    "page_id" : NumberInt(1), 
-    "tab_page_id" : NumberInt(2), 
-    "ui_field_name" : "day5", 
-    "ui_display_name" : "", 
-    "rule_func_name" : "qryHfdarriverfday", 
-    "defaultVal" : "N", 
-    "ds_from_sql" : "N", 
-    "multi_lang_table" : "", 
-    "multi_value_field" : "", 
-    "multi_display_field" : ""
-}
-{ 
     "_id" : ObjectId("59ab7938c226546d1da495b5"), 
     "prg_id" : "PMS0810050", 
     "page_id" : NumberInt(1), 
@@ -1161,12 +1133,79 @@
     "multi_display_field" : ""
 }
 { 
+    "_id" : ObjectId("59ab7938c226546d1da495ae"), 
+    "prg_id" : "PMS0810050", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "ui_field_name" : "day6", 
+    "ui_display_name" : "", 
+    "rule_func_name" : "qryHfdarriverfday", 
+    "defaultVal" : "N", 
+    "ds_from_sql" : "N", 
+    "multi_lang_table" : "", 
+    "multi_value_field" : "", 
+    "multi_display_field" : ""
+}
+{ 
     "_id" : ObjectId("59b7362f896f2f05205811bb"), 
     "prg_id" : "PMS0820020", 
     "tab_page_id" : "1", 
     "ui_field_name" : "assign_sta", 
     "ui_display_name" : "", 
     "rule_func_name" : "qryRoommnAssignsta", 
+    "defaultVal" : "N", 
+    "ds_from_sql" : "N", 
+    "multi_lang_table" : "", 
+    "multi_value_field" : "", 
+    "multi_display_field" : ""
+}
+{ 
+    "_id" : ObjectId("59b7362f896f2f05205811bf"), 
+    "prg_id" : "PMS0820020", 
+    "tab_page_id" : "1", 
+    "ui_field_name" : "clean_cod", 
+    "ui_display_name" : "pers_nam", 
+    "rule_func_name" : "qry_Room_mn_Clean_cod", 
+    "defaultVal" : "", 
+    "ds_from_sql" : "Y", 
+    "multi_lang_table" : "", 
+    "multi_value_field" : "", 
+    "multi_display_field" : ""
+}
+{ 
+    "_id" : ObjectId("59b7362f896f2f05205811c0"), 
+    "prg_id" : "PMS0820020", 
+    "tab_page_id" : "1", 
+    "ui_field_name" : "character_rmk", 
+    "ui_display_name" : "character_nam", 
+    "rule_func_name" : "qry_Room_mn_Character_rmk", 
+    "defaultVal" : "", 
+    "ds_from_sql" : "Y", 
+    "multi_lang_table" : "", 
+    "multi_value_field" : "", 
+    "multi_display_field" : ""
+}
+{ 
+    "_id" : ObjectId("59b7362f896f2f05205811be"), 
+    "prg_id" : "PMS0820020", 
+    "tab_page_id" : "1", 
+    "ui_field_name" : "room_cod", 
+    "ui_display_name" : "", 
+    "rule_func_name" : "qry_Room_mn_Room_cod", 
+    "defaultVal" : "", 
+    "ds_from_sql" : "Y", 
+    "multi_lang_table" : "", 
+    "multi_value_field" : "", 
+    "multi_display_field" : ""
+}
+{ 
+    "_id" : ObjectId("59ab7938c226546d1da495b4"), 
+    "prg_id" : "PMS0810050", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(2), 
+    "ui_field_name" : "day5", 
+    "ui_display_name" : "", 
+    "rule_func_name" : "qryHfdarriverfday", 
     "defaultVal" : "N", 
     "ds_from_sql" : "N", 
     "multi_lang_table" : "", 
@@ -1200,45 +1239,6 @@
     "multi_display_field" : ""
 }
 { 
-    "_id" : ObjectId("59b7362f896f2f05205811be"), 
-    "prg_id" : "PMS0820020", 
-    "tab_page_id" : "1", 
-    "ui_field_name" : "room_cod", 
-    "ui_display_name" : "", 
-    "rule_func_name" : "qry_Room_mn_Room_cod", 
-    "defaultVal" : "", 
-    "ds_from_sql" : "Y", 
-    "multi_lang_table" : "", 
-    "multi_value_field" : "", 
-    "multi_display_field" : ""
-}
-{ 
-    "_id" : ObjectId("59b7362f896f2f05205811bf"), 
-    "prg_id" : "PMS0820020", 
-    "tab_page_id" : "1", 
-    "ui_field_name" : "clean_cod", 
-    "ui_display_name" : "pers_nam", 
-    "rule_func_name" : "qry_Room_mn_Clean_cod", 
-    "defaultVal" : "", 
-    "ds_from_sql" : "Y", 
-    "multi_lang_table" : "", 
-    "multi_value_field" : "", 
-    "multi_display_field" : ""
-}
-{ 
-    "_id" : ObjectId("59b7362f896f2f05205811c0"), 
-    "prg_id" : "PMS0820020", 
-    "tab_page_id" : "1", 
-    "ui_field_name" : "character_rmk", 
-    "ui_display_name" : "character_nam", 
-    "rule_func_name" : "qry_Room_mn_Character_rmk", 
-    "defaultVal" : "", 
-    "ds_from_sql" : "Y", 
-    "multi_lang_table" : "", 
-    "multi_value_field" : "", 
-    "multi_display_field" : ""
-}
-{ 
     "_id" : ObjectId("59b7362f896f2f05205811c1"), 
     "prg_id" : "PMS0820020", 
     "tab_page_id" : "1", 
@@ -1247,19 +1247,6 @@
     "rule_func_name" : "", 
     "defaultVal" : "99999", 
     "ds_from_sql" : "N", 
-    "multi_lang_table" : "", 
-    "multi_value_field" : "", 
-    "multi_display_field" : ""
-}
-{ 
-    "_id" : ObjectId("59b7362f896f2f05205811c2"), 
-    "prg_id" : "PMS0820020", 
-    "tab_page_id" : "查詢", 
-    "ui_field_name" : "build_nos", 
-    "ui_display_name" : "", 
-    "rule_func_name" : "qry_Room_mn_Qry_Build_nos", 
-    "defaultVal" : "", 
-    "ds_from_sql" : "Y", 
     "multi_lang_table" : "", 
     "multi_value_field" : "", 
     "multi_display_field" : ""
@@ -1291,21 +1278,6 @@
     "multi_display_field" : ""
 }
 { 
-    "_id" : ObjectId("59c349dd726c3e155c862e11"), 
-    "prg_id" : "PMS0830010", 
-    "page_id" : NumberInt(3), 
-    "tab_page_id" : NumberInt(1), 
-    "template_id" : "gridsingle", 
-    "ui_field_name" : "use_sta", 
-    "ui_display_name" : "", 
-    "rule_func_name" : "qryCashierrfUsestaSelect", 
-    "defaultVal" : "Y", 
-    "ds_from_sql" : "N", 
-    "multi_lang_table" : "", 
-    "multi_value_field" : "", 
-    "multi_display_field" : ""
-}
-{ 
     "_id" : ObjectId("59c4cde507bdfc3508c0234b"), 
     "prg_id" : "PMS0820020", 
     "tab_page_id" : "1", 
@@ -1314,6 +1286,19 @@
     "rule_func_name" : "", 
     "defaultVal" : "0", 
     "ds_from_sql" : "N", 
+    "multi_lang_table" : "", 
+    "multi_value_field" : "", 
+    "multi_display_field" : ""
+}
+{ 
+    "_id" : ObjectId("59b7362f896f2f05205811c2"), 
+    "prg_id" : "PMS0820020", 
+    "tab_page_id" : "查詢", 
+    "ui_field_name" : "build_nos", 
+    "ui_display_name" : "", 
+    "rule_func_name" : "qry_Room_mn_Qry_Build_nos", 
+    "defaultVal" : "", 
+    "ds_from_sql" : "Y", 
     "multi_lang_table" : "", 
     "multi_value_field" : "", 
     "multi_display_field" : ""
@@ -1345,13 +1330,16 @@
     "multi_display_field" : ""
 }
 { 
-    "_id" : ObjectId("59c8a7020da0d29e24ea8cbd"), 
-    "prg_id" : "PMS0830090", 
-    "ui_field_name" : "deposit_nos", 
+    "_id" : ObjectId("59c349dd726c3e155c862e11"), 
+    "prg_id" : "PMS0830010", 
+    "page_id" : NumberInt(3), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "ui_field_name" : "use_sta", 
     "ui_display_name" : "", 
-    "rule_func_name" : "qryDepositnosSelect", 
-    "defaultVal" : "", 
-    "ds_from_sql" : "Y", 
+    "rule_func_name" : "qryCashierrfUsestaSelect", 
+    "defaultVal" : "Y", 
+    "ds_from_sql" : "N", 
     "multi_lang_table" : "", 
     "multi_value_field" : "", 
     "multi_display_field" : ""
@@ -1364,6 +1352,18 @@
     "rule_func_name" : "qry_search_areapnt_sta", 
     "defaultVal" : "Y", 
     "ds_from_sql" : "N"
+}
+{ 
+    "_id" : ObjectId("59c8a7020da0d29e24ea8cbd"), 
+    "prg_id" : "PMS0830090", 
+    "ui_field_name" : "deposit_nos", 
+    "ui_display_name" : "", 
+    "rule_func_name" : "qryDepositnosSelect", 
+    "defaultVal" : "", 
+    "ds_from_sql" : "Y", 
+    "multi_lang_table" : "", 
+    "multi_value_field" : "", 
+    "multi_display_field" : ""
 }
 { 
     "_id" : ObjectId("59c9fd280da0d29e24ea8cc6"), 
@@ -1404,9 +1404,9 @@
     "multi_display_field" : ""
 }
 { 
-    "_id" : ObjectId("59d75d838c50201fc486f765"), 
+    "_id" : ObjectId("59d75d838c50201fc486f766"), 
     "prg_id" : "PMS0620020", 
-    "ui_field_name" : "hotel_sales", 
+    "ui_field_name" : "bq_sales", 
     "ui_type" : "select", 
     "ui_display_name" : "Y:是/N:否", 
     "rule_func_name" : "lang_yn_chkBox", 
@@ -1417,9 +1417,9 @@
     "multi_display_field" : ""
 }
 { 
-    "_id" : ObjectId("59d75d838c50201fc486f766"), 
+    "_id" : ObjectId("59d75d838c50201fc486f765"), 
     "prg_id" : "PMS0620020", 
-    "ui_field_name" : "bq_sales", 
+    "ui_field_name" : "hotel_sales", 
     "ui_type" : "select", 
     "ui_display_name" : "Y:是/N:否", 
     "rule_func_name" : "lang_yn_chkBox", 
@@ -1441,20 +1441,6 @@
     "multi_lang_table" : "", 
     "multi_value_field" : "", 
     "multi_display_field" : ""
-}
-{ 
-    "_id" : ObjectId("59d75d838c50201fc486f768"), 
-    "prg_id" : "PMS0620020", 
-    "ui_field_name" : "user_nos", 
-    "ui_type" : "select", 
-    "ui_display_name" : "usr_cname", 
-    "rule_func_name" : "qry_user_nos", 
-    "defaultVal" : "", 
-    "ds_from_sql" : "Y", 
-    "multi_lang_table" : "", 
-    "multi_value_field" : "", 
-    "multi_display_field" : "", 
-    "column_func_name" : "qry_user_nos_column"
 }
 { 
     "_id" : ObjectId("59d75d838c50201fc486f769"), 
@@ -1481,6 +1467,20 @@
     "multi_lang_table" : "", 
     "multi_value_field" : "", 
     "multi_display_field" : ""
+}
+{ 
+    "_id" : ObjectId("59d75d838c50201fc486f768"), 
+    "prg_id" : "PMS0620020", 
+    "ui_field_name" : "user_nos", 
+    "ui_type" : "select", 
+    "ui_display_name" : "usr_cname", 
+    "rule_func_name" : "qry_user_nos", 
+    "defaultVal" : "", 
+    "ds_from_sql" : "Y", 
+    "multi_lang_table" : "", 
+    "multi_value_field" : "", 
+    "multi_display_field" : "", 
+    "column_func_name" : "qry_user_nos_column"
 }
 { 
     "_id" : ObjectId("59ddae168c50201fd0130a0f"), 
@@ -1553,22 +1553,6 @@
     "page_id" : NumberInt(1)
 }
 { 
-    "_id" : ObjectId("5a0a66c6b833d807e881469a"), 
-    "prg_id" : "PMS0620050", 
-    "page_id" : NumberInt(2), 
-    "tab_page_id" : NumberInt(1), 
-    "template_id" : "gridsingle", 
-    "ui_field_name" : "status_cod", 
-    "ui_type" : "select", 
-    "ui_display_name" : "", 
-    "rule_func_name" : "lang_CustmnStatuscod", 
-    "defaultVal" : "", 
-    "ds_from_sql" : "L", 
-    "multi_lang_table" : "", 
-    "multi_value_field" : "", 
-    "multi_display_field" : ""
-}
-{ 
     "_id" : ObjectId("5a0a66c6b833d807e881469b"), 
     "prg_id" : "PMS0620050", 
     "page_id" : NumberInt(2), 
@@ -1585,25 +1569,9 @@
     "multi_display_field" : ""
 }
 { 
-    "_id" : ObjectId("5a0a66c6b833d807e881469c"), 
+    "_id" : ObjectId("5a0a66c6b833d807e881469a"), 
     "prg_id" : "PMS0620050", 
     "page_id" : NumberInt(2), 
-    "tab_page_id" : NumberInt(1), 
-    "template_id" : "gridsingle", 
-    "ui_field_name" : "visit_sta", 
-    "ui_type" : "select", 
-    "ui_display_name" : "", 
-    "rule_func_name" : "lang_PsvisitdtVisitsta", 
-    "defaultVal" : "", 
-    "ds_from_sql" : "L", 
-    "multi_lang_table" : "", 
-    "multi_value_field" : "", 
-    "multi_display_field" : ""
-}
-{ 
-    "_id" : ObjectId("5a0a66c6b833d807e881469d"), 
-    "prg_id" : "PMS0620050", 
-    "page_id" : NumberInt(3), 
     "tab_page_id" : NumberInt(1), 
     "template_id" : "gridsingle", 
     "ui_field_name" : "status_cod", 
@@ -1633,17 +1601,33 @@
     "multi_display_field" : ""
 }
 { 
-    "_id" : ObjectId("5a0a66c6b833d807e881469f"), 
+    "_id" : ObjectId("5a0a66c6b833d807e881469d"), 
     "prg_id" : "PMS0620050", 
     "page_id" : NumberInt(3), 
     "tab_page_id" : NumberInt(1), 
     "template_id" : "gridsingle", 
-    "ui_field_name" : "contract_sta", 
+    "ui_field_name" : "status_cod", 
     "ui_type" : "select", 
-    "ui_display_name" : "status_desc", 
-    "rule_func_name" : "sel_contract_status_rf", 
+    "ui_display_name" : "", 
+    "rule_func_name" : "lang_CustmnStatuscod", 
     "defaultVal" : "", 
-    "ds_from_sql" : "Y", 
+    "ds_from_sql" : "L", 
+    "multi_lang_table" : "", 
+    "multi_value_field" : "", 
+    "multi_display_field" : ""
+}
+{ 
+    "_id" : ObjectId("5a0a66c6b833d807e881469c"), 
+    "prg_id" : "PMS0620050", 
+    "page_id" : NumberInt(2), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "ui_field_name" : "visit_sta", 
+    "ui_type" : "select", 
+    "ui_display_name" : "", 
+    "rule_func_name" : "lang_PsvisitdtVisitsta", 
+    "defaultVal" : "", 
+    "ds_from_sql" : "L", 
     "multi_lang_table" : "", 
     "multi_value_field" : "", 
     "multi_display_field" : ""
@@ -1658,6 +1642,22 @@
     "ui_type" : "select", 
     "ui_display_name" : "area_nam", 
     "rule_func_name" : "sel_area_cod_kvrf", 
+    "defaultVal" : "", 
+    "ds_from_sql" : "Y", 
+    "multi_lang_table" : "", 
+    "multi_value_field" : "", 
+    "multi_display_field" : ""
+}
+{ 
+    "_id" : ObjectId("5a0a66c6b833d807e881469f"), 
+    "prg_id" : "PMS0620050", 
+    "page_id" : NumberInt(3), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "ui_field_name" : "contract_sta", 
+    "ui_type" : "select", 
+    "ui_display_name" : "status_desc", 
+    "rule_func_name" : "sel_contract_status_rf", 
     "defaultVal" : "", 
     "ds_from_sql" : "Y", 
     "multi_lang_table" : "", 
@@ -1697,22 +1697,6 @@
     "multi_display_field" : ""
 }
 { 
-    "_id" : ObjectId("5a0a66c6b833d807e88146a3"), 
-    "prg_id" : "PMS0620050", 
-    "page_id" : NumberInt(3), 
-    "tab_page_id" : NumberInt(1), 
-    "template_id" : "gridsingle", 
-    "ui_field_name" : "visit_dat", 
-    "ui_type" : "", 
-    "ui_display_name" : "", 
-    "rule_func_name" : "", 
-    "defaultVal" : "", 
-    "ds_from_sql" : "N", 
-    "multi_lang_table" : "", 
-    "multi_value_field" : "", 
-    "multi_display_field" : ""
-}
-{ 
     "_id" : ObjectId("5a165d89eaa54922546f98a5"), 
     "prg_id" : "RS0W212010", 
     "page_id" : NumberInt(2), 
@@ -1729,16 +1713,16 @@
     "multi_display_field" : ""
 }
 { 
-    "_id" : ObjectId("5a165d89eaa54922546f98a6"), 
-    "prg_id" : "RS0W212010", 
-    "page_id" : NumberInt(2), 
+    "_id" : ObjectId("5a0a66c6b833d807e88146a3"), 
+    "prg_id" : "PMS0620050", 
+    "page_id" : NumberInt(3), 
     "tab_page_id" : NumberInt(1), 
     "template_id" : "gridsingle", 
-    "ui_field_name" : "inter_cod", 
+    "ui_field_name" : "visit_dat", 
     "ui_type" : "", 
     "ui_display_name" : "", 
     "rule_func_name" : "", 
-    "defaultVal" : "def_inter_cod", 
+    "defaultVal" : "", 
     "ds_from_sql" : "N", 
     "multi_lang_table" : "", 
     "multi_value_field" : "", 
@@ -1761,16 +1745,16 @@
     "multi_display_field" : ""
 }
 { 
-    "_id" : ObjectId("5a165d89eaa54922546f98a8"), 
+    "_id" : ObjectId("5a165d89eaa54922546f98a6"), 
     "prg_id" : "RS0W212010", 
     "page_id" : NumberInt(2), 
     "tab_page_id" : NumberInt(1), 
     "template_id" : "gridsingle", 
-    "ui_field_name" : "confirm_sta", 
-    "ui_type" : "checkbox", 
+    "ui_field_name" : "inter_cod", 
+    "ui_type" : "", 
     "ui_display_name" : "", 
     "rule_func_name" : "", 
-    "defaultVal" : "N", 
+    "defaultVal" : "def_inter_cod", 
     "ds_from_sql" : "N", 
     "multi_lang_table" : "", 
     "multi_value_field" : "", 
@@ -1787,6 +1771,22 @@
     "ui_display_name" : "", 
     "rule_func_name" : "", 
     "defaultVal" : "0", 
+    "ds_from_sql" : "N", 
+    "multi_lang_table" : "", 
+    "multi_value_field" : "", 
+    "multi_display_field" : ""
+}
+{ 
+    "_id" : ObjectId("5a165d89eaa54922546f98a8"), 
+    "prg_id" : "RS0W212010", 
+    "page_id" : NumberInt(2), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "ui_field_name" : "confirm_sta", 
+    "ui_type" : "checkbox", 
+    "ui_display_name" : "", 
+    "rule_func_name" : "", 
+    "defaultVal" : "N", 
     "ds_from_sql" : "N", 
     "multi_lang_table" : "", 
     "multi_value_field" : "", 
@@ -1825,22 +1825,6 @@
     "multi_display_field" : ""
 }
 { 
-    "_id" : ObjectId("5a165d89eaa54922546f98ac"), 
-    "prg_id" : "RS0W212010", 
-    "page_id" : NumberInt(2), 
-    "tab_page_id" : NumberInt(1), 
-    "template_id" : "gridsingle", 
-    "ui_field_name" : "begin_tim", 
-    "ui_type" : "", 
-    "ui_display_name" : "", 
-    "rule_func_name" : "", 
-    "defaultVal" : "0000", 
-    "ds_from_sql" : "N", 
-    "multi_lang_table" : "", 
-    "multi_value_field" : "", 
-    "multi_display_field" : ""
-}
-{ 
     "_id" : ObjectId("5a165d89eaa54922546f98ad"), 
     "prg_id" : "RS0W212010", 
     "page_id" : NumberInt(2), 
@@ -1857,16 +1841,32 @@
     "multi_display_field" : ""
 }
 { 
-    "_id" : ObjectId("5a165d89eaa54922546f98ae"), 
+    "_id" : ObjectId("5a165d89eaa54922546f98ac"), 
     "prg_id" : "RS0W212010", 
     "page_id" : NumberInt(2), 
     "tab_page_id" : NumberInt(1), 
     "template_id" : "gridsingle", 
-    "ui_field_name" : "contact1_cod", 
+    "ui_field_name" : "begin_tim", 
+    "ui_type" : "", 
+    "ui_display_name" : "", 
+    "rule_func_name" : "", 
+    "defaultVal" : "0000", 
+    "ds_from_sql" : "N", 
+    "multi_lang_table" : "", 
+    "multi_value_field" : "", 
+    "multi_display_field" : ""
+}
+{ 
+    "_id" : ObjectId("5a165d89eaa54922546f98b0"), 
+    "prg_id" : "RS0W212010", 
+    "page_id" : NumberInt(2), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "ui_field_name" : "meal_typ", 
     "ui_type" : "select", 
     "ui_display_name" : "", 
-    "rule_func_name" : "sel_contact1_cod", 
-    "defaultVal" : "", 
+    "rule_func_name" : "sel_meal_typ", 
+    "defaultVal" : "NULL,BQ,default_meal_typ", 
     "ds_from_sql" : "Y", 
     "multi_lang_table" : "", 
     "multi_value_field" : "", 
@@ -1889,22 +1889,6 @@
     "multi_display_field" : ""
 }
 { 
-    "_id" : ObjectId("5a165d89eaa54922546f98b0"), 
-    "prg_id" : "RS0W212010", 
-    "page_id" : NumberInt(2), 
-    "tab_page_id" : NumberInt(1), 
-    "template_id" : "gridsingle", 
-    "ui_field_name" : "meal_typ", 
-    "ui_type" : "select", 
-    "ui_display_name" : "", 
-    "rule_func_name" : "sel_meal_typ", 
-    "defaultVal" : "NULL,BQ,default_meal_typ", 
-    "ds_from_sql" : "Y", 
-    "multi_lang_table" : "", 
-    "multi_value_field" : "", 
-    "multi_display_field" : ""
-}
-{ 
     "_id" : ObjectId("5a165d89eaa54922546f98b1"), 
     "prg_id" : "RS0W212010", 
     "page_id" : NumberInt(2), 
@@ -1921,17 +1905,17 @@
     "multi_display_field" : ""
 }
 { 
-    "_id" : ObjectId("5a165d89eaa54922546f98b2"), 
+    "_id" : ObjectId("5a165d89eaa54922546f98ae"), 
     "prg_id" : "RS0W212010", 
     "page_id" : NumberInt(2), 
     "tab_page_id" : NumberInt(1), 
     "template_id" : "gridsingle", 
-    "ui_field_name" : "desk_qnt", 
-    "ui_type" : "", 
+    "ui_field_name" : "contact1_cod", 
+    "ui_type" : "select", 
     "ui_display_name" : "", 
-    "rule_func_name" : "", 
-    "defaultVal" : "0", 
-    "ds_from_sql" : "N", 
+    "rule_func_name" : "sel_contact1_cod", 
+    "defaultVal" : "", 
+    "ds_from_sql" : "Y", 
     "multi_lang_table" : "", 
     "multi_value_field" : "", 
     "multi_display_field" : ""
@@ -1969,16 +1953,16 @@
     "multi_display_field" : ""
 }
 { 
-    "_id" : ObjectId("5a165d89eaa54922546f98b5"), 
+    "_id" : ObjectId("5a165d89eaa54922546f98b2"), 
     "prg_id" : "RS0W212010", 
     "page_id" : NumberInt(2), 
     "tab_page_id" : NumberInt(1), 
     "template_id" : "gridsingle", 
-    "ui_field_name" : "poadult_qnt", 
+    "ui_field_name" : "desk_qnt", 
     "ui_type" : "", 
     "ui_display_name" : "", 
     "rule_func_name" : "", 
-    "defaultVal" : "NULL,BQ,default_adult_qnt", 
+    "defaultVal" : "0", 
     "ds_from_sql" : "N", 
     "multi_lang_table" : "", 
     "multi_value_field" : "", 
@@ -2001,16 +1985,16 @@
     "multi_display_field" : ""
 }
 { 
-    "_id" : ObjectId("5a165d89eaa54922546f98b7"), 
+    "_id" : ObjectId("5a165d89eaa54922546f98b5"), 
     "prg_id" : "RS0W212010", 
     "page_id" : NumberInt(2), 
     "tab_page_id" : NumberInt(1), 
     "template_id" : "gridsingle", 
-    "ui_field_name" : "deposit_amt", 
+    "ui_field_name" : "poadult_qnt", 
     "ui_type" : "", 
     "ui_display_name" : "", 
     "rule_func_name" : "", 
-    "defaultVal" : "0", 
+    "defaultVal" : "NULL,BQ,default_adult_qnt", 
     "ds_from_sql" : "N", 
     "multi_lang_table" : "", 
     "multi_value_field" : "", 
@@ -2028,6 +2012,22 @@
     "rule_func_name" : "sel_yn", 
     "defaultVal" : "Y", 
     "ds_from_sql" : "L", 
+    "multi_lang_table" : "", 
+    "multi_value_field" : "", 
+    "multi_display_field" : ""
+}
+{ 
+    "_id" : ObjectId("5a165d89eaa54922546f98b7"), 
+    "prg_id" : "RS0W212010", 
+    "page_id" : NumberInt(2), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "ui_field_name" : "deposit_amt", 
+    "ui_type" : "", 
+    "ui_display_name" : "", 
+    "rule_func_name" : "", 
+    "defaultVal" : "0", 
+    "ds_from_sql" : "N", 
     "multi_lang_table" : "", 
     "multi_value_field" : "", 
     "multi_display_field" : ""
@@ -2059,6 +2059,22 @@
     "ui_display_name" : "", 
     "rule_func_name" : "sel_proc_sta", 
     "defaultVal" : "def_proc_sta", 
+    "ds_from_sql" : "Y", 
+    "multi_lang_table" : "", 
+    "multi_value_field" : "", 
+    "multi_display_field" : ""
+}
+{ 
+    "_id" : ObjectId("5a165d89eaa54922546f98bd"), 
+    "prg_id" : "RS0W212010", 
+    "page_id" : NumberInt(2), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "ui_field_name" : "sales_cod", 
+    "ui_type" : "select", 
+    "ui_display_name" : "", 
+    "rule_func_name" : "sel_sales_cod", 
+    "defaultVal" : "", 
     "ds_from_sql" : "Y", 
     "multi_lang_table" : "", 
     "multi_value_field" : "", 
@@ -2097,38 +2113,6 @@
     "multi_display_field" : ""
 }
 { 
-    "_id" : ObjectId("5a165d89eaa54922546f98bd"), 
-    "prg_id" : "RS0W212010", 
-    "page_id" : NumberInt(2), 
-    "tab_page_id" : NumberInt(1), 
-    "template_id" : "gridsingle", 
-    "ui_field_name" : "sales_cod", 
-    "ui_type" : "select", 
-    "ui_display_name" : "", 
-    "rule_func_name" : "sel_sales_cod", 
-    "defaultVal" : "", 
-    "ds_from_sql" : "Y", 
-    "multi_lang_table" : "", 
-    "multi_value_field" : "", 
-    "multi_display_field" : ""
-}
-{ 
-    "_id" : ObjectId("5a165d89eaa54922546f98be"), 
-    "prg_id" : "RS0W212010", 
-    "page_id" : NumberInt(2), 
-    "tab_page_id" : NumberInt(1), 
-    "template_id" : "gridsingle", 
-    "ui_field_name" : "opsales_cod", 
-    "ui_type" : "select", 
-    "ui_display_name" : "", 
-    "rule_func_name" : "sel_sales_cod", 
-    "defaultVal" : "", 
-    "ds_from_sql" : "Y", 
-    "multi_lang_table" : "", 
-    "multi_value_field" : "", 
-    "multi_display_field" : ""
-}
-{ 
     "_id" : ObjectId("5a165d89eaa54922546f98bf"), 
     "prg_id" : "RS0W212010", 
     "page_id" : NumberInt(2), 
@@ -2139,6 +2123,22 @@
     "ui_display_name" : "", 
     "rule_func_name" : "", 
     "defaultVal" : "0000", 
+    "ds_from_sql" : "N", 
+    "multi_lang_table" : "", 
+    "multi_value_field" : "", 
+    "multi_display_field" : ""
+}
+{ 
+    "_id" : ObjectId("5a165d89eaa54922546f98c2"), 
+    "prg_id" : "RS0W212010", 
+    "page_id" : NumberInt(2), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "order_qnt", 
+    "ui_type" : "", 
+    "ui_display_name" : "", 
+    "rule_func_name" : "", 
+    "defaultVal" : "0", 
     "ds_from_sql" : "N", 
     "multi_lang_table" : "", 
     "multi_value_field" : "", 
@@ -2161,6 +2161,22 @@
     "multi_display_field" : ""
 }
 { 
+    "_id" : ObjectId("5a165d89eaa54922546f98be"), 
+    "prg_id" : "RS0W212010", 
+    "page_id" : NumberInt(2), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "ui_field_name" : "opsales_cod", 
+    "ui_type" : "select", 
+    "ui_display_name" : "", 
+    "rule_func_name" : "sel_sales_cod", 
+    "defaultVal" : "", 
+    "ds_from_sql" : "Y", 
+    "multi_lang_table" : "", 
+    "multi_value_field" : "", 
+    "multi_display_field" : ""
+}
+{ 
     "_id" : ObjectId("5a165d89eaa54922546f98c1"), 
     "prg_id" : "RS0W212010", 
     "page_id" : NumberInt(2), 
@@ -2177,12 +2193,12 @@
     "multi_display_field" : ""
 }
 { 
-    "_id" : ObjectId("5a165d89eaa54922546f98c2"), 
+    "_id" : ObjectId("5a165d89eaa54922546f98c4"), 
     "prg_id" : "RS0W212010", 
     "page_id" : NumberInt(2), 
     "tab_page_id" : NumberInt(1), 
     "template_id" : "datagrid", 
-    "ui_field_name" : "order_qnt", 
+    "ui_field_name" : "inv_qnt", 
     "ui_type" : "", 
     "ui_display_name" : "", 
     "rule_func_name" : "", 
@@ -2209,22 +2225,6 @@
     "multi_display_field" : ""
 }
 { 
-    "_id" : ObjectId("5a165d89eaa54922546f98c4"), 
-    "prg_id" : "RS0W212010", 
-    "page_id" : NumberInt(2), 
-    "tab_page_id" : NumberInt(1), 
-    "template_id" : "datagrid", 
-    "ui_field_name" : "inv_qnt", 
-    "ui_type" : "", 
-    "ui_display_name" : "", 
-    "rule_func_name" : "", 
-    "defaultVal" : "0", 
-    "ds_from_sql" : "N", 
-    "multi_lang_table" : "", 
-    "multi_value_field" : "", 
-    "multi_display_field" : ""
-}
-{ 
     "_id" : ObjectId("5a165d89eaa54922546f98c5"), 
     "prg_id" : "RS0W212010", 
     "page_id" : NumberInt(2), 
@@ -2234,22 +2234,6 @@
     "ui_type" : "select", 
     "ui_display_name" : "", 
     "rule_func_name" : "sel_rspt_cod", 
-    "defaultVal" : "", 
-    "ds_from_sql" : "Y", 
-    "multi_lang_table" : "", 
-    "multi_value_field" : "", 
-    "multi_display_field" : ""
-}
-{ 
-    "_id" : ObjectId("5a165d89eaa54922546f98c6"), 
-    "prg_id" : "RS0W212010", 
-    "page_id" : NumberInt(2), 
-    "tab_page_id" : NumberInt(1), 
-    "template_id" : "datagrid", 
-    "ui_field_name" : "place_cod", 
-    "ui_type" : "select", 
-    "ui_display_name" : "", 
-    "rule_func_name" : "sel_place_cod", 
     "defaultVal" : "", 
     "ds_from_sql" : "Y", 
     "multi_lang_table" : "", 
@@ -2275,22 +2259,16 @@
     "column_func_name" : "sel_atten_nam_Column"
 }
 { 
-    "_id" : ObjectId("5a17c1a8eaa54922546f990f"), 
-    "prg_id" : "RS0W212010", 
-    "page_id" : NumberInt(2), 
-    "tab_page_id" : NumberInt(1), 
-    "template_id" : "gridsingle", 
-    "ui_field_name" : "alt_nam", 
-    "ui_type" : "selectgrid", 
+    "_id" : ObjectId("5a1bc8df970a869768ab5adc"), 
+    "prg_id" : "PMS0810120", 
+    "ui_field_name" : "chgrent_flg", 
     "ui_display_name" : "", 
-    "rule_func_name" : "sel_alt_nam", 
-    "defaultVal" : "", 
-    "ds_from_sql" : "Y", 
+    "rule_func_name" : "qry_rvdiscpers_rf_y_n", 
+    "defaultVal" : "Y", 
+    "ds_from_sql" : "N", 
     "multi_lang_table" : "", 
     "multi_value_field" : "", 
-    "multi_display_field" : "", 
-    "is_qry_src_before" : "", 
-    "column_func_name" : "sel_alt_nam_Column"
+    "multi_display_field" : ""
 }
 { 
     "_id" : ObjectId("5a1bc8df970a869768ab5adb"), 
@@ -2305,13 +2283,17 @@
     "multi_display_field" : ""
 }
 { 
-    "_id" : ObjectId("5a1bc8df970a869768ab5adc"), 
-    "prg_id" : "PMS0810120", 
-    "ui_field_name" : "chgrent_flg", 
+    "_id" : ObjectId("5a165d89eaa54922546f98c6"), 
+    "prg_id" : "RS0W212010", 
+    "page_id" : NumberInt(2), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "place_cod", 
+    "ui_type" : "select", 
     "ui_display_name" : "", 
-    "rule_func_name" : "qry_rvdiscpers_rf_y_n", 
-    "defaultVal" : "Y", 
-    "ds_from_sql" : "N", 
+    "rule_func_name" : "sel_place_cod", 
+    "defaultVal" : "", 
+    "ds_from_sql" : "Y", 
     "multi_lang_table" : "", 
     "multi_value_field" : "", 
     "multi_display_field" : ""
@@ -2371,22 +2353,6 @@
     "multi_display_field" : ""
 }
 { 
-    "_id" : ObjectId("5a2a2093670e467c346f8274"), 
-    "prg_id" : "PMS0610010", 
-    "page_id" : NumberInt(3), 
-    "tab_page_id" : NumberInt(1), 
-    "template_id" : "datagrid", 
-    "ui_field_name" : "status_cod", 
-    "ui_type" : "select", 
-    "ui_display_name" : "", 
-    "rule_func_name" : "lang_CustmnStatuscod", 
-    "defaultVal" : "", 
-    "ds_from_sql" : "L", 
-    "multi_lang_table" : "", 
-    "multi_value_field" : "", 
-    "multi_display_field" : ""
-}
-{ 
     "_id" : ObjectId("5a2a2093670e467c346f8275"), 
     "prg_id" : "PMS0610010", 
     "page_id" : NumberInt(3), 
@@ -2403,17 +2369,35 @@
     "multi_display_field" : ""
 }
 { 
-    "_id" : ObjectId("5a2a2093670e467c346f8276"), 
+    "_id" : ObjectId("5a17c1a8eaa54922546f990f"), 
+    "prg_id" : "RS0W212010", 
+    "page_id" : NumberInt(2), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "ui_field_name" : "alt_nam", 
+    "ui_type" : "selectgrid", 
+    "ui_display_name" : "", 
+    "rule_func_name" : "sel_alt_nam", 
+    "defaultVal" : "", 
+    "ds_from_sql" : "Y", 
+    "multi_lang_table" : "", 
+    "multi_value_field" : "", 
+    "multi_display_field" : "", 
+    "is_qry_src_before" : "", 
+    "column_func_name" : "sel_alt_nam_Column"
+}
+{ 
+    "_id" : ObjectId("5a2a2093670e467c346f8274"), 
     "prg_id" : "PMS0610010", 
     "page_id" : NumberInt(3), 
     "tab_page_id" : NumberInt(1), 
     "template_id" : "datagrid", 
-    "ui_field_name" : "contract_sta", 
+    "ui_field_name" : "status_cod", 
     "ui_type" : "select", 
-    "ui_display_name" : "status_desc", 
-    "rule_func_name" : "sel_contract_status_rf", 
+    "ui_display_name" : "", 
+    "rule_func_name" : "lang_CustmnStatuscod", 
     "defaultVal" : "", 
-    "ds_from_sql" : "Y", 
+    "ds_from_sql" : "L", 
     "multi_lang_table" : "", 
     "multi_value_field" : "", 
     "multi_display_field" : ""
@@ -2428,38 +2412,6 @@
     "ui_type" : "select", 
     "ui_display_name" : "", 
     "rule_func_name" : "lang_CustidxCreditsta", 
-    "defaultVal" : "", 
-    "ds_from_sql" : "L", 
-    "multi_lang_table" : "", 
-    "multi_value_field" : "", 
-    "multi_display_field" : ""
-}
-{ 
-    "_id" : ObjectId("5a32079dd602a173f4f51fb1"), 
-    "prg_id" : "PMS0610010", 
-    "page_id" : NumberInt(1020), 
-    "tab_page_id" : NumberInt(1), 
-    "template_id" : "gridsingle", 
-    "ui_field_name" : "visit_typ", 
-    "ui_type" : "select", 
-    "ui_display_name" : "visit_nam", 
-    "rule_func_name" : "sel_ps_visit_rf", 
-    "defaultVal" : "", 
-    "ds_from_sql" : "Y", 
-    "multi_lang_table" : "", 
-    "multi_value_field" : "", 
-    "multi_display_field" : ""
-}
-{ 
-    "_id" : ObjectId("5a32079dd602a173f4f51fb2"), 
-    "prg_id" : "PMS0610010", 
-    "page_id" : NumberInt(1020), 
-    "tab_page_id" : NumberInt(1), 
-    "template_id" : "gridsingle", 
-    "ui_field_name" : "visit_sta", 
-    "ui_type" : "select", 
-    "ui_display_name" : "", 
-    "rule_func_name" : "lang_PsvisitdtVisitsta", 
     "defaultVal" : "", 
     "ds_from_sql" : "L", 
     "multi_lang_table" : "", 
@@ -2483,6 +2435,38 @@
     "multi_display_field" : ""
 }
 { 
+    "_id" : ObjectId("5a2a2093670e467c346f8276"), 
+    "prg_id" : "PMS0610010", 
+    "page_id" : NumberInt(3), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "contract_sta", 
+    "ui_type" : "select", 
+    "ui_display_name" : "status_desc", 
+    "rule_func_name" : "sel_contract_status_rf", 
+    "defaultVal" : "", 
+    "ds_from_sql" : "Y", 
+    "multi_lang_table" : "", 
+    "multi_value_field" : "", 
+    "multi_display_field" : ""
+}
+{ 
+    "_id" : ObjectId("5a32079dd602a173f4f51fb1"), 
+    "prg_id" : "PMS0610010", 
+    "page_id" : NumberInt(1020), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "ui_field_name" : "visit_typ", 
+    "ui_type" : "select", 
+    "ui_display_name" : "visit_nam", 
+    "rule_func_name" : "sel_ps_visit_rf", 
+    "defaultVal" : "", 
+    "ds_from_sql" : "Y", 
+    "multi_lang_table" : "", 
+    "multi_value_field" : "", 
+    "multi_display_field" : ""
+}
+{ 
     "_id" : ObjectId("5a557866b5d36146283ca05a"), 
     "prg_id" : "PMS0610020", 
     "page_id" : NumberInt(1), 
@@ -2498,6 +2482,22 @@
     "multi_value_field" : "", 
     "multi_display_field" : "", 
     "is_qry_src_before" : ""
+}
+{ 
+    "_id" : ObjectId("5a32079dd602a173f4f51fb2"), 
+    "prg_id" : "PMS0610010", 
+    "page_id" : NumberInt(1020), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "ui_field_name" : "visit_sta", 
+    "ui_type" : "select", 
+    "ui_display_name" : "", 
+    "rule_func_name" : "lang_PsvisitdtVisitsta", 
+    "defaultVal" : "", 
+    "ds_from_sql" : "L", 
+    "multi_lang_table" : "", 
+    "multi_value_field" : "", 
+    "multi_display_field" : ""
 }
 { 
     "_id" : ObjectId("5a557866b5d36146283ca05c"), 
@@ -2689,23 +2689,6 @@
     "is_qry_src_before" : ""
 }
 { 
-    "_id" : ObjectId("5a557866b5d36146283ca06c"), 
-    "prg_id" : "PMS0610020", 
-    "page_id" : NumberInt(1), 
-    "tab_page_id" : NumberInt(1), 
-    "template_id" : "gridsingledt", 
-    "ui_field_name" : "cust_idx_ar_amt", 
-    "ui_type" : "", 
-    "ui_display_name" : "", 
-    "rule_func_name" : "", 
-    "defaultVal" : "0【與1030:信用額度變更連通,要如何寫default value?】", 
-    "ds_from_sql" : "N", 
-    "multi_lang_table" : "", 
-    "multi_value_field" : "", 
-    "multi_display_field" : "", 
-    "is_qry_src_before" : ""
-}
-{ 
     "_id" : ObjectId("5a557866b5d36146283ca06e"), 
     "prg_id" : "PMS0610020", 
     "page_id" : NumberInt(1), 
@@ -2716,23 +2699,6 @@
     "ui_display_name" : "", 
     "rule_func_name" : "", 
     "defaultVal" : "本筆商務公司系統編號cust_mn.cust_cod【與相關設定連通,要如何寫default value?】", 
-    "ds_from_sql" : "N", 
-    "multi_lang_table" : "", 
-    "multi_value_field" : "", 
-    "multi_display_field" : "", 
-    "is_qry_src_before" : ""
-}
-{ 
-    "_id" : ObjectId("5a557866b5d36146283ca06f"), 
-    "prg_id" : "PMS0610020", 
-    "page_id" : NumberInt(1), 
-    "tab_page_id" : NumberInt(1030), 
-    "template_id" : "gridsingle", 
-    "ui_field_name" : "cust_idx.credit_sta", 
-    "ui_type" : "checkbox(Y:打勾 N:不打勾)", 
-    "ui_display_name" : "", 
-    "rule_func_name" : "", 
-    "defaultVal" : "N【與相關設定連通,要如何寫default value?】", 
     "ds_from_sql" : "N", 
     "multi_lang_table" : "", 
     "multi_value_field" : "", 
@@ -2774,6 +2740,23 @@
     "is_qry_src_before" : ""
 }
 { 
+    "_id" : ObjectId("5a557866b5d36146283ca06f"), 
+    "prg_id" : "PMS0610020", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1030), 
+    "template_id" : "gridsingle", 
+    "ui_field_name" : "cust_idx.credit_sta", 
+    "ui_type" : "checkbox(Y:打勾 N:不打勾)", 
+    "ui_display_name" : "", 
+    "rule_func_name" : "", 
+    "defaultVal" : "N【與相關設定連通,要如何寫default value?】", 
+    "ds_from_sql" : "N", 
+    "multi_lang_table" : "", 
+    "multi_value_field" : "", 
+    "multi_display_field" : "", 
+    "is_qry_src_before" : ""
+}
+{ 
     "_id" : ObjectId("5a557866b5d36146283ca072"), 
     "prg_id" : "PMS0610020", 
     "page_id" : NumberInt(1), 
@@ -2791,17 +2774,17 @@
     "is_qry_src_before" : ""
 }
 { 
-    "_id" : ObjectId("5a557866b5d36146283ca073"), 
+    "_id" : ObjectId("5a557866b5d36146283ca06c"), 
     "prg_id" : "PMS0610020", 
     "page_id" : NumberInt(1), 
-    "tab_page_id" : NumberInt(2), 
-    "template_id" : "datagrid", 
-    "ui_field_name" : "job_sta", 
-    "ui_type" : "select", 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingledt", 
+    "ui_field_name" : "cust_idx_ar_amt", 
+    "ui_type" : "", 
     "ui_display_name" : "", 
-    "rule_func_name" : "lang_CustmnPersdtJobSta", 
-    "defaultVal" : "N", 
-    "ds_from_sql" : "L", 
+    "rule_func_name" : "", 
+    "defaultVal" : "0【與1030:信用額度變更連通,要如何寫default value?】", 
+    "ds_from_sql" : "N", 
     "multi_lang_table" : "", 
     "multi_value_field" : "", 
     "multi_display_field" : "", 
@@ -2825,34 +2808,17 @@
     "is_qry_src_before" : ""
 }
 { 
-    "_id" : ObjectId("5a557866b5d36146283ca075"), 
+    "_id" : ObjectId("5a557866b5d36146283ca073"), 
     "prg_id" : "PMS0610020", 
     "page_id" : NumberInt(1), 
     "tab_page_id" : NumberInt(2), 
     "template_id" : "datagrid", 
-    "ui_field_name" : "cust_sta", 
-    "ui_type" : "", 
+    "ui_field_name" : "job_sta", 
+    "ui_type" : "select", 
     "ui_display_name" : "", 
-    "rule_func_name" : "", 
+    "rule_func_name" : "lang_CustmnPersdtJobSta", 
     "defaultVal" : "N", 
-    "ds_from_sql" : "N", 
-    "multi_lang_table" : "", 
-    "multi_value_field" : "", 
-    "multi_display_field" : "", 
-    "is_qry_src_before" : ""
-}
-{ 
-    "_id" : ObjectId("5a557866b5d36146283ca076"), 
-    "prg_id" : "PMS0610020", 
-    "page_id" : NumberInt(1), 
-    "tab_page_id" : NumberInt(2), 
-    "template_id" : "datagrid", 
-    "ui_field_name" : "from_table", 
-    "ui_type" : "", 
-    "ui_display_name" : "", 
-    "rule_func_name" : "", 
-    "defaultVal" : "CUST_MN_PERS_DT", 
-    "ds_from_sql" : "N", 
+    "ds_from_sql" : "L", 
     "multi_lang_table" : "", 
     "multi_value_field" : "", 
     "multi_display_field" : "", 
@@ -2876,17 +2842,17 @@
     "is_qry_src_before" : ""
 }
 { 
-    "_id" : ObjectId("5a557866b5d36146283ca079"), 
+    "_id" : ObjectId("5a557866b5d36146283ca075"), 
     "prg_id" : "PMS0610020", 
     "page_id" : NumberInt(1), 
-    "tab_page_id" : NumberInt(6), 
+    "tab_page_id" : NumberInt(2), 
     "template_id" : "datagrid", 
-    "ui_field_name" : "remark_typ", 
-    "ui_type" : "select", 
-    "ui_display_name" : "type_nam", 
-    "rule_func_name" : "sel_RemarkDtRemarkTyp", 
-    "defaultVal" : "", 
-    "ds_from_sql" : "Y", 
+    "ui_field_name" : "cust_sta", 
+    "ui_type" : "", 
+    "ui_display_name" : "", 
+    "rule_func_name" : "", 
+    "defaultVal" : "N", 
+    "ds_from_sql" : "N", 
     "multi_lang_table" : "", 
     "multi_value_field" : "", 
     "multi_display_field" : "", 
@@ -2902,6 +2868,23 @@
     "ui_type" : "select", 
     "ui_display_name" : "hotel_nam", 
     "rule_func_name" : "QRY_HOTEL_COD_FOR_SNA", 
+    "defaultVal" : "", 
+    "ds_from_sql" : "Y", 
+    "multi_lang_table" : "", 
+    "multi_value_field" : "", 
+    "multi_display_field" : "", 
+    "is_qry_src_before" : ""
+}
+{ 
+    "_id" : ObjectId("5a557866b5d36146283ca079"), 
+    "prg_id" : "PMS0610020", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(6), 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "remark_typ", 
+    "ui_type" : "select", 
+    "ui_display_name" : "type_nam", 
+    "rule_func_name" : "sel_RemarkDtRemarkTyp", 
     "defaultVal" : "", 
     "ds_from_sql" : "Y", 
     "multi_lang_table" : "", 
@@ -2938,6 +2921,23 @@
     "rule_func_name" : "qry_contract_dt_rsdisc_cod", 
     "defaultVal" : "", 
     "ds_from_sql" : "Y", 
+    "multi_lang_table" : "", 
+    "multi_value_field" : "", 
+    "multi_display_field" : "", 
+    "is_qry_src_before" : ""
+}
+{ 
+    "_id" : ObjectId("5a557866b5d36146283ca076"), 
+    "prg_id" : "PMS0610020", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(2), 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "from_table", 
+    "ui_type" : "", 
+    "ui_display_name" : "", 
+    "rule_func_name" : "", 
+    "defaultVal" : "CUST_MN_PERS_DT", 
+    "ds_from_sql" : "N", 
     "multi_lang_table" : "", 
     "multi_value_field" : "", 
     "multi_display_field" : "", 
@@ -2995,23 +2995,6 @@
     "is_qry_src_before" : ""
 }
 { 
-    "_id" : ObjectId("5a557866b5d36146283ca084"), 
-    "prg_id" : "PMS0610020", 
-    "page_id" : NumberInt(1), 
-    "tab_page_id" : NumberInt(7), 
-    "template_id" : "datagrid", 
-    "ui_field_name" : "cust_idx_tr.rspt_cod", 
-    "ui_type" : "select", 
-    "ui_display_name" : "rspt_nam", 
-    "rule_func_name" : "sel_CustIdxTrRsptCod", 
-    "defaultVal" : "", 
-    "ds_from_sql" : "Y", 
-    "multi_lang_table" : "", 
-    "multi_value_field" : "", 
-    "multi_display_field" : "", 
-    "is_qry_src_before" : ""
-}
-{ 
     "_id" : ObjectId("5a558297b5d36146283ca0c8"), 
     "prg_id" : "PMS0610020", 
     "page_id" : NumberInt(1), 
@@ -3030,22 +3013,21 @@
     "column_func_name" : "sel_custMnRouteCodColumn"
 }
 { 
-    "_id" : ObjectId("5a585c4c6d2afd3f20a6c601"), 
+    "_id" : ObjectId("5a557866b5d36146283ca084"), 
     "prg_id" : "PMS0610020", 
     "page_id" : NumberInt(1), 
-    "tab_page_id" : NumberInt(1), 
-    "template_id" : "gridsingle", 
-    "ui_field_name" : "contract_sta", 
+    "tab_page_id" : NumberInt(7), 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "cust_idx_tr.rspt_cod", 
     "ui_type" : "select", 
-    "ui_display_name" : "contract_sta", 
-    "rule_func_name" : "sel_contract_status_rf", 
+    "ui_display_name" : "rspt_nam", 
+    "rule_func_name" : "sel_CustIdxTrRsptCod", 
     "defaultVal" : "", 
     "ds_from_sql" : "Y", 
     "multi_lang_table" : "", 
     "multi_value_field" : "", 
     "multi_display_field" : "", 
-    "is_qry_src_before" : "Y", 
-    "column_func_name" : ""
+    "is_qry_src_before" : ""
 }
 { 
     "_id" : ObjectId("5a5f033e0bf3d951c4e111c8"), 
@@ -3064,6 +3046,24 @@
     "multi_display_field" : "", 
     "is_qry_src_before" : "", 
     "column_func_name" : "sel_custMnCustColumn"
+}
+{ 
+    "_id" : ObjectId("5a585c4c6d2afd3f20a6c601"), 
+    "prg_id" : "PMS0610020", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "ui_field_name" : "contract_sta", 
+    "ui_type" : "select", 
+    "ui_display_name" : "contract_sta", 
+    "rule_func_name" : "sel_contract_status_rf", 
+    "defaultVal" : "", 
+    "ds_from_sql" : "Y", 
+    "multi_lang_table" : "", 
+    "multi_value_field" : "", 
+    "multi_display_field" : "", 
+    "is_qry_src_before" : "Y", 
+    "column_func_name" : ""
 }
 { 
     "_id" : ObjectId("5a6010820bf3d93ee0d56538"), 
@@ -3100,22 +3100,6 @@
     "is_qry_src_before" : ""
 }
 { 
-    "_id" : ObjectId("5a614aed0bf3d93a846919f3"), 
-    "prg_id" : "PMS0620050", 
-    "page_id" : NumberInt(1), 
-    "tab_page_id" : NumberInt(1), 
-    "template_id" : "datagrid", 
-    "ui_field_name" : "status_cod", 
-    "ui_type" : "select", 
-    "ui_display_name" : "", 
-    "rule_func_name" : "lang_CustmnStatuscod", 
-    "defaultVal" : "", 
-    "ds_from_sql" : "L", 
-    "multi_lang_table" : "", 
-    "multi_value_field" : "", 
-    "multi_display_field" : ""
-}
-{ 
     "_id" : ObjectId("5a614b0c0bf3d93a846919f4"), 
     "prg_id" : "PMS0620050", 
     "page_id" : NumberInt(1), 
@@ -3127,6 +3111,22 @@
     "rule_func_name" : "sel_ps_visit_rf", 
     "defaultVal" : "", 
     "ds_from_sql" : "Y", 
+    "multi_lang_table" : "", 
+    "multi_value_field" : "", 
+    "multi_display_field" : ""
+}
+{ 
+    "_id" : ObjectId("5a614aed0bf3d93a846919f3"), 
+    "prg_id" : "PMS0620050", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "status_cod", 
+    "ui_type" : "select", 
+    "ui_display_name" : "", 
+    "rule_func_name" : "lang_CustmnStatuscod", 
+    "defaultVal" : "", 
+    "ds_from_sql" : "L", 
     "multi_lang_table" : "", 
     "multi_value_field" : "", 
     "multi_display_field" : ""
@@ -3166,6 +3166,24 @@
     "column_func_name" : ""
 }
 { 
+    "_id" : ObjectId("5a670ed1c9e9af45c8e4ff86"), 
+    "prg_id" : "PMS0610020", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "ui_field_name" : "cust_idx_zip_cod", 
+    "ui_type" : "select", 
+    "ui_display_name" : "zip_cod", 
+    "rule_func_name" : "qry_zip_cod", 
+    "defaultVal" : "", 
+    "ds_from_sql" : "Y", 
+    "multi_lang_table" : "", 
+    "multi_value_field" : "", 
+    "multi_display_field" : "", 
+    "is_qry_src_before" : "Y", 
+    "column_func_name" : ""
+}
+{ 
     "_id" : ObjectId("5a6307cd2dbedaef99bd965a"), 
     "prg_id" : "PMS0610020", 
     "page_id" : NumberInt(2), 
@@ -3184,22 +3202,17 @@
     "column_func_name" : ""
 }
 { 
-    "_id" : ObjectId("5a670ed1c9e9af45c8e4ff86"), 
-    "prg_id" : "PMS0610020", 
-    "page_id" : NumberInt(1), 
-    "tab_page_id" : NumberInt(1), 
-    "template_id" : "gridsingle", 
-    "ui_field_name" : "cust_idx_zip_cod", 
+    "_id" : ObjectId("5a72daaa6d2afd3d9c8a0892"), 
+    "prg_id" : "PMS0620010", 
+    "page_id" : NumberInt(3), 
+    "ui_field_name" : "status_cod", 
     "ui_type" : "select", 
-    "ui_display_name" : "zip_cod", 
-    "rule_func_name" : "qry_zip_cod", 
-    "defaultVal" : "", 
-    "ds_from_sql" : "Y", 
+    "ui_display_name" : "", 
+    "rule_func_name" : "lang_status_cod", 
+    "defaultVal" : "N", 
+    "ds_from_sql" : "L", 
     "multi_lang_table" : "", 
-    "multi_value_field" : "", 
-    "multi_display_field" : "", 
-    "is_qry_src_before" : "Y", 
-    "column_func_name" : ""
+    "multi_value_field" : ""
 }
 { 
     "_id" : ObjectId("5a6944079f454b2b705f9fae"), 
@@ -3219,17 +3232,18 @@
     "is_qry_src_before" : ""
 }
 { 
-    "_id" : ObjectId("5a72daaa6d2afd3d9c8a0892"), 
+    "_id" : ObjectId("5a72dae06d2afd3d9c8a0895"), 
     "prg_id" : "PMS0620010", 
-    "page_id" : NumberInt(3), 
-    "ui_field_name" : "status_cod", 
+    "ui_field_name" : "hotel_sales", 
     "ui_type" : "select", 
     "ui_display_name" : "", 
-    "rule_func_name" : "lang_status_cod", 
+    "rule_func_name" : "lang_yn", 
     "defaultVal" : "N", 
     "ds_from_sql" : "L", 
     "multi_lang_table" : "", 
-    "multi_value_field" : ""
+    "multi_value_field" : "", 
+    "multi_display_field" : "", 
+    "page_id" : NumberInt(3)
 }
 { 
     "_id" : ObjectId("5a72dac86d2afd3d9c8a0894"), 
@@ -3246,9 +3260,9 @@
     "page_id" : NumberInt(3)
 }
 { 
-    "_id" : ObjectId("5a72dae06d2afd3d9c8a0895"), 
+    "_id" : ObjectId("5a72db786d2afd3d9c8a0897"), 
     "prg_id" : "PMS0620010", 
-    "ui_field_name" : "hotel_sales", 
+    "ui_field_name" : "member_sales", 
     "ui_type" : "select", 
     "ui_display_name" : "", 
     "rule_func_name" : "lang_yn", 
@@ -3263,20 +3277,6 @@
     "_id" : ObjectId("5a72db666d2afd3d9c8a0896"), 
     "prg_id" : "PMS0620010", 
     "ui_field_name" : "bq_sales", 
-    "ui_type" : "select", 
-    "ui_display_name" : "", 
-    "rule_func_name" : "lang_yn", 
-    "defaultVal" : "N", 
-    "ds_from_sql" : "L", 
-    "multi_lang_table" : "", 
-    "multi_value_field" : "", 
-    "multi_display_field" : "", 
-    "page_id" : NumberInt(3)
-}
-{ 
-    "_id" : ObjectId("5a72db786d2afd3d9c8a0897"), 
-    "prg_id" : "PMS0620010", 
-    "ui_field_name" : "member_sales", 
     "ui_type" : "select", 
     "ui_display_name" : "", 
     "rule_func_name" : "lang_yn", 
@@ -3306,12 +3306,12 @@
     "column_func_name" : "sel_salesMnHotelStatusNColumn"
 }
 { 
-    "_id" : ObjectId("5a8f85e1ee527c2a0c1dfe94"), 
+    "_id" : ObjectId("5a8f8746ee527c2a0c1dfe97"), 
     "prg_id" : "PMS0110050", 
-    "ui_field_name" : "room_cod", 
+    "ui_field_name" : "floor_nos", 
     "ui_type" : "select", 
     "ui_display_name" : "", 
-    "rule_func_name" : "QRY_ROOM_COD", 
+    "rule_func_name" : "QRY_ROOM_FLOOR", 
     "defaultVal" : "N", 
     "ds_from_sql" : "Y", 
     "multi_lang_table" : "", 
@@ -3320,12 +3320,12 @@
     "page_id" : NumberInt(3)
 }
 { 
-    "_id" : ObjectId("5a8f870cee527c2a0c1dfe95"), 
+    "_id" : ObjectId("5a8f85e1ee527c2a0c1dfe94"), 
     "prg_id" : "PMS0110050", 
-    "ui_field_name" : "character_rmk", 
+    "ui_field_name" : "room_cod", 
     "ui_type" : "select", 
     "ui_display_name" : "", 
-    "rule_func_name" : "QRY_ROOM_MN_CHARACTER_RMK", 
+    "rule_func_name" : "QRY_ROOM_COD", 
     "defaultVal" : "N", 
     "ds_from_sql" : "Y", 
     "multi_lang_table" : "", 
@@ -3348,12 +3348,12 @@
     "page_id" : NumberInt(3)
 }
 { 
-    "_id" : ObjectId("5a8f8746ee527c2a0c1dfe97"), 
+    "_id" : ObjectId("5a8f870cee527c2a0c1dfe95"), 
     "prg_id" : "PMS0110050", 
-    "ui_field_name" : "floor_nos", 
+    "ui_field_name" : "character_rmk", 
     "ui_type" : "select", 
     "ui_display_name" : "", 
-    "rule_func_name" : "QRY_ROOM_FLOOR", 
+    "rule_func_name" : "QRY_ROOM_MN_CHARACTER_RMK", 
     "defaultVal" : "N", 
     "ds_from_sql" : "Y", 
     "multi_lang_table" : "", 
@@ -3380,24 +3380,6 @@
     "column_func_name" : "sel_custMnCustColumn"
 }
 { 
-    "_id" : ObjectId("5a8fd4360bf3d908dc91cfbd"), 
-    "prg_id" : "PMS0210010", 
-    "page_id" : NumberInt(1), 
-    "tab_page_id" : NumberInt(1), 
-    "template_id" : "datagrid", 
-    "ui_field_name" : "status_cod", 
-    "ui_type" : "select", 
-    "ui_display_name" : "", 
-    "rule_func_name" : "lang_GhistMnStatuscod", 
-    "defaultVal" : "", 
-    "ds_from_sql" : "L", 
-    "multi_lang_table" : "", 
-    "multi_value_field" : "", 
-    "multi_display_field" : "", 
-    "is_qry_src_before" : "", 
-    "column_func_name" : ""
-}
-{ 
     "_id" : ObjectId("5a8fd4360bf3d908dc91cfbe"), 
     "prg_id" : "PMS0210010", 
     "page_id" : NumberInt(1), 
@@ -3414,6 +3396,24 @@
     "multi_display_field" : "", 
     "is_qry_src_before" : "", 
     "column_func_name" : "sel_GhistMnContrycodColumn"
+}
+{ 
+    "_id" : ObjectId("5a8fd4360bf3d908dc91cfbd"), 
+    "prg_id" : "PMS0210010", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "status_cod", 
+    "ui_type" : "select", 
+    "ui_display_name" : "", 
+    "rule_func_name" : "lang_GhistMnStatuscod", 
+    "defaultVal" : "", 
+    "ds_from_sql" : "L", 
+    "multi_lang_table" : "", 
+    "multi_value_field" : "", 
+    "multi_display_field" : "", 
+    "is_qry_src_before" : "", 
+    "column_func_name" : ""
 }
 { 
     "_id" : ObjectId("5a8fd4360bf3d908dc91cfbf"), 
@@ -3524,23 +3524,6 @@
     "column_func_name" : ""
 }
 { 
-    "_id" : ObjectId("5a97dc60ee527c3018af40c1"), 
-    "prg_id" : "PMS0210011", 
-    "page_id" : NumberInt(1), 
-    "tab_page_id" : NumberInt(1), 
-    "template_id" : "gridsingle", 
-    "ui_field_name" : "status_cod", 
-    "ui_type" : "select", 
-    "ui_display_name" : "", 
-    "rule_func_name" : "lang_GhistMnStatuscod", 
-    "defaultVal" : "N", 
-    "ds_from_sql" : "L", 
-    "multi_lang_table" : "", 
-    "multi_value_field" : "", 
-    "multi_display_field" : "", 
-    "is_qry_src_before" : ""
-}
-{ 
     "_id" : ObjectId("5a97dc60ee527c3018af40c2"), 
     "prg_id" : "PMS0210011", 
     "page_id" : NumberInt(1), 
@@ -3591,6 +3574,23 @@
     "multi_display_field" : "", 
     "is_qry_src_before" : "", 
     "column_func_name" : "QRY_SEL_SALUTE_COD_column"
+}
+{ 
+    "_id" : ObjectId("5a97dc60ee527c3018af40c1"), 
+    "prg_id" : "PMS0210011", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "ui_field_name" : "status_cod", 
+    "ui_type" : "select", 
+    "ui_display_name" : "", 
+    "rule_func_name" : "lang_GhistMnStatuscod", 
+    "defaultVal" : "N", 
+    "ds_from_sql" : "L", 
+    "multi_lang_table" : "", 
+    "multi_value_field" : "", 
+    "multi_display_field" : "", 
+    "is_qry_src_before" : ""
 }
 { 
     "_id" : ObjectId("5a97dc60ee527c3018af40c5"), 
@@ -3663,6 +3663,23 @@
     "is_qry_src_before" : ""
 }
 { 
+    "_id" : ObjectId("5a97dc60ee527c3018af40cb"), 
+    "prg_id" : "PMS0210011", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "ui_field_name" : "airline_cod", 
+    "ui_type" : "select", 
+    "ui_display_name" : "", 
+    "rule_func_name" : "QRY_SEL_AIRLINE_COD", 
+    "defaultVal" : "", 
+    "ds_from_sql" : "Y", 
+    "multi_lang_table" : "", 
+    "multi_value_field" : "", 
+    "multi_display_field" : "", 
+    "is_qry_src_before" : ""
+}
+{ 
     "_id" : ObjectId("5a97dc60ee527c3018af40c9"), 
     "prg_id" : "PMS0210011", 
     "page_id" : NumberInt(1), 
@@ -3698,17 +3715,17 @@
     "is_qry_src_before" : ""
 }
 { 
-    "_id" : ObjectId("5a97dc60ee527c3018af40cb"), 
+    "_id" : ObjectId("5a97dc60ee527c3018af40cd"), 
     "prg_id" : "PMS0210011", 
     "page_id" : NumberInt(1), 
     "tab_page_id" : NumberInt(1), 
     "template_id" : "gridsingle", 
-    "ui_field_name" : "airline_cod", 
+    "ui_field_name" : "co_del_sta", 
     "ui_type" : "select", 
     "ui_display_name" : "", 
-    "rule_func_name" : "QRY_SEL_AIRLINE_COD", 
-    "defaultVal" : "", 
-    "ds_from_sql" : "Y", 
+    "rule_func_name" : "lang_yn", 
+    "defaultVal" : "Y", 
+    "ds_from_sql" : "L", 
     "multi_lang_table" : "", 
     "multi_value_field" : "", 
     "multi_display_field" : "", 
@@ -3732,17 +3749,17 @@
     "is_qry_src_before" : ""
 }
 { 
-    "_id" : ObjectId("5a97dc60ee527c3018af40cd"), 
+    "_id" : ObjectId("5a97dc60ee527c3018af40cf"), 
     "prg_id" : "PMS0210011", 
     "page_id" : NumberInt(1), 
     "tab_page_id" : NumberInt(1), 
     "template_id" : "gridsingle", 
-    "ui_field_name" : "co_del_sta", 
-    "ui_type" : "select", 
+    "ui_field_name" : "cust_idx.from_table", 
+    "ui_type" : "", 
     "ui_display_name" : "", 
-    "rule_func_name" : "lang_yn", 
-    "defaultVal" : "Y", 
-    "ds_from_sql" : "L", 
+    "rule_func_name" : "", 
+    "defaultVal" : "GHIST_MN", 
+    "ds_from_sql" : "N", 
     "multi_lang_table" : "", 
     "multi_value_field" : "", 
     "multi_display_field" : "", 
@@ -3759,23 +3776,6 @@
     "ui_display_name" : "", 
     "rule_func_name" : "", 
     "defaultVal" : "N", 
-    "ds_from_sql" : "N", 
-    "multi_lang_table" : "", 
-    "multi_value_field" : "", 
-    "multi_display_field" : "", 
-    "is_qry_src_before" : ""
-}
-{ 
-    "_id" : ObjectId("5a97dc60ee527c3018af40cf"), 
-    "prg_id" : "PMS0210011", 
-    "page_id" : NumberInt(1), 
-    "tab_page_id" : NumberInt(1), 
-    "template_id" : "gridsingle", 
-    "ui_field_name" : "cust_idx.from_table", 
-    "ui_type" : "", 
-    "ui_display_name" : "", 
-    "rule_func_name" : "", 
-    "defaultVal" : "GHIST_MN", 
     "ds_from_sql" : "N", 
     "multi_lang_table" : "", 
     "multi_value_field" : "", 
@@ -3800,23 +3800,6 @@
     "is_qry_src_before" : ""
 }
 { 
-    "_id" : ObjectId("5a97dc60ee527c3018af40d1"), 
-    "prg_id" : "PMS0210011", 
-    "page_id" : NumberInt(1), 
-    "tab_page_id" : NumberInt(1), 
-    "template_id" : "gridsingle", 
-    "ui_field_name" : "cust_idx.cust_typ", 
-    "ui_type" : "", 
-    "ui_display_name" : "", 
-    "rule_func_name" : "", 
-    "defaultVal" : "H", 
-    "ds_from_sql" : "N", 
-    "multi_lang_table" : "", 
-    "multi_value_field" : "", 
-    "multi_display_field" : "", 
-    "is_qry_src_before" : ""
-}
-{ 
     "_id" : ObjectId("5a97dc60ee527c3018af40d2"), 
     "prg_id" : "PMS0210011", 
     "page_id" : NumberInt(1), 
@@ -3828,6 +3811,23 @@
     "rule_func_name" : "QRY_SEL_ROOM_NOS", 
     "defaultVal" : "", 
     "ds_from_sql" : "Y", 
+    "multi_lang_table" : "", 
+    "multi_value_field" : "", 
+    "multi_display_field" : "", 
+    "is_qry_src_before" : ""
+}
+{ 
+    "_id" : ObjectId("5a97dc60ee527c3018af40d1"), 
+    "prg_id" : "PMS0210011", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "ui_field_name" : "cust_idx.cust_typ", 
+    "ui_type" : "", 
+    "ui_display_name" : "", 
+    "rule_func_name" : "", 
+    "defaultVal" : "H", 
+    "ds_from_sql" : "N", 
     "multi_lang_table" : "", 
     "multi_value_field" : "", 
     "multi_display_field" : "", 
@@ -3886,24 +3886,6 @@
     "column_func_name" : "sel_salesMnHotelStatusNColumn"
 }
 { 
-    "_id" : ObjectId("5aa8850b3617376398d8ccc8"), 
-    "prg_id" : "PMS0610010", 
-    "page_id" : NumberInt(3), 
-    "tab_page_id" : NumberInt(1), 
-    "template_id" : "gridsingle", 
-    "ui_field_name" : "pcust_idx_show_cod", 
-    "ui_type" : "selectgrid", 
-    "ui_display_name" : "", 
-    "rule_func_name" : "SEL_CUSTMNPCUSTCOD", 
-    "defaultVal" : "", 
-    "ds_from_sql" : "L", 
-    "multi_lang_table" : "", 
-    "multi_value_field" : "", 
-    "multi_display_field" : "", 
-    "is_qry_src_before" : "", 
-    "column_func_name" : "sel_custMnCustColumn"
-}
-{ 
     "_id" : ObjectId("5aa887bf3617376398d8ccd9"), 
     "prg_id" : "PMS0610010", 
     "page_id" : NumberInt(3), 
@@ -3920,6 +3902,24 @@
     "multi_display_field" : "", 
     "is_qry_src_before" : "", 
     "column_func_name" : "sel_business_rf_column"
+}
+{ 
+    "_id" : ObjectId("5aa8850b3617376398d8ccc8"), 
+    "prg_id" : "PMS0610010", 
+    "page_id" : NumberInt(3), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "ui_field_name" : "pcust_idx_show_cod", 
+    "ui_type" : "selectgrid", 
+    "ui_display_name" : "", 
+    "rule_func_name" : "SEL_CUSTMNPCUSTCOD", 
+    "defaultVal" : "", 
+    "ds_from_sql" : "L", 
+    "multi_lang_table" : "", 
+    "multi_value_field" : "", 
+    "multi_display_field" : "", 
+    "is_qry_src_before" : "", 
+    "column_func_name" : "sel_custMnCustColumn"
 }
 { 
     "_id" : ObjectId("5aa88d903617376398d8cce6"), 
@@ -3976,22 +3976,21 @@
     "column_func_name" : "sel_custMnCustColumn"
 }
 { 
-    "_id" : ObjectId("5aa891753617376398d8ccff"), 
-    "prg_id" : "PMS0620050", 
-    "page_id" : NumberInt(3), 
+    "_id" : ObjectId("5aa8b2f63617376398d8cda5"), 
+    "prg_id" : "PMS0810230", 
+    "page_id" : NumberInt(1), 
     "tab_page_id" : NumberInt(1), 
-    "template_id" : "gridsingle", 
-    "ui_field_name" : "business_cod", 
-    "ui_type" : "selectgrid", 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "rate_prop", 
+    "ui_type" : "select", 
     "ui_display_name" : "", 
-    "rule_func_name" : "SEL_BUSINESS_RF", 
+    "rule_func_name" : "lang_rate_prop", 
     "defaultVal" : "", 
     "ds_from_sql" : "L", 
     "multi_lang_table" : "", 
     "multi_value_field" : "", 
     "multi_display_field" : "", 
-    "is_qry_src_before" : "", 
-    "column_func_name" : "sel_business_rf_column"
+    "is_qry_src_before" : ""
 }
 { 
     "_id" : ObjectId("5aa8b2f63617376398d8cda4"), 
@@ -4011,21 +4010,22 @@
     "is_qry_src_before" : ""
 }
 { 
-    "_id" : ObjectId("5aa8b2f63617376398d8cda5"), 
-    "prg_id" : "PMS0810230", 
-    "page_id" : NumberInt(1), 
+    "_id" : ObjectId("5aa891753617376398d8ccff"), 
+    "prg_id" : "PMS0620050", 
+    "page_id" : NumberInt(3), 
     "tab_page_id" : NumberInt(1), 
-    "template_id" : "datagrid", 
-    "ui_field_name" : "rate_prop", 
-    "ui_type" : "select", 
+    "template_id" : "gridsingle", 
+    "ui_field_name" : "business_cod", 
+    "ui_type" : "selectgrid", 
     "ui_display_name" : "", 
-    "rule_func_name" : "lang_rate_prop", 
+    "rule_func_name" : "SEL_BUSINESS_RF", 
     "defaultVal" : "", 
     "ds_from_sql" : "L", 
     "multi_lang_table" : "", 
     "multi_value_field" : "", 
     "multi_display_field" : "", 
-    "is_qry_src_before" : ""
+    "is_qry_src_before" : "", 
+    "column_func_name" : "sel_business_rf_column"
 }
 { 
     "_id" : ObjectId("5aa8b2f63617376398d8cda6"), 
@@ -4063,29 +4063,6 @@
     "display_func_name" : "filter_rate_grp"
 }
 { 
-    "_id" : ObjectId("5aa8b2f63617376398d8cda8"), 
-    "prg_id" : "PMS0810230", 
-    "page_id" : NumberInt(2), 
-    "tab_page_id" : NumberInt(1), 
-    "template_id" : "gridsingle", 
-    "ui_field_name" : "rate_prop", 
-    "ui_type" : "select", 
-    "ui_display_name" : "", 
-    "rule_func_name" : "lang_rate_prop", 
-    "rule_extend_func_name" : [
-        {
-            "chkOptionID" : "Y", 
-            "sort" : NumberInt(1)
-        }
-    ], 
-    "defaultVal" : "", 
-    "ds_from_sql" : "L", 
-    "multi_lang_table" : "", 
-    "multi_value_field" : "", 
-    "multi_display_field" : "", 
-    "is_qry_src_before" : ""
-}
-{ 
     "_id" : ObjectId("5aa8b2f63617376398d8cda9"), 
     "prg_id" : "PMS0810230", 
     "page_id" : NumberInt(2), 
@@ -4096,23 +4073,6 @@
     "ui_display_name" : "", 
     "rule_func_name" : "lang_yn", 
     "defaultVal" : "N", 
-    "ds_from_sql" : "L", 
-    "multi_lang_table" : "", 
-    "multi_value_field" : "", 
-    "multi_display_field" : "", 
-    "is_qry_src_before" : ""
-}
-{ 
-    "_id" : ObjectId("5aa8b2f63617376398d8cdaa"), 
-    "prg_id" : "PMS0810230", 
-    "page_id" : NumberInt(2), 
-    "tab_page_id" : NumberInt(1), 
-    "template_id" : "gridsingle", 
-    "ui_field_name" : "baserate_flag", 
-    "ui_type" : "select", 
-    "ui_display_name" : "", 
-    "rule_func_name" : "lang_baserate_flag", 
-    "defaultVal" : "ID", 
     "ds_from_sql" : "L", 
     "multi_lang_table" : "", 
     "multi_value_field" : "", 
@@ -4138,6 +4098,23 @@
     "display_func_name" : "filter_source_typ"
 }
 { 
+    "_id" : ObjectId("5aa8b2f63617376398d8cdaa"), 
+    "prg_id" : "PMS0810230", 
+    "page_id" : NumberInt(2), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "ui_field_name" : "baserate_flag", 
+    "ui_type" : "select", 
+    "ui_display_name" : "", 
+    "rule_func_name" : "lang_baserate_flag", 
+    "defaultVal" : "ID", 
+    "ds_from_sql" : "L", 
+    "multi_lang_table" : "", 
+    "multi_value_field" : "", 
+    "multi_display_field" : "", 
+    "is_qry_src_before" : ""
+}
+{ 
     "_id" : ObjectId("5aa8b2f63617376398d8cdac"), 
     "prg_id" : "PMS0810230", 
     "page_id" : NumberInt(2), 
@@ -4154,6 +4131,29 @@
     "multi_display_field" : "", 
     "is_qry_src_before" : "", 
     "display_func_name" : "filter_guest_typ"
+}
+{ 
+    "_id" : ObjectId("5aa8b2f63617376398d8cda8"), 
+    "prg_id" : "PMS0810230", 
+    "page_id" : NumberInt(2), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "ui_field_name" : "rate_prop", 
+    "ui_type" : "select", 
+    "ui_display_name" : "", 
+    "rule_func_name" : "lang_rate_prop", 
+    "rule_extend_func_name" : [
+        {
+            "chkOptionID" : "Y", 
+            "sort" : NumberInt(1)
+        }
+    ], 
+    "defaultVal" : "", 
+    "ds_from_sql" : "L", 
+    "multi_lang_table" : "", 
+    "multi_value_field" : "", 
+    "multi_display_field" : "", 
+    "is_qry_src_before" : ""
 }
 { 
     "_id" : ObjectId("5aa8b2f63617376398d8cdad"), 
@@ -4182,6 +4182,23 @@
     "ui_type" : "select", 
     "ui_display_name" : "", 
     "rule_func_name" : "lang_yn", 
+    "defaultVal" : "Y", 
+    "ds_from_sql" : "L", 
+    "multi_lang_table" : "", 
+    "multi_value_field" : "", 
+    "multi_display_field" : "", 
+    "is_qry_src_before" : ""
+}
+{ 
+    "_id" : ObjectId("5aa8b2f63617376398d8cdb0"), 
+    "prg_id" : "PMS0810230", 
+    "page_id" : NumberInt(2), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "display_all", 
+    "ui_type" : "checkbox", 
+    "ui_display_name" : "", 
+    "rule_func_name" : "lang_yn", 
     "defaultVal" : "N", 
     "ds_from_sql" : "L", 
     "multi_lang_table" : "", 
@@ -4197,23 +4214,6 @@
     "template_id" : "gridsingle", 
     "ui_field_name" : "commis_chg", 
     "ui_type" : "select", 
-    "ui_display_name" : "", 
-    "rule_func_name" : "lang_yn", 
-    "defaultVal" : "N", 
-    "ds_from_sql" : "L", 
-    "multi_lang_table" : "", 
-    "multi_value_field" : "", 
-    "multi_display_field" : "", 
-    "is_qry_src_before" : ""
-}
-{ 
-    "_id" : ObjectId("5aa8b2f63617376398d8cdb0"), 
-    "prg_id" : "PMS0810230", 
-    "page_id" : NumberInt(2), 
-    "tab_page_id" : NumberInt(1), 
-    "template_id" : "datagrid", 
-    "ui_field_name" : "display_all", 
-    "ui_type" : "checkbox", 
     "ui_display_name" : "", 
     "rule_func_name" : "lang_yn", 
     "defaultVal" : "N", 
@@ -4326,6 +4326,23 @@
     "is_qry_src_before" : ""
 }
 { 
+    "_id" : ObjectId("5aa8cc203617376398d8ce43"), 
+    "prg_id" : "PMS0810230", 
+    "page_id" : NumberInt(3), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "ui_field_name" : "baserate_flag", 
+    "ui_type" : "select", 
+    "ui_display_name" : "", 
+    "rule_func_name" : "lang_baserate_flag", 
+    "defaultVal" : "", 
+    "ds_from_sql" : "L", 
+    "multi_lang_table" : "", 
+    "multi_value_field" : "", 
+    "multi_display_field" : "", 
+    "is_qry_src_before" : ""
+}
+{ 
     "_id" : ObjectId("5aa8b2f63617376398d8cdb7"), 
     "prg_id" : "PMS0810230", 
     "page_id" : NumberInt(3), 
@@ -4342,6 +4359,22 @@
     "multi_display_field" : "", 
     "is_qry_src_before" : "", 
     "column_func_name" : "sel_guest_typ_column"
+}
+{ 
+    "_id" : ObjectId("5aaa0131cde0d060decd7f43"), 
+    "prg_id" : "FLWA120010", 
+    "page_id" : NumberInt(3), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "ui_field_name" : "formtype", 
+    "ui_type" : "select", 
+    "ui_display_name" : "formtype", 
+    "rule_func_name" : "QRY_FLW_FORMTYPE_DATA", 
+    "defaultVal" : "", 
+    "ds_from_sql" : "Y", 
+    "multi_lang_table" : "", 
+    "multi_value_field" : "", 
+    "multi_display_field" : ""
 }
 { 
     "_id" : ObjectId("5aa8b2f63617376398d8cdb8"), 
@@ -4361,39 +4394,6 @@
     "is_qry_src_before" : ""
 }
 { 
-    "_id" : ObjectId("5aa8cc203617376398d8ce43"), 
-    "prg_id" : "PMS0810230", 
-    "page_id" : NumberInt(3), 
-    "tab_page_id" : NumberInt(1), 
-    "template_id" : "gridsingle", 
-    "ui_field_name" : "baserate_flag", 
-    "ui_type" : "select", 
-    "ui_display_name" : "", 
-    "rule_func_name" : "lang_baserate_flag", 
-    "defaultVal" : "", 
-    "ds_from_sql" : "L", 
-    "multi_lang_table" : "", 
-    "multi_value_field" : "", 
-    "multi_display_field" : "", 
-    "is_qry_src_before" : ""
-}
-{ 
-    "_id" : ObjectId("5aaa0131cde0d060decd7f43"), 
-    "prg_id" : "FLWA120010", 
-    "page_id" : NumberInt(3), 
-    "tab_page_id" : NumberInt(1), 
-    "template_id" : "gridsingle", 
-    "ui_field_name" : "formtype", 
-    "ui_type" : "select", 
-    "ui_display_name" : "formtype", 
-    "rule_func_name" : "QRY_FLW_FORMTYPE_DATA", 
-    "defaultVal" : "", 
-    "ds_from_sql" : "Y", 
-    "multi_lang_table" : "", 
-    "multi_value_field" : "", 
-    "multi_display_field" : ""
-}
-{ 
     "_id" : ObjectId("5aaa06a4cde0d060decd7f44"), 
     "prg_id" : "FLWA120010", 
     "page_id" : NumberInt(3), 
@@ -4403,39 +4403,6 @@
     "ui_type" : "select", 
     "ui_display_name" : "comp_cod", 
     "rule_func_name" : "QRY_FLW_COMPANY_DATA", 
-    "defaultVal" : "", 
-    "ds_from_sql" : "Y", 
-    "multi_lang_table" : "", 
-    "multi_value_field" : "", 
-    "multi_display_field" : ""
-}
-{ 
-    "_id" : ObjectId("5aab2a660bf3d933a81b8e10"), 
-    "prg_id" : "PMS0810230", 
-    "page_id" : NumberInt(1), 
-    "tab_page_id" : NumberInt(1), 
-    "template_id" : "datagrid", 
-    "ui_field_name" : "guest_typ", 
-    "ui_type" : "select", 
-    "ui_display_name" : "guest_typ", 
-    "rule_func_name" : "sel_guest_typ_for_select", 
-    "defaultVal" : "", 
-    "ds_from_sql" : "Y", 
-    "multi_lang_table" : "", 
-    "multi_value_field" : "", 
-    "multi_display_field" : "", 
-    "is_qry_src_before" : ""
-}
-{ 
-    "_id" : ObjectId("5aab68e7cde0d060decd7f74"), 
-    "prg_id" : "FLWA120020", 
-    "page_id" : NumberInt(3), 
-    "tab_page_id" : NumberInt(1), 
-    "template_id" : "gridsingle", 
-    "ui_field_name" : "formtype", 
-    "ui_type" : "select", 
-    "ui_display_name" : "formtype", 
-    "rule_func_name" : "QRY_FLW_FORMTYPE_DATA", 
     "defaultVal" : "", 
     "ds_from_sql" : "Y", 
     "multi_lang_table" : "", 
@@ -4459,20 +4426,37 @@
     "multi_display_field" : ""
 }
 { 
-    "_id" : ObjectId("5ab1f305127b8cd32acc6381"), 
-    "prg_id" : "FLWA120030", 
+    "_id" : ObjectId("5aab68e7cde0d060decd7f74"), 
+    "prg_id" : "FLWA120020", 
     "page_id" : NumberInt(3), 
     "tab_page_id" : NumberInt(1), 
     "template_id" : "gridsingle", 
-    "ui_field_name" : "comp_cod", 
+    "ui_field_name" : "formtype", 
     "ui_type" : "select", 
-    "ui_display_name" : "comp_cod", 
-    "rule_func_name" : "QRY_FLW_COMPANY_DATA", 
+    "ui_display_name" : "formtype", 
+    "rule_func_name" : "QRY_FLW_FORMTYPE_DATA", 
     "defaultVal" : "", 
     "ds_from_sql" : "Y", 
     "multi_lang_table" : "", 
     "multi_value_field" : "", 
     "multi_display_field" : ""
+}
+{ 
+    "_id" : ObjectId("5aab2a660bf3d933a81b8e10"), 
+    "prg_id" : "PMS0810230", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "guest_typ", 
+    "ui_type" : "select", 
+    "ui_display_name" : "guest_typ", 
+    "rule_func_name" : "sel_guest_typ_for_select", 
+    "defaultVal" : "", 
+    "ds_from_sql" : "Y", 
+    "multi_lang_table" : "", 
+    "multi_value_field" : "", 
+    "multi_display_field" : "", 
+    "is_qry_src_before" : ""
 }
 { 
     "_id" : ObjectId("5ab1f30e127b8cd32acc6382"), 
@@ -4507,15 +4491,15 @@
     "multi_display_field" : ""
 }
 { 
-    "_id" : ObjectId("5ab1f323127b8cd32acc6384"), 
-    "prg_id" : "FLWA120040", 
+    "_id" : ObjectId("5ab1f305127b8cd32acc6381"), 
+    "prg_id" : "FLWA120030", 
     "page_id" : NumberInt(3), 
     "tab_page_id" : NumberInt(1), 
     "template_id" : "gridsingle", 
-    "ui_field_name" : "formtype", 
+    "ui_field_name" : "comp_cod", 
     "ui_type" : "select", 
-    "ui_display_name" : "formtype", 
-    "rule_func_name" : "QRY_FLW_FORMTYPE_DATA", 
+    "ui_display_name" : "comp_cod", 
+    "rule_func_name" : "QRY_FLW_COMPANY_DATA", 
     "defaultVal" : "", 
     "ds_from_sql" : "Y", 
     "multi_lang_table" : "", 
@@ -4539,15 +4523,15 @@
     "multi_display_field" : ""
 }
 { 
-    "_id" : ObjectId("5ab1f354127b8cd32acc6386"), 
-    "prg_id" : "FLWA120050", 
+    "_id" : ObjectId("5ab1f323127b8cd32acc6384"), 
+    "prg_id" : "FLWA120040", 
     "page_id" : NumberInt(3), 
     "tab_page_id" : NumberInt(1), 
     "template_id" : "gridsingle", 
-    "ui_field_name" : "comp_cod", 
+    "ui_field_name" : "formtype", 
     "ui_type" : "select", 
-    "ui_display_name" : "comp_cod", 
-    "rule_func_name" : "QRY_FLW_COMPANY_DATA", 
+    "ui_display_name" : "formtype", 
+    "rule_func_name" : "QRY_FLW_FORMTYPE_DATA", 
     "defaultVal" : "", 
     "ds_from_sql" : "Y", 
     "multi_lang_table" : "", 
@@ -4584,20 +4568,20 @@
     "multi_display_field" : ""
 }
 { 
-    "_id" : ObjectId("5ad80d506108243890b19ba9"), 
-    "prg_id" : "PMS0810240", 
-    "page_id" : NumberInt(1), 
+    "_id" : ObjectId("5ab1f354127b8cd32acc6386"), 
+    "prg_id" : "FLWA120050", 
+    "page_id" : NumberInt(3), 
     "tab_page_id" : NumberInt(1), 
-    "template_id" : "datagrid", 
-    "ui_field_name" : "use_sta", 
-    "ui_display_name" : "", 
-    "rule_func_name" : "langRategrpRfUseSta", 
-    "defaultVal" : "Y", 
-    "ds_from_sql" : "L", 
+    "template_id" : "gridsingle", 
+    "ui_field_name" : "comp_cod", 
+    "ui_type" : "select", 
+    "ui_display_name" : "comp_cod", 
+    "rule_func_name" : "QRY_FLW_COMPANY_DATA", 
+    "defaultVal" : "", 
+    "ds_from_sql" : "Y", 
     "multi_lang_table" : "", 
     "multi_value_field" : "", 
-    "multi_display_field" : "", 
-    "is_qry_src_before" : ""
+    "multi_display_field" : ""
 }
 { 
     "_id" : ObjectId("5af2cc8c30c478072c325a12"), 
@@ -4614,18 +4598,20 @@
     "multi_display_field" : ""
 }
 { 
-    "_id" : ObjectId("5af2cd0230c478072c325a15"), 
-    "prg_id" : "PMS01R0010", 
-    "page_id" : NumberInt(3), 
+    "_id" : ObjectId("5ad80d506108243890b19ba9"), 
+    "prg_id" : "PMS0810240", 
+    "page_id" : NumberInt(1), 
     "tab_page_id" : NumberInt(1), 
-    "ui_field_name" : "guest_rf.guest_typ", 
-    "ui_display_name" : "guest_typ", 
-    "rule_func_name" : "QRY_GUEST_TYP", 
-    "defaultVal" : "", 
-    "ds_from_sql" : "Y", 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "use_sta", 
+    "ui_display_name" : "", 
+    "rule_func_name" : "langRategrpRfUseSta", 
+    "defaultVal" : "Y", 
+    "ds_from_sql" : "L", 
     "multi_lang_table" : "", 
     "multi_value_field" : "", 
-    "multi_display_field" : ""
+    "multi_display_field" : "", 
+    "is_qry_src_before" : ""
 }
 { 
     "_id" : ObjectId("5af2cd3830c478072c325a17"), 
@@ -4635,6 +4621,20 @@
     "ui_field_name" : "order_dt.ins_usr", 
     "ui_display_name" : "usr_cname", 
     "rule_func_name" : "QRY_USERS_BY_ATHENA_ID", 
+    "defaultVal" : "", 
+    "ds_from_sql" : "Y", 
+    "multi_lang_table" : "", 
+    "multi_value_field" : "", 
+    "multi_display_field" : ""
+}
+{ 
+    "_id" : ObjectId("5af2cd0230c478072c325a15"), 
+    "prg_id" : "PMS01R0010", 
+    "page_id" : NumberInt(3), 
+    "tab_page_id" : NumberInt(1), 
+    "ui_field_name" : "guest_rf.guest_typ", 
+    "ui_display_name" : "guest_typ", 
+    "rule_func_name" : "QRY_GUEST_TYP", 
     "defaultVal" : "", 
     "ds_from_sql" : "Y", 
     "multi_lang_table" : "", 
@@ -4675,6 +4675,23 @@
     "is_qry_src_before" : ""
 }
 { 
+    "_id" : ObjectId("5b164ae50bf3d95bf887d744"), 
+    "prg_id" : "PMS0110041", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(12), 
+    "template_id" : "gridsingle", 
+    "ui_field_name" : "confirm_sta", 
+    "ui_type" : "select", 
+    "ui_display_name" : "", 
+    "rule_func_name" : "lang_YN", 
+    "defaultVal" : "N", 
+    "ds_from_sql" : "L", 
+    "multi_lang_table" : "", 
+    "multi_value_field" : "", 
+    "multi_display_field" : "", 
+    "display_func_name" : ""
+}
+{ 
     "_id" : ObjectId("5afd1f5319e0cb3c78746046"), 
     "prg_id" : "PMS0810230", 
     "page_id" : NumberInt(1010), 
@@ -4710,21 +4727,23 @@
     "column_func_name" : "sel_cust_idx_cust_mn_pers_dt_column"
 }
 { 
-    "_id" : ObjectId("5b164ae50bf3d95bf887d744"), 
+    "_id" : ObjectId("5b164ae50bf3d95bf887d748"), 
     "prg_id" : "PMS0110041", 
     "page_id" : NumberInt(1), 
-    "tab_page_id" : NumberInt(12), 
+    "tab_page_id" : NumberInt(11), 
     "template_id" : "gridsingle", 
-    "ui_field_name" : "confirm_sta", 
+    "ui_field_name" : "salute_cod", 
     "ui_type" : "select", 
-    "ui_display_name" : "", 
-    "rule_func_name" : "lang_YN", 
-    "defaultVal" : "N", 
-    "ds_from_sql" : "L", 
+    "ui_display_name" : "salute_nam", 
+    "rule_func_name" : "QRY_SEL_SALUTE_COD", 
+    "defaultVal" : "", 
+    "ds_from_sql" : "Y", 
     "multi_lang_table" : "", 
     "multi_value_field" : "", 
     "multi_display_field" : "", 
-    "display_func_name" : ""
+    "display_func_name" : "", 
+    "column_func_name" : "QRY_SEL_SALUTE_COD_column", 
+    "is_qry_src_before" : "Y"
 }
 { 
     "_id" : ObjectId("5b164ae50bf3d95bf887d745"), 
@@ -4782,22 +4801,22 @@
     "display_func_name" : ""
 }
 { 
-    "_id" : ObjectId("5b164ae50bf3d95bf887d748"), 
+    "_id" : ObjectId("5b164ae50bf3d95bf887d74b"), 
     "prg_id" : "PMS0110041", 
     "page_id" : NumberInt(1), 
-    "tab_page_id" : NumberInt(11), 
+    "tab_page_id" : NumberInt(12), 
     "template_id" : "gridsingle", 
-    "ui_field_name" : "salute_cod", 
-    "ui_type" : "select", 
-    "ui_display_name" : "salute_nam", 
-    "rule_func_name" : "QRY_SEL_SALUTE_COD", 
+    "ui_field_name" : "guarentee_typ", 
+    "ui_type" : "selectgrid", 
+    "ui_display_name" : "guarentee_nam", 
+    "rule_func_name" : "sel_HfdguarenteerfGuarenteetyp", 
     "defaultVal" : "", 
     "ds_from_sql" : "Y", 
     "multi_lang_table" : "", 
     "multi_value_field" : "", 
     "multi_display_field" : "", 
-    "display_func_name" : "", 
-    "column_func_name" : "QRY_SEL_SALUTE_COD_column", 
+    "display_func_name" : "sel_HfdguarenteerfGuarenteetyp_y", 
+    "column_func_name" : "sel_hfdguarenteerfguarenteetyp_y_for_column", 
     "is_qry_src_before" : "Y"
 }
 { 
@@ -4810,6 +4829,23 @@
     "ui_type" : "select", 
     "ui_display_name" : "", 
     "rule_func_name" : "lang_YN", 
+    "defaultVal" : "", 
+    "ds_from_sql" : "L", 
+    "multi_lang_table" : "", 
+    "multi_value_field" : "", 
+    "multi_display_field" : "", 
+    "display_func_name" : ""
+}
+{ 
+    "_id" : ObjectId("5b164ae50bf3d95bf887d74c"), 
+    "prg_id" : "PMS0110041", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(12), 
+    "template_id" : "gridsingle", 
+    "ui_field_name" : "master_sta", 
+    "ui_type" : "select", 
+    "ui_display_name" : "", 
+    "rule_func_name" : "lang_OrdermnMastersta", 
     "defaultVal" : "", 
     "ds_from_sql" : "L", 
     "multi_lang_table" : "", 
@@ -4835,42 +4871,6 @@
     "display_func_name" : "", 
     "column_func_name" : "sel_salesMnHotelStatusNColumn", 
     "is_qry_src_before" : "Y"
-}
-{ 
-    "_id" : ObjectId("5b164ae50bf3d95bf887d74b"), 
-    "prg_id" : "PMS0110041", 
-    "page_id" : NumberInt(1), 
-    "tab_page_id" : NumberInt(12), 
-    "template_id" : "gridsingle", 
-    "ui_field_name" : "guarentee_typ", 
-    "ui_type" : "selectgrid", 
-    "ui_display_name" : "guarentee_nam", 
-    "rule_func_name" : "sel_HfdguarenteerfGuarenteetyp", 
-    "defaultVal" : "", 
-    "ds_from_sql" : "Y", 
-    "multi_lang_table" : "", 
-    "multi_value_field" : "", 
-    "multi_display_field" : "", 
-    "display_func_name" : "sel_HfdguarenteerfGuarenteetyp_y", 
-    "column_func_name" : "sel_hfdguarenteerfguarenteetyp_y_for_column", 
-    "is_qry_src_before" : "Y"
-}
-{ 
-    "_id" : ObjectId("5b164ae50bf3d95bf887d74c"), 
-    "prg_id" : "PMS0110041", 
-    "page_id" : NumberInt(1), 
-    "tab_page_id" : NumberInt(12), 
-    "template_id" : "gridsingle", 
-    "ui_field_name" : "master_sta", 
-    "ui_type" : "select", 
-    "ui_display_name" : "", 
-    "rule_func_name" : "lang_OrdermnMastersta", 
-    "defaultVal" : "", 
-    "ds_from_sql" : "L", 
-    "multi_lang_table" : "", 
-    "multi_value_field" : "", 
-    "multi_display_field" : "", 
-    "display_func_name" : ""
 }
 { 
     "_id" : ObjectId("5b164ae50bf3d95bf887d74d"), 
@@ -4926,23 +4926,6 @@
     "display_func_name" : ""
 }
 { 
-    "_id" : ObjectId("5b164ae50bf3d95bf887d750"), 
-    "prg_id" : "PMS0110041", 
-    "page_id" : NumberInt(1), 
-    "tab_page_id" : NumberInt(12), 
-    "template_id" : "gridsingle", 
-    "ui_field_name" : "prtconfirm_sta", 
-    "ui_type" : "select", 
-    "ui_display_name" : "", 
-    "rule_func_name" : "lang_OrdermnPrtconfirmsta", 
-    "defaultVal" : "", 
-    "ds_from_sql" : "L", 
-    "multi_lang_table" : "", 
-    "multi_value_field" : "", 
-    "multi_display_field" : "", 
-    "display_func_name" : ""
-}
-{ 
     "_id" : ObjectId("5b164ae50bf3d95bf887d751"), 
     "prg_id" : "PMS0110041", 
     "page_id" : NumberInt(1), 
@@ -4960,22 +4943,38 @@
     "display_func_name" : ""
 }
 { 
-    "_id" : ObjectId("5b164ae50bf3d95bf887d752"), 
+    "_id" : ObjectId("5b164ae50bf3d95bf887d750"), 
+    "prg_id" : "PMS0110041", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(12), 
+    "template_id" : "gridsingle", 
+    "ui_field_name" : "prtconfirm_sta", 
+    "ui_type" : "select", 
+    "ui_display_name" : "", 
+    "rule_func_name" : "lang_OrdermnPrtconfirmsta", 
+    "defaultVal" : "", 
+    "ds_from_sql" : "L", 
+    "multi_lang_table" : "", 
+    "multi_value_field" : "", 
+    "multi_display_field" : "", 
+    "display_func_name" : ""
+}
+{ 
+    "_id" : ObjectId("5b164ae50bf3d95bf887d756"), 
     "prg_id" : "PMS0110041", 
     "page_id" : NumberInt(1), 
     "tab_page_id" : NumberInt(1), 
     "template_id" : "datagrid", 
-    "ui_field_name" : "rate_cod", 
+    "ui_field_name" : "guest_typ", 
     "ui_type" : "select", 
-    "ui_display_name" : "ratecod_nam", 
-    "rule_func_name" : "", 
+    "ui_display_name" : "guest_sna", 
+    "rule_func_name" : "sel_guest_typ_for_select", 
     "defaultVal" : "", 
-    "ds_from_sql" : "", 
+    "ds_from_sql" : "Y", 
     "multi_lang_table" : "", 
     "multi_value_field" : "", 
     "multi_display_field" : "", 
-    "display_func_name" : "", 
-    "column_func_name" : ""
+    "display_func_name" : "filter_guest_typ"
 }
 { 
     "_id" : ObjectId("5b164ae50bf3d95bf887d753"), 
@@ -4984,35 +4983,16 @@
     "tab_page_id" : NumberInt(1), 
     "template_id" : "datagrid", 
     "ui_field_name" : "use_cod", 
-    "ui_type" : "selectgrid", 
+    "ui_type" : "select", 
     "ui_display_name" : "room_sna", 
-    "rule_func_name" : "", 
+    "rule_func_name" : "sel_use_cod_rule", 
     "defaultVal" : "", 
-    "ds_from_sql" : "", 
+    "ds_from_sql" : "R", 
     "multi_lang_table" : "", 
     "multi_value_field" : "", 
     "multi_display_field" : "", 
     "display_func_name" : "", 
     "column_func_name" : "sel_orderdtusecod_for_column", 
-    "is_qry_src_before" : "Y"
-}
-{ 
-    "_id" : ObjectId("5b164ae50bf3d95bf887d754"), 
-    "prg_id" : "PMS0110041", 
-    "page_id" : NumberInt(1), 
-    "tab_page_id" : NumberInt(1), 
-    "template_id" : "datagrid", 
-    "ui_field_name" : "room_cod", 
-    "ui_type" : "selectgrid", 
-    "ui_display_name" : "room_sna", 
-    "rule_func_name" : "", 
-    "defaultVal" : "", 
-    "ds_from_sql" : "", 
-    "multi_lang_table" : "", 
-    "multi_value_field" : "", 
-    "multi_display_field" : "", 
-    "display_func_name" : "", 
-    "column_func_name" : "sel_orderdtroomcod_for_column", 
     "is_qry_src_before" : "Y"
 }
 { 
@@ -5033,21 +5013,58 @@
     "display_func_name" : "filter_source_typ"
 }
 { 
-    "_id" : ObjectId("5b164ae50bf3d95bf887d756"), 
+    "_id" : ObjectId("5b164ae50bf3d95bf887d754"), 
     "prg_id" : "PMS0110041", 
     "page_id" : NumberInt(1), 
     "tab_page_id" : NumberInt(1), 
     "template_id" : "datagrid", 
-    "ui_field_name" : "guest_typ", 
+    "ui_field_name" : "room_cod", 
     "ui_type" : "select", 
-    "ui_display_name" : "guest_sna", 
-    "rule_func_name" : "sel_guest_typ_for_select", 
+    "ui_display_name" : "room_sna", 
+    "rule_func_name" : "sel_room_cod_rule", 
     "defaultVal" : "", 
-    "ds_from_sql" : "Y", 
+    "ds_from_sql" : "R", 
     "multi_lang_table" : "", 
     "multi_value_field" : "", 
     "multi_display_field" : "", 
-    "display_func_name" : "filter_guest_typ"
+    "display_func_name" : "", 
+    "column_func_name" : "sel_orderdtroomcod_for_column", 
+    "is_qry_src_before" : "Y"
+}
+{ 
+    "_id" : ObjectId("5b164ae50bf3d95bf887d752"), 
+    "prg_id" : "PMS0110041", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "rate_cod", 
+    "ui_type" : "select", 
+    "ui_display_name" : "ratecod_nam", 
+    "rule_func_name" : "", 
+    "defaultVal" : "", 
+    "ds_from_sql" : "", 
+    "multi_lang_table" : "", 
+    "multi_value_field" : "", 
+    "multi_display_field" : "", 
+    "display_func_name" : "", 
+    "column_func_name" : ""
+}
+{ 
+    "_id" : ObjectId("5b164ae50bf3d95bf887d75a"), 
+    "prg_id" : "PMS0110041", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(13), 
+    "template_id" : "gridsingle", 
+    "ui_field_name" : "is_prtrent", 
+    "ui_type" : "checkbox", 
+    "ui_display_name" : "", 
+    "rule_func_name" : "isPrtrent", 
+    "defaultVal" : "N", 
+    "ds_from_sql" : "L", 
+    "multi_lang_table" : "", 
+    "multi_value_field" : "", 
+    "multi_display_field" : "", 
+    "display_func_name" : ""
 }
 { 
     "_id" : ObjectId("5b164ae50bf3d95bf887d757"), 
@@ -5076,40 +5093,6 @@
     "ui_type" : "select", 
     "ui_display_name" : "", 
     "rule_func_name" : "lang_YN", 
-    "defaultVal" : "N", 
-    "ds_from_sql" : "L", 
-    "multi_lang_table" : "", 
-    "multi_value_field" : "", 
-    "multi_display_field" : "", 
-    "display_func_name" : ""
-}
-{ 
-    "_id" : ObjectId("5b164ae50bf3d95bf887d759"), 
-    "prg_id" : "PMS0110041", 
-    "page_id" : NumberInt(1), 
-    "tab_page_id" : NumberInt(13), 
-    "template_id" : "gridsingle", 
-    "ui_field_name" : "character_rmk", 
-    "ui_type" : "select", 
-    "ui_display_name" : "character_nam", 
-    "rule_func_name" : "QRY_SEL_CHARACTER_RF", 
-    "defaultVal" : "", 
-    "ds_from_sql" : "Y", 
-    "multi_lang_table" : "", 
-    "multi_value_field" : "", 
-    "multi_display_field" : "", 
-    "display_func_name" : ""
-}
-{ 
-    "_id" : ObjectId("5b164ae50bf3d95bf887d75a"), 
-    "prg_id" : "PMS0110041", 
-    "page_id" : NumberInt(1), 
-    "tab_page_id" : NumberInt(13), 
-    "template_id" : "gridsingle", 
-    "ui_field_name" : "is_prtrent", 
-    "ui_type" : "checkbox", 
-    "ui_display_name" : "", 
-    "rule_func_name" : "isPrtrent", 
     "defaultVal" : "N", 
     "ds_from_sql" : "L", 
     "multi_lang_table" : "", 
@@ -5152,6 +5135,42 @@
     "display_func_name" : ""
 }
 { 
+    "_id" : ObjectId("5b164ae50bf3d95bf887d75e"), 
+    "prg_id" : "PMS0110041", 
+    "page_id" : NumberInt(1011), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "ui_field_name" : "cancel_cod", 
+    "ui_type" : "selectgrid", 
+    "ui_display_name" : "cancel_rmk", 
+    "rule_func_name" : "sel_rvcancel_rf", 
+    "defaultVal" : "", 
+    "ds_from_sql" : "Y", 
+    "multi_lang_table" : "", 
+    "multi_value_field" : "", 
+    "multi_display_field" : "", 
+    "display_func_name" : "", 
+    "column_func_name" : "sel_cancel_cod_for_column", 
+    "is_qry_src_before" : "Y"
+}
+{ 
+    "_id" : ObjectId("5b164ae50bf3d95bf887d759"), 
+    "prg_id" : "PMS0110041", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(13), 
+    "template_id" : "gridsingle", 
+    "ui_field_name" : "character_rmk", 
+    "ui_type" : "select", 
+    "ui_display_name" : "character_nam", 
+    "rule_func_name" : "QRY_SEL_CHARACTER_RF", 
+    "defaultVal" : "", 
+    "ds_from_sql" : "Y", 
+    "multi_lang_table" : "", 
+    "multi_value_field" : "", 
+    "multi_display_field" : "", 
+    "display_func_name" : ""
+}
+{ 
     "_id" : ObjectId("5b164ae50bf3d95bf887d75d"), 
     "prg_id" : "PMS0110041", 
     "page_id" : NumberInt(1142), 
@@ -5163,23 +5182,6 @@
     "rule_func_name" : "langMastersta", 
     "defaultVal" : "", 
     "ds_from_sql" : "L", 
-    "multi_lang_table" : "", 
-    "multi_value_field" : "", 
-    "multi_display_field" : "", 
-    "display_func_name" : ""
-}
-{ 
-    "_id" : ObjectId("5b164ae50bf3d95bf887d75e"), 
-    "prg_id" : "PMS0110041", 
-    "page_id" : NumberInt(1011), 
-    "tab_page_id" : NumberInt(1), 
-    "template_id" : "gridsingle", 
-    "ui_field_name" : "cancel_cod", 
-    "ui_type" : "select", 
-    "ui_display_name" : "cancel_rmk", 
-    "rule_func_name" : "sel_rvcancel_rf", 
-    "defaultVal" : "", 
-    "ds_from_sql" : "Y", 
     "multi_lang_table" : "", 
     "multi_value_field" : "", 
     "multi_display_field" : "", 
@@ -5201,24 +5203,6 @@
     "multi_value_field" : "", 
     "multi_display_field" : "", 
     "display_func_name" : ""
-}
-{ 
-    "_id" : ObjectId("5b164ae50bf3d95bf887d760"), 
-    "prg_id" : "PMS0110041", 
-    "page_id" : NumberInt(1060), 
-    "tab_page_id" : NumberInt(1), 
-    "template_id" : "datagrid", 
-    "ui_field_name" : "use_cod", 
-    "ui_type" : "selectgrid", 
-    "ui_display_name" : "room_sna", 
-    "rule_func_name" : "SEL_ORDERDTUSECOD", 
-    "defaultVal" : "", 
-    "ds_from_sql" : "Y", 
-    "multi_lang_table" : "", 
-    "multi_value_field" : "", 
-    "multi_display_field" : "", 
-    "display_func_name" : "", 
-    "column_func_name" : "sel_orderdtusecod_for_column"
 }
 { 
     "_id" : ObjectId("5b2ef3514fc2249529c19cac"), 
@@ -5257,6 +5241,24 @@
     "column_func_name" : ""
 }
 { 
+    "_id" : ObjectId("5b164ae50bf3d95bf887d760"), 
+    "prg_id" : "PMS0110041", 
+    "page_id" : NumberInt(1060), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "use_cod", 
+    "ui_type" : "selectgrid", 
+    "ui_display_name" : "room_sna", 
+    "rule_func_name" : "SEL_ORDERDTUSECOD", 
+    "defaultVal" : "", 
+    "ds_from_sql" : "Y", 
+    "multi_lang_table" : "", 
+    "multi_value_field" : "", 
+    "multi_display_field" : "", 
+    "display_func_name" : "", 
+    "column_func_name" : "sel_orderdtusecod_for_column"
+}
+{ 
     "_id" : ObjectId("5b2ef3514fc2249529c19cae"), 
     "prg_id" : "PMS0110040", 
     "page_id" : NumberInt(1), 
@@ -5293,24 +5295,6 @@
     "column_func_name" : ""
 }
 { 
-    "_id" : ObjectId("5b2ef3514fc2249529c19cb0"), 
-    "prg_id" : "PMS0110040", 
-    "page_id" : NumberInt(1), 
-    "tab_page_id" : NumberInt(1), 
-    "template_id" : "datagrid", 
-    "ui_field_name" : "sales_cod", 
-    "ui_type" : "select", 
-    "ui_display_name" : "", 
-    "rule_func_name" : "sel_sales_mn_1", 
-    "defaultVal" : "", 
-    "ds_from_sql" : "Y", 
-    "multi_lang_table" : "", 
-    "multi_value_field" : "", 
-    "multi_display_field" : "", 
-    "display_func_name" : "", 
-    "column_func_name" : ""
-}
-{ 
     "_id" : ObjectId("5b2ef3514fc2249529c19cb1"), 
     "prg_id" : "PMS0110040", 
     "page_id" : NumberInt(1), 
@@ -5338,6 +5322,24 @@
     "ui_type" : "select", 
     "ui_display_name" : "", 
     "rule_func_name" : "sel_room_mn_room_typ", 
+    "defaultVal" : "", 
+    "ds_from_sql" : "Y", 
+    "multi_lang_table" : "", 
+    "multi_value_field" : "", 
+    "multi_display_field" : "", 
+    "display_func_name" : "", 
+    "column_func_name" : ""
+}
+{ 
+    "_id" : ObjectId("5b2ef3514fc2249529c19cb0"), 
+    "prg_id" : "PMS0110040", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "sales_cod", 
+    "ui_type" : "select", 
+    "ui_display_name" : "", 
+    "rule_func_name" : "sel_sales_mn_1", 
     "defaultVal" : "", 
     "ds_from_sql" : "Y", 
     "multi_lang_table" : "", 
@@ -5532,12 +5534,30 @@
     "page_id" : NumberInt(3), 
     "tab_page_id" : NumberInt(1), 
     "template_id" : "gridsingle", 
-    "ui_field_name" : "guest_rf. guest_way", 
+    "ui_field_name" : "guest_rf.guest_way", 
     "ui_type" : "select", 
     "ui_display_name" : "", 
     "rule_func_name" : "langGuestrfGuestway", 
     "defaultVal" : "", 
     "ds_from_sql" : "L", 
+    "multi_lang_table" : "", 
+    "multi_value_field" : "", 
+    "multi_display_field" : "", 
+    "display_func_name" : "", 
+    "column_func_name" : ""
+}
+{ 
+    "_id" : ObjectId("5b2ef3514fc2249529c19cc0"), 
+    "prg_id" : "PMS0110040", 
+    "page_id" : NumberInt(3), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "ui_field_name" : "order_dt.room_cod", 
+    "ui_type" : "select", 
+    "ui_display_name" : "", 
+    "rule_func_name" : "sel_rvrmcod_rf", 
+    "defaultVal" : "", 
+    "ds_from_sql" : "Y", 
     "multi_lang_table" : "", 
     "multi_value_field" : "", 
     "multi_display_field" : "", 
@@ -5569,24 +5589,6 @@
     "tab_page_id" : NumberInt(1), 
     "template_id" : "gridsingle", 
     "ui_field_name" : "order_dt.use_cod", 
-    "ui_type" : "select", 
-    "ui_display_name" : "", 
-    "rule_func_name" : "sel_rvrmcod_rf", 
-    "defaultVal" : "", 
-    "ds_from_sql" : "Y", 
-    "multi_lang_table" : "", 
-    "multi_value_field" : "", 
-    "multi_display_field" : "", 
-    "display_func_name" : "", 
-    "column_func_name" : ""
-}
-{ 
-    "_id" : ObjectId("5b2ef3514fc2249529c19cc0"), 
-    "prg_id" : "PMS0110040", 
-    "page_id" : NumberInt(3), 
-    "tab_page_id" : NumberInt(1), 
-    "template_id" : "gridsingle", 
-    "ui_field_name" : "order_dt.room_cod", 
     "ui_type" : "select", 
     "ui_display_name" : "", 
     "rule_func_name" : "sel_rvrmcod_rf", 
@@ -5697,14 +5699,14 @@
     "ui_field_name" : "cust_mn.sales_cod", 
     "ui_type" : "multiselectgrid", 
     "ui_display_name" : "", 
-    "rule_func_name" : "", 
+    "rule_func_name" : "sel_sales_mn_hotel_status_n", 
     "defaultVal" : "", 
     "ds_from_sql" : "Y", 
     "multi_lang_table" : "", 
     "multi_value_field" : "", 
     "multi_display_field" : "", 
     "display_func_name" : "", 
-    "column_func_name" : "sales_cod_column"
+    "column_func_name" : "sel_salesMnHotelStatusNColumn"
 }
 { 
     "_id" : ObjectId("5b331f02da036919d42c85e5"), 
@@ -5734,31 +5736,13 @@
     "ui_type" : "select", 
     "ui_display_name" : "ratecod_nam", 
     "defaultVal" : "", 
-    "ds_from_sql" : "", 
+    "ds_from_sql" : "Y", 
     "multi_lang_table" : "", 
     "multi_value_field" : "", 
     "multi_display_field" : "", 
     "display_func_name" : "", 
     "column_func_name" : "", 
-    "rule_func_name" : ""
-}
-{ 
-    "_id" : ObjectId("5b331f02da036919d42c85e7"), 
-    "prg_id" : "PMS0110042", 
-    "page_id" : NumberInt(1), 
-    "tab_page_id" : NumberInt(1), 
-    "template_id" : "datagrid", 
-    "ui_field_name" : "use_cod", 
-    "ui_type" : "select", 
-    "ui_display_name" : "room_sna", 
-    "rule_func_name" : "", 
-    "defaultVal" : "", 
-    "ds_from_sql" : "", 
-    "multi_lang_table" : "", 
-    "multi_value_field" : "", 
-    "multi_display_field" : "", 
-    "display_func_name" : "", 
-    "column_func_name" : ""
+    "rule_func_name" : "QRY_CONTRACT_DT_ALL_RATE_COD"
 }
 { 
     "_id" : ObjectId("5b331f02da036919d42c85e8"), 
@@ -5797,6 +5781,24 @@
     "column_func_name" : ""
 }
 { 
+    "_id" : ObjectId("5b331f02da036919d42c85e7"), 
+    "prg_id" : "PMS0110042", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "use_cod", 
+    "ui_type" : "select", 
+    "ui_display_name" : "room_sna", 
+    "rule_func_name" : "", 
+    "defaultVal" : "", 
+    "ds_from_sql" : "", 
+    "multi_lang_table" : "", 
+    "multi_value_field" : "", 
+    "multi_display_field" : "", 
+    "display_func_name" : "", 
+    "column_func_name" : ""
+}
+{ 
     "_id" : ObjectId("5b331f02da036919d42c85ea"), 
     "prg_id" : "PMS0110042", 
     "page_id" : NumberInt(1010), 
@@ -5805,9 +5807,9 @@
     "ui_field_name" : "rate_cod", 
     "ui_type" : "select", 
     "ui_display_name" : "ratecod_nam", 
-    "rule_func_name" : "", 
+    "rule_func_name" : "QRY_CONTRACT_DT_ALL_RATE_COD", 
     "defaultVal" : "", 
-    "ds_from_sql" : "", 
+    "ds_from_sql" : "Y", 
     "multi_lang_table" : "", 
     "multi_value_field" : "", 
     "multi_display_field" : "", 
@@ -5839,7 +5841,7 @@
     "tab_page_id" : NumberInt(1), 
     "template_id" : "datagrid", 
     "ui_field_name" : "room_cod", 
-    "ui_type" : "", 
+    "ui_type" : "select", 
     "ui_display_name" : "room_sna", 
     "rule_func_name" : "", 
     "defaultVal" : "", 
@@ -5877,9 +5879,9 @@
     "ui_field_name" : "use_cod", 
     "ui_type" : "select", 
     "ui_display_name" : "room_sna", 
-    "rule_func_name" : "", 
+    "rule_func_name" : "sel_use_cod_rule", 
     "defaultVal" : "", 
-    "ds_from_sql" : "", 
+    "ds_from_sql" : "R", 
     "multi_lang_table" : "", 
     "multi_value_field" : "", 
     "multi_display_field" : "", 
@@ -5895,9 +5897,9 @@
     "ui_field_name" : "room_cod", 
     "ui_type" : "select", 
     "ui_display_name" : "room_sna", 
-    "rule_func_name" : "", 
+    "rule_func_name" : "sel_room_cod_rule", 
     "defaultVal" : "", 
-    "ds_from_sql" : "", 
+    "ds_from_sql" : "R", 
     "multi_lang_table" : "", 
     "multi_value_field" : "", 
     "multi_display_field" : "", 
@@ -5914,24 +5916,6 @@
     "ui_type" : "select", 
     "ui_display_name" : "source_nam", 
     "rule_func_name" : "sel_source_rf", 
-    "defaultVal" : "", 
-    "ds_from_sql" : "Y", 
-    "multi_lang_table" : "", 
-    "multi_value_field" : "", 
-    "multi_display_field" : "", 
-    "display_func_name" : "filter_source_typ", 
-    "column_func_name" : ""
-}
-{ 
-    "_id" : ObjectId("5b331f02da036919d42c85f1"), 
-    "prg_id" : "PMS0110042", 
-    "page_id" : NumberInt(1), 
-    "tab_page_id" : NumberInt(2), 
-    "template_id" : "datagrid", 
-    "ui_field_name" : "guest_typ", 
-    "ui_type" : "select", 
-    "ui_display_name" : "guest_sna", 
-    "rule_func_name" : "sel_guest_rf", 
     "defaultVal" : "", 
     "ds_from_sql" : "Y", 
     "multi_lang_table" : "", 
@@ -5959,6 +5943,24 @@
     "column_func_name" : ""
 }
 { 
+    "_id" : ObjectId("5b33d902239a0c4f07e602be"), 
+    "prg_id" : "PMS0110042", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(3), 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "assign_sta", 
+    "ui_type" : "select", 
+    "ui_display_name" : "", 
+    "rule_func_name" : "lang_YN", 
+    "defaultVal" : "N", 
+    "ds_from_sql" : "L", 
+    "multi_lang_table" : "", 
+    "multi_value_field" : "", 
+    "multi_display_field" : "", 
+    "display_func_name" : "", 
+    "column_func_name" : ""
+}
+{ 
     "_id" : ObjectId("5b331f02da036919d42c85f3"), 
     "prg_id" : "PMS0110042", 
     "page_id" : NumberInt(1), 
@@ -5977,15 +5979,358 @@
     "column_func_name" : ""
 }
 { 
-    "_id" : ObjectId("5b33d902239a0c4f07e602be"), 
+    "_id" : ObjectId("5b331f02da036919d42c85f1"), 
+    "prg_id" : "PMS0110042", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(2), 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "guest_typ", 
+    "ui_type" : "select", 
+    "ui_display_name" : "guest_sna", 
+    "rule_func_name" : "sel_guest_rf", 
+    "defaultVal" : "", 
+    "ds_from_sql" : "Y", 
+    "multi_lang_table" : "", 
+    "multi_value_field" : "", 
+    "multi_display_field" : "", 
+    "display_func_name" : "filter_source_typ", 
+    "column_func_name" : ""
+}
+{ 
+    "_id" : ObjectId("5b458051239a0ccc836bce01"), 
     "prg_id" : "PMS0110042", 
     "page_id" : NumberInt(1), 
     "tab_page_id" : NumberInt(3), 
     "template_id" : "datagrid", 
+    "ui_field_name" : "alt_nam", 
+    "ui_type" : "selectgrid", 
+    "ui_display_name" : "alt_nam", 
+    "rule_func_name" : "sel_alt_nam_for_order", 
+    "defaultVal" : "", 
+    "ds_from_sql" : "Y", 
+    "multi_lang_table" : "", 
+    "multi_value_field" : "", 
+    "multi_display_field" : "", 
+    "display_func_name" : "", 
+    "column_func_name" : "sel_alt_nam_for_order_column", 
+    "is_qry_src_before" : "Y"
+}
+{ 
+    "_id" : ObjectId("5b5841a108a4ae5b348f92f9"), 
+    "prg_id" : "PMS0210060", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(11), 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "order_sta", 
+    "ui_type" : "select", 
+    "ui_display_name" : "", 
+    "rule_func_name" : "langOrderdtOrdersta", 
+    "defaultVal" : "", 
+    "ds_from_sql" : "L", 
+    "multi_lang_table" : "", 
+    "multi_value_field" : "", 
+    "multi_display_field" : "", 
+    "display_func_name" : "", 
+    "column_func_name" : ""
+}
+{ 
+    "_id" : ObjectId("5b5841a108a4ae5b348f92fa"), 
+    "prg_id" : "PMS0210060", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(11), 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "use_cod", 
+    "ui_type" : "select", 
+    "ui_display_name" : "room_sna", 
+    "rule_func_name" : "sel_OrderdtUsecod", 
+    "defaultVal" : "", 
+    "ds_from_sql" : "Y", 
+    "multi_lang_table" : "", 
+    "multi_value_field" : "", 
+    "multi_display_field" : "", 
+    "display_func_name" : "", 
+    "column_func_name" : ""
+}
+{ 
+    "_id" : ObjectId("5b5841a108a4ae5b348f92fb"), 
+    "prg_id" : "PMS0210060", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(11), 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "room_cod", 
+    "ui_type" : "select", 
+    "ui_display_name" : "room_sna", 
+    "rule_func_name" : "sel_OrderdtRoomcod", 
+    "defaultVal" : "", 
+    "ds_from_sql" : "Y", 
+    "multi_lang_table" : "", 
+    "multi_value_field" : "", 
+    "multi_display_field" : "", 
+    "display_func_name" : "", 
+    "column_func_name" : ""
+}
+{ 
+    "_id" : ObjectId("5b5841a108a4ae5b348f92fc"), 
+    "prg_id" : "PMS0210060", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(12), 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "guest_mn.guest_sta", 
+    "ui_type" : "select", 
+    "ui_display_name" : "", 
+    "rule_func_name" : "langGuestmnGuest_sta", 
+    "defaultVal" : "", 
+    "ds_from_sql" : "L", 
+    "multi_lang_table" : "", 
+    "multi_value_field" : "", 
+    "multi_display_field" : "", 
+    "display_func_name" : "", 
+    "column_func_name" : ""
+}
+{ 
+    "_id" : ObjectId("5b5841a108a4ae5b348f92fd"), 
+    "prg_id" : "PMS0210060", 
+    "page_id" : NumberInt(3), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "ui_field_name" : "acust_cod", 
+    "ui_type" : "selectgrid", 
+    "ui_display_name" : "", 
+    "rule_func_name" : "SEL_CUSTMNPCUSTCOD", 
+    "defaultVal" : "", 
+    "ds_from_sql" : "Y", 
+    "multi_lang_table" : "", 
+    "multi_value_field" : "", 
+    "multi_display_field" : "", 
+    "display_func_name" : "", 
+    "column_func_name" : "sel_custMnCustColumn"
+}
+{ 
+    "_id" : ObjectId("5b5841a108a4ae5b348f92fe"), 
+    "prg_id" : "PMS0210060", 
+    "page_id" : NumberInt(3), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "source_typ", 
+    "ui_type" : "select", 
+    "ui_display_name" : "", 
+    "rule_func_name" : "sel_source_rf", 
+    "defaultVal" : "", 
+    "ds_from_sql" : "Y", 
+    "multi_lang_table" : "", 
+    "multi_value_field" : "", 
+    "multi_display_field" : "", 
+    "display_func_name" : "", 
+    "column_func_name" : ""
+}
+{ 
+    "_id" : ObjectId("5b5841a108a4ae5b348f92ff"), 
+    "prg_id" : "PMS0210060", 
+    "page_id" : NumberInt(3), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "guest_typ", 
+    "ui_type" : "select", 
+    "ui_display_name" : "", 
+    "rule_func_name" : "sel_guest_rf", 
+    "defaultVal" : "", 
+    "ds_from_sql" : "Y", 
+    "multi_lang_table" : "", 
+    "multi_value_field" : "", 
+    "multi_display_field" : "", 
+    "display_func_name" : "", 
+    "column_func_name" : ""
+}
+{ 
+    "_id" : ObjectId("5b5841a108a4ae5b348f9300"), 
+    "prg_id" : "PMS0210060", 
+    "page_id" : NumberInt(3), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "status", 
+    "ui_type" : "select", 
+    "ui_display_name" : "", 
+    "rule_func_name" : "langStatus", 
+    "defaultVal" : "N", 
+    "ds_from_sql" : "L", 
+    "multi_lang_table" : "", 
+    "multi_value_field" : "", 
+    "multi_display_field" : "", 
+    "display_func_name" : "", 
+    "column_func_name" : ""
+}
+{ 
+    "_id" : ObjectId("5b5841a108a4ae5b348f9301"), 
+    "prg_id" : "PMS0210060", 
+    "page_id" : NumberInt(1010), 
+    "tab_page_id" : NumberInt(11), 
+    "template_id" : "gridsingle", 
+    "ui_field_name" : "master_sta", 
+    "ui_type" : "select", 
+    "ui_display_name" : "", 
+    "rule_func_name" : "lang_OrdermnMastersta", 
+    "defaultVal" : "", 
+    "ds_from_sql" : "L", 
+    "multi_lang_table" : "", 
+    "multi_value_field" : "", 
+    "multi_display_field" : "", 
+    "display_func_name" : "", 
+    "column_func_name" : ""
+}
+{ 
+    "_id" : ObjectId("5b59777c941b901c40ba0a6c"), 
+    "prg_id" : "PMS0210030", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(11), 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "order_sta", 
+    "ui_type" : "select", 
+    "ui_display_name" : "", 
+    "rule_func_name" : "langOrderdtOrdersta", 
+    "defaultVal" : "", 
+    "ds_from_sql" : "L", 
+    "multi_lang_table" : "", 
+    "multi_value_field" : "", 
+    "multi_display_field" : "", 
+    "display_func_name" : "", 
+    "column_func_name" : ""
+}
+{ 
+    "_id" : ObjectId("5b59777c941b901c40ba0a71"), 
+    "prg_id" : "PMS0210030", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(12), 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "asi_lock", 
+    "ui_type" : "", 
+    "ui_display_name" : "", 
+    "rule_func_name" : "lang_YN", 
+    "defaultVal" : "", 
+    "ds_from_sql" : "L", 
+    "multi_lang_table" : "", 
+    "multi_value_field" : "", 
+    "multi_display_field" : "", 
+    "display_func_name" : "", 
+    "column_func_name" : ""
+}
+{ 
+    "_id" : ObjectId("5b59777c941b901c40ba0a72"), 
+    "prg_id" : "PMS0210030", 
+    "page_id" : NumberInt(3), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "ui_field_name" : "status", 
+    "ui_type" : "select", 
+    "ui_display_name" : "", 
+    "rule_func_name" : "langStatus", 
+    "defaultVal" : "N", 
+    "ds_from_sql" : "L", 
+    "multi_lang_table" : "", 
+    "multi_value_field" : "", 
+    "multi_display_field" : "", 
+    "display_func_name" : "", 
+    "column_func_name" : ""
+}
+{ 
+    "_id" : ObjectId("5b59777c941b901c40ba0a73"), 
+    "prg_id" : "PMS0210030", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(13), 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "room_cod", 
+    "ui_type" : "select", 
+    "ui_display_name" : "room_sna", 
+    "rule_func_name" : "sel_OrderdtRoomcod", 
+    "defaultVal" : "", 
+    "ds_from_sql" : "Y", 
+    "multi_lang_table" : "", 
+    "multi_value_field" : "", 
+    "multi_display_field" : "", 
+    "display_func_name" : "", 
+    "column_func_name" : ""
+}
+{ 
+    "_id" : ObjectId("5b59777c941b901c40ba0a74"), 
+    "prg_id" : "PMS0210030", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(13), 
+    "template_id" : "datagrid", 
     "ui_field_name" : "assign_sta", 
     "ui_type" : "select", 
     "ui_display_name" : "", 
+    "rule_func_name" : "langOrderdtAssignsta", 
+    "defaultVal" : "", 
+    "ds_from_sql" : "L", 
+    "multi_lang_table" : "", 
+    "multi_value_field" : "", 
+    "multi_display_field" : "", 
+    "display_func_name" : "", 
+    "column_func_name" : ""
+}
+{ 
+    "_id" : ObjectId("5b59777c941b901c40ba0a75"), 
+    "prg_id" : "PMS0210030", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(13), 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "room_sta", 
+    "ui_type" : "select", 
+    "ui_display_name" : "", 
+    "rule_func_name" : "langRoommnRoomsta", 
+    "defaultVal" : "", 
+    "ds_from_sql" : "L", 
+    "multi_lang_table" : "", 
+    "multi_value_field" : "", 
+    "multi_display_field" : "", 
+    "display_func_name" : "", 
+    "column_func_name" : ""
+}
+{ 
+    "_id" : ObjectId("5b59777c941b901c40ba0a76"), 
+    "prg_id" : "PMS0210030", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(13), 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "clean_sta", 
+    "ui_type" : "select", 
+    "ui_display_name" : "", 
+    "rule_func_name" : "langRoommnCleansta", 
+    "defaultVal" : "", 
+    "ds_from_sql" : "L", 
+    "multi_lang_table" : "", 
+    "multi_value_field" : "", 
+    "multi_display_field" : "", 
+    "display_func_name" : "", 
+    "column_func_name" : ""
+}
+{ 
+    "_id" : ObjectId("5b59777c941b901c40ba0a77"), 
+    "prg_id" : "PMS0210030", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(13), 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "oos_sta", 
+    "ui_type" : "select", 
+    "ui_display_name" : "", 
     "rule_func_name" : "lang_YN", 
+    "defaultVal" : "", 
+    "ds_from_sql" : "L", 
+    "multi_lang_table" : "", 
+    "multi_value_field" : "", 
+    "multi_display_field" : "", 
+    "display_func_name" : "", 
+    "column_func_name" : ""
+}
+{ 
+    "_id" : ObjectId("5b599b10be806f0380af03dc"), 
+    "prg_id" : "PMS0210060", 
+    "page_id" : NumberInt(1010), 
+    "tab_page_id" : NumberInt(11), 
+    "template_id" : "gridsingle", 
+    "ui_field_name" : "room_mn.clean_sta", 
+    "ui_type" : "select", 
+    "ui_display_name" : "", 
+    "rule_func_name" : "lang_RoommnClean_sta", 
     "defaultVal" : "", 
     "ds_from_sql" : "L", 
     "multi_lang_table" : "", 

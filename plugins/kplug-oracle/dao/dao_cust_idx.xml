@@ -68,5 +68,23 @@
         <parameter type="number" kind="3">athena_id</parameter>
         <parameter type="string" kind="3">hotel_cod</parameter>
     </dao>
+    <!-- [PMS0110041 訂房卡資料編輯] 取得聯絡資料-->
+    <dao name="QRY_CONTACT_BY_ATTEN_BY">
+        <statement>
+            select alt_nam , mobile_nos, office_tel, home_tel, fax_nos, e_mail
+            from cust_idx
+            where cust_cod =
+        </statement>
 
+        <statement test="param.atten_by == 'P'">:gcust_cod and athena_id = :athena_id</statement>
+        <statement test="param.atten_by == 'C'">
+            (select b.per_cust_cod from cust_mn a, cust_mn_pers_dt b
+            where a.athena_id = b.athena_id and a.cust_cod = b.cust_cod and a.atten_cod = b.seq_nos and a.athena_id = :athena_id
+            and a.cust_cod = :acust_cod) and athena_id = :athena_id
+        </statement>
+        <parameter type="number" kind="3">athena_id</parameter>
+        <parameter type="string" kind="3">gcust_cod</parameter>
+        <parameter type="string" kind="3">acust_cod</parameter>
+
+    </dao>
 </root>
