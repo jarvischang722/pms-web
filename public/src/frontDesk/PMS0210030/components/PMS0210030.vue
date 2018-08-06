@@ -944,7 +944,7 @@
                 this.dgList.loadPageDgData(ln_OrderDtList);
                 this.isLoadingOrderDtList = false;
                 // Lock 第一筆資料
-                if (ln_OrderDtList.len > 0) {
+                if (ln_OrderDtList.length > 0) {
                     $("#OrderDtList_dg").datagrid('selectRow', 0);
                     this.selectListIndex = 0; // watch selectDtIndex
                 }
@@ -984,29 +984,11 @@
                         return;
                     }
 
-                    // 組資料格式，樓層: 1樓、3樓、5樓、7樓	 => '1','3','5','7'
-                    // 打API給後端時資料是長 "'1','3','5','7'"
-                    let ls_roomFloor = this.selectRoomFloor.map(data => {
-                        if (data === '') {
-                            return "";
-                        }
-                        return "'" + data + "'";
-                    });
-                    ls_roomFloor = ls_roomFloor.join(',');
-
-                    // 組資料格式，房間種類
-                    let ls_roomType;
-                    if (this.selectRoomType === 'ALL') {
-                        ls_roomType = "";
-                    } else {
-                        ls_roomType = "'" + this.selectRoomType + "'";
-                    }
-
                     const lo_params = {
                         rule_func_name: 'fetchRoomData',
                         order_dt: _.extend(this.groupOrderDtRowData[this.selectDtIndex], {
-                            floor_nos: ls_roomFloor,
-                            room_cod: ls_roomType,
+                            floor_nos: this.selectRoomFloor,
+                            room_cod: this.selectRoomType,
                             can_assign: this.chkAssign ? 'Y' : 'N'
                         }),
                     };
@@ -1223,8 +1205,7 @@
                         };
 
                         let lo_result = await BacUtils.doHttpPromisePostProxy('/api/queryDataByRule', lo_apiParams);
-                        // todo 詢問後端能否不要回字串訊息?
-                        if (lo_result === "成功") {
+                        if (lo_result.success) {
                             this.reloadBindData();
                         }
                     }
@@ -1315,7 +1296,6 @@
                 lo_combinationData = _.extend(lo_combinationData, {
                     assignDataList: this.chkAssignDataList
                 });
-                console.log(lo_combinationData)
 
                 const lo_apiParams = {
                     rule_func_name: 'doBatchAssign',
@@ -1323,7 +1303,7 @@
                 };
 
                 let lo_result = await BacUtils.doHttpPromisePostProxy('/api/queryDataByRule', lo_apiParams);
-                if (lo_result === '成功') {
+                if (lo_result.success) {
                     this.reloadBindData();
                 }
             },
@@ -1349,8 +1329,7 @@
                     };
                     let lo_result = await BacUtils.doHttpPromisePostProxy('/api/queryDataByRule', lo_apiParams);
 
-                    // todo 詢問後端能否不要回字串訊息?
-                    if (lo_result === "成功") {
+                    if (lo_result.success) {
                         this.reloadBindData();
                     }
                 } catch (err) {
@@ -1418,8 +1397,7 @@
                         order_dt: lo_combinationData,
                     };
                     let lo_result = await BacUtils.doHttpPromisePostProxy('/api/queryDataByRule', lo_apiParams);
-                    // todo 詢問後端能否不要回字串訊息?
-                    if (lo_result === "成功") {
+                    if (lo_result.success) {
                         this.reloadBindData();
                     }
                 }
@@ -1436,7 +1414,6 @@
                         return;
                     }
 
-
                     let lb_isLockAssign = confirm(`是否${ls_keyWord}排房`);
                     if (lb_isLockAssign) {
                         const lo_apiParams = {
@@ -1444,8 +1421,8 @@
                             order_dt: lo_order_dt,
                         };
                         let lo_result = await BacUtils.doHttpPromisePostProxy('/api/queryDataByRule', lo_apiParams);
-                        // 重新render資料 :todo 詢問後端能否不要回字串訊息?
-                        if (lo_result === '成功') {
+
+                        if (lo_result.success) {
                             self.reloadBindData();
                         }
                     }
@@ -1460,8 +1437,7 @@
                     //                 order_dt: lo_order_dt,
                     //             };
                     //             let lo_result = await BacUtils.doHttpPromisePostProxy('/api/queryDataByRule', lo_apiParams);
-                    //             // 重新render資料 :todo 詢問後端能否不要回字串訊息?
-                    //             if (lo_result === '成功') {
+                    //             if (lo_result.success) {
                     //                 self.reloadBindData();
                     //             }
                     //         }
