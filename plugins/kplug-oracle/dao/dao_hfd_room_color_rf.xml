@@ -2,12 +2,13 @@
 <root>
     <dao name="QRY_ROOM_COLOR">
         <statement><![CDATA[
-            SELECT NVL( COLOR_NUM, 16777215 )
+            SELECT
+            STATUS_COD as state_cod,
+            NVL( COLOR_NUM, 16777215 ) as color
             FROM HFD_ROOM_COLOR_RF
             WHERE ATHENA_ID = :athena_id
             AND HOTEL_COD = :hotel_cod
             AND PRO_TYP = 'ASI'
-            AND STATUS_COD = 'FONT'
         ]]>
         </statement>
         <parameter type="number" kind="3">athena_id</parameter>

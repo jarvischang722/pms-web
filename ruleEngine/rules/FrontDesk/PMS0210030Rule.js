@@ -102,6 +102,7 @@ module.exports = {
     getRoomColor: function (postData, session, callback) {
         let lo_return = new ReturnClass();
         let lo_error = new ErrorClass();
+        let self = this;
         try {
             let lo_default_params = {
                 athena_id: session.user.athena_id,
@@ -116,6 +117,10 @@ module.exports = {
                 }
                 else {
                     lo_return.success = true;
+                    result.map(data => {
+                        data["color"] = self.colorCodToHex(data["color"]);
+                        return data;
+                    });
                     lo_return.effectValues = result;
                 }
                 callback(lo_error, lo_return);
@@ -129,6 +134,8 @@ module.exports = {
 
     //有問題 排房資料,
     fetchRoomData: function (params, session, callback) {
+        let lo_result = new ReturnClass();
+        let lo_error = new ErrorClass();
         const lo_orderDt = params.order_dt;
 
         let apiParams = {
@@ -137,19 +144,16 @@ module.exports = {
             "func_id": "2010",
             "client_ip": "",
             "locale": "zh_TW",
-
             "athena_id": session.athena_id,
             "hotel_cod": session.hotel_cod,
             "usr_id": session.user.usr_id,
-            "socket_id": "helloworld",
+            "socket_id": session.user.usr_id,
             "ci_dat": moment(lo_orderDt.ci_dat).format("YYYY/MM/DD"),
             "co_dat": moment(lo_orderDt.co_dat).format("YYYY/MM/DD"),
-            // "room_cod": lo_orderDt.room_cod,
-            "room_cod": "",
+            "room_cod": lo_orderDt.room_cod,
             "character_rmk": "",
             "build_nos": "",
-            "floor_nos": "",
-            // "floor_nos": lo_orderDt.floor_nos,
+            "floor_nos": lo_orderDt.floor_nos,
             "bed_sta": "",
             "can_assign": lo_orderDt.can_assign
         };
@@ -166,6 +170,7 @@ module.exports = {
                 console.error(data["RETN-CODE-DESC"]);
             } else {
                 errorMsg = data["RETN-CODE-DESC"];
+                lo_result.success = true;
             }
             callback(errorMsg, success, data);
         });
@@ -178,7 +183,7 @@ module.exports = {
                 athena_id: session.athena_id,
                 hotel_cod: session.hotel_cod,
                 usr_id: session.user.usr_id,
-                socket_id: "helloworld"
+                socket_id: session.user.usr_id
             };
 
             let lo_clusterParam = commonRule.ConvertToQueryParams(session.athena_id, "QRY_ROOM_DATA_LIST");
@@ -647,6 +652,32 @@ module.exports = {
             }
             callback(errorMsg, success, data);
         });
+    },
+
+    //反轉成16進位
+    colorCodToHex: function (colorCod) {
+        if (_.isUndefined(colorCod)) {
+            colorCod = 0;
+        }
+        colorCod = Number(colorCod);
+        let lo_rgb = this.colorCodToRgb(colorCod);
+        return this.rgbToHex(lo_rgb.r, lo_rgb.g, lo_rgb.b);
+    },
+    //反轉成RGB
+    colorCodToRgb: function (colorCod) {
+        colorCod = Number(colorCod);
+        let lo_color = {r: 0, g: 0, b: 0};
+        let remainder = Math.floor(colorCod % 65536);
+        lo_color.b = Math.floor(colorCod / 65536);
+        lo_color.g = Math.floor(remainder / 256);
+        remainder = Math.floor(colorCod % 256);
+        lo_color.r = remainder;
+        return lo_color;
+
+    },
+    //RGB 轉 16進位色碼
+    rgbToHex: function (r, g, b) {
+        return (r < 16 ? "0" + r.toString(16).toUpperCase() : r.toString(16).toUpperCase()) + (g < 16 ? "0" + g.toString(16).toUpperCase() : g.toString(16).toUpperCase()) + (b < 16 ? "0" + b.toString(16).toUpperCase() : b.toString(16).toUpperCase());
     }
 
 };
