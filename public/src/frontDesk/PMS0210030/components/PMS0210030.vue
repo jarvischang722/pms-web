@@ -26,14 +26,14 @@
                             <div class="col-xs-5 no-padding-left">
                                 <!--訂房多筆-->
 
-                                <div id="roomDetail-table-first" class="roomDetail-table2 easyui-panel dataGrid-s1">
+                                <div id="roomDetail-table-first" class="roomDetail-table2 easyui-panel dataGrid-s1" v-loading="isLoadingGroupOrderDt">
                                     <table id="groupOrderDt_dg" style="height: 250px;"></table>
                                 </div>
                                 <div class="clearfix"></div>
                                 <br>
                                 <div class="space-12"></div>
                                 <!--定房明細-->
-                                <div class="jqGridEdit-table roomDetail-table2 cardDetail_margin easyui-panel dataGrid-s1">
+                                <div class="jqGridEdit-table roomDetail-table2 cardDetail_margin easyui-panel dataGrid-s1" v-loading="isLoadingOrderDtList">
                                     <!--class="roomAssTableHt" 控制高度隨著螢幕預設變化-->
                                     <table id="OrderDtList_dg" style="height: 400px;"></table>
                                 </div>
@@ -41,7 +41,7 @@
 
                             </div>
                             <!--排房資料-->
-                            <div class="col-xs-7 right-info">
+                            <div class="col-xs-7 right-info" v-loading="isLoadingRoomDtList">
                                 <div class="">
                                     <!-- #section:elements.tab.position -->
                                     <div class="col-xs-12">
@@ -200,27 +200,42 @@
                                                             </div>
                                                             <div class="clearfix"></div>
                                                             <div class="content">
-                                                                <span>{{roomDt.alt_nam}}</span>
+                                                                <span>{{roomDt.alt_nam !== null ? roomDt.alt_nam: '尚未設定' }}</span>
                                                             </div>
                                                             <div class="content">
-                                                                <span>{{roomDt.ci_dat}}-{{roomDt.co_dat}}</span>
+                                                                <span v-if="roomDt.ci_dat !== null">
+                                                                    {{roomDt.ci_dat}}-{{roomDt.co_dat}}
+                                                                </span>
+                                                                <span v-else>
+                                                                    {{RoomListCiCoDat}}
+                                                                </span>
                                                             </div>
+                                                            <!-- 拆併床 Lite 不顯示 -->
                                                             <div class="content">
-                                                                <span>{{roomDt.assign_sta}}</span>
+                                                                <div style="height: 15px"></div>
                                                             </div>
                                                             <div class="clearfix"></div>
 
                                                             <div class="foot">
                                                                 <img src="/images/intCounter/clean.png"
-                                                                     class="float-left foCnt_icon"/>
+                                                                     class="float-left foCnt_icon"
+                                                                    v-show="clean_sta === 'C'"
+                                                                />
                                                                 <img src="/images/intCounter/wrench.png"
-                                                                     class="float-left foCnt_icon"/>
+                                                                     class="float-left foCnt_icon"
+                                                                     v-show="room_sta ==='R'"
+                                                                />
                                                                 <img src="/images/intCounter/assign.png"
-                                                                     class="float-left foCnt_icon"/>
+                                                                     class="float-left foCnt_icon"
+                                                                     v-show="assign_sta === 'Y'"
+                                                                />
                                                                 <img src="/images/intCounter/do-not-disturb.png"
-                                                                     class="float-left foCnt_icon"/>
+                                                                     class="float-left foCnt_icon"
+                                                                     v-show="room_sta === 'O'"
+                                                                />
                                                                 <img src="/images/intCounter/bed.png"
-                                                                     class="float-left foCnt_icon"/>
+                                                                     class="float-left foCnt_icon"
+                                                                />
                                                             </div>
                                                             <div class="clearfix"></div>
                                                         </div>
@@ -336,11 +351,11 @@
                                 </tr>
                                 </thead>
                                 <tbody class="css_tbody">
-                                <template v-for="(data, key) in cancelFaildData">
-                                    <tr class="css_tr" v-for="(item, idx) in data">
+                                <template v-for="(FaildData, key) in cancelFaildData">
+                                    <tr class="css_tr" v-for="(item) in FaildData">
                                         <template>
-                                            <td class="css_td" v-for="(x,y) in item">
-                                                {{x}}
+                                            <td class="css_td" v-for="(data) in item">
+                                                {{data}}
                                             </td>
                                         </template>
                                     </tr>
@@ -484,13 +499,23 @@
     //endregion
 
     export default {
+        props: {
+            parent_ikey: String,
+        },
         data() {
             return {
+                //DataGrid
+                dgGroup: {},
+                dgList: {},
+                dgRoom: {},
+
+                //搜尋
                 searchFields: [],
                 searchCond: {},
 
                 //滾房租日
                 rentCalDat: '',
+
                 //訂房多筆
                 groupOrderDtField: [],
                 groupOrderDtRowData: [],
@@ -505,25 +530,28 @@
                 roomDtListField: [],
                 roomDtListRowData: [],
                 selectRoomDtIndex: -1,
+                //選擇房間資料
+                selectRoomData: {},
 
                 //顯示清單或是圖形模式 true:清單 false:圖形
                 btnList: true,
-                //條件選項存放區
+                // 可排房 or 不可排房 Button
+                chkAssign: true,
+                //房型顯示資料
                 roomType: [],
+                //樓層顯示資料
                 roomFloor: [],
+                //選擇房型資料
                 selectRoomType: '',
+                //選擇樓層資料
                 selectRoomFloor: [],
+                //顏色說明
                 ColorList: ['不可排房', '修理房間', '可排房間', '不可移動', '今日預定C/O', '參觀'],
+
                 // isLite:true, 要討論未來如何判斷使用版本(lite)
                 lockStatus: false,//lock有做的話(true)可以按按鈕
-                dgGroup: {},
-                dgList: {},
-                dgRoom: {},
 
-                selectRoomData: {},
-
-                // 可排房 or 不可排房
-                chkAssign: true,
+                //失敗清單
                 cancelFaildField: [
                     {field: '序號'},
                     {field: '房號'},
@@ -531,6 +559,7 @@
                     {field: '訊息說明'},
                 ],
                 cancelFaildData: [],
+                //批次清單
                 batchAssignListField: [
                     {field: '選擇', value: 'choose', type: 'checkbox', width: 60},
                     {field: '房號', value: 'room_nos', type: 'text', width: 60},
@@ -540,6 +569,11 @@
                 ],
                 batchAssignDataList: [],
                 chkAssignDataList: [],
+
+                // Loading
+                isLoadingGroupOrderDt: true,
+                isLoadingOrderDtList: true,
+                isLoadingRoomDtList: true,
             };
         },
         created() {
@@ -605,6 +639,14 @@
                     return this.roomDtListRowData.filter(lo_data => lo_data.room_cod === this.selectRoomType);
                 }
             },
+            RoomListCiCoDat: function () {
+                console.log(moment.locale())
+                console.log(this.groupOrderDtRowData[this.selectDtIndex].ci_dat)
+                console.log(moment(this.groupOrderDtRowData[this.selectDtIndex].ci_dat).format('YYYY/MM/DD'));
+                let ls_ciDat = moment(this.groupOrderDtRowData[this.selectDtIndex].ci_dat, 'YYYY/MM/DD').format('MM/DD');
+                let ls_coDat = moment(this.groupOrderDtRowData[this.selectDtIndex].co_dat, 'YYYY/MM/DD').format('MM/DD');
+                return `${ls_ciDat} - ${ls_coDat}`;
+            }
         },
         async mounted() {
             // 初始化頁面
@@ -750,7 +792,6 @@
             // 單純撈 [訂房多筆] 資料
             async fetchGroupOrderDtRowData() {
                 try {
-                    console.log(this.searchCond);
                     let searchCond = this.searchCond;
 
                     const lo_params = {
@@ -775,9 +816,10 @@
             // 產生 [訂房多筆] DataGrid 資料
             async bindGroupOrderDtRowData() {
                 try {
+                    this.isLoadingGroupOrderDt = true;
                     let ln_groupOrderDtRowDataLength = await this.fetchGroupOrderDtRowData();
                     this.dgGroup.loadPageDgData(this.groupOrderDtRowData);
-
+                    this.isLoadingGroupOrderDt = false;
                     // Lock 第一筆資料
                     if (ln_groupOrderDtRowDataLength > 0) {
                         $("#groupOrderDt_dg").datagrid('selectRow', 0);
@@ -856,9 +898,10 @@
             },
             // 產生 [訂房明細] DataGrid 資料
             async bindOrderDtList() {
+                this.isLoadingOrderDtList = true;
                 let ln_OrderDtListLength = await this.fetchOrderDtListData();
                 this.dgList.loadPageDgData(this.orderDtListRowData);
-
+                this.isLoadingOrderDtList = false;
                 // Lock 第一筆資料
                 if (ln_OrderDtListLength > 0) {
                     $("#OrderDtList_dg").datagrid('selectRow', 0);
@@ -917,8 +960,10 @@
 
                     lo_roomList.effectValues.forEach(data => {
                         if (data.ci_dat !== null && data.co_dat !== null) {
-                            data.ci_dat = moment(data.ci_dat).format('YYYY/MM/DD');
-                            data.co_dat = moment(data.co_dat).format('YYYY/MM/DD');
+                            // data.ci_dat = moment(data.ci_dat).format('MM/DD');
+                            // data.co_dat = moment(data.co_dat).format('MM/DD');
+                            data.ci_dat = moment(data.ci_dat).format('MM/DD');
+                            data.co_dat = moment(data.co_dat).format('MM/DD');
                         }
                     });
 
@@ -931,6 +976,7 @@
             },
 
             async bindRoomList() {
+                this.isLoadingRoomDtList = true;
                 await this.getRoomData();
                 let lo_roomDtListRowData = this.roomDtListRowData;
                 if (this.selectRoomType !== 'ALL') {
@@ -938,6 +984,7 @@
                 }
 
                 this.dgRoom.loadPageDgData(lo_roomDtListRowData);
+                this.isLoadingRoomDtList = false;
             },
             //endregion
 

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <root>
-    <!-- PMS0210030 排房多筆SP 暫時有問題，先移除socket_id參數 -->
+    <!-- PMS0210030 排房多筆SP -->
     <dao name="QRY_ROOM_DATA_LIST">
         <statement><![CDATA[
             SELECT ROOM_NOS,

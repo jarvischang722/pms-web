@@ -141,7 +141,7 @@ module.exports = {
             "athena_id": session.athena_id,
             "hotel_cod": session.hotel_cod,
             "usr_id": session.user.usr_id,
-            "socket_id": "helloworld",
+            "socket_id": session.user.usr_id,
             "ci_dat": moment(lo_orderDt.ci_dat).format("YYYY/MM/DD"),
             "co_dat": moment(lo_orderDt.co_dat).format("YYYY/MM/DD"),
             // "room_cod": lo_orderDt.room_cod,
@@ -178,7 +178,7 @@ module.exports = {
                 athena_id: session.athena_id,
                 hotel_cod: session.hotel_cod,
                 usr_id: session.user.usr_id,
-                socket_id: "helloworld"
+                socket_id: session.user.usr_id
             };
 
             let lo_clusterParam = commonRule.ConvertToQueryParams(session.athena_id, "QRY_ROOM_DATA_LIST");
