@@ -3,6 +3,7 @@
  * 規則錯誤訊息類別
  */
 function errorObject () {
+    this.success = false;       //回傳失敗
     this.errorMsg = "";           //錯誤訊息
     this.errorCod = "";           //錯誤代碼
 }

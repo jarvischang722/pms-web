@@ -13,6 +13,9 @@ module.exports = function (app) {
     //欄位規則檢查
     app.post('/api/chkFieldRule', apiMiddles, ruleCrtl.chkFieldRule);
 
+    //button功能規則
+    app.post('/api/chkPrgFuncRule', apiMiddles, ruleCrtl.chkPrgFuncRule);
+
     //dt欄位規則檢查
     app.post('/api/chkDtFieldRule', apiMiddles, ruleCrtl.chkDtFieldRule);
 
@@ -33,6 +36,9 @@ module.exports = function (app) {
 
     //透過規則取資料
     app.post('/api/queryDataByRule', apiMiddles, ruleCrtl.queryDataByRule);
+
+    //透過規則取下拉資料
+    app.post('/api/chkSelectOptionRule', apiMiddles, ruleCrtl.chkSelectOptionRule);
 
     //取得回復房間名稱與簡稱
     app.post('/api/revertRoomNam', apiMiddles, ruleCrtl.revertRoomNam);

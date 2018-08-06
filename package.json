@@ -46,7 +46,7 @@
     "nodemailer": "^2.7.2",
     "nodemailer-smtp-transport": "^2.7.4",
     "npm": "^2.15.12",
-    "oracledb": "*",
+    "oracledb": "^2.2.0",
     "passport": "^0.3.2",
     "passport-cas": "^0.1.1",
     "passport-facebook": "^2.1.1",

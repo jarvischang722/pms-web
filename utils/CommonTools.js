@@ -1,62 +1,75 @@
 /**
  * Created by Jun on 2016/4/24.
  */
-var request = require("request");
-var moment = require('moment');
-var _ = require('underscore');
-var async = require('async');
-var mailSvc = require("../services/MailService");
-
+const request = require("request");
+const moment = require('moment');
+const _ = require('underscore');
+const mailSvc = require("../services/MailService");
 
 /**
- * @param {String} apiUrl : 要打API的URL
- * @param {Object} params :　參數
- * @param callback : 回調函數
- * **/
-exports.requestApi = function (apiUrl, params, callback) {
+ * 打API
+ * @param apiUrl {string}: 要打API的URL
+ * @param params {object}: 參數
+ * @returns {Promise<*>}
+ */
+exports.requestApi = async function (apiUrl, params) {
+    const callback = arguments[2];
 
-    var url = "";
-
-    var deUrl = "";
-
-    var lang = params["lang"] || "zh_TW";  //語系
+    const lang = params["lang"] || "zh_TW";  //語系
 
     params = JSON.stringify(params);
 
-    deUrl = apiUrl + '?lang=' + lang + '&testLog=Y&TxnData=' + params;
+    const deUrl = apiUrl + '?lang=' + lang + '&testLog=Y&TxnData=' + params;
 
     params = new Buffer(params).toString('base64');    //編碼
 
-    url = apiUrl + '?lang=' + lang + '&TxnData=' + params;
+    const url = apiUrl + '?lang=' + lang + '&TxnData=' + params;
 
     console.log(deUrl);
 
     console.log(url);
 
-    request({
-            method: 'post',
-            url: apiUrl,
-            encoding: "utf8",
-            timeout: 30000,
-            json: true,
-            form: {lang: lang, TxnData: params}
-        },
-        function (err, response, data) {
-            var errorMsg = null;
+    const lo_requestParams = {
+        method: 'post',
+        url: apiUrl,
+        encoding: "utf8",
+        timeout: 30000,
+        json: true,
+        form: {lang: lang, TxnData: params}
+    };
+
+    const lo_requestResult = await new Promise(resolve => {
+        request(lo_requestParams, (err, response, data) => {
+            let ls_errorMsg = null;
             if (err) {
                 // Timeout 事件發生
-                if (err.code == 'ESOCKETTIMEDOUT') {
-                    var mailInfo = {
+                if (err.code === 'ESOCKETTIMEDOUT') {
+                    const mailInfo = {
                         exceptionType: "API Timeout",
                         errorMsg: err.code
                     };
                     mailSvc.sendExceptionMail(mailInfo);
-                    errorMsg = 'Request Timeout';
+                    ls_errorMsg = 'Request Timeout';
                 }
 
             }
-            callback(errorMsg, response, data);
+            resolve({apiErr: ls_errorMsg, response, data});
         });
+    });
+
+    if (_.isUndefined(callback)) {
+        if (lo_requestResult.apiErr || !lo_requestResult.data) {
+            return lo_requestResult.apiErr;
+        }
+        else {
+            return lo_requestResult.data;
+        }
+    }
+    else {
+        callback(lo_requestResult.apiErr, lo_requestResult.response, lo_requestResult.data);
+    }
+
+
 };
 
 
@@ -89,7 +102,7 @@ exports.mongoDocToObject = function (mongoDataRows) {
  * @return returnJson {Object}
  */
 exports.mergeRtnErrResultJson = function (err, result) {
-    var returnJson = {errorMsg: err ? err.errorMsg || "" : ""};
+    let returnJson = {errorMsg: err ? err.errorMsg || "" : ""};
     if (err) {
         returnJson = _.extend(err, result);
     } else {
