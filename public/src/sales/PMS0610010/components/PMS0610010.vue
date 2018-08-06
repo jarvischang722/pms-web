@@ -85,6 +85,7 @@
                 :is-modifiable="isModifiable"
                 :is-create-status="isCreateStatus"
                 :is-edit-status="isEditStatus"
+                :is-lock="isLock"
         ></pms0610020>
         <!--Status chg-->
         <el-dialog
@@ -380,6 +381,15 @@
                 self.editRows = [];
                 self.fetchDgRowData();
             });
+            //檢查lock結果
+            g_socket.on("checkTableLock", (result) => {
+                if (result.success) {
+                    this.isLock = true;
+                } else {
+                    this.isLock = false;
+                    alert(result.errorMsg);
+                }
+            });
         },
         mounted() {
 //            this.go_funcPurview = (new FuncPurview(gs_prgId)).getFuncPurvs();
@@ -421,7 +431,8 @@
                 contractStaMnSingleData: {},
                 contractStaMnFieldData: [],
                 contractStaDtRowsData: [],
-                contractStaDtFieldData: []
+                contractStaDtFieldData: [],
+                isLock:true
             };
         },
         watch: {
@@ -602,6 +613,7 @@
                 else
                     {
                     this.editingRow = lo_editRow;
+                    this.doMnRowLock(this.editingRow);
                     this.showSingleGridDialog();
                 }
                 this.isLoading = false;
@@ -865,6 +877,15 @@
                     prg_id: ""
                 };
                 g_socket.emit('handleTableUnlock', lo_param);
+            },
+            doMnRowLock(editRow) {
+                let lo_param = {
+                    prg_id: gs_prgId,
+                    table_name: "cust_mn",
+                    lock_type: "R",
+                    key_cod: editRow.cust_mn_cust_cod
+                };
+                g_socket.emit('handleTableLock', lo_param);
             }
         }
     }
