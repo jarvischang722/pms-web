@@ -1125,13 +1125,13 @@
                 });
             },
             doCloseDialog() {
+                g_socket.emit('handleTableUnlock', {
+                    prg_id: "PMS0810230"
+                });
                 this.initData();
                 this.rowData = {};
                 this.tabName = "";
                 $("#PMS0810230SingleGrid").dialog('close');
-                g_socket.emit('handleTableUnlock', {
-                    prg_id: "PMS0810230"
-                });
             }
         }
     }
