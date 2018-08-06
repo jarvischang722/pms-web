@@ -29,14 +29,16 @@
                                 <ul>
                                     <li>
                                         <button class="btn btn-primary btn-white btn-defaultWidth sales-AccountMain purview_btn"
-                                                role="button" @click="appendRow" v-if="prgEditionOptions.funcList['0200'] != undefined"
+                                                role="button" @click="appendRow"
+                                                v-if="prgEditionOptions.funcList['0200'] != undefined"
                                                 data-purview_func_id="PMS0610010-0200">
                                             {{i18nLang.SystemCommon.Add}}
                                         </button>
                                     </li>
                                     <li>
                                         <button class="btn btn-primary btn-white btn-defaultWidth sales-AccountMain purview_btn"
-                                                role="button" @click="editRow" v-if="prgEditionOptions.funcList['0400'] != undefined"
+                                                role="button" @click="editRow"
+                                                v-if="prgEditionOptions.funcList['0400'] != undefined"
                                                 data-purview_func_id="PMS0610010-0400">
                                             {{i18nLang.SystemCommon.Modify}}
                                         </button>
@@ -106,7 +108,8 @@
                                         </label>
                                         <bac-select v-if="field.visiable == 'Y' && field.ui_type == 'select'"
                                                     :style="{width:field.width + 'px' , height:field.height + 'px'}"
-                                                    v-model="compStaSingleData[field.ui_field_name]" :data="field.selectData"
+                                                    v-model="compStaSingleData[field.ui_field_name]"
+                                                    :data="field.selectData"
                                                     is-qry-src-before="Y" value-field="value" text-field="display"
                                                     :field="field"
                                                     @update:v-model="val => compStaSingleData[field.ui_field_name] = val"
@@ -147,7 +150,8 @@
         <!--合約狀態變更-->
         <div>
             <el-dialog
-                    :close-on-click-modal="true" :show-close="false" :title="i18nLang.program.PMS0610020.contract_status"
+                    :close-on-click-modal="true" :show-close="false"
+                    :title="i18nLang.program.PMS0610020.contract_status"
                     :visible.sync="isOpenContractStatus" style="width: 53%; left: 25%;"
                     :before-close="doCloseContractStatusDialog">
                 <div class="businessCompanyData">
@@ -160,14 +164,15 @@
                                             <span v-if=" contractStaMnFieldData.requirable == 'Y' " style="color: red;">*</span>
                                             <span>{{ contractStaMnFieldData.ui_display_name }}</span>
                                         </label>
-                                        <bac-select :style="{width:contractStaMnFieldData.width + 'px' , height:contractStaMnFieldData.height + 'px'}"
-                                                    v-model="contractStaMnSingleData[contractStaMnFieldData.ui_field_name]"
-                                                    :data="contractStaMnFieldData.selectData"
-                                                    :field="field"
-                                                    is-qry-src-before="Y" value-field="value" text-field="display"
-                                                    @update:v-model="val => contractStaMnSingleData[contractStaMnFieldData.ui_field_name] = val"
-                                                    :default-val="contractStaMnSingleData[contractStaMnFieldData.ui_field_name]"
-                                                    :disabled="contractStaMnFieldData.modificable == 'N'|| (contractStaMnFieldData.modificable == 'I' && isEditStatus) || (contractStaMnFieldData.modificable == 'E' && isCreateStatus)">
+                                        <bac-select
+                                                :style="{width:contractStaMnFieldData.width + 'px' , height:contractStaMnFieldData.height + 'px'}"
+                                                v-model="contractStaMnSingleData[contractStaMnFieldData.ui_field_name]"
+                                                :data="contractStaMnFieldData.selectData"
+                                                :field="field"
+                                                is-qry-src-before="Y" value-field="value" text-field="display"
+                                                @update:v-model="val => contractStaMnSingleData[contractStaMnFieldData.ui_field_name] = val"
+                                                :default-val="contractStaMnSingleData[contractStaMnFieldData.ui_field_name]"
+                                                :disabled="contractStaMnFieldData.modificable == 'N'|| (contractStaMnFieldData.modificable == 'I' && isEditStatus) || (contractStaMnFieldData.modificable == 'E' && isCreateStatus)">
                                         </bac-select>
                                     </div>
                                     <div class="clearfix"></div>
@@ -178,7 +183,8 @@
                                                 <table class=" custab">
                                                     <thead class="custab-head">
                                                     <tr>
-                                                        <th class="width-15 text-center" v-for="field in contractStaDtFieldData">
+                                                        <th class="width-15 text-center"
+                                                            v-for="field in contractStaDtFieldData">
                                                             {{field.ui_display_name}}
                                                         </th>
                                                     </tr>
@@ -432,7 +438,7 @@
                 contractStaMnFieldData: [],
                 contractStaDtRowsData: [],
                 contractStaDtFieldData: [],
-                isLock:true
+                isLock: true
             };
         },
         watch: {
@@ -610,8 +616,7 @@
                 else if (la_editRows.length > 1 || lo_editRow != la_editRows[0]) {
                     alert(go_i18nLang["program"].PMS0610010.selectOneData);
                 }
-                else
-                    {
+                else {
                     this.editingRow = lo_editRow;
                     this.doMnRowLock(this.editingRow);
                     this.showSingleGridDialog();
@@ -663,7 +668,7 @@
                         //資料是否有異動
                         self.$store.dispatch("custMnModule/qryAllDataIsChange").then(result => {
                             if (result.success) {
-                                if (result.isChange) {
+                                if (result.isChange && self.isLock) {
                                     let lb_confirm = confirm(go_i18nLang.Validation.Formatter.chkDataChang);
                                     if (lb_confirm) {
                                         self.$eventHub.$emit('saveSingleData');
@@ -673,7 +678,7 @@
                         });
 
                         self.fetchSearchFields();
-                        // self.doRowUnLock();
+                        self.doMnRowUnLock();
                     }
                 }).dialog('open');
             },
@@ -886,6 +891,12 @@
                     key_cod: editRow.cust_mn_cust_cod
                 };
                 g_socket.emit('handleTableLock', lo_param);
+            },
+            doMnRowUnLock() {
+                let lo_param = {
+                    prg_id: gs_prgId,
+                };
+                g_socket.emit('handleTableUnlock', lo_param);
             }
         }
     }

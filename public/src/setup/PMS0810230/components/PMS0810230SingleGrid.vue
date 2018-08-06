@@ -736,7 +736,7 @@
 
     export default {
         name: 'pms0810230SingleGrid',
-        props: ["rowData", "isCreateStatus", "isEditStatus", "isModifiable", "versionState","isLock"],
+        props: ["rowData", "isCreateStatus", "isEditStatus", "isModifiable", "versionState", "isLock"],
         components: {roomTyp, useTime, rateList},
         created() {
             this.$eventHub.$on('setTabName', (tabNameData) => {
@@ -1129,8 +1129,10 @@
                 this.rowData = {};
                 this.tabName = "";
                 $("#PMS0810230SingleGrid").dialog('close');
+                g_socket.emit('handleTableUnlock', {
+                    prg_id: "PMS0810230"
+                });
             }
-
         }
     }
 </script>

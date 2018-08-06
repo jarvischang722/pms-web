@@ -352,7 +352,7 @@
                         self.$store.dispatch('setAllDataClear');
                         self.loadDataGridByPrgID();
                         if (!_.isNull(lo_selectRow) && !_.isUndefined(lo_selectRow)) {
-                            self.doRowUnLock(lo_selectRow.rate_cod);
+                            self.doRowUnLock();
                         }
                     }
                 }).dialog('open');
@@ -405,13 +405,9 @@
                 };
                 g_socket.emit('handleTableLock', lo_param);
             },
-            doRowUnLock: function (rate_cod) {
-                let ls_keyCod = this.userInfo.athena_id + this.userInfo.hotel_cod + rate_cod.trim();
+            doRowUnLock: function () {
                 let lo_param = {
-                    prg_id: gs_prgId,
-                    table_name: "ratecod_mn",
-                    lock_type: "R",
-                    key_cod: ls_keyCod.trim()
+                    prg_id: gs_prgId
                 };
                 g_socket.emit('handleTableUnlock', lo_param);
             }
