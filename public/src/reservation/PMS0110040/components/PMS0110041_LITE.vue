@@ -807,6 +807,7 @@
                 loadingText: '',                        //載入的提示文字
                 keyNos: '',                             //tmp_order_appraise key值
                 isEffectFromRule: true,                 //是否由規則改變欄位資料
+                isCopyStatus: false,
 
                 oriOrderMnFieldsData: [],               //原始order mn 欄位資料
                 oriGuestMnFieldsData: [],               //原始guest mn 欄位資料
@@ -873,11 +874,23 @@
                     //取guest mn, order mn, order dt 資料
                     await this.fetchAllRowData();
                     this.isLoadingDialog = false;
+                    this.isCopyStatus = false;
                 }
             },
             async editingOrderDtIdx(newVal, oldVal) {
                 try {
+                    if (newVal != oldVal && !_.isUndefined(oldVal) && !_.isUndefined(newVal)) {
+                        let lo_editingRow = JSON.parse(JSON.stringify(this.orderDtRowsData4table[oldVal]));
+
+                        //改變orderDtRowsData資料，除了間數以外的屬性，並重新group資料
+                        this.setOrderDtRowData(lo_editingRow);
+
+                        //計算group data所有的房價
+                        await this.computeGroupOrderDtPrice(lo_editingRow);
+                    }
                     this.orderDtRowsData4table[newVal] = this.orderDtRowsData4table[newVal] || {};
+                    //重新group orderDtRowsData
+                    this.convertDtDataToSingleAndTable(newVal, oldVal);
                     if (!_.isUndefined(newVal) && !_.isEmpty(this.orderDtRowsData4table[newVal])) {
                         //取得使用房型及計價房型下拉
                         await this.getRoomTypSelectData(this.orderDtRowsData4table[newVal]);
@@ -890,21 +903,10 @@
                         //傭金欄位是否唯獨
                         await this.getCommisRateFiled(this.orderDtRowsData4table[newVal]);
                     }
-                    if (newVal != oldVal && !_.isUndefined(oldVal) && !_.isUndefined(newVal)) {
-                        let lo_editingRow = JSON.parse(JSON.stringify(this.orderDtRowsData4table[oldVal]));
-
-                        //改變orderDtRowsData資料，除了間數以外的屬性，並重新group資料
-                        this.setOrderDtRowData(lo_editingRow);
-
-                        //計算group data所有的房價
-                        await this.computeGroupOrderDtPrice(lo_editingRow);
-                    }
                 }
                 catch (err) {
                     console.log(err)
                 }
-                //重新group orderDtRowsData
-                this.convertDtDataToSingleAndTable(newVal, oldVal);
             },
             "orderMnSingleData.acust_nam"(val) {
                 if (val != "") {
@@ -914,11 +916,11 @@
             orderDtRowsData4table: {
                 handler: async function (val) {
                     if (!_.isUndefined(this.editingOrderDtIdx)) {
-                        this.orderDtRowsData4Single = _.extend(this.orderDtRowsData4Single, val[this.editingOrderDtIdx]);
-                        this.orderDtRowsData4Single.serv_tot = Number(val[this.editingOrderDtIdx].serv_amt) * val[this.editingOrderDtIdx].order_qnt;
-                        this.orderDtRowsData4Single.rent_tot = Number(val[this.editingOrderDtIdx].rent_amt) * val[this.editingOrderDtIdx].order_qnt;
-                        this.orderDtRowsData4Single.other_tot = Number(val[this.editingOrderDtIdx].other_tot) * val[this.editingOrderDtIdx].order_qnt;
-                        this.orderDtRowsData4Single.sub_tot = Number(this.orderDtRowsData4Single.other_tot) + Number(this.orderDtRowsData4Single.serv_tot) + Number(this.orderDtRowsData4Single.rent_tot);
+                        // this.orderDtRowsData4Single = _.extend(this.orderDtRowsData4Single, val[this.editingOrderDtIdx]);
+                        // this.orderDtRowsData4Single.serv_tot = Number(val[this.editingOrderDtIdx].serv_amt) * val[this.editingOrderDtIdx].order_qnt;
+                        // this.orderDtRowsData4Single.rent_tot = Number(val[this.editingOrderDtIdx].rent_amt) * val[this.editingOrderDtIdx].order_qnt;
+                        // this.orderDtRowsData4Single.other_tot = Number(val[this.editingOrderDtIdx].other_tot) * val[this.editingOrderDtIdx].order_qnt;
+                        // this.orderDtRowsData4Single.sub_tot = Number(this.orderDtRowsData4Single.other_tot) + Number(this.orderDtRowsData4Single.serv_tot) + Number(this.orderDtRowsData4Single.rent_tot);
 
                         this.tableHeight = _.size(this.orderDtRowsData4table) > 4 ? 132 : 38 + 30 * _.size(this.orderDtRowsData4table);
                     }
@@ -1126,9 +1128,12 @@
                         return;
                     }
 
+                    this.orderMnSingleData = _.extend(this.orderMnSingleData, {key_nos: this.keyNos});
+                    this.oriOrderMnSingleData = _.extend(this.oriOrderMnSingleData, {key_nos: this.keyNos});
+
                     //取order dt 和guest mn 資料
 
-                    if (this.isCreateStatus) {
+                    if (this.isCreateStatus && !this.isCopyStatus) {
                         //預設一筆order dt
                         this.appendRow();
                     }
@@ -1187,8 +1192,6 @@
                             alert(lo_fetchOderDtData.errorMsg);
                         }
                     }
-                    this.orderMnSingleData = _.extend(this.orderMnSingleData, {key_nos: this.keyNos});
-                    this.oriOrderMnSingleData = _.extend(this.oriOrderMnSingleData, {key_nos: this.keyNos});
                 }
                 catch (err) {
                     console.log(err)
@@ -1655,7 +1658,6 @@
              * @param params {object} 參數條件
              */
             async chkFieldRule(field, params) {
-                console.log(field.rule_func_name);
                 params.rule_func_name = field.rule_func_name;
                 return await BacUtils.doHttpPromisePostProxy("/api/chkFieldRule", params)
                     .then(result => {
@@ -1773,6 +1775,7 @@
                         this.beforeOrderDtRowsData4Table = JSON.parse(JSON.stringify(this.orderDtRowsData4table));
                     }
                     else {
+                        this.isEffectFromRule = lo_doChkFieldRule.isEffectFromRule;
                         this.orderDtRowsData4table[this.editingOrderDtIdx] =
                             _.extend(this.orderDtRowsData4table[this.editingOrderDtIdx], this.beforeOrderDtRowsData4Table[this.editingOrderDtIdx]);
                         // this.isEffectFromRule = false;
@@ -1796,7 +1799,6 @@
                     else {
                         let ln_oriIdx = _.findIndex(oriAllRowData, {ikey_seq_nos: Number(lo_data.ikey_seq_nos)});
                         if (ln_oriIdx > -1) {
-                            console.log(this.oriOrderDtRowsData[ln_oriIdx].order_sta, lo_data.order_sta);
                             let la_orderDtDataKey = Object.keys(lo_data);
                             for (let ls_key of la_orderDtDataKey) {
                                 if (lo_data[ls_key] != oriAllRowData[ln_oriIdx][ls_key]) {
@@ -1810,7 +1812,7 @@
                 });
             },
             //將頁面上資料轉換成儲存格式
-            doConvertData: async function() {
+            doConvertData: async function () {
                 //主檔資料轉換
                 if (!_.isUndefined(this.orderMnSingleData)) {
                     let lo_saveSingleData = JSON.parse(JSON.stringify(this.orderMnSingleData));
@@ -2019,29 +2021,39 @@
                         order_sta: this.orderStatus,
                         source_typ: la_sourceTypSelectData.length === 0 ? "" : la_sourceTypSelectData[0].value,
                         use_cod: null,
-                        allOrderDtData: this.orderDtRowsData4table,
+                        allOrderDtData: this.orderDtRowsData,
+                        allOrderDtData4Table: this.orderDtRowsData4table
                     };
 
                     try {
+                        if (this.orderDtFieldsData4table.length == 0) {
+                            const lo_lastData = this.orderDtRowsData4table[this.orderDtRowsData4table.length - 1];
+                            const ls_useCod = lo_lastData.use_cod || "";
+                            if (ls_useCod === "") {
+                                const lo_examFieldData = _.findWhere(this.orderDtFieldsData4table, {ui_field_name: 'use_cod'});
+                                const ls_alertMsg = _s.sprintf(go_i18nLang.Validation.Formatter.Required, lo_examFieldData.ui_display_name);
+                                alert(ls_alertMsg);
+                                return;
+                            }
+                        }
+                        // else {
                         const lo_ruleResult = await this.chkPrgFuncRule(lo_param);
                         if (lo_ruleResult.success) {
+
                             if (!_.isEmpty(lo_ruleResult.defaultValues)) {
                                 // this.orderDtRowsData4table.push(lo_ruleResult.defaultValues);
                                 this.orderDtRowsData.push(lo_ruleResult.defaultValues);
-                            }
-
-                            if (!_.isEmpty(lo_ruleResult.effectValues)) {
-                                // this.orderDtRowsData4Single = _.extend(this.orderDtRowsData4Single, lo_ruleResult.defaultValues);
                             }
                             if (this.orderDtRowsData4table.length === 0) {
                                 this.groupOrderDtData = JSON.parse(JSON.stringify(this.orderDtRowsData))
                             }
                             this.editingOrderDtIdx = _.isUndefined(this.editingOrderDtIdx) ? 0 : this.editingOrderDtIdx + 1;
-                            this.convertDtDataToSingleAndTable(this.editingOrderDtIdx, undefined);
+                            // this.convertDtDataToSingleAndTable(this.editingOrderDtIdx, undefined);
                         }
                         else {
                             alert(lo_ruleResult.errorMsg);
                         }
+                        // }
                         // lo_param.ikey_seq_nos = lo_ruleResult.success ?
                         //     lo_ruleResult.defaultValues.ikey_seq_nos : _.max(this.orderDtRowsData, (lo_orderDtRowsData) => {
                         //     return lo_orderDtRowsData.ikey_seq_nos;
@@ -2115,7 +2127,6 @@
 
                     //選Y則刪除，選N則什麼事都不做
                     if (!lb_isRowDataDelete) return;
-                    console.log(lb_isRowDataDelete);
 
                     /**
                      * 2.注意:訂房明細刪除分兩種狀態(1)本次才新增明細 【DB沒資料】(2)之前新增的明細【DB有資料】
@@ -2183,9 +2194,6 @@
                 this.convertDtDataToSingleAndTable();
             },
             closeOrderStaDialog(type) {
-                // if (type === "save") {
-                console.log(type);
-                // }
                 $("#cancelRm_dialog").dialog('close');
             },
             async doSave() {
@@ -2258,9 +2266,25 @@
             },
 
             //複製訂房卡
+            //TODO 有問題,再思考
             async copyBooking() {
-                this.initTmpCUD();
-                this.rowData.ikey = "";
+                // let lo_orderMnData = JSON.parse(JSON.stringify(this.orderMnSingleData));
+                // let la_guestMnData = JSON.parse(JSON.stringify(this.guestMnRowsData));
+                // let la_orderDtData = JSON.parse(JSON.stringify(this.orderDtRowsData));
+                // // this.isModifiable = false;
+                // this.isEditStatus = false;
+                // this.isCreateStatus = true;
+                // this.isCopyStatus = true;
+                //
+                // await this.rowData = {ikey: ""};
+                //
+                // this.orderMnSingleData = lo_orderMnData;
+                // this.guestMnRowsData = la_guestMnData;
+                // this.orderDtRowsData = la_orderDtData;
+                //
+                // this.convertDtDataToSingleAndTable(0, undefined);
+
+
             },
 
             doChkDataIsChange() {

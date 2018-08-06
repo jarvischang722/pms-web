@@ -405,6 +405,8 @@ module.exports = {
                 lo_result.success = false;
                 lo_error.errorMsg = commonRule.getMsgByCod('pms11msg3', session.locale);
             }
+
+            lo_result.isEffectFromRule = false;
         }
         catch (err) {
             console.log(err);
@@ -660,6 +662,7 @@ module.exports = {
     ins_order_dt: async function (postData, session) {
         const lo_result = new ReturnClass();
         const la_allOrderDtData = postData.allOrderDtData;
+        const la_allOrderDtData4Table = postData.allOrderDtData4Table;
         let lo_error = null;
         try {
             let lo_params = {
@@ -671,59 +674,56 @@ module.exports = {
             //取order_dt max ikey_seq_nos
             //1.取訂房卡序號
             const lo_fetchMaxIkeySeqNos = await commonRule.clusterQuery(session, lo_params, "SEL_ORDER_DT_MAX_IKEY_SEQ_NOS");
-            const ln_ikey_seq_nos = lo_fetchMaxIkeySeqNos.ikey_seq_nos || 0;
+            const ln_existMaxIkeySeqNos = _.max(la_allOrderDtData, (lo_allOrderDtData) => {
+                return Number(lo_allOrderDtData.ikey_seq_nos);
+            }).ikey_seq_nos;
+            const ln_newIkeySeqNos = Number(lo_fetchMaxIkeySeqNos.ikey_seq_nos) > Number(ln_existMaxIkeySeqNos) ?
+                Number(lo_fetchMaxIkeySeqNos.ikey_seq_nos) : Number(ln_existMaxIkeySeqNos);
+            const ln_ikey_seq_nos = ln_newIkeySeqNos || 0;
 
+            lo_result.defaultValues = {
+                add_baby: 0,
+                add_child: 0,
+                add_man: 0,
+                addroom_sta: 'N',
+                adult_qnt: 0,
+                arrivl_nos: 0,
+                asi_lock: 'N',
+                assign_qnt: 0,
+                assign_sta: 'N',
+                baby_qnt: 0,
+                block_cod: 1,
+                block_qnt: 1,
+                child_qnt: 0,
+                ci_qnt: 0,
+                ci_dat: moment().format("YYYY/MM/DD"),
+                ci_dat_week: moment().format('ddd'),
+                co_dat: moment().add(1, 'days').format("YYYY/MM/DD"),
+                co_dat_week: moment().add(1, 'days').format('ddd'),
+                commis_rat: 1,
+                creatRow: 'Y',
+                days: 1,
+                guest_typ: postData.guest_typ,
+                ikey: postData.ikey,
+                ikey_seq_nos: ln_ikey_seq_nos + 1,
+                noshow_qnt: 1,
+                order_qnt: 1,
+                order_sta: 'N',
+                other_tot: 0,
+                rate_cod: "",
+                rent_amt: 0,
+                rent_tot: 0,
+                room_cod: null,
+                serv_amt: 0,
+                serv_tot: 0,
+                source_typ: postData.source_typ,
+                use_cod: null,
+            };
             //2.如果是第1筆明細order_dt.days預設1
-            if (_.isUndefined(la_allOrderDtData) || la_allOrderDtData.length === 0) {
-                lo_result.defaultValues = {
-                    add_baby: 0,
-                    add_child: 0,
-                    add_man: 0,
-                    addroom_sta: 'N',
-                    adult_qnt: 0,
-                    arrivl_nos: 0,
-                    asi_lock: 'N',
-                    assign_qnt: 0,
-                    assign_sta: 'N',
-                    baby_qnt: 0,
-                    block_cod: 1,
-                    block_qnt: 1,
-                    child_qnt: 0,
-                    ci_qnt: 0,
-                    ci_dat: moment().format("YYYY/MM/DD"),
-                    ci_dat_week: moment().format('ddd'),
-                    co_dat: moment().add(1, 'days').format("YYYY/MM/DD"),
-                    co_dat_week: moment().add(1, 'days').format('ddd'),
-                    commis_rat: 1,
-                    creatRow: 'Y',
-                    days: 1,
-                    guest_typ: postData.guest_typ,
-                    ikey: postData.ikey,
-                    ikey_seq_nos: ln_ikey_seq_nos + 1,
-                    noshow_qnt: 1,
-                    order_qnt: 1,
-                    order_sta: postData.orderStatus,
-                    other_tot: 0,
-                    rate_cod: "",
-                    rent_amt: 0,
-                    rent_tot: 0,
-                    room_cod: null,
-                    serv_amt: 0,
-                    serv_tot: 0,
-                    source_typ: postData.source_typ,
-                    use_cod: null,
-                };
-            }
-            else {
-                const ln_existMaxIkeySeqNos = _.max(la_allOrderDtData, (lo_allOrderDtData) => {
-                    return Number(lo_allOrderDtData.ikey_seq_nos);
-                });
-
-                const ln_newIkeySeqNos = Number(ln_ikey_seq_nos) > Number(ln_existMaxIkeySeqNos) ?
-                    Number(ln_ikey_seq_nos) : Number(ln_existMaxIkeySeqNos);
+            if (!_.isUndefined(la_allOrderDtData4Table) && la_allOrderDtData4Table.length > 0) {
 
                 //3.如果不是第1筆明細,將上一筆的c/i(order_dt.ci_dat),c/o(order_dt.co_dat)，天數(order_dt.days)，rate_cod(order_dt.rate_cod)帶入
-                const lo_lastData = la_allOrderDtData[la_allOrderDtData.length - 1];
+                const lo_lastData = la_allOrderDtData4Table[la_allOrderDtData4Table.length - 1];
                 lo_result.defaultValues.ikey_seq_nos = ln_newIkeySeqNos + 1;
                 lo_result.defaultValues.ci_dat = moment(lo_lastData.ci_dat).format("YYYY/MM/DD");
                 lo_result.defaultValues.co_dat = moment(lo_lastData.co_dat).format("YYYY/MM/DD");
@@ -731,24 +731,6 @@ module.exports = {
                 lo_result.defaultValues.rate_cod = lo_lastData.rate_cod;
                 lo_result.defaultValues.ci_dat_week = moment(lo_lastData.ci_dat).format('ddd');
                 lo_result.defaultValues.co_dat_week = moment(lo_lastData.co_dat).format('ddd');
-
-
-                //4.下面與每筆order_dt連動的欄位,歸0
-                lo_result.effectValues = {
-                    sum_rent_tot: 0,
-                    sum_serv_tot: 0,
-                    sum_other_tot: 0,
-                    general_tot: 0,
-                    sum_adult_qnt: 0,
-                    sum_child_qnt: 0,
-                    sum_baby_qnt: 0,
-                    commis_rat: 0,
-                    rent_tot: 0,
-                    serv_tot: 0,
-                    other_tot: 0,
-                    sub_tot: 0
-                }
-
             }
 
             return lo_result;
