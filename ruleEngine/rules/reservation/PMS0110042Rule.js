@@ -4,13 +4,12 @@
 const _ = require("underscore");
 const _s = require("underscore.string");
 const moment = require("moment");
-const async = require("async");
 const path = require('path');
 const appRootDir = path.dirname(require.main.filename);
 const ruleRootPath = appRootDir + "/ruleEngine/";
 const queryAgent = require(appRootDir + '/plugins/kplug-oracle/QueryAgent');
 const clusterQueryAgent = require("../../../plugins/kplug-oracle/ClusterQueryAgent");
-const commandRules = require("./../CommonRule");
+const commonRule = require("./../CommonRule");
 const ReturnClass = require(ruleRootPath + "/returnClass");
 const ErrorClass = require(ruleRootPath + "/errorClass");
 const tools = require(appRootDir + "/utils/CommonTools");
@@ -186,7 +185,7 @@ module.exports = {
                 };
 
                 //帶回soruce_typ, guest_typ,commis_rat
-                let lo_daoParams = commandRules.ConvertToQueryParams(lo_param.athena_id, "SEL_SOURCE_TYP_GUEST_TYP_COMMIS_RAT_FOR_RATECOD");
+                let lo_daoParams = commonRule.ConvertToQueryParams(lo_param.athena_id, "SEL_SOURCE_TYP_GUEST_TYP_COMMIS_RAT_FOR_RATECOD");
                 let lo_fetchData = await new Promise((resolve, reject) => {
                     clusterQueryAgent.query(lo_daoParams, lo_param, function (err, result) {
                         if (err) {
@@ -199,7 +198,7 @@ module.exports = {
                 });
 
                 //欄位佣金commis_rat,可否修改
-                lo_daoParams = commandRules.ConvertToQueryParams(lo_param.athena_id, "SEL_COMMIS_CHG_FOR_ATHENA_ID_AND_HOTEL_ID_AND_RATE_COD");
+                lo_daoParams = commonRule.ConvertToQueryParams(lo_param.athena_id, "SEL_COMMIS_CHG_FOR_ATHENA_ID_AND_HOTEL_ID_AND_RATE_COD");
                 let lo_fetchCommis = await new Promise((resolve, reject) => {
                     clusterQueryAgent.query(lo_daoParams, lo_param, function (err, result) {
                         if (err) {
@@ -286,7 +285,7 @@ module.exports = {
                         ikey: ls_ikeySeqNos,
                         ikey_seq_nos: la_chkFiled
                     };
-                    const lo_daoParams = commandRules.ConvertToQueryParams(session.athena_id, "QRY_ASSIGN_QNT_ISEXIST");
+                    const lo_daoParams = commonRule.ConvertToQueryParams(session.athena_id, "QRY_ASSIGN_QNT_ISEXIST");
                     clusterQueryAgent.query(lo_daoParams, lo_params, (err, result) => {
                         if (err) {
                             reject(err);
@@ -299,7 +298,7 @@ module.exports = {
                 if (lo_chkIsAssign.assign_qnt > 0) {
                     lo_error = new ErrorClass();
                     lo_result.success = false;
-                    lo_error.errorMsg = commandRules.getMsgByCod("pms11msg4", session.locale);
+                    lo_error.errorMsg = commonRule.getMsgByCod("pms11msg4", session.locale);
                 }
                 else {
                     //取房型下拉資料
@@ -315,7 +314,7 @@ module.exports = {
             else {
                 lo_error = new ErrorClass();
                 lo_result.success = false;
-                lo_error.errorMsg = commandRules.getMsgByCod('pms11msg3', session.locale);
+                lo_error.errorMsg = commonRule.getMsgByCod('pms11msg3', session.locale);
             }
         }
         catch (err) {
@@ -373,7 +372,7 @@ module.exports = {
                         hotel_cod: session.hotel_cod,
                         room_cod: ls_uesCod
                     };
-                    const lo_daoParams = commandRules.ConvertToQueryParams(session.athena_id, "SEL_ROOM_TYP_DEFAULT_NUM");
+                    const lo_daoParams = commonRule.ConvertToQueryParams(session.athena_id, "SEL_ROOM_TYP_DEFAULT_NUM");
                     clusterQueryAgent.query(lo_daoParams, lo_params, (err, result) => {
                         if (err) {
                             reject(err);
@@ -404,7 +403,7 @@ module.exports = {
             else {
                 lo_error = new ErrorClass();
                 lo_result.success = false;
-                lo_error.errorMsg = commandRules.getMsgByCod('pms11msg3', session.locale);
+                lo_error.errorMsg = commonRule.getMsgByCod('pms11msg3', session.locale);
             }
         }
         catch (err) {
@@ -440,7 +439,7 @@ module.exports = {
 
                 let lo_calculationRoomPrice = {};
                 let lo_doChkQnt = await new Promise((resolve, reject) => {
-                    const lo_daoParams = commandRules.ConvertToQueryParams(session.athena_id, "SEL_ORDER_DT_ADUL_QNT");
+                    const lo_daoParams = commonRule.ConvertToQueryParams(session.athena_id, "SEL_ORDER_DT_ADUL_QNT");
                     clusterQueryAgent.query(lo_daoParams, lo_params, (err, result) => {
                         if (err) {
                             reject(err);
@@ -472,13 +471,13 @@ module.exports = {
                 else {
                     lo_error = new ErrorClass();
                     lo_result.success = false;
-                    lo_error.errorMsg = commandRules.getMsgByCod('pms11msg2', session.locale);
+                    lo_error.errorMsg = commonRule.getMsgByCod('pms11msg2', session.locale);
                 }
             }
             else {
                 lo_error = new ErrorClass();
                 lo_result.success = false;
-                lo_error.errorMsg = commandRules.getMsgByCod('pms11msg3', session.locale);
+                lo_error.errorMsg = commonRule.getMsgByCod('pms11msg3', session.locale);
             }
         }
         catch (err) {
@@ -514,7 +513,7 @@ module.exports = {
 
                 let lo_calculationRoomPrice = {};
                 let lo_doChkQnt = await new Promise((resolve, reject) => {
-                    const lo_daoParams = commandRules.ConvertToQueryParams(session.athena_id, "SEL_ORDER_DT_ADUL_QNT");
+                    const lo_daoParams = commonRule.ConvertToQueryParams(session.athena_id, "SEL_ORDER_DT_ADUL_QNT");
                     clusterQueryAgent.query(lo_daoParams, lo_params, (err, result) => {
                         if (err) {
                             reject(err);
@@ -546,13 +545,13 @@ module.exports = {
                 else {
                     lo_error = new ErrorClass();
                     lo_result.success = false;
-                    lo_error.errorMsg = commandRules.getMsgByCod('pms11msg2', session.locale);
+                    lo_error.errorMsg = commonRule.getMsgByCod('pms11msg2', session.locale);
                 }
             }
             else {
                 lo_error = new ErrorClass();
                 lo_result.success = false;
-                lo_error.errorMsg = commandRules.getMsgByCod('pms11msg3', session.locale);
+                lo_error.errorMsg = commonRule.getMsgByCod('pms11msg3', session.locale);
             }
         }
         catch (err) {
@@ -604,7 +603,7 @@ module.exports = {
                 return lo_result;
             }
             else {
-                throw commandRules.getMsgByCod('pms11msg3', session.locale);
+                throw commonRule.getMsgByCod('pms11msg3', session.locale);
             }
         }
         catch (err) {
@@ -634,7 +633,7 @@ module.exports = {
                 return lo_result;
             }
             else {
-                throw commandRules.getMsgByCod('pms11msg3', session.locale);
+                throw commonRule.getMsgByCod('pms11msg3', session.locale);
             }
         }
         catch (err) {
@@ -649,55 +648,119 @@ module.exports = {
     /**
      * 新增order dt明細
      * 1.取訂房卡序號
+     * 1.游標移到新增那筆
+     * 2.如果是第1筆明細order_dt.days預設1
+     * 3.如果不是第1筆明細,將上一筆的c/i(order_dt.ci_dat),c/o(order_dt.co_dat)，天數(order_dt.days)，rate_cod(order_dt.rate_cod)帶入
+     * 4.下面與每筆order_dt連動的欄位,歸0
+     * order_dt.rent_tot、order_dt.serv_tot、order_dt.other_tot、order_dt.sub_tot
      * @param postData
      * @param session
-     * @param callback
      * @returns {Promise.<void>}
      */
     ins_order_dt: async function (postData, session) {
-        let lo_result = new ReturnClass();
+        const lo_result = new ReturnClass();
+        const la_allOrderDtData = postData.allOrderDtData;
         let lo_error = null;
         try {
             let lo_params = {
-                athena_id: session.user.athena_id,
-                hotel_cod: session.user.hotel_cod,
-                ikey: postData.allRowData[0].ikey
+                athena_id: session.athena_id,
+                hotel_cod: session.hotel_cod,
+                ikey: postData.ikey
             };
 
             //取order_dt max ikey_seq_nos
-            let lo_fetchMaxIkeySeqNos = await new Promise((resolve, reject) => {
-                const lo_daoParams = commandRules.ConvertToQueryParams(session.athena_id, "SEL_ORDER_DT_MAX_IKEY_SEQ_NOS");
-                clusterQueryAgent.query(lo_daoParams, lo_params, (err, result) => {
-                    if (err) {
-                        reject(err);
-                    }
-                    else {
-                        resolve(result);
-                    }
-                });
-            });
-            let lo_nowMaxIkeySeqNos = _.isUndefined(postData.allRowData[0].ikey_seq_nos) ?
-                0 : _.max(postData.allRowData, (lo_orderDtRowsData) => {
-                    return Number(lo_orderDtRowsData.ikey_seq_nos);
-                });
-            let ln_ikeySeqNos = 0;
-            if (!_.isNull(lo_fetchMaxIkeySeqNos.ikey_seq_nos)) {
-                ln_ikeySeqNos = Number(lo_fetchMaxIkeySeqNos.ikey_seq_nos) > Number(lo_nowMaxIkeySeqNos.ikey_seq_nos) ?
-                    Number(lo_fetchMaxIkeySeqNos.ikey_seq_nos) : Number(lo_nowMaxIkeySeqNos.ikey_seq_nos);
+            //1.取訂房卡序號
+            const lo_fetchMaxIkeySeqNos = await commonRule.clusterQuery(session, lo_params, "SEL_ORDER_DT_MAX_IKEY_SEQ_NOS");
+            const ln_ikey_seq_nos = lo_fetchMaxIkeySeqNos.ikey_seq_nos || 0;
+
+            //2.如果是第1筆明細order_dt.days預設1
+            if (_.isUndefined(la_allOrderDtData) || la_allOrderDtData.length === 0) {
+                lo_result.defaultValues = {
+                    add_baby: 0,
+                    add_child: 0,
+                    add_man: 0,
+                    addroom_sta: 'N',
+                    adult_qnt: 0,
+                    arrivl_nos: 0,
+                    asi_lock: 'N',
+                    assign_qnt: 0,
+                    assign_sta: 'N',
+                    baby_qnt: 0,
+                    block_cod: 1,
+                    block_qnt: 1,
+                    child_qnt: 0,
+                    ci_qnt: 0,
+                    ci_dat: moment().format("YYYY/MM/DD"),
+                    ci_dat_week: moment().format('ddd'),
+                    co_dat: moment().add(1, 'days').format("YYYY/MM/DD"),
+                    co_dat_week: moment().add(1, 'days').format('ddd'),
+                    commis_rat: 1,
+                    creatRow: 'Y',
+                    days: 1,
+                    guest_typ: postData.guest_typ,
+                    ikey: postData.ikey,
+                    ikey_seq_nos: ln_ikey_seq_nos + 1,
+                    noshow_qnt: 1,
+                    order_qnt: 1,
+                    order_sta: postData.orderStatus,
+                    other_tot: 0,
+                    rate_cod: "",
+                    rent_amt: 0,
+                    rent_tot: 0,
+                    room_cod: null,
+                    serv_amt: 0,
+                    serv_tot: 0,
+                    source_typ: postData.source_typ,
+                    use_cod: null,
+                };
             }
-            lo_result.defaultValues.ikey_seq_nos = ln_ikeySeqNos + 1;
+            else {
+                const ln_existMaxIkeySeqNos = _.max(la_allOrderDtData, (lo_allOrderDtData) => {
+                    return Number(lo_allOrderDtData.ikey_seq_nos);
+                });
+
+                const ln_newIkeySeqNos = Number(ln_ikey_seq_nos) > Number(ln_existMaxIkeySeqNos) ?
+                    Number(ln_ikey_seq_nos) : Number(ln_existMaxIkeySeqNos);
+
+                //3.如果不是第1筆明細,將上一筆的c/i(order_dt.ci_dat),c/o(order_dt.co_dat)，天數(order_dt.days)，rate_cod(order_dt.rate_cod)帶入
+                const lo_lastData = la_allOrderDtData[la_allOrderDtData.length - 1];
+                lo_result.defaultValues.ikey_seq_nos = ln_newIkeySeqNos + 1;
+                lo_result.defaultValues.ci_dat = moment(lo_lastData.ci_dat).format("YYYY/MM/DD");
+                lo_result.defaultValues.co_dat = moment(lo_lastData.co_dat).format("YYYY/MM/DD");
+                lo_result.defaultValues.days = lo_lastData.days;
+                lo_result.defaultValues.rate_cod = lo_lastData.rate_cod;
+                lo_result.defaultValues.ci_dat_week = moment(lo_lastData.ci_dat).format('ddd');
+                lo_result.defaultValues.co_dat_week = moment(lo_lastData.co_dat).format('ddd');
+
+
+                //4.下面與每筆order_dt連動的欄位,歸0
+                lo_result.effectValues = {
+                    sum_rent_tot: 0,
+                    sum_serv_tot: 0,
+                    sum_other_tot: 0,
+                    general_tot: 0,
+                    sum_adult_qnt: 0,
+                    sum_child_qnt: 0,
+                    sum_baby_qnt: 0,
+                    commis_rat: 0,
+                    rent_tot: 0,
+                    serv_tot: 0,
+                    other_tot: 0,
+                    sub_tot: 0
+                }
+
+            }
 
             return lo_result;
 
         }
-        catch (err) {
-            console.log(err);
-            lo_error = new ErrorClass();
-            lo_result.success = false;
-            lo_error.errorMsg = err.message || err;
-            throw lo_error;
+        catch
+            (err) {
+            console.error(err);
+            throw err.message || err;
         }
-    },
+    }
+    ,
 
     /**
      * 新增guest mn 資料
@@ -747,7 +810,8 @@ module.exports = {
         catch (err) {
             throw err;
         }
-    },
+    }
+    ,
 };
 
 //計算房價
@@ -845,7 +909,7 @@ async function GetRoomCodSelectOption(postData, session) {
         };
 
         let la_roomCodSelectData = await new Promise((resolve, reject) => {
-            const lo_daoParams = commandRules.ConvertToQueryParams(session.athena_id, "SEL_ORDERDTROOMCOD");
+            const lo_daoParams = commonRule.ConvertToQueryParams(session.athena_id, "SEL_ORDERDTROOMCOD");
             clusterQueryAgent.queryList(lo_daoParams, lo_params, (err, result) => {
                 if (err) {
                     reject(err);
@@ -889,7 +953,7 @@ async function GetUseCodSelectOption(postData, session) {
         };
 
         let la_roomCodSelectData = await new Promise((resolve, reject) => {
-            const lo_daoParams = commandRules.ConvertToQueryParams(session.athena_id, "SEL_ORDERDTUSECOD");
+            const lo_daoParams = commonRule.ConvertToQueryParams(session.athena_id, "SEL_ORDERDTUSECOD");
             clusterQueryAgent.queryList(lo_daoParams, lo_params, (err, result) => {
                 if (err) {
                     reject(err);

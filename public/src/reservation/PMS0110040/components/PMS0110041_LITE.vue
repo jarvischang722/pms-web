@@ -522,7 +522,7 @@
                                     </li>
                                     <li>
                                         <button class="btn btn-primary btn-white btn-defaultWidth"
-                                                role="button">複製
+                                                role="button" @click="copyBooking">複製
                                         </button>
                                     </li>
                                     <li>
@@ -912,7 +912,7 @@
                 }
             },
             orderDtRowsData4table: {
-                async handler(val) {
+                handler: async function (val) {
                     if (!_.isUndefined(this.editingOrderDtIdx)) {
                         this.orderDtRowsData4Single = _.extend(this.orderDtRowsData4Single, val[this.editingOrderDtIdx]);
                         this.orderDtRowsData4Single.serv_tot = Number(val[this.editingOrderDtIdx].serv_amt) * val[this.editingOrderDtIdx].order_qnt;
@@ -1202,12 +1202,7 @@
             async chkPrgFuncRule(params) {
                 return await BacUtils.doHttpPromisePostProxy("/api/chkPrgFuncRule", params)
                     .then(result => {
-                        if (result.success) {
-                            return result;
-                        }
-                        else {
-                            throw result;
-                        }
+                        return result;
                     })
                     .catch(err => {
                         throw err;
@@ -1517,8 +1512,6 @@
             //單筆guest mn欄位規則檢查
             async chkGuestMnFieldRule(field) {
                 const la_nowData = [this.guestMnRowsData4Single];
-                // const la_beforeData = [this.beforeGuestMnRowsData4Single];
-                // const la_diff = _.difference(la_beforeData, la_nowData);
                 let lb_isDiff = false;
                 for (const ls_key in this.guestMnRowsData4Single) {
                     const value = this.guestMnRowsData4Single[ls_key];
@@ -1672,24 +1665,6 @@
                         return {success: false, errorMsg: err}
                     });
             },
-            /**
-             * 按鈕規則檢查
-             * @param params {object} 欄位資料
-             **/
-            async chkPrgFuncRule(params) {
-                return await BacUtils.doHttpPromisePostProxy("/api/chkPrgFuncRule", params)
-                    .then(result => {
-                        if (result.success) {
-                            return result;
-                        }
-                        else {
-                            throw result;
-                        }
-                    })
-                    .catch(err => {
-                        throw err;
-                    });
-            },
 
             /**
              * 欄位型態為button
@@ -1835,7 +1810,7 @@
                 });
             },
             //將頁面上資料轉換成儲存格式
-            async doConvertData() {
+            doConvertData: async function() {
                 //主檔資料轉換
                 if (!_.isUndefined(this.orderMnSingleData)) {
                     let lo_saveSingleData = JSON.parse(JSON.stringify(this.orderMnSingleData));
@@ -2032,98 +2007,79 @@
             async appendRow() {
                 let la_sourceTypSelectData = _.isUndefined(_.findWhere(this.oriOrderDtFieldsData, {ui_field_name: 'source_typ'})) ? [] : _.findWhere(this.oriOrderDtFieldsData, {ui_field_name: 'source_typ'}).selectData;
                 let la_guestTypSelectData = _.isUndefined(_.findWhere(this.oriOrderDtFieldsData, {ui_field_name: 'guest_typ'})) ? [] : _.findWhere(this.oriOrderDtFieldsData, {ui_field_name: 'guest_typ'}).selectData;
+                //新增order_dt
                 if (this.isModifiable) {
-                    let lo_addData = {
-                        add_baby: 0,
-                        add_child: 0,
-                        add_man: 0,
-                        addroom_sta: 'N',
-                        adult_qnt: 0,
-                        arrivl_nos: 0,
-                        asi_lock: 'N',
-                        assign_qnt: 0,
-                        assign_sta: 'N',
-                        baby_qnt: 0,
-                        block_cod: 1,
-                        block_qnt: 1,
-                        child_qnt: 0,
-                        ci_qnt: 0,
-                        ci_dat: moment().format("YYYY/MM/DD"),
-                        ci_dat_week: moment().format('ddd'),
-                        co_dat: moment().add(1, 'days').format("YYYY/MM/DD"),
-                        co_dat_week: moment().add(1, 'days').format('ddd'),
-                        commis_rat: 1,
-                        creatRow: 'Y',
-                        days: 1,
-                        guest_typ: la_guestTypSelectData.length == 0 ? "" : la_guestTypSelectData[0].value,
-                        ikey: this.orderMnSingleData.ikey,
-                        noshow_qnt: 1,
-                        order_qnt: 1,
-                        order_sta: this.orderStatus,
-                        other_tot: 0,
-                        rate_cod: "",
-                        rent_amt: 0,
-                        rent_tot: 0,
-                        room_cod: null,
-                        serv_amt: 0,
-                        serv_tot: 0,
-                        source_typ: la_sourceTypSelectData.length == 0 ? "" : la_sourceTypSelectData[0].value,
-                        use_cod: null
-                    };
                     const lo_param = {
                         prg_id: gs_prgId,
                         page_id: 1,
                         tab_page_id: 1,
                         func_id: 1100,
-                        allRowData: this.orderDtRowsData
+                        guest_typ: la_guestTypSelectData.length === 0 ? "" : la_guestTypSelectData[0].value,
+                        ikey: this.orderMnSingleData.ikey,
+                        order_sta: this.orderStatus,
+                        source_typ: la_sourceTypSelectData.length === 0 ? "" : la_sourceTypSelectData[0].value,
+                        use_cod: null,
+                        allOrderDtData: this.orderDtRowsData4table,
                     };
+
                     try {
                         const lo_ruleResult = await this.chkPrgFuncRule(lo_param);
-                        lo_addData.ikey_seq_nos = lo_ruleResult.success ?
-                            lo_ruleResult.defaultValues.ikey_seq_nos : _.max(this.orderDtRowsData, (lo_orderDtRowsData) => {
-                            return lo_orderDtRowsData.ikey_seq_nos;
-                        }).ikey_seq_nos + 1;
-
-                        if (this.orderDtRowsData4table.length > 0) {
-                            let lo_lastData = this.orderDtRowsData4table[this.orderDtRowsData4table.length - 1];
-                            let ls_useCod = lo_lastData.use_cod || "";
-                            let ls_roomCod = lo_lastData.room_cod || "";
-                            if (ls_roomCod != "" || ls_useCod != "") {
-                                lo_addData.ci_dat = moment(lo_lastData.ci_dat).format("YYYY/MM/DD");
-                                lo_addData.co_dat = moment(lo_lastData.co_dat).format("YYYY/MM/DD");
-                                lo_addData.days = lo_lastData.days;
-                                lo_addData.rate_cod = lo_lastData.rate_cod;
-                                lo_addData.ci_dat_week = moment(lo_addData.ci_dat).format('ddd');
-                                lo_addData.co_dat_week = moment(lo_addData.co_dat).format('ddd');
+                        if (lo_ruleResult.success) {
+                            if (!_.isEmpty(lo_ruleResult.defaultValues)) {
+                                // this.orderDtRowsData4table.push(lo_ruleResult.defaultValues);
+                                this.orderDtRowsData.push(lo_ruleResult.defaultValues);
                             }
-                            else {
-                                let lo_examFieldData = {};
-                                if (ls_roomCod == "") {
-                                    lo_examFieldData = _.findWhere(this.orderDtFieldsData4table, {ui_field_name: 'room_cod'});
-                                }
-                                else {
-                                    lo_examFieldData = _.findWhere(this.orderDtFieldsData4table, {ui_field_name: 'use_cod'});
-                                }
 
-                                if (!_.isUndefined(lo_examFieldData)) {
-                                    let ls_alertMsg = _s.sprintf(go_i18nLang.Validation.Formatter.Required, lo_examFieldData.ui_display_name);
-                                    alert(ls_alertMsg)
-                                }
-                                return;
+                            if (!_.isEmpty(lo_ruleResult.effectValues)) {
+                                // this.orderDtRowsData4Single = _.extend(this.orderDtRowsData4Single, lo_ruleResult.defaultValues);
                             }
+                            if (this.orderDtRowsData4table.length === 0) {
+                                this.groupOrderDtData = JSON.parse(JSON.stringify(this.orderDtRowsData))
+                            }
+                            this.editingOrderDtIdx = _.isUndefined(this.editingOrderDtIdx) ? 0 : this.editingOrderDtIdx + 1;
+                            this.convertDtDataToSingleAndTable(this.editingOrderDtIdx, undefined);
                         }
+                        else {
+                            alert(lo_ruleResult.errorMsg);
+                        }
+                        // lo_param.ikey_seq_nos = lo_ruleResult.success ?
+                        //     lo_ruleResult.defaultValues.ikey_seq_nos : _.max(this.orderDtRowsData, (lo_orderDtRowsData) => {
+                        //     return lo_orderDtRowsData.ikey_seq_nos;
+                        // }).ikey_seq_nos + 1;
 
-                        this.orderDtRowsData.push(lo_addData);
-                        if (this.orderDtRowsData4table.length == 0) {
-                            this.groupOrderDtData = JSON.parse(JSON.stringify(this.orderDtRowsData))
-                        }
-                        this.editingOrderDtIdx = _.isUndefined(this.editingOrderDtIdx) ? 0 : this.editingOrderDtIdx + 1;
+                        // if (this.orderDtRowsData4table.length > 0) {
+                        //     let lo_lastData = this.orderDtRowsData4table[this.orderDtRowsData4table.length - 1];
+                        //     let ls_useCod = lo_lastData.use_cod || "";
+                        //     let ls_roomCod = lo_lastData.room_cod || "";
+                        //     if (ls_roomCod !== "" || ls_useCod !== "") {
+                        //         lo_param.ci_dat = moment(lo_lastData.ci_dat).format("YYYY/MM/DD");
+                        //         lo_param.co_dat = moment(lo_lastData.co_dat).format("YYYY/MM/DD");
+                        //         lo_param.days = lo_lastData.days;
+                        //         lo_param.rate_cod = lo_lastData.rate_cod;
+                        //         lo_param.ci_dat_week = moment(lo_param.ci_dat).format('ddd');
+                        //         lo_param.co_dat_week = moment(lo_param.co_dat).format('ddd');
+                        //     }
+                        //     else {
+                        //         let lo_examFieldData = {};
+                        //         if (ls_roomCod === "") {
+                        //             lo_examFieldData = _.findWhere(this.orderDtFieldsData4table, {ui_field_name: 'room_cod'});
+                        //         }
+                        //         else {
+                        //             lo_examFieldData = _.findWhere(this.orderDtFieldsData4table, {ui_field_name: 'use_cod'});
+                        //         }
+                        //
+                        //         if (!_.isUndefined(lo_examFieldData)) {
+                        //             let ls_alertMsg = _s.sprintf(go_i18nLang.Validation.Formatter.Required, lo_examFieldData.ui_display_name);
+                        //             alert(ls_alertMsg)
+                        //         }
+                        //         return;
+                        //     }
+                        // }
+
                     }
                     catch (err) {
-                        alert(err.errorMsg);
-                        return;
+                        alert(err.message || err);
                     }
-
                 }
             },
             /**
@@ -2299,10 +2255,12 @@
                 this.isEditStatus = false;
                 this.isCreateStatus = true;
                 this.rowData = {ikey: ""};
+            },
 
-                this.initData();
+            //複製訂房卡
+            async copyBooking() {
                 this.initTmpCUD();
-                this.fetchAllRowData();
+                this.rowData.ikey = "";
             },
 
             doChkDataIsChange() {

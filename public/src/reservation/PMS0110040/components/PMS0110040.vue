@@ -123,7 +123,7 @@
         },
         mounted() {
             this.fetchUserInfo();
-            this.fetchDgFieldsRowDataByTabPageId(1);
+            this.fetchDgFieldsRowDataByTabPageId();
         },
         methods: {
             fetchUserInfo() {

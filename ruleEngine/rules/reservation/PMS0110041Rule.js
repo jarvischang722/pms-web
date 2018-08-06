@@ -318,7 +318,7 @@ module.exports = {
                             lo_result.defaultValues = {
                                 guestMnRowsData4Single: {
                                     ci_ser: ls_ci_ser,
-                                    ikey: lo_order_dt.ikey,
+                                    ikey: lo_order_mn.ikey,
                                     ikey_seq_nos: lo_order_dt.ikey_seq_nos,
                                     psngr_nos: "",
                                     assign_sta: "N",
@@ -423,7 +423,7 @@ module.exports = {
                 }
             }
             catch (err) {
-                console.log(err);
+                console.error(err);
                 lo_error = new ErrorClass();
                 lo_result.success = false;
                 lo_error.errorMsg = err.message || err;
@@ -1145,7 +1145,11 @@ module.exports = {
 
             //5.如果團號(order_mn.group_nos)未填時,將alt_nam入到order_mn.group_nos
             if (postData.order_mn.group_nos === "") {
-                lo_return.effectValues.orderMnSingleData.group_nos = postData.guest_mn.alt_nam;
+                let ls_alt_nam = "";
+                if(postData.guest_mn.alt_nam.indexOf(":") > -1){
+                    ls_alt_nam = postData.guest_mn.alt_nam.split(":")[1];
+                }
+                lo_return.effectValues.orderMnSingleData.group_nos = ls_alt_nam;
             }
 
             //6.『宏興SD 4.聯絡人處理方式』
