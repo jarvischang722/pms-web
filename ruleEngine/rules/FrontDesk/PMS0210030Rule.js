@@ -102,6 +102,7 @@ module.exports = {
     getRoomColor: function (postData, session, callback) {
         let lo_return = new ReturnClass();
         let lo_error = new ErrorClass();
+        let self = this;
         try {
             let lo_default_params = {
                 athena_id: session.user.athena_id,
@@ -116,6 +117,10 @@ module.exports = {
                 }
                 else {
                     lo_return.success = true;
+                    result.map(data => {
+                        data["color"] = self.colorCodToHex(data["color"]);
+                        return data;
+                    });
                     lo_return.effectValues = result;
                 }
                 callback(lo_error, lo_return);
@@ -647,6 +652,32 @@ module.exports = {
             }
             callback(errorMsg, success, data);
         });
+    },
+
+    //反轉成16進位
+    colorCodToHex: function (colorCod) {
+        if (_.isUndefined(colorCod)) {
+            colorCod = 0;
+        }
+        colorCod = Number(colorCod);
+        let lo_rgb = this.colorCodToRgb(colorCod);
+        return this.rgbToHex(lo_rgb.r, lo_rgb.g, lo_rgb.b);
+    },
+    //反轉成RGB
+    colorCodToRgb: function (colorCod) {
+        colorCod = Number(colorCod);
+        let lo_color = {r: 0, g: 0, b: 0};
+        let remainder = Math.floor(colorCod % 65536);
+        lo_color.b = Math.floor(colorCod / 65536);
+        lo_color.g = Math.floor(remainder / 256);
+        remainder = Math.floor(colorCod % 256);
+        lo_color.r = remainder;
+        return lo_color;
+
+    },
+    //RGB 轉 16進位色碼
+    rgbToHex: function (r, g, b) {
+        return (r < 16 ? "0" + r.toString(16).toUpperCase() : r.toString(16).toUpperCase()) + (g < 16 ? "0" + g.toString(16).toUpperCase() : g.toString(16).toUpperCase()) + (b < 16 ? "0" + b.toString(16).toUpperCase() : b.toString(16).toUpperCase());
     }
 
 };

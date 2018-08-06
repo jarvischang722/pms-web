@@ -26,14 +26,16 @@
                             <div class="col-xs-5 no-padding-left">
                                 <!--訂房多筆-->
 
-                                <div id="roomDetail-table-first" class="roomDetail-table2 easyui-panel dataGrid-s1" v-loading="isLoadingGroupOrderDt">
+                                <div id="roomDetail-table-first" class="roomDetail-table2 easyui-panel dataGrid-s1"
+                                     v-loading="isLoadingGroupOrderDt">
                                     <table id="groupOrderDt_dg" style="height: 250px;"></table>
                                 </div>
                                 <div class="clearfix"></div>
                                 <br>
                                 <div class="space-12"></div>
                                 <!--定房明細-->
-                                <div class="jqGridEdit-table roomDetail-table2 cardDetail_margin easyui-panel dataGrid-s1" v-loading="isLoadingOrderDtList">
+                                <div class="jqGridEdit-table roomDetail-table2 cardDetail_margin easyui-panel dataGrid-s1"
+                                     v-loading="isLoadingOrderDtList">
                                     <!--class="roomAssTableHt" 控制高度隨著螢幕預設變化-->
                                     <table id="OrderDtList_dg" style="height: 400px;"></table>
                                 </div>
@@ -49,20 +51,20 @@
                                             <div class="col-xs-10">
                                                 <div class="row no-padding">
                                                     <div class="tooltip-sp pull-left">
-                                    <span class=" color-desc">
-                                        <i class="fa fa-dashboard"></i>顏色說明
-                                    </span>
+                                                        <span class=" color-desc">
+                                                            <i class="fa fa-dashboard"></i>顏色說明
+                                                        </span>
                                                         <span class="tooltip-text">
-                                        <ul>
-                                            <!--顏色對應方式??-->
-                                            <li v-for="(textDetail,idx) in ColorList">
-                                                <div class="square-color pull-left"
-                                                     :class="'roomAsg-status-'+(idx+1)"></div>
-                                                <div class="pull-left">{{textDetail}}</div>
-                                                <div class="clearfix"></div>
-                                            </li>
-                                        </ul>
-                                </span>
+                                                            <ul>
+                                                            <!--顏色對應方式??-->
+                                                                <li v-for="(textDetail,idx) in ColorList">
+                                                                    <div class="square-color pull-left"
+                                                                         :class="'roomAsg-status-'+(idx+1)"></div>
+                                                                    <div class="pull-left">{{textDetail}}</div>
+                                                                    <div class="clearfix"></div>
+                                                                </li>
+                                                            </ul>
+                                                        </span>
                                                     </div>
                                                     <div class="searchCheckbox pull-left">
                                     <span class="checkbox">
@@ -209,7 +211,7 @@
                                                                     {{roomDt.ci_dat}}-{{roomDt.co_dat}}
                                                                 </span>
                                                                 <span v-else>
-                                                                    {{RoomListCiCoDat}}
+                                                                    {{roomListCiCoDat}}
                                                                 </span>
                                                             </div>
                                                             <!-- 拆併床 Lite 不顯示 -->
@@ -221,7 +223,7 @@
                                                             <div class="foot">
                                                                 <img src="/images/intCounter/clean.png"
                                                                      class="float-left foCnt_icon"
-                                                                    v-show="clean_sta === 'C'"
+                                                                     v-show="clean_sta === 'C'"
                                                                 />
                                                                 <img src="/images/intCounter/wrench.png"
                                                                      class="float-left foCnt_icon"
@@ -576,6 +578,8 @@
                 isLoadingGroupOrderDt: false,
                 // [訂房明細] Loading
                 isLoadingOrderDtList: false,
+
+                colorMessage: [],
             };
         },
         created() {
@@ -644,7 +648,7 @@
             /**
              * 尚未設定排房的房間日期 (依照所選的 訂房多筆 給予相對應的CI/CO日期) todo 暫時需討論
              */
-            RoomListCiCoDat: function () {
+            roomListCiCoDat: function () {
                 let ls_ciDat = moment(this.groupOrderDtRowData[this.selectDtIndex].ci_dat).local().format('MM/DD');
                 let ls_coDat = moment(this.groupOrderDtRowData[this.selectDtIndex].co_dat).local().format('MM/DD');
                 return `${ls_ciDat} - ${ls_coDat}`;
@@ -692,8 +696,32 @@
                 this.roomFloor = lo_roomFloor.effectValues;
                 this.chooseRoomFloor(-1);
 
-                // todo 樓層顏色說明 (固定的資料，只在初始化頁面時候撈取) ***目前撈沒資料，而且PB要怎麼轉RGB? 會有對應的? 那乾脆寫死不是比較快?
-                this.getRoomColor();
+                // todo 樓層顏色說明 (固定的資料，只在初始化頁面時候撈取)
+                let la_roomColor = await this.fetchRoomColor();
+                _.each(la_roomColor.effectValues, (lo_roomColor) =>{
+                    lo_roomColor.display = '';
+                    switch (lo_roomColor.state_cod) {
+                        case 'NA':
+                            lo_roomColor.display = '不可排房';
+                            break;
+                        case 'OOO':
+                            lo_roomColor.display = '修理房間';
+                            break;
+                        case 'CA':
+                            lo_roomColor.display = '可排房間';
+                            break;
+                        case 'X':
+                            lo_roomColor.display = '不可移動';
+                            break;
+                        case 'DO':
+                            lo_roomColor.display = '今日預定C/O';
+                            break;
+                        case 'S':
+                            lo_roomColor.display = '參觀';
+                            break;
+                    }
+                });
+                this.colorMessage = la_roomColor.effectValues.filter(data => data.state_cod !== 'FONT');
 
                 // 產生 [訂房多筆] DataGrid 資料
                 await this.bindGroupOrderDtRowData();
@@ -955,7 +983,7 @@
                         if (data === '') {
                             return "";
                         }
-                        return "'" +  data + "'";
+                        return "'" + data + "'";
                     });
                     ls_roomFloor = ls_roomFloor.join(',');
 
@@ -1099,7 +1127,7 @@
             /**
              * 飯店顏色說明
              */
-            async getRoomColor() {
+            async fetchRoomColor() {
                 try {
                     const lo_params = {
                         rule_func_name: 'getRoomColor',
@@ -1215,7 +1243,7 @@
                         return;
                     }
 
-                    if(lo_groupOrderDtRowData.room_cod !== this.selectRoomType){
+                    if (lo_groupOrderDtRowData.room_cod !== this.selectRoomType) {
                         lb_confrim = confirm(`訂房使用房型與排房房號房型${this.selectRoomType}不同，是否確定執行批次排房?`);
                     }
                     //endregion
@@ -1229,7 +1257,7 @@
                         };
                         // 批次排房預計排房明細資料
                         let lo_result = await BacUtils.doHttpPromisePostProxy('/api/queryDataByRule', lo_apiParams);
-                        if(lo_result.effectValues.length > 0){
+                        if (lo_result.effectValues.length > 0) {
                             let la_canAssignRoomNos = [];
                             for (let lo_RoomData of this.filterRoomList) {
                                 if (la_canAssignRoomNos.length < lo_result.effectValues.length) {
@@ -1403,7 +1431,7 @@
 
 
                     let lb_isLockAssign = confirm(`是否${ls_keyWord}排房`);
-                    if(lb_isLockAssign) {
+                    if (lb_isLockAssign) {
                         const lo_apiParams = {
                             rule_func_name: 'doAsiLock',
                             order_dt: lo_order_dt,
