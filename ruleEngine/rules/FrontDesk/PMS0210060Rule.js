@@ -70,7 +70,7 @@ module.exports = {
                 }
             });
             la_guestMnData[ln_idx].ci_dat = moment(lo_data.ci_dat).format("YYYY/MM/DD");
-            la_guestMnData[ln_idx].cO_dat = moment(lo_data.co_dat).format("YYYY/MM/DD");
+            la_guestMnData[ln_idx].co_dat = moment(lo_data.co_dat).format("YYYY/MM/DD");
         });
         let lo_pageData = {
             "1010": {
