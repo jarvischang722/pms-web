@@ -41,7 +41,7 @@
                                         style="background-color: white;"
                                         @click="getData(ratecodData)" :id="ratecodData.uniKey">
                                         <template v-if="ratecodData.isEdit && ratecodData.use_sta == 'Y'">
-                                            <input type="text" v-focus
+                                            <input type="text" style="width: 100%" v-focus
                                                    @keyup="formatAmt(ratecodData.rent_amt, rentAmtFieldData)"
                                                    v-model="ratecodData.rent_amt"
                                                    @keyup.enter="showNextColData(key,ratecodidx)">
@@ -513,7 +513,7 @@
                 this.isLoading = true;
 
                 let lo_params = {
-                    prg_id: '',
+                    prg_id: 'PMS0810230',
                     page_id: 2,
                     tab_page_id: 11,
                     searchCond: {
