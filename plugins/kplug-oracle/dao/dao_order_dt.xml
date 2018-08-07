@@ -484,7 +484,7 @@
         </groupby>
     </dao>
 
-    <!--PMS0210030 排房 訂房明細-->
+    <!--PMS0210030 訂房明細資料-->
     <dao name="QRY_ORDER_DT_LIST">
         <statement><![CDATA[
           SELECT ORDER_DT.IKEY_SEQ_NOS,
@@ -526,7 +526,7 @@
         <parameter type="number" kind="3">serv_amt</parameter>
     </dao>
 
-    <!--批次取消預計取消排房明細資料-->
+    <!-- PMS0210030 批次取消預計取消排房明細資料 -->
     <dao name="QRY_CANCEL_ROOM_LIST">
         <statement><![CDATA[
           SELECT IKEY_SEQ_NOS, ROOM_NOS, PG_HFD_GET_NAM2.SF_HFD_GET_GUEST_LIST( ATHENA_ID, HOTEL_COD, IKEY, IKEY_SEQ_NOS, '#1####' ) FULL_NAM, ASI_LOCK
@@ -559,7 +559,38 @@
         <parameter type="number" kind="3">serv_amt</parameter>
     </dao>
 
-
+    <!-- PMS0210030 批次排房預計排房明細資料 -->
+    <dao name="QRY_BATCH_ASSIGN_DT">
+        <statement><![CDATA[
+            SELECT 'N' CHOOSE, ROOM_NOS, IKEY_SEQ_NOS, PG_HFD_GET_NAM2.SF_HFD_GET_GUEST_LIST( ATHENA_ID, HOTEL_COD, IKEY, IKEY_SEQ_NOS, '#1####' ) FULL_NAM
+            FROM ORDER_DT
+            WHERE ATHENA_ID = :athena_id
+            AND HOTEL_COD = :hotel_cod
+            AND IKEY = :ikey
+            AND ASSIGN_STA = 'N'
+            AND ORDER_STA = :order_sta
+            AND CI_DAT = :ci_dat
+            AND CO_DAT = :co_dat
+            AND RATE_COD = :rate_cod
+            AND USE_COD = :use_cod
+            AND ROOM_COD = :room_cod
+            AND RENT_AMT = :rent_amt
+            AND SERV_AMT = :serv_amt
+            ORDER BY IKEY_SEQ_NOS
+        ]]>
+        </statement>
+        <parameter type="number" kind="3">athena_id</parameter>
+        <parameter type="string" kind="3">hotel_cod</parameter>
+        <parameter type="string" kind="3">ikey</parameter>
+        <parameter type="string" kind="3">order_sta</parameter>
+        <parameter type="date" kind="3">ci_dat</parameter>
+        <parameter type="date" kind="3">co_dat</parameter>
+        <parameter type="string" kind="3">rate_cod</parameter>
+        <parameter type="string" kind="3">use_cod</parameter>
+        <parameter type="string" kind="3">room_cod</parameter>
+        <parameter type="number" kind="3">rent_amt</parameter>
+        <parameter type="number" kind="3">serv_amt</parameter>
+    </dao>
 
 
 

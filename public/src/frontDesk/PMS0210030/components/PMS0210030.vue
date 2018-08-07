@@ -619,6 +619,7 @@
             });
             vmHub.$on('setRoomDt', (lo_params) => {
                 this.selectRoomDtIndex = lo_params.index;
+                this.selectRoomData = this.roomDtListRowData[this.selectRoomDtIndex];
             });
 
             // rowLock
@@ -688,7 +689,7 @@
              * 尚未設定排房的房間日期 (依照所選的 訂房多筆 給予相對應的CI/CO日期) todo 暫時需討論
              */
             roomListCiCoDat: function () {
-                if (this.selectDtIndex === -1) {
+                if (this.selectDtIndex === -1 || this.groupOrderDtRowData.length === 0) {
                     return null
                 }
 
@@ -981,6 +982,10 @@
             },
             // 產生 [訂房明細] DataGrid 資料
             async bindOrderDtList() {
+                if (this.groupOrderDtRowData.length === 0) {
+                    return;
+                }
+
                 this.isLoadingOrderDtList = true;
                 let ln_OrderDtList = await this.fetchOrderDtListData();
                 this.dgList.loadPageDgData(ln_OrderDtList);
