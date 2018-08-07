@@ -703,7 +703,7 @@
                 this.roomFloor = lo_roomFloor.effectValues;
                 this.chooseRoomFloor(-1);
 
-                // todo 樓層顏色說明 (固定的資料，只在初始化頁面時候撈取)
+                // 樓層顏色說明 (固定的資料，只在初始化頁面時候撈取)
                 let la_roomColor = await this.fetchRoomColor();
                 _.each(la_roomColor.effectValues, (lo_roomColor) =>{
                     lo_roomColor.display = '';
@@ -976,7 +976,7 @@
                     throw Error(err);
                 }
             },
-            // 單純撈 [排房房間] 資料 todo 圖形
+            // 單純撈 [排房房間] 資料
             async fetchRoomData() {
                 try {
                     // [訂房多筆]尚未選擇任何一筆資料的話 ，撈取[排房房間]資料
@@ -1013,7 +1013,7 @@
                     throw Error(err);
                 }
             },
-
+            // 產生 [排房房間] DataGrid 資料 + 圖形資料
             async bindRoomList() {
                 let lo_roomList = await this.fetchRoomData();
                 if (lo_roomList !== undefined) {
@@ -1064,10 +1064,11 @@
              * 顯示樓層的選項
              */
             async getRoomFloor(room_floor) {
-                const lo_params = {
-                    rule_func_name: 'getRoomMnQryFloorNos',
-                };
                 try {
+                    const lo_params = {
+                        rule_func_name: 'getRoomMnQryFloorNos',
+                    };
+
                     let lo_result = await BacUtils.doHttpPromisePostProxy('/api/queryDataByRule', lo_params);
                     return lo_result;
                 } catch (err) {
@@ -1083,17 +1084,16 @@
                     this.selectRoomFloor.length = 0;
                     this.selectRoomFloor.push('');
                 } else {
-                    //
-                    let isAll = _.indexOf(this.selectRoomFloor, '');
-                    if (isAll > -1) {
-                        this.selectRoomFloor.splice(isAll, 1);
+                    let ln_isAllKeyWord = _.indexOf(this.selectRoomFloor, '');
+                    if (ln_isAllKeyWord > -1) {
+                        this.selectRoomFloor.splice(ln_isAllKeyWord, 1);
                     }
 
-                    let isExtend = _.indexOf(this.selectRoomFloor, room_floor);
-                    if (isExtend === -1) {
+                    let ln_isExtendData = _.indexOf(this.selectRoomFloor, room_floor);
+                    if (ln_isExtendData === -1) {
                         this.selectRoomFloor.push(room_floor);
                     } else {
-                        this.selectRoomFloor.splice(isExtend, 1);
+                        this.selectRoomFloor.splice(ln_isExtendData, 1);
                     }
                 }
                 this.bindRoomList();
