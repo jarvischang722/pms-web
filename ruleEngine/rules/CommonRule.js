@@ -98,12 +98,11 @@ module.exports = {
      * @returns {String}: 訊息
      */
     getMsgByCod: function (msgCod, locale) {
+        let localeContent = {};
+        const appRootPath = require('app-root-path').path;
+        const localesPath = appRootPath + "/locales/";
+        const isExist = fs.existsSync(localesPath + locale.toLowerCase() + ".json");
 
-        var appRootPath = require('app-root-path').path;
-        var localeContent = {};
-        var localesPath = appRootPath + "/locales/";
-
-        var isExist = fs.existsSync(localesPath + locale.toLowerCase() + ".json");
         if (isExist) {
             localeContent = require(localesPath + locale.toLowerCase() + ".json");
 
@@ -235,7 +234,7 @@ module.exports = {
     ConvertToQueryParams: function (athena_id, dao) {
         let ls_oracle_id = `IDC_BACCHUS_${athena_id}`;
         const ln_idIsExist = _.findIndex(go_config.oracle, {id: ls_oracle_id});
-        if (ln_idIsExist == -1) ls_oracle_id = "default";
+        if (ln_idIsExist === -1) ls_oracle_id = "default";
 
         return {
             id: ls_oracle_id,
@@ -247,7 +246,7 @@ module.exports = {
      * cluster query
      * @param session {object}
      * @param params {object} dao 條件
-     * @param dao   {srring} dao 名稱
+     * @param dao   {string} dao 名稱
      * @returns {Promise<any>}
      */
     clusterQuery: async function (session, params, dao) {

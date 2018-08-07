@@ -94,8 +94,7 @@ var loginVM = new Vue({
                 dbname: this.dbname,
                 comp_id: this.comp_id
             };
-            BacUtils.doHttpPostAgent("/api/authLogin", params, function (result) {
-
+            BacUtils.doHttpPromisePostProxy("/api/authLogin", params).then(result => {
                 if (result.success) {
 
                     if (loginVM.rememberMeCheck) {
@@ -116,7 +115,9 @@ var loginVM = new Vue({
                     self.isLoading = false;
                     self.$alert(result.errorMsg);
                 }
-            });
+            }).catch(err => {
+                self.$alert(err.message || err);
+            })
 
         },
         //更換語系

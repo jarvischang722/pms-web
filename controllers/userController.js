@@ -7,6 +7,7 @@ const _ = require("underscore");
 const async = require("async");
 const roleFuncSvc = require("../services/RoleFuncService");
 const queryAgent = require('../plugins/kplug-oracle/QueryAgent');
+const commonRule = require("../ruleEngine/rules/CommonRule");
 const langSvc = require("../services/LangService");
 const fs = require("fs");
 const ip = require("ip");
@@ -18,7 +19,7 @@ const passport = require('passport');
 /**
  * 登入頁面
  */
-exports.loginPage = function (req, res) {
+exports.loginPage = async function (req, res) {
     if (req.session.user) {
         if (!_.isUndefined(req.session.activeSystem.id)) {
             res.redirect("/");
@@ -28,53 +29,90 @@ exports.loginPage = function (req, res) {
         return;
     }
 
-
     try {
-        async.waterfall([
-            function (callback) {
-                if (_.isUndefined(req.params.athena_id)) {
-                    if (!_.isUndefined(req.cookies.athena_id) && !_.isUndefined(req.cookies.comp_cod)) {
-                        return res.redirect(`/${req.cookies.athena_id}/${req.cookies.comp_cod}/login`);
-                    } else if (!_.isUndefined(req.cookies.athena_id) && _.isUndefined(req.cookies.comp_cod)) {
-                        return res.redirect(`/${req.cookies.athena_id}/login`);
-                    }
-                    queryAgent.query("QRY_SELECT_COMPANY", {}, function (err, company) {
-                        if (err) {
-                            return callback(err, 'done');
-                        } else {
-                            if (company) {
-                                return res.redirect(`/${company.athena_id}/${company.cmp_id.trim()}/login`);
-                            }
-                        }
-                        callback(null, 'done');
-                    });
-                } else {
-                    if (!req.params.athena_id || _.isEmpty(req.params.athena_id)) {
-                        res.clearCookie("athena_id");
-                    }
-                    else {
-                        res.cookie("athena_id", req.params.athena_id, {maxAge: go_sysConf.sessionExpiredMS || 1000 * 60 * 60 * 3});
-                    }
-
-                    if (!req.params.comp_cod || _.isEmpty(req.params.comp_cod)) {
-                        res.clearCookie("comp_cod");
-                    }
-                    else {
-                        res.cookie("comp_cod", req.params.comp_cod, {maxAge: go_sysConf.sessionExpiredMS || 1000 * 60 * 60 * 3});
-                    }
-
-                    callback(null, 'done');
-                }
+        if (_.isUndefined(req.params.athena_id)) {
+            if (!_.isUndefined(req.cookies.athena_id) && !_.isUndefined(req.cookies.comp_cod)) {
+                return res.redirect(`/${req.cookies.athena_id}/${req.cookies.comp_cod}/login`);
+            } else if (!_.isUndefined(req.cookies.athena_id) && _.isUndefined(req.cookies.comp_cod)) {
+                return res.redirect(`/${req.cookies.athena_id}/login`);
             }
-        ], function (err) {
-            res.render('user/loginPage');
-        });
 
+            const lo_company = await commonRule.clusterQuery(req.session, {}, "QRY_SELECT_COMPANY");
+            if (lo_company) {
+                return res.redirect(`/${lo_company.athena_id}/${lo_company.cmp_id.trim()}/login`);
+            }
+        }
+        else {
+            if (!req.params.athena_id || _.isEmpty(req.params.athena_id)) {
+                res.clearCookie("athena_id");
+            }
+            else {
+                res.cookie("athena_id", req.params.athena_id, {maxAge: go_sysConf.sessionExpiredMS || 1000 * 60 * 60 * 3});
+            }
+
+            if (!req.params.comp_cod || _.isEmpty(req.params.comp_cod)) {
+                res.clearCookie("comp_cod");
+            }
+            else {
+                res.cookie("comp_cod", req.params.comp_cod, {maxAge: go_sysConf.sessionExpiredMS || 1000 * 60 * 60 * 3});
+            }
+            res.render('user/loginPage', {chkAthenaID: ""});
+        }
     }
-    catch (ex) {
-        console.error(ex);
-        res.render('user/loginPage');
+    catch (err) {
+        console.error(err);
+        res.render('user/loginPage', {chkAthenaID: "網址請輸入集團別"});
     }
+
+
+    // try {
+    //     async.waterfall([
+    //         function (callback) {
+    //             if (_.isUndefined(req.params.athena_id)) {
+    //                 if (!_.isUndefined(req.cookies.athena_id) && !_.isUndefined(req.cookies.comp_cod)) {
+    //                     return res.redirect(`/${req.cookies.athena_id}/${req.cookies.comp_cod}/login`);
+    //                 } else if (!_.isUndefined(req.cookies.athena_id) && _.isUndefined(req.cookies.comp_cod)) {
+    //                     return res.redirect(`/${req.cookies.athena_id}/login`);
+    //                 }
+    //                 queryAgent.query("QRY_SELECT_COMPANY", {}, function (err, company) {
+    //                     if (err) {
+    //                         return callback(err, 'done');
+    //                     } else {
+    //                         if (company) {
+    //                             return res.redirect(`/${company.athena_id}/${company.cmp_id.trim()}/login`);
+    //                         }
+    //                     }
+    //                     callback(null, 'done');
+    //                 });
+    //             }
+    //             else {
+    //                 if (!req.params.athena_id || _.isEmpty(req.params.athena_id)) {
+    //                     res.clearCookie("athena_id");
+    //                 }
+    //                 else {
+    //                     res.cookie("athena_id", req.params.athena_id, {maxAge: go_sysConf.sessionExpiredMS || 1000 * 60 * 60 * 3});
+    //                 }
+    //
+    //                 if (!req.params.comp_cod || _.isEmpty(req.params.comp_cod)) {
+    //                     res.clearCookie("comp_cod");
+    //                 }
+    //                 else {
+    //                     res.cookie("comp_cod", req.params.comp_cod, {maxAge: go_sysConf.sessionExpiredMS || 1000 * 60 * 60 * 3});
+    //                 }
+    //
+    //                 callback(null, 'done');
+    //             }
+    //         }
+    //     ], function (err) {
+    //
+    //         res.render('user/loginPage');
+    //     });
+    //
+    // }
+    // catch (ex) {
+    //     console.error(ex);
+    //     res.render('user/loginPage');
+    // }
 };
 
 /**

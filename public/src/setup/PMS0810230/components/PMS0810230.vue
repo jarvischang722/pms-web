@@ -93,10 +93,11 @@
 
             g_socket.on("checkTableLock", (result) => {
                 if (!result.success) {
-                    this.isLock = false;
-                    alert(result.errorMsg);
-                }else{
+                    //表示這是lock失敗==>有人在用
                     this.isLock = true;
+                    alert(result.errorMsg);
+                } else {
+                    this.isLock = false;
                 }
             });
 
@@ -333,7 +334,7 @@
             },
             showSingleGridDialog() {
                 let self = this;
-
+                let lo_selectRow = $('#PMS0810230_dg').datagrid('getSelected');
                 let dialog = $('#PMS0810230SingleGrid').removeClass('hide').dialog({
                     modal: true,
                     title: "Rate code",
@@ -350,7 +351,9 @@
                         self.$eventHub.$emit('setClearData');
                         self.$store.dispatch('setAllDataClear');
                         self.loadDataGridByPrgID();
-                        self.doRowUnLock();
+                        if (!_.isNull(lo_selectRow) && !_.isUndefined(lo_selectRow)) {
+                            self.doRowUnLock();
+                        }
                     }
                 }).dialog('open');
             },
@@ -402,7 +405,7 @@
                 };
                 g_socket.emit('handleTableLock', lo_param);
             },
-            doRowUnLock() {
+            doRowUnLock: function () {
                 let lo_param = {
                     prg_id: gs_prgId
                 };
