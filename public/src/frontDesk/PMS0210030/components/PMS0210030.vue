@@ -230,19 +230,19 @@
                                                             <div class="foot">
                                                                 <img src="/images/intCounter/clean.png"
                                                                      class="float-left foCnt_icon"
-                                                                     v-show="clean_sta === 'C'"
+                                                                     v-show="roomDt.clean_sta === 'C'"
                                                                 />
                                                                 <img src="/images/intCounter/wrench.png"
                                                                      class="float-left foCnt_icon"
-                                                                     v-show="room_sta ==='R'"
+                                                                     v-show="roomDt.room_sta ==='R'"
                                                                 />
                                                                 <img src="/images/intCounter/assign.png"
                                                                      class="float-left foCnt_icon"
-                                                                     v-show="assign_sta === 'Y'"
+                                                                     v-show="roomDt.assign_sta === 'Y'"
                                                                 />
                                                                 <img src="/images/intCounter/do-not-disturb.png"
                                                                      class="float-left foCnt_icon"
-                                                                     v-show="room_sta === 'O'"
+                                                                     v-show="roomDt.room_sta === 'O'"
                                                                 />
                                                                 <img src="/images/intCounter/bed.png"
                                                                      class="float-left foCnt_icon"
@@ -325,10 +325,16 @@
                                                 role="button">鎖定排房
                                         </button>
                                     </li>
-                                    <li>
-                                        <button class="btn btn-primary btn-white btn-defaultWidth reservationDialog-1"
-                                                :disabled="!lockStatus" @click="checkRawCode()"
-                                                role="button">訂房卡
+                                    <li
+                                            :style="{'display': isHideClass ? 'none': 'block'}"
+                                    >
+                                        <button
+                                                class="btn btn-primary btn-white btn-defaultWidth reservationDialog-1"
+                                                :disabled="!lockStatus"
+                                                @click="checkRawCode()"
+                                                role="button"
+                                        >
+                                            訂房卡
                                         </button>
                                     </li>
                                     <li>
@@ -336,6 +342,13 @@
                                                 @click="changeRoomDataType"
                                         >
                                             {{btnList? '清單模式':'圖形模式'}}
+                                        </button>
+                                    </li>
+                                    <li :style="{'display': isHideClass ? 'block': 'none'}">
+                                        <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                @click="doLeave"
+                                        >
+                                            離開
                                         </button>
                                     </li>
                                 </ul>
@@ -1046,7 +1059,7 @@
                 let lo_roomList = await this.fetchRoomData();
                 if (lo_roomList !== undefined) {
                     this.roomDtListRowData = lo_roomList.effectValues.roomList;
-                    let lo_roomDtListRowData = [];
+                    let lo_roomDtListRowData = this.roomDtListRowData;
                     if (this.selectRoomType !== 'ALL') {
                         lo_roomDtListRowData = this.roomDtListRowData.filter(lo_data => lo_data.room_cod === this.selectRoomType);
                     }
@@ -1529,6 +1542,10 @@
                     prg_id: gs_prgId
                 };
                 g_socket.emit('handleTableUnlock', lo_param);
+            },
+
+            doLeave: function () {
+                $('#assign-work').dialog('close');
             },
         },
     }
