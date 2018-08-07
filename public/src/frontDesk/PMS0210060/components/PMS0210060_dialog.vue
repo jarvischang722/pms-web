@@ -68,7 +68,8 @@
                             <div class="space-4"></div>
                             <!--多筆 guest mn -->
                             <div class="main-content-data">
-                                <div class="horizTable-outer pull-left ml-5 fixed-table-container"  style="height: 200px;">
+                                <div class="horizTable-outer pull-left ml-5 fixed-table-container"
+                                     style="height: 200px;">
                                     <table class="css_table horizTable" id="DtTable">
                                         <thead class="css_thead">
                                         <tr class="css_tr ">
@@ -343,7 +344,7 @@
         },
         mounted() {
         },
-        updated(){
+        updated() {
             $("#DtTable").tableHeadFixer({"left": 1});
         },
         data() {
@@ -602,10 +603,10 @@
                             }
                         }
                         if (!_.isEmpty(lo_doRule.effectValues)) {
-                            _.each(lo_doRule.effectValues["ciser"], (ls_data) => {
+                            _.each(lo_doRule.effectValues["2010"], (ls_data) => {
                                 let la_data = ls_data.split(":");
                                 if (la_data.length > 1) {
-                                    let ln_idx = _.findIndex(this.guestMnRowDataChecked, {ikey_seq_nos: la_data[0]});
+                                    let ln_idx = _.findIndex(this.guestMnRowDataChecked, {ikey_seq_nos: Number(la_data[0])});
                                     if (ln_idx > -1) {
                                         this.guestMnRowDataChecked[ln_idx] = _.extend(this.guestMnRowDataChecked[ln_idx], {ci_ser: la_data[1]});
                                     }

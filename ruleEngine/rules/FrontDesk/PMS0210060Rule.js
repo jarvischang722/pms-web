@@ -112,7 +112,7 @@ module.exports = {
 
             }
             if (!_.isUndefined(data["RETN-DATA"])) {
-                lo_result.effectValues = data["RETN-DATA"]["data"];
+                lo_result.effectValues = data["RETN-DATA"]["ciserdata"];
             }
             callback(lo_error, lo_result);
         });
