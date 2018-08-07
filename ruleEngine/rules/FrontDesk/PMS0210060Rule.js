@@ -61,25 +61,16 @@ module.exports = {
         let lo_result = new ReturnClass();
         let lo_error = null;
 
-        let la_orderMnData = [_.extend(postData.orderMnData, {
-            conditions: {
-                athena_id: postData.orderMnData.athena_id,
-                hotel_cod: postData.orderMnData.athena_id,
-                ikey: postData.orderMnData.ikey
-            },
-            action: 'U'
-        })];
+        let la_orderMnData = [postData.orderMnData];
         let la_guestMnData = postData.guestMnData;
         _.each(la_guestMnData, (lo_data, ln_idx) => {
-            la_guestMnData[ln_idx] = _.extend(lo_data, {
-                conditions: {
-                    athena_id: lo_data.athena_id,
-                    hotel_cod: lo_data.athena_id,
-                    ikey: lo_data.ikey,
-                    ikey_seq_nos: lo_data.ikey_seq_nos
-                },
-                action: 'U'
+            _.each(lo_data, (ls_val, ls_key) => {
+                if (ls_key.split(".").length > 1) {
+                    delete la_guestMnData[ln_idx][ls_key]
+                }
             });
+            la_guestMnData[ln_idx].ci_dat = moment(lo_data.ci_dat).format("YYYY/MM/DD");
+            la_guestMnData[ln_idx].cO_dat = moment(lo_data.co_dat).format("YYYY/MM/DD");
         });
         let lo_pageData = {
             "1010": {
