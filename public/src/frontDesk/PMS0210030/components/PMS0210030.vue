@@ -1206,8 +1206,8 @@
 
                 let lo_combinationData = _.extend(this.orderDtListRowData[this.selectListIndex], this.groupOrderDtRowData[this.selectDtIndex]);
                 lo_combinationData = _.extend(lo_combinationData, {
-                    'select_room_nos': this.selectRoomData.room_nos || '', //選擇的排房房號
-                    'select_room_cod': this.selectRoomData.room_cod || this.selectRoomType, //選擇的排房房型
+                    'select_room_nos': this.selectRoomData !== undefined ? this.selectRoomData.room_nos : '', //選擇的排房房號
+                    'select_room_cod': this.selectRoomData !== undefined ?　this.selectRoomData.room_cod : this.selectRoomType, //選擇的排房房型
                     'select_batch_room_cod': this.selectRoomType,
                     'begin_dat': moment(this.groupOrderDtRowData[this.selectDtIndex].ci_dat).format('YYYY/MM/DD'),
                     'end_dat': moment(this.groupOrderDtRowData[this.selectDtIndex].co_dat).format('YYYY/MM/DD'),
@@ -1224,7 +1224,7 @@
                     let lb_confrim = true;
 
                     //region ### 驗證 ###
-                    if (Object.keys(this.selectRoomData).length === 0) {
+                    if (this.selectRoomData === undefined || Object.keys(this.selectRoomData).length === 0) {
                         alert('請選擇一筆房間');
                         return;
                     }
