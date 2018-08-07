@@ -546,7 +546,7 @@
                                     </li>
                                     <li>
                                         <button class="btn btn-primary btn-white btn-defaultWidth foCnt_roomAssign"
-                                                role="button">排房
+                                                role="button" @click="doAssign">排房
                                         </button>
                                     </li>
                                     <li>
@@ -684,6 +684,11 @@
             <div class="clearfix"></div>
         </div>
         <!--/.取消訂房原因-->
+
+        <!-- 排房房間 -->
+        <assign-work
+                :rowData="rowData"
+        ></assign-work>
     </div>
 </template>
 
@@ -697,12 +702,13 @@
     import telDetail from './telDetail';
     import selectRateCod from './selectRateCod.vue';
     import guestDetail from './guestDetail';
+    import assignWork from '../../../frontDesk/PMS0210030/components/PMS0210030.vue';
 
     const gs_prgId = 'PMS0110041';
 
     export default {
         name: 'pms0110041-lite',
-        components: {pms0210011, pms0610020, publicAccount, telDetail, selectRateCod, guestDetail},
+        components: {pms0210011, pms0610020, publicAccount, telDetail, selectRateCod, guestDetail, assignWork},
         props: ["rowData", "isCreateStatus", "isEditStatus", "isModifiable"],
         created() {
             this.$eventHub.$on('clearData', (data) => {
@@ -2361,6 +2367,19 @@
             doCloseDialog() {
                 $("#PMS0110041Lite").dialog('close');
             },
+            doAssign() {
+                let dialog = $("#assign-work").removeClass('hide').dialog({
+                    modal: true,
+                    title: "排房",
+                    title_html: true,
+                    width: 1000,
+                    maxwidth: 1920,
+                    // height: $(window).height(),
+                    // autoOpen: true,
+                    dialogClass: "test",
+                    resizable: true,
+                });
+            }
             //endregion
         }
     }

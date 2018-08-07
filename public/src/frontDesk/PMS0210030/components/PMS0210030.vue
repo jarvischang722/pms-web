@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div id="assign-work" :class="{hide: isHideClass}">
         <div class="page-header"></div><!-- /.page-header -->
         <!-- 排房作業 Page-->
         <div class="pageMain">
@@ -9,7 +9,7 @@
                     <search-comp
                             :search-fields="searchFields"
                             :search-cond.sync="searchCond"
-                            :fetch-data="bindGroupOrderDtRowData"
+                            :fetch-data="reloadBindData"
                     ></search-comp>
                 </div> <!-- row-->
             </div> <!-- /.col-sm-12 -->
@@ -204,6 +204,7 @@
                                                         <div class="townBlock"
                                                              v-for="(roomDt, index) in filterRoomList"
                                                              @click="chooseRoomDt(roomDt)"
+                                                             :style="{'border-color': '#' + roomDt.view_bgcolor}"
                                                         >
                                                             <div class="head">
                                                                 <span class="left txt-lg">{{roomDt.room_nos}}</span>
@@ -230,19 +231,19 @@
                                                             <div class="foot">
                                                                 <img src="/images/intCounter/clean.png"
                                                                      class="float-left foCnt_icon"
-                                                                     v-show="clean_sta === 'C'"
+                                                                     v-show="roomDt.clean_sta === 'C'"
                                                                 />
                                                                 <img src="/images/intCounter/wrench.png"
                                                                      class="float-left foCnt_icon"
-                                                                     v-show="room_sta ==='R'"
+                                                                     v-show="roomDt.room_sta ==='R'"
                                                                 />
                                                                 <img src="/images/intCounter/assign.png"
                                                                      class="float-left foCnt_icon"
-                                                                     v-show="assign_sta === 'Y'"
+                                                                     v-show="roomDt.assign_sta === 'Y'"
                                                                 />
                                                                 <img src="/images/intCounter/do-not-disturb.png"
                                                                      class="float-left foCnt_icon"
-                                                                     v-show="room_sta === 'O'"
+                                                                     v-show="roomDt.room_sta === 'O'"
                                                                 />
                                                                 <img src="/images/intCounter/bed.png"
                                                                      class="float-left foCnt_icon"
@@ -325,10 +326,16 @@
                                                 role="button">鎖定排房
                                         </button>
                                     </li>
-                                    <li>
-                                        <button class="btn btn-primary btn-white btn-defaultWidth reservationDialog-1"
-                                                :disabled="!lockStatus" @click="checkRawCode()"
-                                                role="button">訂房卡
+                                    <li
+                                            :style="{'display': isHideClass ? 'none': 'block'}"
+                                    >
+                                        <button
+                                                class="btn btn-primary btn-white btn-defaultWidth reservationDialog-1"
+                                                :disabled="!lockStatus"
+                                                @click="checkRawCode()"
+                                                role="button"
+                                        >
+                                            訂房卡
                                         </button>
                                     </li>
                                     <li>
@@ -336,6 +343,13 @@
                                                 @click="changeRoomDataType"
                                         >
                                             {{btnList? '清單模式':'圖形模式'}}
+                                        </button>
+                                    </li>
+                                    <li :style="{'display': isHideClass ? 'block': 'none'}">
+                                        <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                @click="doLeave"
+                                        >
+                                            離開
                                         </button>
                                     </li>
                                 </ul>
@@ -446,14 +460,17 @@
                                     <li>
                                         <button class="btn btn-primary btn-white btn-defaultWidth"
                                                 role="button"
-                                                @click="doAssignAllSure"
+                                                @click="doBatchAssignSure"
                                         >
                                             確定
                                         </button>
                                     </li>
                                     <li>
                                         <button class="btn btn-primary btn-white btn-defaultWidth"
-                                                role="button">離開
+                                                role="button"
+                                                @click="doBatchAssignLeave"
+                                        >
+                                            離開
                                         </button>
                                     </li>
                                 </ul>
@@ -465,6 +482,7 @@
                 <div class="clearfix"></div>
             </div>
         </div>
+        <!--{{rowData.ikey}}-->
     </div>
 </template>
 
@@ -511,7 +529,7 @@
 
     export default {
         props: {
-            parent_ikey: String,
+            rowData: Object,
         },
         data() {
             return {
@@ -587,9 +605,15 @@
                 isLoadingOrderDtList: false,
 
                 colorMessage: [],
+
+                isHideClass: true,
             };
         },
         created() {
+            if (this.rowData === undefined){
+                this.isHideClass = false;
+            }
+
             vmHub.$on("setGroupOrderDt", (lo_params) => {
                 this.selectDtIndex = lo_params.index;
             });
@@ -598,6 +622,7 @@
             });
             vmHub.$on('setRoomDt', (lo_params) => {
                 this.selectRoomDtIndex = lo_params.index;
+                this.selectRoomData = this.roomDtListRowData[this.selectRoomDtIndex];
             });
 
             // rowLock
@@ -619,6 +644,10 @@
         watch: {
             async selectDtIndex(newV, oldV) {
                 console.log('訂房多筆', newV, oldV);
+                if (newV === -1) {
+                    return;
+                }
+
                 // 房型種類
                 let ls_ciDat = moment(this.groupOrderDtRowData[this.selectDtIndex].ci_dat).format('YYYY/MM/DD');
                 let lo_roomType = await this.getAllRoomType(ls_ciDat);
@@ -640,6 +669,13 @@
             async chkAssign(newVal, oldVal) {
                 await this.bindRoomList();
             },
+            rowData(newValue, oldValue) {
+                if(newValue.ikey !== undefined){
+                    this.isHideClass = true;
+                    this.searchCond.ikey = this.rowData.ikey;
+                    this.initPageLoad();
+                }
+            },
         },
         computed: {
             /**
@@ -656,6 +692,10 @@
              * 尚未設定排房的房間日期 (依照所選的 訂房多筆 給予相對應的CI/CO日期) todo 暫時需討論
              */
             roomListCiCoDat: function () {
+                if (this.selectDtIndex === -1 || this.groupOrderDtRowData.length === 0) {
+                    return null
+                }
+
                 let ls_ciDat = moment(this.groupOrderDtRowData[this.selectDtIndex].ci_dat).local().format('MM/DD');
                 let ls_coDat = moment(this.groupOrderDtRowData[this.selectDtIndex].co_dat).local().format('MM/DD');
                 return `${ls_ciDat} - ${ls_coDat}`;
@@ -670,10 +710,16 @@
              * 初始化頁面要做的事情
              */
             async initPageLoad() {
+                let ls_ikey = this.searchCond.ikey;
+
                 // 撈 [搜尋條件] 規格
                 let lo_searchFields = await this.fetchSearchFields();
                 if (lo_searchFields.success) {
                     this.searchFields = lo_searchFields.searchFieldsData;
+                    // 從訂房卡開啟排房作業的時候，會帶rowData的資料，這時候需要把searchData隱藏
+                    if (this.rowData !== undefined){
+                        this.searchFields = [];
+                    }
                 } else {
                     alert(lo_searchFields.errorMsg);
                     return;
@@ -686,6 +732,7 @@
                     // this.rentCalDat = moment(lo_rentCalDat.rent_cal_dat).format('YYYY/MM/DD');
                     this.rentCalDat = moment(lo_rentCalDat.rent_cal_dat, 'YYYY/MM/DD').format('YYYY/MM/DD')
                     this.searchCond.ci_dat = this.rentCalDat;
+                    this.searchCond.ikey = ls_ikey;
                 } else {
                     alert(lo_rentCalDat.errorMsg);
                     return;
@@ -840,9 +887,10 @@
                     };
 
                     let lo_result = await BacUtils.doHttpPromisePostProxy("/api/fetchDgRowData", lo_params);
+
                     if (lo_result.success) {
                         this.groupOrderDtRowData = lo_result.dgRowData;
-                        return this.groupOrderDtRowData;
+                        return lo_result.dgRowData;
                     } else {
                         alert(lo_result.errorMsg);
                     }
@@ -858,16 +906,17 @@
                     let ln_groupOrderDtRowData = await this.fetchGroupOrderDtRowData();
                     this.dgGroup.loadPageDgData(this.groupOrderDtRowData);
                     this.isLoadingGroupOrderDt = false;
+
                     // Lock 第一筆資料
                     if (ln_groupOrderDtRowData.length > 0) {
-                        let ln_selectDtIndex = this.selectDtIndex === -1 ? 0 : this.selectDtIndex;
-
-                        $("#groupOrderDt_dg").datagrid('selectRow', ln_selectDtIndex);
-                        this.selectDtIndex = ln_selectDtIndex;
+                        this.selectDtIndex = this.selectDtIndex === -1 ? 0 : this.selectDtIndex;
+                        $("#groupOrderDt_dg").datagrid('selectRow', this.selectDtIndex);
                     } else if (ln_groupOrderDtRowData.length === 0) {
                         this.dgList.loadPageDgData([]);
                         this.roomDtListRowData = [];
-                        alert('找不到資料');
+                        if (this.rowData === undefined) {
+                            alert('找不到資料');
+                        }
                     }
                 } catch (err) {
                     throw Error(err);
@@ -939,6 +988,10 @@
             },
             // 產生 [訂房明細] DataGrid 資料
             async bindOrderDtList() {
+                if (this.groupOrderDtRowData.length === 0) {
+                    return;
+                }
+
                 this.isLoadingOrderDtList = true;
                 let ln_OrderDtList = await this.fetchOrderDtListData();
                 this.dgList.loadPageDgData(ln_OrderDtList);
@@ -988,7 +1041,7 @@
                         rule_func_name: 'fetchRoomData',
                         order_dt: _.extend(this.groupOrderDtRowData[this.selectDtIndex], {
                             floor_nos: this.selectRoomFloor,
-                            room_cod: this.selectRoomType,
+                            select_room_cod: this.selectRoomType,
                             can_assign: this.chkAssign ? 'Y' : 'N'
                         }),
                     };
@@ -1018,7 +1071,7 @@
                 let lo_roomList = await this.fetchRoomData();
                 if (lo_roomList !== undefined) {
                     this.roomDtListRowData = lo_roomList.effectValues.roomList;
-                    let lo_roomDtListRowData = [];
+                    let lo_roomDtListRowData = this.roomDtListRowData;
                     if (this.selectRoomType !== 'ALL') {
                         lo_roomDtListRowData = this.roomDtListRowData.filter(lo_data => lo_data.room_cod === this.selectRoomType);
                     }
@@ -1153,8 +1206,8 @@
 
                 let lo_combinationData = _.extend(this.orderDtListRowData[this.selectListIndex], this.groupOrderDtRowData[this.selectDtIndex]);
                 lo_combinationData = _.extend(lo_combinationData, {
-                    'select_room_nos': this.selectRoomData.room_nos || '', //選擇的排房房號
-                    'select_room_cod': this.selectRoomData.room_cod || this.selectRoomType, //選擇的排房房型
+                    'select_room_nos': this.selectRoomData !== undefined ? this.selectRoomData.room_nos : '', //選擇的排房房號
+                    'select_room_cod': this.selectRoomData !== undefined ?　this.selectRoomData.room_cod : this.selectRoomType, //選擇的排房房型
                     'select_batch_room_cod': this.selectRoomType,
                     'begin_dat': moment(this.groupOrderDtRowData[this.selectDtIndex].ci_dat).format('YYYY/MM/DD'),
                     'end_dat': moment(this.groupOrderDtRowData[this.selectDtIndex].co_dat).format('YYYY/MM/DD'),
@@ -1171,7 +1224,7 @@
                     let lb_confrim = true;
 
                     //region ### 驗證 ###
-                    if (Object.keys(this.selectRoomData).length === 0) {
+                    if (this.selectRoomData === undefined || Object.keys(this.selectRoomData).length === 0) {
                         alert('請選擇一筆房間');
                         return;
                     }
@@ -1291,7 +1344,7 @@
             },
 
             // 批次排房 確認按鈕
-            async doAssignAllSure() {
+            async doBatchAssignSure() {
                 let lo_combinationData = this.combinationData();
                 lo_combinationData = _.extend(lo_combinationData, {
                     assignDataList: this.chkAssignDataList
@@ -1306,6 +1359,11 @@
                 if (lo_result.success) {
                     this.reloadBindData();
                 }
+            },
+
+            // 批次排房 取消按鈕
+            doBatchAssignLeave() {
+                $('#batchAssignListDialog').dialog('close');
             },
 
             // 取消排房
@@ -1466,10 +1524,22 @@
             //endregion
 
             // 重讀畫面
-            reloadBindData() {
-                this.bindGroupOrderDtRowData();
-                this.bindOrderDtList();
-                this.bindRoomList();
+            async reloadBindData() {
+                /**
+                 * 需要整個畫面都重新render，不讓 User每次重新render後，索引都會回到最上層
+                 * 1. 記錄 render前的索引位置 (selectDtIndex)
+                 * 2. 重新設定 selectDtIndex的原因是 [訂房明細] 和 [排房房間]都是跟隨 selectDtIndex變化去觸發改變
+                 */
+                let ln_selectDtIndex = this.selectDtIndex;
+                this.selectDtIndex = -1;
+                this.selectDtIndex = ln_selectDtIndex;
+
+                await this.bindGroupOrderDtRowData();
+                await this.bindOrderDtList();
+                await this.bindRoomList();
+
+                await this.doRowUnLock();
+                await this.doRowLock();
             },
 
             /**
@@ -1493,6 +1563,10 @@
                     prg_id: gs_prgId
                 };
                 g_socket.emit('handleTableUnlock', lo_param);
+            },
+
+            doLeave: function () {
+                $('#assign-work').dialog('close');
             },
         },
     }
