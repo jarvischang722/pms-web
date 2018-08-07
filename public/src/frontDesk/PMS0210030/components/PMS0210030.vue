@@ -906,6 +906,7 @@
                     let ln_groupOrderDtRowData = await this.fetchGroupOrderDtRowData();
                     this.dgGroup.loadPageDgData(this.groupOrderDtRowData);
                     this.isLoadingGroupOrderDt = false;
+
                     // Lock 第一筆資料
                     if (ln_groupOrderDtRowData.length > 0) {
                         this.selectDtIndex = this.selectDtIndex === -1 ? 0 : this.selectDtIndex;
@@ -913,7 +914,9 @@
                     } else if (ln_groupOrderDtRowData.length === 0) {
                         this.dgList.loadPageDgData([]);
                         this.roomDtListRowData = [];
-                        alert('找不到資料');
+                        if (this.rowData === undefined) {
+                            alert('找不到資料');
+                        }
                     }
                 } catch (err) {
                     throw Error(err);
@@ -1530,9 +1533,13 @@
                 let ln_selectDtIndex = this.selectDtIndex;
                 this.selectDtIndex = -1;
                 this.selectDtIndex = ln_selectDtIndex;
+
                 await this.bindGroupOrderDtRowData();
                 await this.bindOrderDtList();
                 await this.bindRoomList();
+
+                await this.doRowUnLock();
+                await this.doRowLock();
             },
 
             /**
