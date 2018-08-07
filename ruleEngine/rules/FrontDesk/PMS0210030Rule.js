@@ -217,6 +217,11 @@ module.exports = {
                         }
                     });
                 });
+
+                _.each(lo_fetchRoomList,(lo_roomItem)=>{
+                    lo_roomItem.view_bgcolor = this.colorCodToHex(lo_roomItem.view_bgcolor)
+                });
+
                 lo_result.success = true;
                 lo_result.effectValues.roomList = lo_fetchRoomList;
             }

@@ -204,6 +204,7 @@
                                                         <div class="townBlock"
                                                              v-for="(roomDt, index) in filterRoomList"
                                                              @click="chooseRoomDt(roomDt)"
+                                                             :style="{'border-color': '#' + roomDt.view_bgcolor}"
                                                         >
                                                             <div class="head">
                                                                 <span class="left txt-lg">{{roomDt.room_nos}}</span>
