@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <root>
-    <!--檢查房號可否排房-->
+    <!-- PMS0210030 檢查房號可否排房 -->
     <dao name="CHECK_ROOM_NOS">
         <statement><![CDATA[
             SELECT COUNT(*)

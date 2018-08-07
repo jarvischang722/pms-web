@@ -1630,7 +1630,74 @@ exports.qryLangStatus = () => {
         }
     ];
     return lo_optionList;
-}
+};
+
+/**
+ * [PMS0210030 排房作業] 房間狀況
+ * @returns {*[]}
+ */
+exports.qryLangRoommnRoomsta = () => {
+    let lo_optionList = [
+        {
+            display: "空房",
+            value: "V"
+        },
+        {
+            display: "住人",
+            value: "O"
+        },
+        {
+            display: "修理",
+            value: "R"
+        },
+        {
+            display: "參觀",
+            value: "S"
+        }
+    ];
+    return lo_optionList;
+};
+
+/**
+ * [PMS0210030 排房作業] 清掃狀態
+ * @returns {*[]}
+ */
+exports.qryLangRoommnCleansta = () => {
+    let lo_optionList = [
+        {
+            display: "Clean",
+            value: "C"
+        },
+        {
+            display: "Dirty",
+            value: "D"
+        }
+    ];
+    return lo_optionList;
+};
+
+/**
+ * [PMS0210030 排房作業] 排房狀態
+ * @returns {*[]}
+ */
+exports.qryLangOrderdtAssignsta = () => {
+    let lo_optionList = [
+        {
+            display: "已排房",
+            value: "Y"
+        },
+        {
+            display: "未排房",
+            value: "N"
+        },
+        {
+            display: "已入住",
+            value: "I"
+        }
+    ];
+    return lo_optionList;
+};
+
 //endregion
 
 //TODO 將搬到 [程式編碼]Rule裡
@@ -2499,5 +2566,36 @@ exports.langStatus = (params, callback) => {
     callback(null, lo_result);
 };
 
+/**
+ * * [PMS0210030 排房作業] 房間狀況
+ * @param params
+ * @param callback
+ */
+exports.langRoommnRoomsta = (params, callback) => {
+    let lo_result = new ReturnClass();
+    lo_result.selectOptions = optionsLib.qryLangRoommnRoomsta();
+    callback(null, lo_result);
+};
 
+/**
+ * * [PMS0210030 排房作業] 清掃狀態
+ * @param params
+ * @param callback
+ */
+exports.langRoommnCleansta = (params, callback) => {
+    let lo_result = new ReturnClass();
+    lo_result.selectOptions = optionsLib.qryLangRoommnCleansta();
+    callback(null, lo_result);
+};
+
+/**
+ * * [PMS0210030 排房作業] 排房狀態
+ * @param params
+ * @param callback
+ */
+exports.langOrderdtAssignsta = (params, callback) => {
+    let lo_result = new ReturnClass();
+    lo_result.selectOptions = optionsLib.qryLangOrderdtAssignsta();
+    callback(null, lo_result);
+};
 //endregion
