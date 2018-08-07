@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <root>
+    <!-- PMS0210030 排房多筆SP -->
     <dao name="QRY_ROOM_DATA_LIST">
         <statement><![CDATA[
             SELECT ROOM_NOS,
@@ -16,8 +17,8 @@
             FROM TMP_PMS0210030_ROOM_LIST
             WHERE ATHENA_ID = :athena_id
             AND HOTEL_COD = :hotel_cod
-            AND USR_ID = :usr_id
             AND SOCKET_ID = :socket_id
+            AND USR_ID = :usr_id
             ORDER BY VIEW_SEQ
         ]]>
         </statement>
