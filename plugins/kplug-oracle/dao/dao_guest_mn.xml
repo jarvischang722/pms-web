@@ -228,6 +228,9 @@
             AND ORDER_DT.ATHENA_ID = RATECOD_MN.ATHENA_ID(+)
             AND ORDER_DT.HOTEL_COD = RATECOD_MN.HOTEL_COD(+)
             AND ORDER_DT.RATE_COD = RATECOD_MN.RATE_COD(+)
+            AND ORDER_DT.ORDER_STA IN ('N', 'I')
+            AND GUEST_MN.MASTER_STA(+)='G'
+            AND GUEST_MN.GUEST_STA(+)='E'
             and order_dt.athena_id = :athena_id
             and order_dt.hotel_cod = :hotel_cod
             AND ORDER_DT.IKEY = :ikey

@@ -152,10 +152,10 @@
             await this.fetchOrderDtFieldData();
             //取guest mn  欄位資料
             await this.fetchGuestMnFieldData();
-            // //預設入住日期為滾房租日
-            // this.searchCond.ci_dat = moment(this.rentCalDat).format("YYYY/MM/DD");
-            // //收尋資料
-            // await this.fetchOrderDtValueData();
+            //預設入住日期為滾房租日
+            this.searchCond.ci_dat = moment(this.rentCalDat).format("YYYY/MM/DD");
+            //收尋資料
+            await this.fetchOrderDtValueData();
             this.showOrderDtDataGrid();
             this.showGuestMnDataGrid();
             this.isLoading = false;

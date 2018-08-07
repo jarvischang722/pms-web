@@ -360,9 +360,10 @@
                         lo_searchCond[lo_searchField.ui_field_name] = lo_searchCond[lo_searchField.ui_field_name][ln_dataLen] - 1;
                     }
                     else if (lo_searchField.ui_type == "date") {
-                        if (lo_searchCond[lo_searchField.ui_field_name] != "") {
+                        let ls_searchDate = lo_searchCond[lo_searchField.ui_field_name] || "";
+                        if (ls_searchDate != "") {
                             lo_searchCond[lo_searchField.ui_field_name] =
-                                moment(new Date(lo_searchCond[lo_searchField.ui_field_name])).format("YYYY/MM/DD");
+                                moment(new Date(ls_searchDate)).format("YYYY/MM/DD");
                         }
                     }
                     else if (lo_searchField.ui_type == "datetime") {
