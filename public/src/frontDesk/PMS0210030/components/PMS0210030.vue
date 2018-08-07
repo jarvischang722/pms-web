@@ -460,14 +460,17 @@
                                     <li>
                                         <button class="btn btn-primary btn-white btn-defaultWidth"
                                                 role="button"
-                                                @click="doAssignAllSure"
+                                                @click="doBatchAssignSure"
                                         >
                                             確定
                                         </button>
                                     </li>
                                     <li>
                                         <button class="btn btn-primary btn-white btn-defaultWidth"
-                                                role="button">離開
+                                                role="button"
+                                                @click="doBatchAssignLeave"
+                                        >
+                                            離開
                                         </button>
                                     </li>
                                 </ul>
@@ -887,7 +890,7 @@
 
                     if (lo_result.success) {
                         this.groupOrderDtRowData = lo_result.dgRowData;
-                        return this.groupOrderDtRowData;
+                        return lo_result.dgRowData;
                     } else {
                         alert(lo_result.errorMsg);
                     }
@@ -1035,7 +1038,7 @@
                         rule_func_name: 'fetchRoomData',
                         order_dt: _.extend(this.groupOrderDtRowData[this.selectDtIndex], {
                             floor_nos: this.selectRoomFloor,
-                            room_cod: this.selectRoomType,
+                            select_room_cod: this.selectRoomType,
                             can_assign: this.chkAssign ? 'Y' : 'N'
                         }),
                     };
@@ -1338,7 +1341,7 @@
             },
 
             // 批次排房 確認按鈕
-            async doAssignAllSure() {
+            async doBatchAssignSure() {
                 let lo_combinationData = this.combinationData();
                 lo_combinationData = _.extend(lo_combinationData, {
                     assignDataList: this.chkAssignDataList
@@ -1353,6 +1356,11 @@
                 if (lo_result.success) {
                     this.reloadBindData();
                 }
+            },
+
+            // 批次排房 取消按鈕
+            doBatchAssignLeave() {
+                $('#batchAssignListDialog').dialog('close');
             },
 
             // 取消排房

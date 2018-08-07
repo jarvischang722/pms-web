@@ -157,10 +157,10 @@ module.exports = {
 
             // 組資料格式，房間種類
             let ls_roomType;
-            if (lo_orderDt.room_cod === 'ALL') {
+            if (lo_orderDt.select_room_cod === 'ALL') {
                 ls_roomType = "";
             } else {
-                ls_roomType = "'" + lo_orderDt.room_cod + "'";
+                ls_roomType = "'" + lo_orderDt.select_room_cod + "'";
             }
 
 
