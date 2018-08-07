@@ -36,13 +36,11 @@
 
 
 
-
                                         </button>
                                     </li>
                                     <li>
                                         <button class="btn btn-primary btn-white btn-defaultWidth"
                                                 role="button" @click="closeDialog">{{i18nLang.program.PMS0810230.leave}}
-
 
 
 
@@ -415,6 +413,7 @@
             isUseTime(val) {
                 if (val) {
                     this.initData();
+                    this.initTmpCUD();
                     if (this.$store.state.ga_utFieldsData.length <= 0) {
                         this.fetchData();
                     }
@@ -447,6 +446,14 @@
                 this.oriDataGridRowsData = [];
                 this.useTimeColumns = [];
                 this.useTimeData = [];
+            },
+            initTmpCUD(){
+                this.tmpCUD = {
+                    createData: [],
+                    updateData: [],
+                    deleteData: [],
+                    oriData: []
+                };
             },
             //取使用期間欄位、多筆資料
             fetchData() {
@@ -645,7 +652,7 @@
                 const self = this;
                 const ln_index = _.findIndex(this.dataGridRowsData, {supply_nos: params.rowData.supply_nos});
 
-                if(ln_index === -1) return;
+                if (ln_index === -1) return;
                 //將此筆被刪除的使用期間資料傳給房型資料
                 if (params.type == 'delete') {
                     this.$eventHub.$emit('getDeleteUseTimeData', {

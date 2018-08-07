@@ -273,5 +273,4 @@
         <parameter type="string" kind="3">hotel_cod</parameter>
         <parameter type="string" kind="3">rate_cod</parameter>
     </dao>
-</dao>
-        </root>
+</root>
