@@ -417,7 +417,7 @@
 
                                                         <input type="text"
                                                                v-model="orderDtRowsData4Single[field.ui_field_name]"
-                                                               v-if="field.visiable == 'Y' && field.ui_type == 'text'"
+                                                               v-if="field.visiable == 'Y' && field.label_width != 0 && field.ui_type == 'text'"
                                                                :style="{width:field.width + 'px' , height:field.height + 'px'}"
                                                                :required="field.requirable == 'Y'" min="0"
                                                                :maxlength="field.ui_field_length"
@@ -493,6 +493,10 @@
                             <div class="right-menu-co">
                                 <ul>
                                     <li>
+                                        <!-- id ="resv_changeTxt" 訂房卡button 文字轉換 -->
+                                        <!--<button id ="resv_changeTxt" class="btn btn-primary btn-white padding-lg btn-defaultWidth"-->
+                                        <!--role="button">Waiting</button>-->
+                                        <!--todo 詢問晉偉如何使用-->
                                         <div class="btn-group btn-defaultWidth  chgText-effect">
                                             <button data-toggle="dropdown"
                                                     class="btn btn-primary btn-white btn-defaultWidth dropdown-toggle"

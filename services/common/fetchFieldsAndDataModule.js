@@ -117,6 +117,7 @@ exports.GridSingleProc = function (postData, session) {
             la_gsFieldsData = await qrySelectOption(la_gsFieldsData, lo_params, session);
             la_gsFieldsData = await qryFormatRule(la_gsFieldsData, lo_params, session);
             la_gsFieldsData = await qryLangUIFields(la_gsFieldsData, lo_params, session);
+            la_gsFieldsData = await qryButtonRule(la_gsFieldsData, lo_params, session);
             return la_gsFieldsData;
         }
         catch (err) {
@@ -517,6 +518,33 @@ async function qryLangUIFields(la_dgFieldData, params, session) {
                     : tmpLang["ui_display_name_zh_TW"] ? tmpLang["ui_display_name_zh_TW"] + '(' + session.locale + ')' : '';
 
                 la_dgFieldData[fIdx]["ui_hint"] = tmpLang["ui_display_name_" + session.locale] || "";
+            }
+        });
+    });
+    return la_dgFieldData;
+}
+
+/**
+ * 查詢欄位為button 的rule
+ * @param la_dgFieldData
+ * @param params
+ * @param session
+ * @returns {Promise<void>}
+ */
+async function qryButtonRule(la_dgFieldData, params, session) {
+    let lo_params = {
+        prg_id: params.prg_id,
+        page_id: Number(params.page_id)
+    };
+    await mongoAgent.PrgFunction.find(lo_params).exec(function (err, fieldFunction) {
+        fieldFunction = tools.mongoDocToObject(fieldFunction);
+        _.each(la_dgFieldData, function (lo_dgFieldData, fIdx) {
+            if (lo_dgFieldData.ui_type == "button") {
+                let lo_tmpFunction = _.findWhere(fieldFunction, {func_id: lo_dgFieldData["ui_field_name"].toLowerCase()});
+                if (lo_tmpFunction) {
+                    la_dgFieldData[fIdx]["rule_func_name"] = lo_dgFieldData["rule_func_name"] == ""
+                        ? lo_tmpFunction["rule_func_name"] : lo_dgFieldData["rule_func_name"];
+                }
             }
         });
     });

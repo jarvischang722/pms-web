@@ -304,6 +304,134 @@
         <parameter type="string" kind="1">guest_typ</parameter>
     </dao>
 
+
+    <!-- [prg_id: PMS0110042 ]  取得住客清單-->
+    <dao name="QRY_HOUSES_INFO_DETAIL">
+        <statement><![CDATA[
+        select athena_id, hotel_cod, ikey, ikey_seq_nos, room_nos, assign_sta,
+        pg_hfd_get_nam2.sf_hfd_get_guest_list(athena_id, hotel_cod, ikey, ikey_seq_nos, '#1####') guest_list from order_dt
+        where order_sta <> 'X'
+        and athena_id = :athena_id
+        and hotel_cod = :hotel_cod
+        and ikey = :ikey
+        ]]>
+        </statement>
+        <parameter type="number" kind="3">athena_id</parameter>
+        <parameter type="string" kind="3">hotel_cod</parameter>
+        <parameter type="string" kind="3">ikey</parameter>
+        <parameter type="instring" kind="3">ikey_seq_nos</parameter>
+        <statement test="_v(param.ikey_seq_nos)"><![CDATA[and ikey_seq_nos in(:ikey_seq_nos)]]></statement>
+        <orderby>order by ikey_seq_nos</orderby>
+    </dao>
+
+    <!-- [PMS0110041] 查詢是否有排房-->
+    <dao name="QRY_ASSIGN_QNT_ISEXIST">
+        <statement><![CDATA[
+            SELECT SUM(NVL(ASSIGN_QNT, 0) + NVL(CI_QNT, 0)) as assign_qnt FROM ORDER_DT
+            where athena_id = :athena_id
+            and ikey = :ikey
+            and ikey_seq_nos = :ikey_seq_nos
+        ]]>
+        </statement>
+        <parameter type="number" kind="3">athena_id</parameter>
+        <parameter type="string" kind="3">ikey</parameter>
+        <parameter type="string" kind="3">ikey_seq_nos</parameter>
+    </dao>
+
+
+
+    <!-- [prg_id: PMS0210060 ] -->
+    <dao name="QRY_ORDER_DT_CI">
+        <statement><![CDATA[
+           SELECT ORDER_DT.IKEY, ORDER_DT.ORDER_STA, SUM( ORDER_DT.ORDER_QNT ) ORDER_QNT, SUM( ORDER_DT.ASSIGN_QNT ) ASSIGN_QNT,
+           SUM( ORDER_DT.CI_QNT ) CI_QNT,ORDER_MN.GROUP_NOS, ORDER_DT.CI_DAT, ORDER_DT.CO_DAT,
+           TRIM(ORDER_DT.RATE_COD) || TRIM( DECODE( TRIM(RATECOD_MN.RATECOD_NAM), NULL, ' ', ':' || TRIM(RATECOD_MN.RATECOD_NAM) ) ) RATECOD_NAM,
+           ORDER_DT.USE_COD, ORDER_DT.ROOM_COD, ORDER_DT.RENT_AMT, ORDER_DT.SERV_AMT, ORDER_MN.ACUST_NAM, ORDER_MN.ATTEN_NAM, ORDER_DT.RATE_COD
+           FROM ORDER_DT, ORDER_MN, RATECOD_MN
+           WHERE ORDER_MN.ATHENA_ID = ORDER_DT.ATHENA_ID
+           AND ORDER_MN.HOTEL_COD = ORDER_DT.HOTEL_COD
+           AND ORDER_MN.IKEY = ORDER_DT.IKEY
+           AND ORDER_DT.ATHENA_ID = RATECOD_MN.ATHENA_ID(+)
+           AND ORDER_DT.HOTEL_COD = RATECOD_MN.HOTEL_COD(+)
+           AND ORDER_DT.RATE_COD = RATECOD_MN.RATE_COD(+)
+           AND ORDER_DT.ORDER_STA IN ( 'N', 'I' )
+           AND ORDER_MN.ATHENA_ID = :athena_id
+           AND ORDER_MN.HOTEL_COD = :hotel_cod
+        ]]>
+        </statement>
+        <parameter type="number" kind="3">athena_id</parameter>
+        <parameter type="string" kind="3">hotel_cod</parameter>
+        <parameter type="instring" kind="3">status</parameter>
+        <statement test="_v(param.status)"><![CDATA[
+        and status in(:status)]]></statement>
+        <parameter type="instring" kind="3">acust_cod</parameter>
+        <statement test="_v(param.acust_cod)"><![CDATA[
+        and ORDER_MN.acust_cod in(:acust_cod)]]></statement>
+        <parameter type="instring" kind="3">source_typ</parameter>
+        <statement test="_v(param.source_typ)"><![CDATA[
+        and ORDER_DT.source_typ in(:source_typ)]]></statement>
+        <parameter type="instring" kind="3">guest_typ</parameter>
+        <statement test="_v(param.guest_typ)"><![CDATA[
+        and ORDER_DT.guest_typ in(:guest_typ)]]></statement>
+        <parameter type="likestring" kind="2" condition="ORDER_MN.ikey like ?">ikey</parameter>
+        <parameter type="likestring" kind="2" condition="ORDER_MN.rvreserve_nos like ?">rvreserve_nos</parameter>
+        <parameter type="likestring" kind="2" condition="ORDER_MN.cust_nam like ?">cust_nam</parameter>
+        <parameter type="likestring" kind="2" condition="ORDER_MN.tel_nos like ?">tel_nos</parameter>
+        <parameter type="likestring" kind="2" condition="alt_nam like ?">alt_nam</parameter>
+        <parameter type="likestring" kind="2" condition="ORDER_MN.group_nos like ?">group_nos</parameter>
+        <parameter type="string" kind="3">ci_dat</parameter>
+        <statement test="_v(param.ci_dat)"><![CDATA[
+        and ORDER_DT.ci_dat = to_date(:ci_dat, 'YYYY/MM/DD')]]></statement>
+        <parameter type="string" kind="3">co_dat</parameter>
+        <statement test="_v(param.co_dat)"><![CDATA[
+        and ORDER_DT.co_dat = to_date(:co_dat, 'YYYY/MM/DD')]]></statement>
+        <groupby>
+            GROUP BY ORDER_DT.IKEY, ORDER_DT.ORDER_STA, ORDER_MN.GROUP_NOS, ORDER_DT.CI_DAT, ORDER_DT.CO_DAT,
+            ORDER_DT.RATE_COD, RATECOD_MN.RATECOD_NAM,
+            ORDER_DT.USE_COD, ORDER_DT.ROOM_COD, ORDER_DT.RENT_AMT, ORDER_DT.SERV_AMT, ORDER_MN.ACUST_NAM,
+            ORDER_MN.ATTEN_NAM
+        </groupby>
+        <orderby>
+            ORDER BY ORDER_DT.IKEY, DECODE( ORDER_DT.ORDER_STA, 'N', 1, 2 ), ORDER_DT.CI_DAT, ORDER_DT.CO_DAT,
+            ORDER_DT.RATE_COD, ORDER_DT.USE_COD, ORDER_DT.ROOM_COD, ORDER_DT.RENT_AMT, ORDER_DT.SERV_AMT
+        </orderby>
+    </dao>
+
+    <!--CI公帳號讀取有效訂房卡明細最大退房日期-->
+    <dao name="QRY_ODER_DT_MAX_CO_DAT">
+        <statement><![CDATA[
+        SELECT MAX(CO_DAT) co_dat
+        FROM ORDER_DT
+        WHERE ATHENA_ID = :athena_id
+        AND HOTEL_COD = :hotel_cod
+        AND IKEY = :ikey
+        AND ORDER_STA IN ( 'N', 'I', 'O' )
+        ]]>
+        </statement>
+        <parameter type="number" kind="3">athena_id</parameter>
+        <parameter type="string" kind="3">hotel_cod</parameter>
+        <parameter type="string" kind="3">ikey</parameter>
+    </dao>
+
+    <!--判斷訂房卡是否有今日入住訂房資料-->
+    <dao name="CHK_ORDER_DT_HAVE_TODAY">
+        <statement><![CDATA[
+        SELECT COUNT(*) as order_count
+        FROM ORDER_DT
+        WHERE ATHENA_ID = :athena_id
+        AND HOTEL_COD = :hotel_cod
+        AND IKEY = :ikey
+        AND CI_DAT = to_date(:rent_cal_dat, 'YYYY/MM/DD')
+        AND ORDER_STA IN ( 'N', 'I' )
+        ]]>
+        </statement>
+        <parameter type="number" kind="3">athena_id</parameter>
+        <parameter type="string" kind="3">hotel_cod</parameter>
+        <parameter type="string" kind="3">ikey</parameter>
+        <parameter type="string" kind="3">rent_cal_dat</parameter>
+    </dao>
+
+
     <!-- [PMS0210030] 訂房多筆資料-->
     <dao name="QRY_GROUP_ORDER_DT">
         <statement><![CDATA[
@@ -356,7 +484,7 @@
         </groupby>
     </dao>
 
-    <!-- PMS0210030 訂房明細資料 -->
+    <!--PMS0210030 排房 訂房明細-->
     <dao name="QRY_ORDER_DT_LIST">
         <statement><![CDATA[
           SELECT ORDER_DT.IKEY_SEQ_NOS,
@@ -398,7 +526,7 @@
         <parameter type="number" kind="3">serv_amt</parameter>
     </dao>
 
-    <!-- PMS0210030 批次取消預計取消排房明細資料-->
+    <!--批次取消預計取消排房明細資料-->
     <dao name="QRY_CANCEL_ROOM_LIST">
         <statement><![CDATA[
           SELECT IKEY_SEQ_NOS, ROOM_NOS, PG_HFD_GET_NAM2.SF_HFD_GET_GUEST_LIST( ATHENA_ID, HOTEL_COD, IKEY, IKEY_SEQ_NOS, '#1####' ) FULL_NAM, ASI_LOCK
@@ -431,39 +559,6 @@
         <parameter type="number" kind="3">serv_amt</parameter>
     </dao>
 
-
-    <!-- PMS0210030 批次排房預計排房明細資料 -->
-    <dao name="QRY_BATCH_ASSIGN_DT">
-        <statement><![CDATA[
-            SELECT 'N' CHOOSE, ROOM_NOS, IKEY_SEQ_NOS, PG_HFD_GET_NAM2.SF_HFD_GET_GUEST_LIST( ATHENA_ID, HOTEL_COD, IKEY, IKEY_SEQ_NOS, '#1####' ) FULL_NAM
-            FROM ORDER_DT
-            WHERE ATHENA_ID = :athena_id
-            AND HOTEL_COD = :hotel_cod
-            AND IKEY = :ikey
-            AND ASSIGN_STA = 'N'
-            AND ORDER_STA = :order_sta
-            AND CI_DAT = :ci_dat
-            AND CO_DAT = :co_dat
-            AND RATE_COD = :rate_cod
-            AND USE_COD = :use_cod
-            AND ROOM_COD = :room_cod
-            AND RENT_AMT = :rent_amt
-            AND SERV_AMT = :serv_amt
-            ORDER BY IKEY_SEQ_NOS
-        ]]>
-        </statement>
-        <parameter type="number" kind="3">athena_id</parameter>
-        <parameter type="string" kind="3">hotel_cod</parameter>
-        <parameter type="string" kind="3">ikey</parameter>
-        <parameter type="string" kind="3">order_sta</parameter>
-        <parameter type="date" kind="3">ci_dat</parameter>
-        <parameter type="date" kind="3">co_dat</parameter>
-        <parameter type="string" kind="3">rate_cod</parameter>
-        <parameter type="string" kind="3">use_cod</parameter>
-        <parameter type="string" kind="3">room_cod</parameter>
-        <parameter type="number" kind="3">rent_amt</parameter>
-        <parameter type="number" kind="3">serv_amt</parameter>
-    </dao>
 
 
 

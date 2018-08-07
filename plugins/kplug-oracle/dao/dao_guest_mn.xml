@@ -119,6 +119,7 @@
         <orderby>order by alt_nam</orderby>
     </dao>
 
+
     <dao name="QRY_DETAIL_GUEST_MN">
         <statement><![CDATA[
            select A.GCUST_COD, a.ikey_seq_nos,(a.gcust_cod||':'||a.alt_nam) as alt_nam,a.assign_sta,a.room_nos,b.contry_cod,a.ikey_seq_nos,
@@ -158,6 +159,140 @@
         <orderby>order by ci_ser</orderby>
     </dao>
 
+
+
+    <dao name="QRY_GUEST_MN_CI">
+        <statement><![CDATA[
+            SELECT ORDER_DT.IKEY_SEQ_NOS,ORDER_DT.ROOM_NOS,GUEST_MN.ALT_NAM,GUEST_MN.GUEST_STA
+            FROM GUEST_MN, ORDER_DT
+            WHERE ORDER_DT.ATHENA_ID = GUEST_MN.ATHENA_ID
+            AND ORDER_DT.HOTEL_COD = GUEST_MN.HOTEL_COD
+            AND ORDER_DT.IKEY = GUEST_MN.IKEY
+            AND ORDER_DT.IKEY_SEQ_NOS = GUEST_MN.IKEY_SEQ_NOS
+            AND ORDER_DT.ORDER_STA IN ( 'N', 'I' )
+            AND GUEST_MN.MASTER_STA = 'G'
+            AND GUEST_MN.GUEST_STA <> 'X'
+            AND GUEST_MN.SYSTEM_TYP = 'HFD'
+            AND ORDER_DT.ATHENA_ID = :athena_id
+            AND ORDER_DT.HOTEL_COD = :hotel_cod
+            AND ORDER_DT.IKEY = :ikey
+            AND ORDER_DT.ORDER_STA = :order_sta
+            AND ORDER_DT.CI_DAT = to_date(:ci_dat, 'YYYY/MM/DD')
+            AND ORDER_DT.CO_DAT = to_date(:co_dat, 'YYYY/MM/DD')
+            AND ORDER_DT.RATE_COD = :rate_cod
+            AND ORDER_DT.USE_COD = :use_cod
+            AND ORDER_DT.ROOM_COD = :room_cod
+            AND ORDER_DT.RENT_AMT = :rent_amt
+            AND ORDER_DT.SERV_AMT = :serv_amt
+            ORDER BY ORDER_DT.IKEY_SEQ_NOS,
+            GUEST_MN.CI_SER
+        ]]>
+        </statement>
+        <parameter type="number" kind="3">athena_id</parameter>
+        <parameter type="string" kind="3">hotel_cod</parameter>
+        <parameter type="string" kind="3">ikey</parameter>
+        <parameter type="string" kind="3">order_sta</parameter>
+        <parameter type="string" kind="3">ci_dat</parameter>
+        <parameter type="string" kind="3">co_dat</parameter>
+        <parameter type="string" kind="3">rate_cod</parameter>
+        <parameter type="string" kind="3">use_cod</parameter>
+        <parameter type="string" kind="3">room_cod</parameter>
+        <parameter type="string" kind="3">rent_amt</parameter>
+        <parameter type="string" kind="3">serv_amt</parameter>
+    </dao>
+
+    <!-- [PMS0210060] CI清單入住，取得guest_mn資料 -->
+    <dao name="QRY_CI_GUEST_MN">
+        <statement><![CDATA[
+            SELECT        ROOM_MN.CLEAN_STA,
+            ORDER_DT.IKEY_SEQ_NOS,
+            ORDER_DT.ROOM_NOS,
+            (select vip_sta from ghist_mn where ghist_mn.athena_id = guest_mn.athena_id and ghist_mn.gcust_cod = guest_mn.gcust_cod) vip_sta,
+            GUEST_MN.ALT_NAM,
+            ORDER_DT.CI_DAT,
+            ORDER_DT.CO_DAT,
+            TRIM(ORDER_DT.RATE_COD) || TRIM( DECODE( TRIM(RATECOD_MN.RATECOD_NAM), NULL, ' ', ':' || TRIM(RATECOD_MN.RATECOD_NAM) ) ) RATECOD_NAM,
+            ORDER_DT.USE_COD,
+            ORDER_DT.ROOM_COD,
+            ORDER_DT.RENT_AMT,
+            ORDER_DT.SERV_AMT,
+            GUEST_MN.CI_SER
+            FROM GUEST_MN, ORDER_DT, RATECOD_MN, ROOM_MN
+            WHERE ORDER_DT.ATHENA_ID = GUEST_MN.ATHENA_ID(+)
+            AND ORDER_DT.HOTEL_COD = GUEST_MN.HOTEL_COD(+)
+            AND ORDER_DT.IKEY = GUEST_MN.IKEY(+)
+            AND ORDER_DT.IKEY_SEQ_NOS = GUEST_MN.IKEY_SEQ_NOS(+)
+            AND ORDER_DT.ATHENA_ID = ROOM_MN.ATHENA_ID(+)
+            AND ORDER_DT.HOTEL_COD = ROOM_MN.HOTEL_COD(+)
+            AND ORDER_DT.ROOM_NOS = ROOM_MN.ROOM_NOS(+)
+            AND ORDER_DT.ATHENA_ID = RATECOD_MN.ATHENA_ID(+)
+            AND ORDER_DT.HOTEL_COD = RATECOD_MN.HOTEL_COD(+)
+            AND ORDER_DT.RATE_COD = RATECOD_MN.RATE_COD(+)
+            and order_dt.athena_id = :athena_id
+            and order_dt.hotel_cod = :hotel_cod
+            AND ORDER_DT.IKEY = :ikey
+            AND ORDER_DT.CI_DAT = to_date(:ci_dat, 'YYYY/MM/DD')
+            ORDER BY ORDER_DT.IKEY_SEQ_NOS, GUEST_MN.CI_SER
+        ]]>
+        </statement>
+        <parameter type="number" kind="3">athena_id</parameter>
+        <parameter type="string" kind="3">hotel_cod</parameter>
+        <parameter type="string" kind="3">ikey</parameter>
+        <parameter type="string" kind="3">ci_dat</parameter>
+    </dao>
+
+    <!-- [PMS0210060] CI清單 取消入住，guest_mn資料 -->
+    <dao name="QRY_CICANCEL_GUEST_MN">
+        <statement><![CDATA[
+        SELECT 'N' CHOOSE,GUEST_MN.ROOM_NOS,GUEST_MN.ALT_NAM,GUEST_MN.CI_DAT,GUEST_MN.ECO_DAT,GUEST_MN.CI_SER,
+        ( SELECT SUM(ITEM_TOT)
+        FROM GUEST_DT
+        WHERE GUEST_DT.ATHENA_ID = GUEST_MN.ATHENA_ID
+        AND GUEST_DT.HOTEL_COD = GUEST_MN.HOTEL_COD
+        AND GUEST_DT.CI_SER = GUEST_MN.CI_SER
+        AND GUEST_DT.ACCT_NOS = GUEST_DT.PARENT_ACCT_NOS
+        AND GUEST_DT.VALID_STA = 'Y'
+        AND GUEST_DT.CO_STA = 'N'
+        AND GUEST_DT.SYSTEM_TYP = 'HFD' ) ITEM_TOT
+        FROM GUEST_MN, ORDER_DT
+        WHERE ORDER_DT.ATHENA_ID = GUEST_MN.ATHENA_ID
+        AND ORDER_DT.HOTEL_COD = GUEST_MN.HOTEL_COD
+        AND ORDER_DT.IKEY = GUEST_MN.IKEY
+        AND ORDER_DT.IKEY_SEQ_NOS = GUEST_MN.IKEY_SEQ_NOS
+        AND ORDER_DT.ATHENA_ID = :athena_id
+        AND ORDER_DT.HOTEL_COD = :hotel_cod
+        AND ORDER_DT.IKEY = :ikey
+        AND ORDER_DT.CI_DAT = to_date(:rent_cal_dat, 'YYYY/MM/DD')
+        AND ORDER_DT.ORDER_STA = 'I'
+        AND GUEST_MN.GUEST_STA IN ( 'K', 'O' )
+        AND GUEST_MN.MASTER_STA = 'G'
+        AND GUEST_MN.SYSTEM_TYP = 'HFD'
+        ORDER BY GUEST_MN.ROOM_NOS,
+        GUEST_MN.ROOM_SER
+        ]]>
+        </statement>
+        <parameter type="number" kind="3">athena_id</parameter>
+        <parameter type="string" kind="3">hotel_cod</parameter>
+        <parameter type="string" kind="3">ikey</parameter>
+        <parameter type="string" kind="3">rent_cal_dat</parameter>
+    </dao>
+
+    <!--CI公帳號讀取指定此公帳號之在館住客最大預計退房日期-->
+    <dao name="QRY_GUEST_MAX_CO_DAT">
+        <statement><![CDATA[
+        SELECT MAX(ECO_DAT) AS CO_DAT
+        FROM GUEST_MN
+        WHERE ATHENA_ID = :athena_id
+        AND HOTEL_COD = :hotel_cod
+        AND MASTER_NOS = :master_nos
+        AND GUEST_STA IN ( 'O', 'K' )
+        AND SYSTEM_TYP = 'HFD'
+        ]]>
+        </statement>
+        <parameter type="number" kind="3">athena_id</parameter>
+        <parameter type="string" kind="3">hotel_cod</parameter>
+        <parameter type="string" kind="3">master_nos</parameter>
+    </dao>
     <!-- [PMS0110041 訂房卡資料編輯] 檢查此住客同一天否重覆訂-->
     <dao name="CHK_GUEST_IS_OVER_BOOKING">
         <statement><![CDATA[

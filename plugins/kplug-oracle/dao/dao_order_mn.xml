@@ -140,17 +140,20 @@
         </statement>
 
         <!--<statement test="_d(param.full_nam) == ''"><![CDATA[-->
-            <!--where dt.athena_id = :athena_id-->
-            <!--and dt.hotel_cod = :hotel_cod-->
-            <!--and dt.order_sta <> 'X'-->
+        <!--where dt.athena_id = :athena_id-->
+        <!--and dt.hotel_cod = :hotel_cod-->
+        <!--and dt.order_sta <> 'X'-->
         <!--]]></statement>-->
-        <orderby>order by order_dt.ikey,decode (order_sta,'N','1','I','2','O','3','S','4','5') ,ci_dat, co_dat,rate_cod,use_cod,
-            room_cod,rent_amt,serv_amt,block_cod</orderby>
+        <orderby>order by order_dt.ikey,decode (order_sta,'N','1','I','2','O','3','S','4','5') ,ci_dat,
+            co_dat,rate_cod,use_cod,
+            room_cod,rent_amt,serv_amt,block_cod
+        </orderby>
 
         <groupby>group by order_dt.ikey, order_dt.order_sta, order_dt.ci_dat, order_dt.co_dat, order_dt.days,
             order_dt.rate_cod, order_dt.use_cod, order_dt.room_cod, order_dt.rent_amt, order_dt.serv_amt,
             order_dt.block_cod, order_mn.group_nos, order_mn.acust_nam, order_mn.atten_nam,
-            order_mn.sales_cod, order_mn.rvreserve_nos</groupby>
+            order_mn.sales_cod, order_mn.rvreserve_nos
+        </groupby>
 
         <parameter type="number" kind="3">athena_id</parameter>
         <parameter type="string" kind="3">hotel_cod</parameter>
@@ -356,4 +359,49 @@
         <parameter type="string" kind="3">hotel_cod</parameter>
         <parameter type="string" kind="3">ikey</parameter>
     </dao>
+    <!--
+    [PMS0110041] 取得qry_order_dt
+    -->
+    <dao name="QRY_CARD_ORDER_DT">
+        <statement><![CDATA[
+            select * from order_dt where athena_id = :athena_id and hotel_cod = :hotel_cod and ikey = :ikey and order_sta <> 'X'
+        ]]>
+        </statement>
+        <parameter type="number" kind="3">athena_id</parameter>
+        <parameter type="string" kind="3">hotel_cod</parameter>
+        <parameter type="string" kind="3">ikey</parameter>
+        <orderby>ORDER BY ikey_seq_nos</orderby>
+    </dao>
+
+    <!-- [PMS0210060] CI清單 取得order_mn資料 -->
+    <dao name="QRY_CI_ORDER_MN">
+        <statement><![CDATA[
+            SELECT ACUST_NAM, IKEY, CUST_NAM, MASTER_STA, MASTER_NOS, GROUP_NOS, ORDER_RMK, ATHENA_ID, HOTEL_COD
+            FROM ORDER_MN
+            WHERE ATHENA_ID = :athena_id
+            AND HOTEL_COD = :hotel_cod
+            AND IKEY = :ikey
+        ]]>
+        </statement>
+        <parameter type="number" kind="3">athena_id</parameter>
+        <parameter type="string" kind="3">hotel_cod</parameter>
+        <parameter type="string" kind="3">ikey</parameter>
+    </dao>
+
+    <!--[PMS0210060 C/I清單]　取得此筆ORDER MN 公帳號-->
+    <dao name="QRY_ORDER_MN_MASTER">
+        <statement><![CDATA[
+            select master_nos,master_sta
+            from order_mn
+            WHERE ATHENA_ID = :athena_id
+            AND HOTEL_COD = :hotel_cod
+            AND IKEY = :ikey
+        ]]>
+        </statement>
+        <parameter type="number" kind="3">athena_id</parameter>
+        <parameter type="string" kind="3">hotel_cod</parameter>
+        <parameter type="string" kind="3">ikey</parameter>
+
+    </dao>
+
 </root>
