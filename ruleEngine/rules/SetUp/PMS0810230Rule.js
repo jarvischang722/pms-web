@@ -73,7 +73,7 @@ module.exports = {
                 lo_result.defaultValues = result;
             }
             callback(lo_error, lo_result);
-        })
+        });
     },
 
     /**
@@ -271,13 +271,36 @@ module.exports = {
      * @param session
      * @param callback
      */
-    r_rate_cod(postData, session, callback) {
+    async r_rate_cod(postData, session, callback) {
         let lo_result = new ReturnClass;
         let lo_error = null;
-
-        lo_result.effectValues = {
-            baserate_cod: postData.singleRowData[0].rate_cod
+        let lo_params = {
+            athena_id: session.user.athena_id,
+            hotel_cod: session.user.hotel_cod,
+            rate_cod: postData.singleRowData[0].rate_cod
         };
+
+        try {
+            const lo_chkRateCod = await commandRules.clusterQuery(session, lo_params, "QRY_RATECOD_MN");
+            if (!_.isNull(lo_chkRateCod)) {
+                lo_error = new ErrorClass();
+                lo_result.success = false;
+                lo_error.errorMsg = "違反唯一的限制條件";
+                lo_result.effectValues = {
+                    rate_cod: ""
+                }
+            } else {
+                lo_result.effectValues = {
+                    baserate_cod: postData.singleRowData[0].rate_cod
+                };
+            }
+        }
+        catch (err) {
+            console.log(err);
+            lo_error = new ErrorClass();
+            lo_result.success = false;
+            lo_error.errorMsg = err.message || err;
+        }
         callback(lo_error, lo_result);
     },
 

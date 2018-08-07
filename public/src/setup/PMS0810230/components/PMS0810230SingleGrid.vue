@@ -1070,6 +1070,7 @@
                             }, 200);
                             if (result.success) {
                                 alert(go_i18nLang.program.PMS0810230.save_success);
+                                this.$store.dispatch("setAllDataClear");
                                 let lo_cloneData = JSON.parse(JSON.stringify(_.extend(this.rowData, this.singleData)));
                                 this.rowData = {}
                                 this.isEditStatus = true;
