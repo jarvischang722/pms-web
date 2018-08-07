@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div id="assign-work" :class="{hide: isHideClass}">
         <div class="page-header"></div><!-- /.page-header -->
         <!-- 排房作業 Page-->
         <div class="pageMain">
@@ -9,7 +9,7 @@
                     <search-comp
                             :search-fields="searchFields"
                             :search-cond.sync="searchCond"
-                            :fetch-data="bindGroupOrderDtRowData"
+                            :fetch-data="reloadBindData"
                     ></search-comp>
                 </div> <!-- row-->
             </div> <!-- /.col-sm-12 -->
@@ -465,6 +465,7 @@
                 <div class="clearfix"></div>
             </div>
         </div>
+        <!--{{rowData.ikey}}-->
     </div>
 </template>
 
@@ -511,7 +512,7 @@
 
     export default {
         props: {
-            parent_ikey: String,
+            rowData: Object,
         },
         data() {
             return {
@@ -587,9 +588,15 @@
                 isLoadingOrderDtList: false,
 
                 colorMessage: [],
+
+                isHideClass: true,
             };
         },
         created() {
+            if (this.rowData === undefined){
+                this.isHideClass = false;
+            }
+
             vmHub.$on("setGroupOrderDt", (lo_params) => {
                 this.selectDtIndex = lo_params.index;
             });
@@ -619,6 +626,10 @@
         watch: {
             async selectDtIndex(newV, oldV) {
                 console.log('訂房多筆', newV, oldV);
+                if (newV === -1) {
+                    return;
+                }
+
                 // 房型種類
                 let ls_ciDat = moment(this.groupOrderDtRowData[this.selectDtIndex].ci_dat).format('YYYY/MM/DD');
                 let lo_roomType = await this.getAllRoomType(ls_ciDat);
@@ -640,6 +651,13 @@
             async chkAssign(newVal, oldVal) {
                 await this.bindRoomList();
             },
+            rowData(newValue, oldValue) {
+                if(newValue.ikey !== undefined){
+                    this.isHideClass = true;
+                    this.searchCond.ikey = this.rowData.ikey;
+                    this.initPageLoad();
+                }
+            },
         },
         computed: {
             /**
@@ -656,6 +674,10 @@
              * 尚未設定排房的房間日期 (依照所選的 訂房多筆 給予相對應的CI/CO日期) todo 暫時需討論
              */
             roomListCiCoDat: function () {
+                if (this.selectDtIndex === -1) {
+                    return null
+                }
+
                 let ls_ciDat = moment(this.groupOrderDtRowData[this.selectDtIndex].ci_dat).local().format('MM/DD');
                 let ls_coDat = moment(this.groupOrderDtRowData[this.selectDtIndex].co_dat).local().format('MM/DD');
                 return `${ls_ciDat} - ${ls_coDat}`;
@@ -670,10 +692,16 @@
              * 初始化頁面要做的事情
              */
             async initPageLoad() {
+                let ls_ikey = this.searchCond.ikey;
+
                 // 撈 [搜尋條件] 規格
                 let lo_searchFields = await this.fetchSearchFields();
                 if (lo_searchFields.success) {
                     this.searchFields = lo_searchFields.searchFieldsData;
+                    // 從訂房卡開啟排房作業的時候，會帶rowData的資料，這時候需要把searchData隱藏
+                    if (this.rowData !== undefined){
+                        this.searchFields = [];
+                    }
                 } else {
                     alert(lo_searchFields.errorMsg);
                     return;
@@ -686,6 +714,7 @@
                     // this.rentCalDat = moment(lo_rentCalDat.rent_cal_dat).format('YYYY/MM/DD');
                     this.rentCalDat = moment(lo_rentCalDat.rent_cal_dat, 'YYYY/MM/DD').format('YYYY/MM/DD')
                     this.searchCond.ci_dat = this.rentCalDat;
+                    this.searchCond.ikey = ls_ikey;
                 } else {
                     alert(lo_rentCalDat.errorMsg);
                     return;
@@ -840,6 +869,7 @@
                     };
 
                     let lo_result = await BacUtils.doHttpPromisePostProxy("/api/fetchDgRowData", lo_params);
+
                     if (lo_result.success) {
                         this.groupOrderDtRowData = lo_result.dgRowData;
                         return this.groupOrderDtRowData;
@@ -860,10 +890,8 @@
                     this.isLoadingGroupOrderDt = false;
                     // Lock 第一筆資料
                     if (ln_groupOrderDtRowData.length > 0) {
-                        let ln_selectDtIndex = this.selectDtIndex === -1 ? 0 : this.selectDtIndex;
-
-                        $("#groupOrderDt_dg").datagrid('selectRow', ln_selectDtIndex);
-                        this.selectDtIndex = ln_selectDtIndex;
+                        this.selectDtIndex = this.selectDtIndex === -1 ? 0 : this.selectDtIndex;
+                        $("#groupOrderDt_dg").datagrid('selectRow', this.selectDtIndex);
                     } else if (ln_groupOrderDtRowData.length === 0) {
                         this.dgList.loadPageDgData([]);
                         this.roomDtListRowData = [];
@@ -1466,10 +1494,18 @@
             //endregion
 
             // 重讀畫面
-            reloadBindData() {
-                this.bindGroupOrderDtRowData();
-                this.bindOrderDtList();
-                this.bindRoomList();
+            async reloadBindData() {
+                /**
+                 * 需要整個畫面都重新render，不讓 User每次重新render後，索引都會回到最上層
+                 * 1. 記錄 render前的索引位置 (selectDtIndex)
+                 * 2. 重新設定 selectDtIndex的原因是 [訂房明細] 和 [排房房間]都是跟隨 selectDtIndex變化去觸發改變
+                 */
+                let ln_selectDtIndex = this.selectDtIndex;
+                this.selectDtIndex = -1;
+                this.selectDtIndex = ln_selectDtIndex;
+                await this.bindGroupOrderDtRowData();
+                await this.bindOrderDtList();
+                await this.bindRoomList();
             },
 
             /**
