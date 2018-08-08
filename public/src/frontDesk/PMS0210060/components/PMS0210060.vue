@@ -129,10 +129,16 @@
                         minheight: 800,
                         dialogClass: "test",
                         resizable: true,
-                        onBeforeClose() {
+                        async onBeforeClose() {
+                            //將rowData清空
                             self.editingRow = {};
+                            //將是否為checkI清空
                             self.isCheckIn = undefined;
-                            self.fetchOrderDtValueData();
+                            //重撈資料
+                            await self.fetchOrderDtValueData();
+                            //清空住客資料
+                            self.guestMnValueData = [];
+                            self.showGuestMnDataGrid();
                             self.doUnLock();
                         }
                     }).dialog('open');

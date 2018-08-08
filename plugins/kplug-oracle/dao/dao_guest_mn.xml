@@ -228,7 +228,16 @@
             AND ORDER_DT.ATHENA_ID = RATECOD_MN.ATHENA_ID(+)
             AND ORDER_DT.HOTEL_COD = RATECOD_MN.HOTEL_COD(+)
             AND ORDER_DT.RATE_COD = RATECOD_MN.RATE_COD(+)
-            AND ORDER_DT.ORDER_STA IN ('N', 'I')
+            AND ( ( ORDER_DT.ORDER_STA = 'N' ) OR
+            EXISTS (
+                SELECT *
+                FROM GUEST_MN SUB_GUEST
+                WHERE SUB_GUEST.ATHENA_ID = ORDER_DT.ATHENA_ID
+                AND SUB_GUEST.HOTEL_COD = ORDER_DT.HOTEL_COD
+                AND SUB_GUEST.IKEY = ORDER_DT.IKEY
+                AND SUB_GUEST.IKEY_SEQ_NOS = ORDER_DT.IKEY_SEQ_NOS
+                AND SUB_GUEST.MASTER_STA = 'G'
+                AND SUB_GUEST.GUEST_STA = 'E' ) )
             AND GUEST_MN.MASTER_STA(+)='G'
             AND GUEST_MN.GUEST_STA(+)='E'
             and order_dt.athena_id = :athena_id
