@@ -157,10 +157,10 @@ module.exports = {
 
             // 組資料格式，房間種類
             let ls_roomType;
-            if (lo_orderDt.room_cod === 'ALL') {
+            if (lo_orderDt.select_room_cod === 'ALL') {
                 ls_roomType = "";
             } else {
-                ls_roomType = "'" + lo_orderDt.room_cod + "'";
+                ls_roomType = "'" + lo_orderDt.select_room_cod + "'";
             }
 
 
@@ -217,6 +217,11 @@ module.exports = {
                         }
                     });
                 });
+
+                _.each(lo_fetchRoomList,(lo_roomItem)=>{
+                    lo_roomItem.view_bgcolor = this.colorCodToHex(lo_roomItem.view_bgcolor)
+                });
+
                 lo_result.success = true;
                 lo_result.effectValues.roomList = lo_fetchRoomList;
             }
