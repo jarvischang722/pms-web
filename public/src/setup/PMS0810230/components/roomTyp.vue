@@ -389,6 +389,8 @@
                     this.initData();
                     //取使用期間
                     this.fetchUseTime();
+                }else{
+                    this.initData();
                 }
             },
             rateCodDtData: {
@@ -730,8 +732,8 @@
                 });
             },
             showNextColData(key, ratecodidx){
-                this.dayNamData4Display[key][ratecodidx + 1]['isEdit'] = true;
                 if (!_.isUndefined(this.dayNamData4Display[key][ratecodidx + 1])) {
+                    this.dayNamData4Display[key][ratecodidx + 1]['isEdit'] = true;
                     this.getData(this.dayNamData4Display[key][ratecodidx + 1]);
                 }
             },

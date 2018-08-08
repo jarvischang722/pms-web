@@ -285,7 +285,7 @@ module.exports = {
             if (!_.isNull(lo_chkRateCod)) {
                 lo_error = new ErrorClass();
                 lo_result.success = false;
-                lo_error.errorMsg = "違反唯一的限制條件";
+                lo_error.errorMsg = commandRules.getMsgByCod("pms81msg46", session.locale);
                 lo_result.effectValues = {
                     rate_cod: ""
                 }
