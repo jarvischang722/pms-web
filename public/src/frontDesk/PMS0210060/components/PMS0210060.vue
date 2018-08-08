@@ -132,7 +132,7 @@
                         onBeforeClose() {
                             self.editingRow = {};
                             self.isCheckIn = undefined;
-                            self.fetchGuestMnFieldData();
+                            self.fetchOrderDtValueData();
                             self.doUnLock();
                         }
                     }).dialog('open');
