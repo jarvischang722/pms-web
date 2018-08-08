@@ -215,7 +215,7 @@
                                                 <textarea v-model="singleData[field.ui_field_name]"
                                                           class="numStyle-none btn-gray" rows="1"
                                                           style="resize: none; display: inline-block;"
-                                                          :style="{width:field.width + 'px'}"
+                                                          :style="{width:field.width + 'px',height:field.height + 'px'}"
                                                           :required="field.requirable == 'Y'"
                                                           :maxlength="field.ui_field_length"
                                                           :disabled="field.modificable == 'N'|| !isModifiable ||
