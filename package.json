@@ -44,7 +44,7 @@
     "morgan": "^1.8.2",
     "nodemailer": "^2.7.2",
     "nodemailer-smtp-transport": "^2.7.4",
-    "npm": "^2.15.12",
+    "npm": "^6.14.3",
     "oracledb": "^1.13.1",
     "passport": "^0.3.2",
     "passport-cas": "^0.1.1",
